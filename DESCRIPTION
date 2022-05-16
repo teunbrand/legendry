@@ -11,3 +11,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: 
     ggplot2
+Imports: 
+    glue,
+    grid,
+    gtable,
+    rlang,
+    stats,
+    vctrs
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
