@@ -17,6 +17,9 @@ test_that("GuideAxis can be trained", {
 })
 
 test_that("GuideAxis warns when positions mismatch", {
+  tmp <- tempfile(fileext = ".pdf")
+  grDevices::pdf(tmp)
+
   expect_error(guide_axis_vanilla(position = "bamboozled"))
 
   plot <- ggplot(mpg, aes(class, hwy)) +
@@ -36,7 +39,7 @@ test_that("GuideAxis warns when positions mismatch", {
   gu$position <- "bamboozled"
   expect_null(check_position(gu))
 
-
+  unlink(tmp)
 })
 
 test_that("GuideAxis does not warn about duplicate breaks", {

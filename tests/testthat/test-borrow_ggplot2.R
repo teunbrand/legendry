@@ -39,6 +39,9 @@ test_that("modify_list works", {
 })
 
 test_that("justify_grobs signals problems", {
+  tmp <- tempfile(fileext = ".pdf")
+  grDevices::pdf(tmp)
+
   expect_error(justify_grobs(NULL), "Need individual grobs")
   expect_s3_class(justify_grobs(zeroGrob()), "zeroGrob")
 
@@ -48,4 +51,6 @@ test_that("justify_grobs signals problems", {
   expect_s3_class(out$children[[1]]$children[[1]], "rect")
   expect_s3_class(out$children[[1]]$children[[2]], "titleGrob")
   expect_s3_class(out$children[[2]], "points")
+
+  unlink(tmp)
 })

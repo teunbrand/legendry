@@ -27,6 +27,8 @@ test_that("Legends with geom mismatch return NULL", {
 })
 
 test_that("All legend directions work", {
+  tmp <- tempfile(fileext = ".pdf")
+  grDevices::pdf(tmp)
 
   leg <- guide_legend_vanilla(ncol = 2)
 
@@ -68,6 +70,7 @@ test_that("All legend directions work", {
 
   }
 
+  unlink(tmp)
 })
 
 test_that("Legend layer inclusion works", {
