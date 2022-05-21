@@ -50,7 +50,7 @@ Guide <- ggproto(
   },
 
   merge = function(self, new_guide) {
-    abort("Not implemented")
+    return(invisible())
   },
 
   scan_geoms = function(self, layers, default_mapping) {

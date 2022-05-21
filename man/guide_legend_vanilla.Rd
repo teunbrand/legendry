@@ -110,6 +110,9 @@ noticeable changes:
 \item \verb{legend.spacing.\{xy\}} is applied, regardless of the \code{byrow} argument.
 \item The default alignment of expressions is left-aligned instead of
 right-aligned.
+\item The theme elements given as the \code{title.theme} and \code{label.theme} arguments
+inherit missing settings from the \code{legend.title} and \code{legend.text} elements
+in the plot's theme.
 }
 }
 \examples{

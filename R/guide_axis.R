@@ -143,7 +143,7 @@ GuideAxis <- ggproto(
         "Do you have more than one guide with the same position?"
       ))
     }
-    return(invisible)
+    return(invisible())
   },
 
   draw_guide = function(self, theme) {

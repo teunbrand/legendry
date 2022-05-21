@@ -8,6 +8,9 @@
 #' * `legend.spacing.{xy}` is applied, regardless of the `byrow` argument.
 #' * The default alignment of expressions is left-aligned instead of
 #'   right-aligned.
+#' * The theme elements given as the `title.theme` and `label.theme` arguments
+#'   inherit missing settings from the `legend.title` and `legend.text` elements
+#'   in the plot's theme.
 #'
 #' @inheritParams ggplot2::guide_legend
 #'
@@ -269,8 +272,6 @@ GuideLegend <- ggproto(
   draw_guide = function(self, theme) {
     key    <- self$key
     params <- self$params
-    params$direction <- self$direction
-    params$title.position <- self$title.position
 
     params   <- self$setup_params(key, params, self$geoms)
     elements <- self$setup_elements(theme, params)
@@ -582,7 +583,7 @@ GuideLegend <- ggproto(
 
     # Title
     legend.title <- calc_element("legend.title", theme)
-    title.theme <- params$title.theme %||% legend.title
+    title.theme  <- combine_elements(params$title.theme, legend.title)
     title.theme$hjust <- params$title.hjust %||% theme$legend.title.align %||%
       title.theme$hjust %||% 0
     title.theme$vjust <- params$title.vjust %||% title.theme$vjust %||% 0.5
@@ -591,10 +592,9 @@ GuideLegend <- ggproto(
     label.direction <- arg_match0(params$label.position,
                                  c("top", "bottom", "left", "right"))
 
-    elem_text   <- calc_element("legend.text", theme)
-    label.theme <- params$label.theme %||% elem_text
+    legend.text <- calc_element("legend.text", theme)
+    label.theme <- combine_elements(params$label.theme, legend.text)
     if (params$label) {
-      # TODO: Mention omission of right-justified expressions
       just_defaults <- .legend_just_defaults[[label.direction]]
       if (is.null(params$label.theme$hjust) &&
           is.null(theme$legend.text$hjust)) {
@@ -626,9 +626,9 @@ GuideLegend <- ggproto(
 
     # Spacing
     size <- title.theme$size %||% legend.title$size %||%
-      elem_text$size %||% 11
+      legend.text$size %||% 11
     size <- 0.5 * unit(size, "pt")
-    hgap <- width_cm(theme$legend.spacing.x  %||% size)
+    hgap <- width_cm( theme$legend.spacing.x %||% size)
     vgap <- height_cm(theme$legend.spacing.y %||% size)
     tgap <- convertUnit(size, "cm", valueOnly = TRUE)
     padding <- convertUnit(theme$legend.margin %||% margin(),

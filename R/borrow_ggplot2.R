@@ -1,3 +1,11 @@
+# Borrowed internals ------------------------------------------------------
+
+# The functions in this document are either literally copied, or copied with
+# modification from ggplot2. The copyright of these functions belong to the
+# ggplot2 authors. These functions are borrowed under the MIT licence that
+# applies to the ggplot2 package and can be found at the link below:
+# https://ggplot2.tidyverse.org/LICENSE.html
+
 # ggplot2:::warn_for_guide_position()
 check_position <- function(guide) {
   key <- guide$key
@@ -7,7 +15,6 @@ check_position <- function(guide) {
   if (empty || sum(breaks_are_unique) == 1) {
     return()
   }
-
   if (guide$position %in% c("top", "bottom")) {
     pos_aes <- "x"
   } else if (guide$position %in% c("left", "right")) {
@@ -217,3 +224,43 @@ modify_list <- function(old, new) {
 
 # ggplot2:::is.waive
 is_waive <- function(x) inherits(x, "waiver")
+
+# ggplot2:::combine_elements
+combine_elements <- function(e1, e2) {
+
+  # If e2 is NULL, nothing to inherit
+  if (is.null(e2) || inherits(e1, "element_blank")) {
+    return(e1)
+  }
+
+  # If e1 is NULL inherit everything from e2
+  if (is.null(e1)) {
+    return(e2)
+  }
+
+  # If neither of e1 or e2 are element_* objects, return e1
+  if (!inherits(e1, "element") && !inherits(e2, "element")) {
+    return(e1)
+  }
+
+  # If e2 is element_blank, and e1 inherits blank inherit everything from e2,
+  # otherwise ignore e2
+  if (inherits(e2, "element_blank")) {
+    if (e1$inherit.blank) {
+      return(e2)
+    } else {
+      return(e1)
+    }
+  }
+
+  # If e1 has any NULL properties, inherit them from e2
+  n <- names(e1)[vapply(e1, is.null, logical(1))]
+  e1[n] <- e2[n]
+
+  # Calculate relative sizes
+  if (inherits(e1$size, "rel")) {
+    e1$size <- e2$size * unclass(e1$size)
+  }
+
+  e1
+}
