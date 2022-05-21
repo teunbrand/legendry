@@ -7,8 +7,11 @@
 #'
 #' @inheritParams ggplot2::guide_axis
 #'
-#' @return A `Guide` ggproto object.
+#' @return A `<Guide>` ggproto object that can be given to the
+#'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument
+#'   in a position scale.
 #' @export
+#' @family vanilla guides
 #'
 #' @examples
 #' # Works in the same way as `guide_axis`.
@@ -59,6 +62,9 @@ construct_axis <- function(
 # Class -------------------------------------------------------------------
 
 #' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideAxis <- ggproto(
   "GuideAxis", Guide,
 

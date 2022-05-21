@@ -14,8 +14,11 @@
 #'
 #' @inheritParams ggplot2::guide_legend
 #'
-#' @return A `Guide` ggproto object.
+#' @return A `<Guide>` ggproto object that can be given to the
+#'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument
+#'   in a non-position scale.
 #' @export
+#' @family vanilla guides
 #'
 #' @examples
 #' # Works in the same way as `guide_legend`.
@@ -141,6 +144,10 @@ construct_legend <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideLegend <- ggproto(
   "GuideLegend", Guide,
 

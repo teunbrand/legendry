@@ -22,6 +22,10 @@ construct_guide <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 Guide <- ggproto(
   c("Guide", "guide"),
 
