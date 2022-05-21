@@ -99,3 +99,121 @@ label_priority <- function(x, y) {
     label_priority(mid, y)
   )
 }
+
+# ggplot2:::justify_grobs(), but with `theme` as a convenience argument
+justify_grobs <- function(
+    grobs,
+    x = NULL,
+    y = NULL,
+    hjust = NULL,
+    vjust = NULL,
+    angle = NULL,
+    theme,
+    debug = NULL
+) {
+  if (!inherits(grobs, "grob")) {
+    if (is.list(grobs)) {
+      return(lapply(grobs, justify_grobs, x, y, hjust, vjust,
+                    angle, theme, debug))
+    } else {
+      abort("Need individual grobs or list of grobs as argument.")
+    }
+  }
+
+  if (inherits(grobs, "zeroGrob")) {
+    return(grobs)
+  }
+
+  just <- rotate_just(
+    angle = angle %||% theme$angle %||% 0,
+    hjust = hjust %||% theme$hjust %||% 0.5,
+    vjust = vjust %||% theme$vjust %||% 0.5
+  )
+
+  x <- x %||% unit(just$hjust, "npc")
+  y <- y %||% unit(just$vjust, "npc")
+
+  debug <- debug %||% theme$debug %||% FALSE
+  if (isTRUE(debug)) {
+    children <- gList(
+      rectGrob(gp = gpar(fill = "lightcyan", col = NA)),
+      grobs
+    )
+  } else {
+    children = gList(grobs)
+  }
+
+  result_grob <- gTree(
+    children = children,
+    vp = viewport(
+      x      = x,
+      y      = y,
+      width  = grobWidth(grobs),
+      height = grobHeight(grobs),
+      just   = unlist(just)
+    )
+  )
+
+  if (isTRUE(debug)) {
+    grobTree(
+      result_grob,
+      pointsGrob(x, y, pch = 20, gp = gpar(col = "mediumturquoise"))
+    )
+  } else {
+    result_grob
+  }
+}
+
+# ggplot2:::rotate_just()
+rotate_just <- function(angle, hjust, vjust) {
+  angle <- (angle %||% 0) %% 360
+  if (0 <= angle & angle < 90) {
+    hnew <- hjust
+    vnew <- vjust
+  } else if (90 <= angle & angle < 180) {
+    hnew <- 1 - vjust
+    vnew <- hjust
+  } else if (180 <= angle & angle < 270) {
+    hnew <- 1 - hjust
+    vnew <- 1 - vjust
+  } else if (270 <= angle & angle < 360) {
+    hnew <- vjust
+    vnew <- 1 - hjust
+  }
+  list(hjust = hnew, vjust = vnew)
+}
+
+# ggplot2:::width_cm()
+width_cm <- function(x) {
+  if (is.grob(x)) {
+    convertWidth(grobWidth(x), "cm", TRUE)
+  } else if (is.unit(x)) {
+    convertWidth(x, "cm", TRUE)
+  } else if (is.list(x)) {
+    vapply(x, width_cm, numeric(1))
+  } else {
+    abort("Cannot determine width.")
+  }
+}
+
+# ggplot2:::height_cm()
+height_cm <- function(x) {
+  if (is.grob(x)) {
+    convertHeight(grobHeight(x), "cm", TRUE)
+  } else if (is.unit(x)) {
+    convertHeight(x, "cm", TRUE)
+  } else if (is.list(x)) {
+    vapply(x, height_cm, numeric(1))
+  } else {
+    abort("Cannot determine height.")
+  }
+}
+
+# ggplot2:::modify_list()
+modify_list <- function(old, new) {
+  for (i in names(new)) old[[i]] <- new[[i]]
+  old
+}
+
+# ggplot2:::is.waive
+is_waive <- function(x) inherits(x, "waiver")
