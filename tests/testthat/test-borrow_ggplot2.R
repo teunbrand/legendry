@@ -54,3 +54,44 @@ test_that("justify_grobs signals problems", {
 
   unlink(tmp)
 })
+
+test_that("combine_elements combines elements", {
+  test <- combine_elements(element_line(size = 8), element_line(colour = "blue"))
+  expect_equal(test$size, 8)
+  expect_equal(test$colour, "blue")
+  expect_s3_class(test, "element_line")
+
+  test <- combine_elements(element_line(inherit.blank = FALSE), element_blank())
+  expect_s3_class(test, "element_line")
+
+  test <- combine_elements(element_line(inherit.blank = TRUE), element_blank())
+  expect_s3_class(test, "element_blank")
+
+  test <- combine_elements(element_blank(), element_line(size = 8))
+  expect_s3_class(test, "element_blank")
+
+  test <- combine_elements(element_line(size = rel(0.5)), element_line(size = 4))
+  expect_equal(test$size, 2)
+
+  test <- combine_elements("foo", "bar")
+  expect_equal(test, "foo")
+})
+
+test_that("arg_class messages appropriately", {
+  el <- element_line()
+  ans <- arg_class(el, c("element_line", "element_blank"))
+  expect_identical(el, ans)
+
+  ans <- tryCatch(
+    arg_class(el, c("element_rect", "element_blank")),
+    error = function(e) e$message
+  )
+  expect_snapshot(ans)
+
+  ans <- tryCatch(
+    arg_class(expression(), c("element_rect", "element_blank")),
+    error = function(e) e$message
+  )
+  expect_snapshot(ans)
+
+})

@@ -37,7 +37,9 @@ top-to-bottom), if more than one  guide must be drawn at the same location.}
 left, or right.}
 }
 \value{
-A \code{Guide} ggproto object.
+A \verb{<Guide>} ggproto object that can be given to the
+\code{\link[ggplot2:guides]{guides()}} function, or set as the \code{guide} argument
+in a position scale.
 }
 \description{
 This is mostly a re-implementation of \code{\link[ggplot2:guide_axis]{guide_axis()}}
@@ -49,3 +51,9 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = as.factor(cyl))) +
   guides(x = guide_axis_vanilla(position = "top"))
 }
+\seealso{
+Other vanilla guides: 
+\code{\link{guide_colourbar_vanilla}()},
+\code{\link{guide_legend_vanilla}()}
+}
+\concept{vanilla guides}

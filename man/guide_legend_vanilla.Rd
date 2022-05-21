@@ -100,7 +100,9 @@ If 0 (default), the order is determined by a secret algorithm.}
 \item{...}{ignored.}
 }
 \value{
-A \code{Guide} ggproto object.
+A \verb{<Guide>} ggproto object that can be given to the
+\code{\link[ggplot2:guides]{guides()}} function, or set as the \code{guide} argument
+in a non-position scale.
 }
 \description{
 This is mostly a re-implementation of
@@ -121,3 +123,9 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = as.factor(cyl))) +
   guides(colour = guide_legend_vanilla(nrow = 2))
 }
+\seealso{
+Other vanilla guides: 
+\code{\link{guide_axis_vanilla}()},
+\code{\link{guide_colourbar_vanilla}()}
+}
+\concept{vanilla guides}
