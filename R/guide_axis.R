@@ -1,8 +1,20 @@
-# Constructor -------------------------------------------------------------
+# Public constructor ------------------------------------------------------
 
-# No need for exporting this, it just does the same as ggplot2::guide_axis.
-# I just need this for internal testing purposes.
-
+#' Vanilla axis guide
+#'
+#' This is mostly a re-implementation of [`guide_axis()`][ggplot2::guide_axis()]
+#' with no noticeable changes.
+#'
+#' @inheritParams ggplot2::guide_axis
+#'
+#' @return A `Guide` ggproto object.
+#' @export
+#'
+#' @examples
+#' # Works in the same way as `guide_axis`.
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = as.factor(cyl))) +
+#'   guides(x = guide_axis_vanilla(position = "top"))
 guide_axis_vanilla <- function(
   title         = waiver(),
   check.overlap = FALSE,
@@ -50,7 +62,11 @@ construct_axis <- function(
 GuideAxis <- ggproto(
   "GuideAxis", Guide,
 
+  ## Guide attributes -----------------------------------------------------
+
   position = NULL,
+
+  ## Method implementation ------------------------------------------------
 
   training_routine = function(self, scale, aesthetic = NULL) {
 
@@ -123,7 +139,7 @@ GuideAxis <- ggproto(
   merging_routine = function(self, new_guide) {
     if (!inherits(new_guide, "guide_none")) {
       warn(paste0(
-        snake_class(self), ": Discarding guide on merge.",
+        snake_class(self), ": Discarding guide on merge. ",
         "Do you have more than one guide with the same position?"
       ))
     }
@@ -337,24 +353,18 @@ GuideAxis <- ggproto(
       )
     )
 
-    gTree(
-      children = gList(lines, gt),
-      width    = max(gtable_width(gt),  unit(0, "pt")),
-      height   = max(gtable_height(gt), unit(0, "pt")),
-      xmin = NULL, ymin = NULL, vp = vp, cl = "absoluteGrob"
+    absGrob(
+      grob   = gList(lines, gt),
+      width  = max(gtable_width(gt),  unit(0, "pt")),
+      height = max(gtable_height(gt), unit(0, "pt")),
+      vp = vp
     )
   }
 )
 
 # Helpers -----------------------------------------------------------------
 
-as_unit <- function(x, unit) {
-  if (!is.unit(x)) {
-    x <- unit(x, units = unit)
-  }
-  x
-}
-
+# To ensure whatever is fed to text grobs is valid text
 unlanguage <- function(x) {
   if (is.list(x)) {
     if (any(vapply(x, is.language, logical(1)))) {
@@ -366,12 +376,19 @@ unlanguage <- function(x) {
   x
 }
 
+# Variation of ggplot2:::absoluteGrob that automatically infers dimensions from
+# the grob.
 absGrob <- function(
     grob,
     width = NULL, height = NULL,
     xmin  = NULL, ymin   = NULL,
     vp = NULL
 ) {
+  if (inherits(grob, "gtable")) {
+    width  <- width  %||% gtable_width(grob)
+    height <- height %||% gtable_height(grob)
+    grob   <- gList(grob)
+  }
   gTree(
     children = grob,
     width    = width  %||% grobWidth(grob),
@@ -380,18 +397,19 @@ absGrob <- function(
   )
 }
 
+# Simple convenience to check if list elements have a particular name
 list_has_name <- function(x, name) {
   vapply(lapply(x, names), `%in%`, x = name, logical(1), USE.NAMES = FALSE)
 }
 
+# Conditional lapply
 clapply <- function(x, test, fun, ...) {
   x[test] <- lapply(x[test], fun, ...)
   x
 }
 
+# Convention is that the aesthetic is the only column in a key that isn't
+# prefixed with a period. This extracts such columns.
 aes_from_key <- function(x) {
   names(x)[!grepl("^\\.", names(x))][1]
 }
-
-is_waive <- function(x) inherits(x, "waiver")
-

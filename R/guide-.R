@@ -79,6 +79,9 @@ Guide <- ggproto(
 #' @export
 guide_train.Guide <- function(guide, scale, aesthetic = NULL) {
   guide$training_routine(scale, aesthetic)
+  if (isTRUE(guide$return_null)) {
+    return(NULL)
+  }
   guide
 }
 
@@ -91,6 +94,9 @@ guide_merge.Guide <- function(guide, new_guide) {
 #' @export
 guide_geom.Guide <- function(guide, layers, default_mapping) {
   guide$scan_geoms(layers, default_mapping)
+  if (isTRUE(guide$return_null)) {
+    return(NULL)
+  }
   guide
 }
 

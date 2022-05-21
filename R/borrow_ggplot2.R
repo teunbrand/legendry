@@ -4,7 +4,7 @@ check_position <- function(guide) {
   breaks_are_unique <- !duplicated(key$.value)
   empty <- is.null(key) || nrow(key) == 0 || ncol(key) == 0
   empty <- empty || inherits(key, "waiver")
-  if (empty || sum(breaks_are_unique) == 0) {
+  if (empty || sum(breaks_are_unique) == 1) {
     return()
   }
 
