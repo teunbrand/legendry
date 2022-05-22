@@ -113,7 +113,9 @@ p + guides(x = guide_axis_ext(
 }
 \seealso{
 Other axis variants: 
+\code{\link{guide_axis_log}()},
 \code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_trunc}()},
 \code{\link{guide_axis_vanilla}()}
 }
 \concept{axis variants}

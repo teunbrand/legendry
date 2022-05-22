@@ -36,6 +36,8 @@ top-to-bottom), if more than one  guide must be drawn at the same location.}
 
 \item{position}{Where this guide should be drawn: one of top, bottom,
 left, or right.}
+
+\item{...}{Not currently used.}
 }
 \value{
 A \verb{<Guide>} ggproto object that can be given to the
@@ -59,7 +61,9 @@ Other vanilla guides:
 
 Other axis variants: 
 \code{\link{guide_axis_ext}()},
-\code{\link{guide_axis_minor}()}
+\code{\link{guide_axis_log}()},
+\code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_trunc}()}
 }
 \concept{axis variants}
 \concept{vanilla guides}
