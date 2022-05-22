@@ -337,8 +337,7 @@ GuideAxisExt <- ggproto(
     self$params$trunc <- trunc
     self$params$trunc_lower <- self$params$trunc_upper <- NULL
     return(invisible())
-  },
-
+  }
 )
 
 # Helpers -----------------------------------------------------------------
