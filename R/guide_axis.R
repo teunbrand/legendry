@@ -12,6 +12,7 @@
 #'   in a position scale.
 #' @export
 #' @family vanilla guides
+#' @family axis variants
 #'
 #' @examples
 #' # Works in the same way as `guide_axis`.
@@ -24,7 +25,8 @@ guide_axis_vanilla <- function(
   angle         = NULL,
   n.dodge       = 1L,
   order         = 0L,
-  position      = waiver()
+  position      = waiver(),
+  ...
 ) {
   construct_axis(
     title         = title,
@@ -32,7 +34,8 @@ guide_axis_vanilla <- function(
     angle         = angle,
     n.dodge       = n.dodge,
     order         = order,
-    position      = position
+    position      = position,
+    ...
   )
 }
 
@@ -159,8 +162,8 @@ GuideAxis <- ggproto(
     params    <- self$params
 
     # Setup stuff
-    elements  <- self$setup_elements(position, theme, params)
     params    <- self$setup_params(position, params)
+    elements  <- self$setup_elements(position, theme, params)
 
     # Actual drawing stuff
     line_grob <- self$build_line(elements, params)
@@ -169,7 +172,7 @@ GuideAxis <- ggproto(
     }
 
     label_grob <- self$build_labels(elements, key, params)
-    tick_grob  <- self$build_ticks(elements, key[[params$aes]], params)
+    tick_grob  <- self$build_ticks(elements, key, params)
 
     self$assemble_drawing(
       ticks    = tick_grob,
@@ -222,11 +225,13 @@ GuideAxis <- ggproto(
       position_size  <- "height"
       gtable_element <- gtable_row
       gtable_measure <- gtable_width
+      gtable_insert  <- gtable_add_rows
       measure_labels <- grobWidth
     } else {
       position_size  <- "width"
       gtable_element <- gtable_col
       gtable_measure <- gtable_height
+      gtable_insert  <- gtable_add_cols
       measure_labels <- grobHeight
     }
 
@@ -252,6 +257,7 @@ GuideAxis <- ggproto(
       size = position_size, alt_size = alt_size,
       gtable_element = gtable_element,
       gtable_measure = gtable_measure,
+      gtable_insert  = gtable_insert,
       measure_labels = measure_labels,
       tick_dir       = tick_direction,
       tick_ord       = tick_order,
@@ -313,7 +319,8 @@ GuideAxis <- ggproto(
     })
   },
 
-  build_ticks = function(elements, breaks, params) {
+  build_ticks = function(elements, key, params) {
+    breaks   <- key[[params$aes]]
     n_breaks <- length(breaks)
 
     pos <- unit(c(params$pos, params$pos + (params$tick_dir * 1)), "npc")
@@ -336,10 +343,12 @@ GuideAxis <- ggproto(
 
     grobs     <- c(list(ticks), labels)
     grob_dims <- unit.c(max(elements$tick_length), label_dims)
+    is_ticks  <- 1
 
     if (params$labels_first) {
       grobs     <- rev(grobs)
       grob_dims <- rev(grob_dims)
+      is_ticks  <- length(grobs) - 1
     }
 
     gt <- do.call(
@@ -349,6 +358,10 @@ GuideAxis <- ggproto(
         c("name", "grobs", alt_sizes, params$size)
       )
     )
+
+    # Dodge labels for negative tick lengths
+    negative_length <- max(unit(0, "pt"), -1 * elements$tick_length)
+    gt <- params$gtable_insert(gt, negative_length, pos = is_ticks)
 
     vp <- do.call(
       viewport,

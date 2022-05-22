@@ -10,7 +10,9 @@ NULL
 #' @importFrom glue glue
 #' @importFrom glue glue_collapse
 #' @importFrom gtable gtable
+#' @importFrom gtable gtable_add_cols
 #' @importFrom gtable gtable_add_grob
+#' @importFrom gtable gtable_add_rows
 #' @importFrom gtable gtable_col
 #' @importFrom gtable gtable_height
 #' @importFrom gtable gtable_row
