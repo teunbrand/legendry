@@ -10,7 +10,8 @@ guide_axis_vanilla(
   angle = NULL,
   n.dodge = 1L,
   order = 0L,
-  position = waiver()
+  position = waiver(),
+  ...
 )
 }
 \arguments{
@@ -55,5 +56,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Other vanilla guides: 
 \code{\link{guide_colourbar_vanilla}()},
 \code{\link{guide_legend_vanilla}()}
+
+Other axis variants: 
+\code{\link{guide_axis_ext}()},
+\code{\link{guide_axis_minor}()}
 }
+\concept{axis variants}
 \concept{vanilla guides}
