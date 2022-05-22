@@ -22,6 +22,8 @@ knitr::opts_chunk$set(
 
 The goal of gguidance is to provide additional guides to the ggplot2 ecosystem. Guides are re-implemented within the ggproto system to make use of the flexible extension framework.
 
+Please note that this repo is still being worked on and, while probably usable, isn't finished.
+
 ## Installation
 
 You can install the development version of gguidance from [GitHub](https://github.com/) with:
@@ -33,14 +35,15 @@ devtools::install_github("teunbrand/gguidance")
 
 ## Example
 
-As of now, the only thing of note is `guide_colourbar_cap()`.
+Here is a simple example of how to use an axis guide and a colour bar guide.
 
 ```{r example}
 library(gguidance)
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = cty)) +
-  scale_colour_viridis_c(guide = "colourbar_cap")
+ggplot(msleep, aes(bodywt, sleep_total)) +
+  geom_point(aes(colour = sleep_rem)) +
+  scale_colour_viridis_c(guide = "colourbar_cap") +
+  scale_x_log10(guide = "axis_log")
 ```
 
 ## Progress
@@ -49,6 +52,10 @@ So far, the following has been implemented:
 
 * **Axis guides**
    * `guide_axis_vanilla()`: a re-implementation of `guide_axis()`.
+   * `guide_axis_ext()`: Extended options for axes.
+   * `guide_axis_minor()`: Axes with minor ticks.
+   * `guide_axis_trunc()`: Axes with truncated axis lines.
+   * `guide_axis_log()`: Axes with log10-based tickmarks.
 * **Legend guides**
    * `guide_legend_vanilla()`: a re-implementation of `guide_legend()`.
 * **Colour bar guides**

@@ -4,12 +4,12 @@
 \name{gguidance-package}
 \alias{gguidance}
 \alias{gguidance-package}
-\title{gguidance: What the Package Does (One Line, Title Case)}
+\title{gguidance: Extended guide options for 'ggplot2'}
 \description{
-What the package does (one paragraph).
+A 'ggplot2' extension that focusses on expanding the plotter's arsenal of guides, such as axes, legends and colour bars. It brings various improvements to existing guides by re-implementation, as well as adding novel guides.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Teun van den Brand \email{tahvdbrand@gmail.com} (\href{https://orcid.org/0000-0002-9335-7468}{ORCID})
 
 }
 \keyword{internal}

@@ -10,6 +10,9 @@ The goal of gguidance is to provide additional guides to the ggplot2
 ecosystem. Guides are re-implemented within the ggproto system to make
 use of the flexible extension framework.
 
+Please note that this repo is still being worked on and, while probably
+usable, isn’t finished.
+
 ## Installation
 
 You can install the development version of gguidance from
