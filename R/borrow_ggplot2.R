@@ -264,3 +264,17 @@ combine_elements <- function(e1, e2) {
 
   e1
 }
+
+# ggplot2:::rename_aes
+rename_aes <- function(x) {
+  names(x) <- standardise_aes_names(names(x))
+  duplicated <- names(x)[duplicated(names(x))]
+  if (length(duplicated) > 0L) {
+    udup <- unique(duplicated)
+    warn(paste0(
+      "Duplicated aesthetics after name standardisation: ",
+      glue_collapse(udup, sep = ", ", last = " and "), '.'
+    ))
+  }
+  x
+}

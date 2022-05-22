@@ -64,7 +64,7 @@ test_that("All legend directions work", {
     grob <- guide_gengrob(leg, theme)
 
     vdiffr::expect_doppelganger(
-      paste0("legend label: ", l, " title: ", t),
+      paste0("L:", substr(l, 1, 1), " T:", substr(t, 1, 1)),
       function() {grid.newpage(); grid.draw(grob)}
     )
 

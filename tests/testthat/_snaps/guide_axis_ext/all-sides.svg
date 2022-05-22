@@ -83,6 +83,6 @@
 <text x='363.94' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='21.40px' lengthAdjust='spacingAndGlyphs'>mpg</text>
 <text transform='translate(13.05,286.41) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='20.18px' lengthAdjust='spacingAndGlyphs'>disp</text>
 <text transform='translate(704.67,286.41) rotate(90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='68.49px' lengthAdjust='spacingAndGlyphs'>truncated axis</text>
-<text x='45.57' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='139.44px' lengthAdjust='spacingAndGlyphs'>guide_axis_ext all sides</text>
+<text x='45.57' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='47.69px' lengthAdjust='spacingAndGlyphs'>all sides</text>
 </g>
 </svg>

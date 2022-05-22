@@ -32,7 +32,6 @@
 #'   relative to major axis ticks, as defined by the
 #'   `axis.ticks.length.{x/y}.{position}` theme element. If `NULL` (default),
 #'   minor axis ticks are not shown.
-#' @param ... Not currently used.
 #'
 #' @inherit guide_axis_vanilla return
 #' @export
@@ -333,7 +332,7 @@ GuideAxisExt <- ggproto(
   set_trunc = function(self, lower, upper, aesthetic) {
     check_trunc_arg(lower, upper)
     trunc <- new_data_frame(list(start = lower, end = upper))
-    trunc <- vec_slice(trunc, !is.na(lower) & !is.na(upper))
+    trunc <- trunc[!is.na(lower) & !is.na(upper), ]
     colnames(trunc) <- paste0(aesthetic, c("", "end"))
     self$params$trunc <- trunc
     self$params$trunc_lower <- self$params$trunc_upper <- NULL

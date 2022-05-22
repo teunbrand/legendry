@@ -36,7 +36,8 @@ test_that("All direction combinations work", {
     grob <- guide_gengrob(leg, thm)
 
     vdiffr::expect_doppelganger(
-      paste0("colourbar label: ", l, " title: ", t, " direction: ", d),
+      paste0("L:", substr(l, 1, 1), " T:", substr(t, 1, 1),
+             " D:", substr(d, 1, 1)),
       function() {grid.newpage(); grid.draw(grob)}
     )
   }

@@ -32,7 +32,8 @@ test_that("All directions and cap shapes work", {
     grob <- guide_gengrob(leg, thm)
 
     vdiffr::expect_doppelganger(
-      paste0("colourbar cap direction: ", d, " shape: ", s, " position: ", p),
+      paste0("D:", substr(d, 1, 1), " S:", substr(s, 1, 1),
+             " P:", substr(p, 1, 1)),
       function() {grid.newpage(); grid.draw(grob)}
     )
   }

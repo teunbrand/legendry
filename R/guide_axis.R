@@ -6,6 +6,7 @@
 #' with no noticeable changes.
 #'
 #' @inheritParams ggplot2::guide_axis
+#' @param ... Not currently used.
 #'
 #' @return A `<Guide>` ggproto object that can be given to the
 #'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument

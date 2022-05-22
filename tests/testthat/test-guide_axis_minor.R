@@ -17,7 +17,7 @@ test_that("guide_axis_minor can be placed at every position", {
     )
 
   vdiffr::expect_doppelganger(
-    "guide_axis_minor all sides",
+    "all sides",
     p
   )
 })

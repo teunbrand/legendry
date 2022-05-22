@@ -679,7 +679,7 @@ include_layer_in_guide <- function(layer, matched) {
 
   if (length(matched) > 0) {
     if (is_named(show_legend)) {
-      layer$show.legend <- ggplot2:::rename_aes(show_legend)
+      layer$show.legend <- rename_aes(show_legend)
       show_legend <- show_legend[matched]
       show_legend <- show_legend[!is.na(show_legend)]
       return(length(show_legend) == 0 || any(show_legend))
