@@ -225,13 +225,13 @@ GuideAxis <- ggproto(
       position_size  <- "height"
       gtable_element <- gtable_row
       gtable_measure <- gtable_width
-      gtable_insert  <- gtable_add_rows
+      gtable_insert  <- gtable_add_cols
       measure_labels <- grobWidth
     } else {
       position_size  <- "width"
       gtable_element <- gtable_col
       gtable_measure <- gtable_height
-      gtable_insert  <- gtable_add_cols
+      gtable_insert  <- gtable_add_rows
       measure_labels <- grobHeight
     }
 

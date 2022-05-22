@@ -7,6 +7,7 @@
 \alias{gguidance_extensions}
 \alias{Guide}
 \alias{GuideAxis}
+\alias{GuideAxisExt}
 \alias{GuideColourbar}
 \alias{GuideColourbarCap}
 \alias{GuideLegend}
