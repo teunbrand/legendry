@@ -17,7 +17,7 @@ of \code{"triangle"} (default), \code{"round"} or \code{"arched"}.}
 
 \item{cap_size}{A \code{\link[grid:unit]{<unit>}} object setting the size of the
 cap. If \code{NULL} (default), an appropriate size is chosen according to the
-\code{cap_shape} argument.}
+\code{cap_shape} and \verb{bar\{width/height\}} argument.}
 
 \item{cap_position}{A \code{character(1)} indicating on which end of the colour
 bar to display the cap(s). Can be one of \code{"lower"}, \code{"upper"} or \code{"both"}.}
@@ -107,10 +107,11 @@ in a colour or fill scale.
 Like regular colour bar guides, this capped colour bar guide also shows
 continuous colour scales mapped to values. In addition, this guide allows
 you to 'cap' the ends of the colour bar, which can serve as visual indicators
-of scale \link[scales:oob]{squishing}.
+of scale \link[scales:oob]{squishing}. The cap itself will be filled
+with the colours at the extremes.
 }
 \examples{
-# A standard plot
+# A standard plot with continuous colour scale
 p <- ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = cty)) +
   scale_colour_viridis_c()

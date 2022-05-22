@@ -5,7 +5,8 @@
 #' Like regular colour bar guides, this capped colour bar guide also shows
 #' continuous colour scales mapped to values. In addition, this guide allows
 #' you to 'cap' the ends of the colour bar, which can serve as visual indicators
-#' of scale [squishing][scales::oob_squish()].
+#' of scale [squishing][scales::oob_squish()]. The cap itself will be filled
+#' with the colours at the extremes.
 #'
 #' @param cap_shape A `character(1)` indicating the shape of the cap. Can be one
 #'   of `"triangle"` (default), `"round"` or `"arched"`.
@@ -202,40 +203,3 @@ GuideColourbarCap <- ggproto(
   }
 
 )
-
-prtct_zlen <- function(x) {
-  if (length(x) == 0) return(NULL) else x
-}
-
-arg_match_some <- function(arg, valid, arg_nm = caller_arg(arg),
-                     warn_call = caller_env()) {
-  keep     <- arg %in% valid
-  dropping <- arg[!keep]
-  arg      <- vec_slice(arg, keep)
-
-  if (length(dropping)) {
-    dropping <- paste0('"', dropping, '"')
-    dropping <- glue_collapse(dropping, sep = ", ", last = " and ")
-    valid    <- glue_collapse(valid, sep = ", ", last = " and ")
-    imessage <- glue("Valid matches are: {valid}.")
-    if (length(arg) > 0) {
-      message <- glue(
-        "The `{arg_nm}` has invalid matches that will be dropped: {dropping}."
-      )
-      warn(c(message, "i" = imessage), call = warn_call)
-    } else {
-      message
-    }
-  }
-
-  if (length(arg) > 0 && length(dropping)) {
-
-
-  } else if (length(arg) == 0) {
-    dropping <- paste0('"', dropping, '"')
-    dropping <- glue_collapse(dropping, sep = ", ", last = " and ")
-
-  }
-  arg
-
-}

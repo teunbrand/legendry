@@ -22,19 +22,32 @@ devtools::install_github("teunbrand/gguidance")
 
 ## Example
 
-As of now, there is only an re-implementation of
-`ggplot2::guide_axis()`.
+As of now, the only thing of note is `guide_colourbar_cap()`.
 
 ``` r
 library(gguidance)
 #> Loading required package: ggplot2
 
 ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  guides(x = guide_axis_vanilla())
+  geom_point(aes(colour = cty)) +
+  scale_colour_viridis_c(guide = "colourbar_cap")
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.png" width="80%" />
+
+## Progress
+
+So far, the following has been implemented:
+
+-   **Axis guides**
+    -   `guide_axis_vanilla()`: a re-implementation of `guide_axis()`.
+-   **Legend guides**
+    -   `guide_legend_vanilla()`: a re-implementation of
+        `guide_legend()`.
+-   **Colour bar guides**
+    -   `guide_colourbar_vanilla()`: a re-implementation of
+        `guide_colourbar()`.
+    -   `guide_colourbar_cap()`: With cap decorations at the ends.
 
 ## Notes
 
