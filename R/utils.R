@@ -10,9 +10,10 @@ seq_col <- function(x) {seq_len(NCOL(x))}
 
 # Function for checking object class is as expected
 arg_class <- function(
-    arg, class,
-    arg_nm = caller_arg(arg),
-    error_call = caller_env()) {
+  arg, class,
+  arg_nm = caller_arg(arg),
+  error_call = caller_env()
+) {
   if (inherits(arg, class)) {
     return(arg)
   }
@@ -29,4 +30,10 @@ arg_class <- function(
     arg_nm, " must be of the class ", class, ", not ", arg_class, "."
   )
   abort(msg, call = caller_env())
+}
+
+is_blank <- function(x) {inherits(x, "element_blank")}
+
+prtct_zlen <- function(x) {
+  if (length(x) == 0) return(NULL) else x
 }

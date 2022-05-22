@@ -159,5 +159,9 @@ ggplot(mpg, aes(displ, hwy)) +
 Other vanilla guides: 
 \code{\link{guide_axis_vanilla}()},
 \code{\link{guide_legend_vanilla}()}
+
+Other colour bar variants: 
+\code{\link{guide_colourbar_cap}()}
 }
+\concept{colour bar variants}
 \concept{vanilla guides}

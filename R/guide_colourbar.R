@@ -32,6 +32,7 @@
 #'   in a colour or fill scale.
 #' @export
 #' @family vanilla guides
+#' @family colour bar variants
 #'
 #' @examples
 #' # Mostly works in the same way as `guide_colourbar()`
