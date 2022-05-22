@@ -248,7 +248,9 @@ GuideColourbar <- ggproto(
 
     aesthetic <- aesthetic %||% scale$aesthetics[1]
 
-    self$train(scale, aesthetic)
+    trained  <- self$train(scale, aesthetic)
+    self$key <- trained$key
+    self$bar <- trained$bar
 
     self$hash <- hash(list(self$title, self$key$.label, self$bar, self$name))
     return(invisible())
@@ -258,9 +260,9 @@ GuideColourbar <- ggproto(
     breaks <- scale$get_breaks()
 
     # Make key
-    ticks  <- new_data_frame(setNames(list(scale$map(breaks)), aesthetic))
-    ticks$.value <- breaks
-    ticks$.label <- scale$get_labels(breaks)
+    key  <- new_data_frame(setNames(list(scale$map(breaks)), aesthetic))
+    key$.value <- breaks
+    key$.label <- scale$get_labels(breaks)
 
     # Make bar
     limits <- scale$get_limits()
@@ -271,12 +273,10 @@ GuideColourbar <- ggproto(
     bar <- new_data_frame(list(colour = scale$map(bar), value = bar),
                           n = length(bar))
     if (isTRUE(self$params$reverse)) {
-      ticks <- ticks[nrow(ticks):1, ]
+      key <- key[nrow(key):1, ]
       bar   <- bar[nrow(bar):1, ]
     }
-    self$key <- ticks
-    self$bar <- bar
-    return(invisible())
+    list(key = key, bar = bar)
   },
 
   scan_geoms = function(self, layers, default_mapping) {
@@ -506,7 +506,7 @@ GuideColourbar <- ggproto(
         interpolate = TRUE
       )
     } else {
-      if (guide$direction == "horizontal") {
+      if (params$direction == "horizontal") {
         bw <- width / nrow(bar)
         bx <- (seq(nrow(bar)) - 1) * bw
         bargrob <- rectGrob(
@@ -655,54 +655,47 @@ GuideColourbar <- ggproto(
 
     # Title theme
     legend.title <- calc_element("legend.title", theme)
-    title.theme  <- combine_elements(params$title.theme, legend.title)
-    title.theme$hjust <- params$title.hjust %||% theme$legend.title.align %||%
-      title.theme$hjust %||% 0
-    title.theme$vjust <- params$title.vjust %||% title.theme$vjust %||% 0.5
+    title        <- combine_elements(params$title.theme, legend.title)
+    title$hjust <- params$title.hjust %||% theme$legend.title.align %||%
+      title$hjust %||% 0
+    title$vjust <- params$title.vjust %||% title$vjust %||% 0.5
 
     # Label theme
     legend.text <- calc_element("legend.text", theme)
-    label.theme <- combine_elements(params$label.theme, legend.text)
+    label       <- combine_elements(params$label.theme, legend.text)
 
     # Label justification
     if (is.null(params$label.theme$hjust) && is.null(theme$legend.text$hjust)) {
-      label.theme$hjust <- NULL
+      label$hjust <- NULL
     }
     if (is.null(params$label.theme$vjust) && is.null(theme$legend.text$vjust)) {
-      label.theme$vjust <- NULL
+      label$vjust <- NULL
     }
     just_defaults <- .legend_just_defaults[[params$label.position]]
 
-    label.theme$hjust <- params$label.hjust %||% theme$legend.text.align %||%
-      label.theme$hjust %||% just_defaults$hjust
-    label.theme$vjust <- params$label.vjust %||% label.theme$vjust %||%
-      just_defaults$vjust
+    label$hjust <- params$label.hjust %||% theme$legend.text.align %||%
+      label$hjust %||% just_defaults$hjust
+    label$vjust <- params$label.vjust %||% label$vjust %||% just_defaults$vjust
 
     # Adjust label margins if tick length is negative
     adjust <- unit.pmax(params$ticks.length * -1, unit(0, "pt"))
+    mar <- label$margin
     switch(
       params$label.position,
-      "top" = {
-        label.theme$margin[3] <- label.theme$margin[3] + adjust[2]
-      },
-      "bottom" = {
-        label.theme$margin[1] <- label.theme$margin[1] + adjust[1]
-      },
-      "right" = {
-        label.theme$margin[4] <- label.theme$margin[4] + adjust[2]
-      },
-      "left" = {
-        label.theme$margin[2] <- label.theme$margin[2] + adjust[1]
-      }
+      "top"    = {mar[3] <- mar[3] + adjust[2]},
+      "bottom" = {mar[1] <- mar[1] + adjust[1]},
+      "right"  = {mar[4] <- mar[4] + adjust[2]},
+      "left"   = {mar[2] <- mar[2] + adjust[1]}
     )
+    label$margin <- mar
 
     if (isFALSE(params$label)) {
-      label.theme <- element_blank()
+      label <- element_blank()
     }
 
     # Ticks and frame
-    ticks.theme <- combine_elements(params$ticks, calc_element("line", theme))
-    frame.theme <- combine_elements(params$frame, calc_element("rect", theme))
+    ticks <- combine_elements(params$ticks, calc_element("line", theme))
+    frame <- combine_elements(params$frame, calc_element("rect", theme))
 
     # Bar size
     if (params$direction == "horizontal") {
@@ -715,7 +708,7 @@ GuideColourbar <- ggproto(
       barlength <- barheight
     }
 
-    size <- title.theme$size %||% legend.title$size %||% elem_text$size %||% 11
+    size <- title$size %||% legend.title$size %||% elem_text$size %||% 11
     size <- 0.5 * unit(size, "pt")
 
     hgap <- width_cm( theme$legend.spacing.x %||% size)
@@ -727,11 +720,14 @@ GuideColourbar <- ggproto(
     background = element_render(theme, "legend.background")
 
     list(
-      title      = title.theme,
-      text       = label.theme,
-      ticks      = ticks.theme,
-      frame      = frame.theme,
+      # Elements
+      title      = title,
+      text       = label,
+      ticks      = ticks,
+      frame      = frame,
       background = background,
+
+      # Measurements
       barwidth   = barwidth,
       barheight  = barheight,
       barlength  = barlength,

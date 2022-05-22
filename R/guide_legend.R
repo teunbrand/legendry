@@ -172,7 +172,7 @@ GuideLegend <- ggproto(
     aesthetic       <- aesthetic %||% scale$aesthetics[1]
     names(self$key) <- c(aesthetic, ".value", "label")
 
-    self$train(scale, aesthetic)
+    self$key <- self$train(scale, aesthetic)
 
     self$hash <- hash(list(
       self$title, self$key$.label, self$direction, self$name
@@ -195,8 +195,7 @@ GuideLegend <- ggproto(
     if (self$params$reverse) {
       key <- vec_slice(key, rev(seq_row(key)))
     }
-    self$key <- key
-    return(invisible())
+    key
   },
 
   scan_geoms = function(self, layers, default_mapping) {

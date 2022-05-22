@@ -87,7 +87,7 @@ GuideAxis <- ggproto(
         glue_collapse(self$available_aes, ", ", last = " or ")
       ))
     } else if (length(breaks) > 0) {
-      self$train(scale, aesthetic)
+      self$key <- self$train(scale, aesthetic)
     }
 
     self$name <- paste0(self$name, "_", aesthetic)
@@ -105,8 +105,7 @@ GuideAxis <- ggproto(
     key$.value <- breaks
     key$.label <- scale$get_labels(breaks)
 
-    self$key <- key
-    return(invisible())
+    key
   },
 
   transform_routine = function(self, coord, panel_params) {
