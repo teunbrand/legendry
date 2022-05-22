@@ -4,6 +4,14 @@
 # gguidance
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/gguidance)](https://CRAN.R-project.org/package=gguidance)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/teunbrand/gguidance/workflows/R-CMD-check/badge.svg)](https://github.com/teunbrand/gguidance/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/teunbrand/gguidance/branch/master/graph/badge.svg)](https://app.codecov.io/gh/teunbrand/gguidance?branch=master)
 <!-- badges: end -->
 
 The goal of gguidance is to provide additional guides to the ggplot2
@@ -25,15 +33,17 @@ devtools::install_github("teunbrand/gguidance")
 
 ## Example
 
-As of now, the only thing of note is `guide_colourbar_cap()`.
+Here is a simple example of how to use an axis guide and a colour bar
+guide.
 
 ``` r
 library(gguidance)
 #> Loading required package: ggplot2
 
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = cty)) +
-  scale_colour_viridis_c(guide = "colourbar_cap")
+ggplot(msleep, aes(bodywt, sleep_total)) +
+  geom_point(aes(colour = sleep_rem)) +
+  scale_colour_viridis_c(guide = "colourbar_cap") +
+  scale_x_log10(guide = "axis_log")
 ```
 
 <img src="man/figures/README-example-1.png" width="80%" />
@@ -44,6 +54,10 @@ So far, the following has been implemented:
 
 -   **Axis guides**
     -   `guide_axis_vanilla()`: a re-implementation of `guide_axis()`.
+    -   `guide_axis_ext()`: Extended options for axes.
+    -   `guide_axis_minor()`: Axes with minor ticks.
+    -   `guide_axis_trunc()`: Axes with truncated axis lines.
+    -   `guide_axis_log()`: Axes with log10-based tickmarks.
 -   **Legend guides**
     -   `guide_legend_vanilla()`: a re-implementation of
         `guide_legend()`.
