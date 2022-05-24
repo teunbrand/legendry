@@ -193,7 +193,7 @@ GuideLegend <- ggproto(
       key     <- vec_slice(key, not_oob)
     }
 
-    if (self$params$reverse) {
+    if (self$params$reverse[1]) {
       key <- vec_slice(key, rev(seq_row(key)))
     }
     key
@@ -261,17 +261,10 @@ GuideLegend <- ggproto(
   merging_routine = function(self, new_guide) {
     new_guide$key$.label <- NULL
     self$key <- cbind(self$key, new_guide$key)
-
-    override <- self$params$override.aes
-    override <- c(
-      override,
+    override <- merge_override(
+      self$params$override.aes,
       new_guide$override.aes %||% new_guide$params$override.aes
     )
-    if (anyDuplicated(names(override))) {
-      warn("Duplicated override.aes is ignored.")
-    }
-
-    override <- override[!duplicated(names(override))]
     self$params$override.aes <- override
     return(invisible())
   },
@@ -712,4 +705,17 @@ set_text_just <- function(
   text$hjust <- hjust
   text$vjust <- vjust
   text
+}
+
+merge_override <- function(current, new) {
+  current <- c(current, new)
+  is_dup  <- duplicated(names(current))
+  if (anyDuplicated(names(current))) {
+    warn(paste0(
+      "The following duplicated `override.aes` is ignored:\n",
+      glue_collapse(names(current)[is_dup], sep = ", ", last = " and ")
+    ))
+  }
+  current <- current[!is_dup]
+  current
 }

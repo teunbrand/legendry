@@ -5,17 +5,28 @@
 \title{Cross table legend guide}
 \usage{
 guide_legend_cross(
+  sep = "[^[:alnum:]]+",
   label_order = c("row", "column"),
   h_label.theme = element_text(),
   h_label.position = "right",
   v_label.theme = element_text(angle = 90, vjust = 0.5),
   v_label.position = "bottom",
-  sep = "[^[:alnum:]]+",
   reverse = FALSE,
   ...
 )
 }
 \arguments{
+\item{sep}{A \code{character(1)} or \code{NULL}. When:
+\describe{
+\item{A \code{character(1)}}{Acts as a \link[base:regex]{'regex'} pattern to split
+\emph{a single set} of labels into two parts. Defaults to any non-alphanumeric
+pattern. Note that special regex characters need to be escaped, so
+splitting on a period would have to be \code{"\\\\."}.}
+\item{\code{NULL}}{Disables string splitting, which should only be used when
+combining \emph{two scales} that don't share labels in a single legend. See
+examples below.}
+}}
+
 \item{label_order}{A \code{character(2)} giving the order of dimensions to which
 the first and second label should map to. Can either be
 \code{c("row", "column")} or \code{c("column", "row")}.}
@@ -30,11 +41,6 @@ setting the the plot's theme.}
 position of a label. \code{h_label.position} can be one of \code{"left"} or
 \code{"right"} (default), whereas \code{v_label.position} can be one of \code{"top"}
 or \code{"bottom"} (default).}
-
-\item{sep}{A \code{character(1)} acting as a \link[base:regex]{'regex'} pattern to
-split a label into two parts. Defaults to any non-alphanumeric pattern.
-Note that special characters need to be escaped, so splitting on a period
-would have to be \code{"\\\\."}.}
 
 \item{reverse}{A \code{logical(2)} or \code{logical(1)} that internally gets recycled
 to length 2. If \code{reverse[1]} is \code{TRUE}, reverses the order of the first
@@ -99,22 +105,15 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = paste(cyl, year))) +
   guides(colour = "legend_cross")
 
-# Combining a colour legend and shape legend requires some care to map
-# a compound variable consistently to keys.
-# For example: there is no 'cyl = 5, year = 1999' combination in the plot
-# below, so we need to repeat values carefully.
-ggplot(transform(mpg, cylyear = paste(cyl, year)),
-       aes(displ, hwy)) +
-  geom_point(aes(colour = cylyear, shape = cylyear)) +
-  scale_colour_manual(
-    values = rep(c("dodgerblue", "forestgreen", "tomato", "goldenrod"),
-                 c(2,1,2,2)),
-    guide = "legend_cross"
-  ) +
-  scale_shape_manual(
-    values = c(19, 1, 1, 19, 1, 19, 1),
-    guide = "legend_cross"
-  )
+# To make a cross legend for two scales, the plot must satisfy 2 criteria:
+# 1. Both scales need the same name/title.
+# 2. The guide needs `sep = NULL` to disable label splitting.
+# The easiest way to do this is to make one guide and feed it to both scales.
+guide <- guide_legend_cross(sep = NULL, title = "My Title")
+
+ggplot(mtcars, aes(mpg, disp)) +
+  geom_point(aes(colour = factor(cyl), shape = factor(vs))) +
+  guides(colour = guide, shape = guide)
 }
 \seealso{
 Other legend variants: 

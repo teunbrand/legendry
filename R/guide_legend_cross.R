@@ -6,6 +6,16 @@
 #' for displaying the interaction of two variables more intuitively than a
 #' linear legend.
 #'
+#' @param sep A `character(1)` or `NULL`. When:
+#'   \describe{
+#'     \item{A `character(1)`}{Acts as a ['regex'][base::regex] pattern to split
+#'     *a single set* of labels into two parts. Defaults to any non-alphanumeric
+#'     pattern. Note that special regex characters need to be escaped, so
+#'     splitting on a period would have to be `"\\."`.}
+#'     \item{`NULL`}{Disables string splitting, which should only be used when
+#'     combining *two scales* that don't share labels in a single legend. See
+#'     examples below.}
+#'   }
 #' @param label_order A `character(2)` giving the order of dimensions to which
 #'   the first and second label should map to. Can either be
 #'   `c("row", "column")` or `c("column", "row")`.
@@ -18,10 +28,7 @@
 #'   position of a label. `h_label.position` can be one of `"left"` or
 #'   `"right"` (default), whereas `v_label.position` can be one of `"top"`
 #'   or `"bottom"` (default).
-#' @param sep A `character(1)` acting as a ['regex'][base::regex] pattern to
-#'   split a label into two parts. Defaults to any non-alphanumeric pattern.
-#'   Note that special characters need to be escaped, so splitting on a period
-#'   would have to be `"\\."`.
+
 #' @param reverse A `logical(2)` or `logical(1)` that internally gets recycled
 #'   to length 2. If `reverse[1]` is `TRUE`, reverses the order of the first
 #'   label. If `reverse[2]` is `TRUE`, reverses the order of the second label.
@@ -44,23 +51,17 @@
 #'   geom_point(aes(colour = paste(cyl, year))) +
 #'   guides(colour = "legend_cross")
 #'
-#' # Combining a colour legend and shape legend requires some care to map
-#' # a compound variable consistently to keys.
-#' # For example: there is no 'cyl = 5, year = 1999' combination in the plot
-#' # below, so we need to repeat values carefully.
-#' ggplot(transform(mpg, cylyear = paste(cyl, year)),
-#'        aes(displ, hwy)) +
-#'   geom_point(aes(colour = cylyear, shape = cylyear)) +
-#'   scale_colour_manual(
-#'     values = rep(c("dodgerblue", "forestgreen", "tomato", "goldenrod"),
-#'                  c(2,1,2,2)),
-#'     guide = "legend_cross"
-#'   ) +
-#'   scale_shape_manual(
-#'     values = c(19, 1, 1, 19, 1, 19, 1),
-#'     guide = "legend_cross"
-#'   )
+#' # To make a cross legend for two scales, the plot must satisfy 2 criteria:
+#' # 1. Both scales need the same name/title.
+#' # 2. The guide needs `sep = NULL` to disable label splitting.
+#' # The easiest way to do this is to make one guide and feed it to both scales.
+#' guide <- guide_legend_cross(sep = NULL, title = "My Title")
+#'
+#' ggplot(mtcars, aes(mpg, disp)) +
+#'   geom_point(aes(colour = factor(cyl), shape = factor(vs))) +
+#'   guides(colour = guide, shape = guide)
 guide_legend_cross <- function(
+  sep              = "[^[:alnum:]]+",
   label_order      = c("row", "column"),
 
   h_label.theme    = element_text(),
@@ -69,7 +70,6 @@ guide_legend_cross <- function(
   v_label.theme    = element_text(angle = 90, vjust = 0.5),
   v_label.position = "bottom",
 
-  sep              = "[^[:alnum:]]+",
   reverse          = FALSE,
 
   ...
@@ -105,17 +105,45 @@ guide_legend_cross <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideLegendCross <- ggproto(
   "GuideLegendCross", GuideLegend,
 
   ## Method implementation ------------------------------------------------
 
+  training_routine = function(self, scale, aesthetic = NULL) {
+
+    breaks <- scale$get_breaks()
+    if (length(breaks) == 0 || all(is.na(breaks))) {
+      self$return_null <- TRUE
+      return(invisible())
+    }
+
+    aesthetic       <- aesthetic %||% scale$aesthetics[1]
+    names(self$key) <- c(aesthetic, ".value", "label")
+
+    self$key <- self$train(scale, aesthetic)
+
+    self$hash <- hash(list(
+      self$title, self$params$sep, self$direction, self$name
+    ))
+    return(invisible())
+  },
+
   train = function(self, scale, aesthetic) {
+    sep <- self$params$sep
+    if (is.null(sep)) {
+      key <- ggproto_parent(GuideLegend, self)$train(scale, aesthetic)
+      return(key)
+    }
+
     breaks <- scale$get_breaks()
     label  <- scale$get_labels(breaks)
 
     # Split and index labels
-    sep <- self$params$sep
     split_label <- split_labels(label, sep, snake_class(self))
     split_idx   <- lapply(split_label, function(x) {match(x, unique(x))})
 
@@ -147,6 +175,60 @@ GuideLegendCross <- ggproto(
       key     <- key[!not_oob, , drop = FALSE]
     }
     key
+  },
+
+  merging_routine = function(self, new_guide) {
+    if (all(c(".row", ".column") %in% names(self$key))) {
+      ggproto_parent(GuideLegend, self)$merging_routine(new_guide)
+      return(invisible())
+    }
+    key1 <- self$key
+    key2 <- new_guide$key
+
+    grid <- expand.grid(left = seq_row(key1), right = seq_row(key2))
+
+    left  <- vec_slice(key1, grid$left)
+    right <- vec_slice(key2, grid$right)
+
+    labels <- list(left = left$.label, right = right$.label)
+
+    left$.label <- paste(labels$left, labels$right)
+    right$.label <- NULL
+
+    key <- cbind(left, right)
+    lab_ord <- paste0(".", self$params$label_order)
+    key[, lab_ord] <- as.list(grid)
+    key[, paste0(lab_ord, "_label")] <- labels
+
+    self$params$ncol <- max(key$.column)
+    self$params$nrow <- max(key$.row)
+
+    self$key <- key
+    override <- merge_override(
+      self$params$override.aes,
+      new_guide$override.aes %||% new_guide$params$override.aes
+    )
+    self$params$override.aes <- override
+    return(invisible())
+  },
+
+  geom = function(self, layers, ...) {
+    key_nm <- names(self$key)
+    required_cols <- c(".row", ".column", ".row_label", ".column_label")
+    if (!(all(required_cols %in% key_nm))) {
+      nullsep <- is.null(self$params$sep)
+      if (nullsep) {
+        abort(c(
+          "Scale crossing has failed.",
+          "i" = paste0("Using `sep = NULL` in `", snake_class(self), "()` ",
+                       "requires exactly two scales with such guides, and ",
+                       "identical titles.")
+        ))
+      } else {
+        abort(c("Scale crossing has failed for unclear reasons."))
+      }
+    }
+    ggproto_parent(GuideLegend, self)$geom(layers, ...)
   },
 
   ## Drawing helpers ------------------------------------------------------
