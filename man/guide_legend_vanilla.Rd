@@ -127,5 +127,9 @@ ggplot(mpg, aes(displ, hwy)) +
 Other vanilla guides: 
 \code{\link{guide_axis_vanilla}()},
 \code{\link{guide_colourbar_vanilla}()}
+
+Other legend variants: 
+\code{\link{guide_legend_cross}()}
 }
+\concept{legend variants}
 \concept{vanilla guides}

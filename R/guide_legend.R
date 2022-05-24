@@ -19,6 +19,7 @@
 #'   in a non-position scale.
 #' @export
 #' @family vanilla guides
+#' @family legend variants
 #'
 #' @examples
 #' # Works in the same way as `guide_legend`.
@@ -288,7 +289,7 @@ GuideLegend <- ggproto(
 
     sizes  <- self$measure_parts(labels, title, self$geoms, params, elements)
 
-    layout <- self$setup_layout(params, sizes)
+    layout <- self$setup_layout(params, key, sizes)
 
     self$assemble_drawing(
       layout, sizes, title, labels, keys, elements, params
@@ -336,20 +337,22 @@ GuideLegend <- ggproto(
       b = 1 + k_rows,
       l = 1 + k_cols
     )
-    gt <- gtable_add_grob(
-      gt,
-      justify_grobs(labels, theme = elements$text),
-      name = paste("label", layout$label_row, layout$label_col, sep = "-"),
-      clip = "off",
-      t = 1 + layout$label_row,
-      r = 1 + layout$label_col,
-      b = 1 + layout$label_row,
-      l = 1 + layout$label_col
-    )
+    if (!is.null(labels)) {
+      gt <- gtable_add_grob(
+        gt,
+        justify_grobs(labels, theme = elements$text),
+        name = paste("label", layout$label_row, layout$label_col, sep = "-"),
+        clip = "off",
+        t = 1 + layout$label_row,
+        r = 1 + layout$label_col,
+        b = 1 + layout$label_row,
+        l = 1 + layout$label_col
+      )
+    }
     gt
   },
 
-  setup_layout = function(params, sizes) {
+  setup_layout = function(params, key, sizes) {
     break_seq <- seq(params$n_breaks)
     if (params$byrow) {
       df <- new_data_frame(
@@ -600,23 +603,10 @@ GuideLegend <- ggproto(
 
     legend.text <- calc_element("legend.text", theme)
     label.theme <- combine_elements(params$label.theme, legend.text)
-    if (params$label) {
-      just_defaults <- .legend_just_defaults[[label.direction]]
-      if (is.null(params$label.theme$hjust) &&
-          is.null(theme$legend.text$hjust)) {
-        label.theme$hjust <- NULL
-      }
-      if (is.null(params$label.theme$vjust) &&
-          is.null(theme$legend.text$vjust)) {
-        label.theme$vjust <- NULL
-      }
-      hjust <- params$label.hjust %||% theme$legend.text.align %||%
-        label.theme$hjust %||% just_defaults$hjust
-      vjust <- params$label.vjust %||% label.theme$vjust %||%
-        just_defaults$vjust
-      label.theme$hjust <- hjust
-      label.theme$vjust <- vjust
-    }
+    label.theme <- set_text_just(
+      label.theme, label.direction, params$label.theme, theme,
+      hjust = params$label.hjust, vjust = params$label.vjust
+    )
 
     # Keys
     key_width  <- width_cm(
@@ -701,3 +691,25 @@ is_scaled_or_staged_aes <- function(aesthetics) {
   "left"   = list(hjust = 1,   vjust = 0.5),
   "right"  = list(hjust = 0,   vjust = 0.5)
 )
+
+set_text_just <- function(
+    text,
+    position, naive_text, theme,
+    hjust = NULL, vjust = NULL
+) {
+  if (is_blank(text)) {
+    return(text)
+  }
+  defaults <- .legend_just_defaults[[position]]
+  if (is.null(naive_text$hjust) && is.null(theme$legend.text$hjust)) {
+    text$hjust <- NULL
+  }
+  if (is.null(naive_text$vjust) && is.null(theme$legend.text$vjust)) {
+    text$vjust <- NULL
+  }
+  hjust <- hjust %||% theme$legend.text.align %||% text$hjust %||% defaults$hjust
+  vjust <- vjust %||% text$vjust %||% defaults$vjust
+  text$hjust <- hjust
+  text$vjust <- vjust
+  text
+}
