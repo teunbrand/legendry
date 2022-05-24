@@ -82,11 +82,12 @@ Guide <- ggproto(
 
 #' @export
 guide_train.Guide <- function(guide, scale, aesthetic = NULL) {
-  guide$training_routine(scale, aesthetic)
-  if (isTRUE(guide$return_null)) {
+  new <- ggproto(NULL, guide)
+  new$training_routine(scale, aesthetic)
+  if (isTRUE(new$return_null)) {
     return(NULL)
   }
-  guide
+  new
 }
 
 #' @export
