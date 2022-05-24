@@ -31,7 +31,7 @@ You can install the development version of gguidance from
 devtools::install_github("teunbrand/gguidance")
 ```
 
-## Example
+## Examples
 
 Here is a simple example of how to use an axis guide and a colour bar
 guide.
@@ -48,6 +48,18 @@ ggplot(msleep, aes(bodywt, sleep_total)) +
 
 <img src="man/figures/README-example-1.png" width="80%" />
 
+Demonstrating a cross legend and axis subtitles.
+
+``` r
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = paste(cyl, year))) +
+  guides(colour = "legend_cross",
+         x = guide_axis_ext(subtitle = "litres"),
+         y = guide_axis_ext(subtitle = "miles per gallon"))
+```
+
+<img src="man/figures/README-example2-1.png" width="80%" />
+
 ## Progress
 
 So far, the following has been implemented:
@@ -61,6 +73,8 @@ So far, the following has been implemented:
 -   **Legend guides**
     -   `guide_legend_vanilla()`: a re-implementation of
         `guide_legend()`.
+    -   `guide_legend_cross()`: Combining two sets of labels in one
+        legend.
 -   **Colour bar guides**
     -   `guide_colourbar_vanilla()`: a re-implementation of
         `guide_colourbar()`.
