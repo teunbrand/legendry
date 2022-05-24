@@ -64,4 +64,8 @@ test_that("incorrect positions get rejected", {
     error = function(e) {e$message}
   )
   expect_snapshot(g)
+
+  expect_error(
+    construct_colourbar(label.position = "foobar")
+  )
 })

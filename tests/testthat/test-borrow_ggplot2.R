@@ -88,10 +88,16 @@ test_that("arg_class messages appropriately", {
   )
   expect_snapshot(ans)
 
-  ans <- tryCatch(
-    arg_class(expression(), c("element_rect", "element_blank")),
-    error = function(e) e$message
+  expect_error(
+    arg_class(expression(), "element_rect"),
+    "not <expression>"
   )
-  expect_snapshot(ans)
 
 })
+
+test_that("rename_aes warns appropriately", {
+  x <- list(x = 1, x = 2)
+  expect_warning(rename_aes(x), "Duplicated aesthetics")
+})
+
+

@@ -71,3 +71,23 @@ test_that("splitting labels returns appropriate errors", {
     list(c("A", "C", "E"), c("B", "D", "F"))
   )
 })
+
+test_that("guides can be merged", {
+  guide <- guide_legend_cross(NULL, title = "My Title")
+  p <- ggplot(mtcars, aes(mpg, disp)) +
+    geom_point(aes(colour = factor(cyl), shape = factor(vs))) +
+    guides(colour = guide, shape = guide) +
+    theme_test()
+
+  vdiffr::expect_doppelganger(
+    "merged guide",
+    p
+  )
+})
+
+test_that("invalid order will error", {
+  expect_error(
+    guide_legend_cross(label_order = c("row", "row")),
+    "should be either"
+  )
+})

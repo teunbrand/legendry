@@ -112,3 +112,22 @@ test_that("Legends don't accept invalid positions", {
   expect_error(eval(q))
 
 })
+
+test_that("set_text_just returns blank elements", {
+  test <- set_text_just(element_blank())
+  expect_s3_class(test, "element_blank")
+})
+
+test_that("merge_override wanrs about duplicated aes", {
+  current <- list(size = 10)
+  new     <- list(shape = 21)
+  ans <- merge_override(current, new)
+  expect_equal(ans, c(current, new))
+
+  new <- list(shape = 21, size = 15)
+  expect_warning(
+    ans <- merge_override(current, new),
+    "The following duplicated"
+  )
+  expect_equal(ans, c(current, new[1]))
+})
