@@ -18,6 +18,7 @@ NULL
 #' @importFrom gtable gtable_row
 #' @importFrom gtable gtable_width
 #' @importFrom scales oob_censor_any
+#' @importFrom scales oob_squish
 #' @importFrom scales rescale
 #' @importFrom stats setNames
 #' @importFrom utils head

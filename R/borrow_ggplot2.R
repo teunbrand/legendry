@@ -278,3 +278,29 @@ rename_aes <- function(x) {
   }
   x
 }
+
+# ggplot2:::validate_guide
+validate_guide <- function(guide) {
+  if (is.character(guide)) {
+    find_global(
+      paste0("guide_", guide), ns = "gguidance", mode = "function"
+    )()
+  } else if (inherits(guide, "guide")) {
+    guide
+  } else {
+    abort(paste0("Unknown guide: ", guide, "."))
+  }
+}
+
+# ggplot2:::find_global
+find_global <- function(name, env = caller_env(),
+                        mode = "any", ns = "ggplot2") {
+  if (exists(name, envir = env, mode = mode)) {
+    return(get(name, envir = env, mode = mode))
+  }
+  nsenv <- asNamespace(ns)
+  if (exists(name, envir = nsenv, mode = mode)) {
+    return(get(name, envir = nsenv, mode = mode))
+  }
+  NULL
+}
