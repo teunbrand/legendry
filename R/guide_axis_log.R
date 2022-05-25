@@ -47,11 +47,13 @@ guide_axis_log <- function(
   pre_scaled = FALSE,
   minor_size = 0.75,
   mini_size  = 0.50,
+  major_size = NULL,
   ...
 ) {
   guide_axis_ext(
     minor_size = minor_size,
     mini_size  = mini_size,
+    major_size = major_size,
     pre_scaled = pre_scaled,
     base       = base,
     ...,

@@ -18,6 +18,7 @@ guide_axis_ext(
   colour = NULL,
   color = NULL,
   minor_size = NULL,
+  major_size = NULL,
   ...
 )
 }
@@ -74,6 +75,10 @@ settings are overruled.}
 relative to major axis ticks, as defined by the
 \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If \code{NULL} (default),
 minor axis ticks are not shown.}
+
+\item{major_size}{A \code{numeric(1)} giving the relative size of major ticks
+relative to the \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If
+\code{NULL} (default), major ticks are drawn to the theme's length.}
 
 \item{...}{Not currently used.}
 }

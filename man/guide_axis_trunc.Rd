@@ -49,6 +49,9 @@ settings are overruled.}
 relative to major axis ticks, as defined by the
 \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If \code{NULL} (default),
 minor axis ticks are not shown.}
+    \item{\code{major_size}}{A \code{numeric(1)} giving the relative size of major ticks
+relative to the \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If
+\code{NULL} (default), major ticks are drawn to the theme's length.}
     \item{\code{title}}{A character string or expression indicating a title of guide.
 If \code{NULL}, the title is not shown. By default
 (\code{\link[ggplot2:waiver]{waiver()}}), the name of the scale object or the name

@@ -4,13 +4,17 @@
 \alias{guide_axis_minor}
 \title{Axis guide with ticks for minor breaks}
 \usage{
-guide_axis_minor(minor_size = 0.75, ...)
+guide_axis_minor(minor_size = 0.75, major_size = 1, ...)
 }
 \arguments{
 \item{minor_size}{A \code{numeric(1)} giving the relative size of minor axis ticks
 relative to major axis ticks, as defined by the
 \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If \code{NULL} (default),
 minor axis ticks are not shown.}
+
+\item{major_size}{A \code{numeric(1)} giving the relative size of major ticks
+relative to the \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If
+\code{NULL} (default), major ticks are drawn to the theme's length.}
 
 \item{...}{
   Arguments passed on to \code{\link[=guide_axis_ext]{guide_axis_ext}}
@@ -76,6 +80,9 @@ p + guides(x = "axis_minor")
 
 # Controlling tick size relative to normal ticks
 p + guides(x = guide_axis_minor(minor_size = 2))
+
+# Only show minor ticks
+p + guides(x = guide_axis_minor(minor_size = 1, major_size = 0))
 }
 \seealso{
 Other axis variants: 

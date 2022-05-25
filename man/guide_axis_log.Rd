@@ -9,6 +9,7 @@ guide_axis_log(
   pre_scaled = FALSE,
   minor_size = 0.75,
   mini_size = 0.5,
+  major_size = NULL,
   ...
 )
 }
@@ -25,6 +26,10 @@ are already log transformed before seen by the scale.}
 \item{minor_size, mini_size}{A \code{numeric(1)} giving the relative size of the
 minor axis ticks, and 'mini' axis ticks respectively, in relation to the
 plot's \verb{axis.ticks.length.\{x/y\}.\{position\}} theme setting.}
+
+\item{major_size}{A \code{numeric(1)} giving the relative size of major ticks
+relative to the \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If
+\code{NULL} (default), major ticks are drawn to the theme's length.}
 
 \item{...}{Not currently used.}
 }

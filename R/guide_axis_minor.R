@@ -24,12 +24,17 @@
 #'
 #' # Controlling tick size relative to normal ticks
 #' p + guides(x = guide_axis_minor(minor_size = 2))
+#'
+#' # Only show minor ticks
+#' p + guides(x = guide_axis_minor(minor_size = 1, major_size = 0))
 guide_axis_minor <- function(
   minor_size = 0.75,
+  major_size = 1,
   ...
 ) {
   guide_axis_ext(
     minor_size = minor_size,
+    major_size = major_size,
     ...
   )
 }

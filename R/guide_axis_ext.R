@@ -32,6 +32,9 @@
 #'   relative to major axis ticks, as defined by the
 #'   `axis.ticks.length.{x/y}.{position}` theme element. If `NULL` (default),
 #'   minor axis ticks are not shown.
+#' @param major_size A `numeric(1)` giving the relative size of major ticks
+#'   relative to the `axis.ticks.length.{x/y}.{position}` theme element. If
+#'   `NULL` (default), major ticks are drawn to the theme's length.
 #'
 #' @inherit guide_axis_vanilla return
 #' @export
@@ -84,6 +87,7 @@ guide_axis_ext <- function(
 
   # Minor ticks
   minor_size     = NULL,
+  major_size     = NULL,
 
   ...
   ) {
@@ -112,6 +116,7 @@ guide_axis_ext <- function(
     trunc_upper    = trunc_upper,
     colour         = colour,
     minor_size     = minor_size,
+    major_size     = major_size,
     ...
   )
 }
@@ -154,7 +159,7 @@ GuideAxisExt <- ggproto(
     # Set length
     key$.length           <- params$mini_size  %||% 0
     key$.length[is_minor] <- params$minor_size %||% 0
-    key$.length[is_major] <- 1
+    key$.length[is_major] <- params$major_size %||% 1
 
     key <- vec_slice(key, !is.na(key[[aesthetic]]))
 
