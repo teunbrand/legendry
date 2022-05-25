@@ -65,20 +65,24 @@ ggplot(mpg, aes(displ, hwy)) +
 So far, the following has been implemented:
 
 -   **Axis guides**
-    -   `guide_axis_vanilla()`: a re-implementation of `guide_axis()`.
+    -   `guide_axis_vanilla()`: A re-implementation of `guide_axis()`.
     -   `guide_axis_ext()`: Extended options for axes.
     -   `guide_axis_minor()`: Axes with minor ticks.
     -   `guide_axis_trunc()`: Axes with truncated axis lines.
     -   `guide_axis_log()`: Axes with log10-based tickmarks.
 -   **Legend guides**
-    -   `guide_legend_vanilla()`: a re-implementation of
+    -   `guide_legend_vanilla()`: A re-implementation of
         `guide_legend()`.
     -   `guide_legend_cross()`: Combining two sets of labels in one
         legend.
 -   **Colour bar guides**
-    -   `guide_colourbar_vanilla()`: a re-implementation of
+    -   `guide_colourbar_vanilla()`: A re-implementation of
         `guide_colourbar()`.
     -   `guide_colourbar_cap()`: With cap decorations at the ends.
+-   **Coordinate guides** (a new feature in `coord_guided()`)
+    -   `guide_grid_vanilla()`: A re-implementation of default panel
+        grids.
+    -   `guide_grid_zebra()`: Alternating stripes at/between breaks.
 
 ## Notes
 
