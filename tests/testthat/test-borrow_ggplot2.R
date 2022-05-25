@@ -100,4 +100,29 @@ test_that("rename_aes warns appropriately", {
   expect_warning(rename_aes(x), "Duplicated aesthetics")
 })
 
+test_that("prtct_zlen returns NULL instead of zero-length vectors", {
+  x <- prtct_zlen("A")
+  expect_equal(x, "A")
 
+  x <- prtct_zlen(character())
+  expect_null(x)
+})
+
+test_that("validate_guide can find guides", {
+
+  x <- validate_guide("legend_cross")
+  expect_s3_class(x, "GuideLegendCross")
+
+  x <- validate_guide(guide_axis_vanilla())
+  expect_s3_class(x, "GuideAxis")
+
+  expect_error(
+    validate_guide(12),
+    "Unknown guide"
+  )
+})
+
+test_that("find global can search ggplot2 namespace", {
+  x <- find_global("geom_point", env = empty_env())()
+  expect_s3_class(x, "LayerInstance")
+})

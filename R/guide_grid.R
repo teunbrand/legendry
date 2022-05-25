@@ -139,6 +139,8 @@ GuideGrid <- ggproto(
       xgrid$major
     )
     args <- args[!vapply(args, is.null, logical(1))]
-    do.call("grobTree", args)
+    grob <- do.call("grobTree", args)
+    grob$name <- grobName(grob, "grill")
+    grob
   }
 )

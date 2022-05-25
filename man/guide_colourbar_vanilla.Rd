@@ -158,6 +158,7 @@ ggplot(mpg, aes(displ, hwy)) +
 \seealso{
 Other vanilla guides: 
 \code{\link{guide_axis_vanilla}()},
+\code{\link{guide_grid_vanilla}()},
 \code{\link{guide_legend_vanilla}()}
 
 Other colour bar variants: 

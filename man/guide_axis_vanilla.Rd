@@ -57,6 +57,7 @@ ggplot(mpg, aes(displ, hwy)) +
 \seealso{
 Other vanilla guides: 
 \code{\link{guide_colourbar_vanilla}()},
+\code{\link{guide_grid_vanilla}()},
 \code{\link{guide_legend_vanilla}()}
 
 Other axis variants: 

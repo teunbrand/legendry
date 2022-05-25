@@ -5,16 +5,26 @@
 #' This coordinate system offers the additional flexibility of being able to set
 #' a guide for the panel grid.
 #'
-#' @param guide A `<GuideGrid>` object.
+#' @param guide A `<GuideGrid>` object giving a guide to draw the grid with. Can
+#'   be constructed using functions listed in the 'See Also' section.
 #' @param ratio Either `NULL` (default) or `numeric(1)`. If `numeric(1)`, locks
 #'   the aspect ratio of panels, expressed as `y / x`.
 #' @inheritParams ggplot2::coord_cartesian
 #'
 #' @return A `<Coord>` ggproto object that can be added to a plot.
+#' @seealso Constructors: [`guide_grid_vanilla()`], [`guide_grid_zebra()`].
 #' @export
 #'
 #' @examples
-#' NULL
+#' # Either choose a guide by name...
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point() +
+#'   coord_guided(guide = "grid_zebra")
+#'
+#' # ... or using a constructor
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point() +
+#'   coord_guided(guide = guide_grid_zebra())
 coord_guided <- function(
   guide = guide_grid_vanilla(),
   xlim    = NULL, ylim    = NULL,
@@ -36,6 +46,10 @@ coord_guided <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 CoordGuided <- ggproto(
   "CoordGuided", CoordCartesian,
 
