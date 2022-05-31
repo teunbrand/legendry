@@ -8,8 +8,10 @@
 #' recolouring.
 #'
 #' @inheritParams guide_axis_vanilla
-#' @param subtitle A `character(1)` or `expression(1)` giving a subtitle for the
-#'   guide. If `NULL` (default), no subtitle will be shown.
+#' @param subtitle A `character()` or `expression()` giving a subtitle for the
+#'   guide. If `NULL` (default), no subtitle will be shown. If
+#'   `length(subtitle) > 1`, text will be distributed over axis and `hjust`
+#'   setting will be ignored.
 #' @param subtitle.theme An [`<element_text>`][ggplot2::element_text()] object
 #'   or `<element_blank>` object controlling the appearance of the `subtitle`
 #'   argument. By default, it inherits from the relevant
@@ -257,14 +259,55 @@ GuideAxisExt <- ggproto(
   },
 
   build_labels = function(elements, key, params) {
-    labels <- GuideAxis$build_labels(elements, key, params)
-    if (is.null(params$subtitle) || is_blank(elements$subtitle)) {
+    labels   <- GuideAxis$build_labels(elements, key, params)
+    subtitle <- params$subtitle
+    if (is.null(subtitle) || is_blank(elements$subtitle)) {
       return(labels)
     }
-    subtitle <- element_grob(
-      elements$subtitle,
-      label = params$subtitle[1]
-    )
+    margin <- paste0("margin_", params$alt_aes)
+    if (length(subtitle) > 1) {
+
+      # Distribute subtitle over axis length
+      ang <- elements$subtitle$angle[1] %% 360
+      pos <- seq(0, 1, length.out = length(subtitle))
+      ver <- (ang > 45 && ang < 135) || (ang > 225 && ang < 315)
+      jus <- if (ang >= 180) 1 - pos else pos
+
+      # Resolve text justification
+      vjust <- elements$subtitle$vjust
+      hjust <- elements$subtitle$hjust
+      if (params$vertical) {
+        if (ver) {
+          hjust <- jus
+        } else {
+          vjust <- jus
+        }
+      } else {
+        if (ver) {
+          vjust <- 1 - jus
+        } else {
+          hjust <- jus
+        }
+      }
+
+      subtitle <- exec(
+        .fn = element_grob,
+        element = elements$subtitle,
+        label   = subtitle,
+        hjust   = hjust,
+        vjust   = vjust,
+        !!params$aes     := unit(pos, "npc"),
+        !!params$alt_aes := unit(0.5, "npc"),
+        !!margin         := TRUE
+      )
+    } else {
+      subtitle <- exec(
+        .fn = element_grob,
+        element   = elements$subtitle,
+        label     = subtitle,
+        !!margin := TRUE
+      )
+    }
     c(labels, list(subtitle))
   },
 

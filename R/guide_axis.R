@@ -3,7 +3,8 @@
 #' Vanilla axis guide
 #'
 #' This is mostly a re-implementation of [`guide_axis()`][ggplot2::guide_axis()]
-#' with no noticeable changes.
+#' with one single change: if tick lengths are negative, the label placement is
+#' readjusted so it is placed outside the panel instead of inside the tick.
 #'
 #' @inheritParams ggplot2::guide_axis
 #' @param ... Not currently used.
@@ -285,13 +286,8 @@ GuideAxis <- ggproto(
     dodge_pos <- rep(seq_len(params$n.dodge), length.out = n_breaks)
     dodge_idx <- split(seq_len(n_breaks), dodge_pos)
 
-    if (params$vertical) {
-      aes    <- "y"
-      margin <- "margin_x"
-    } else {
-      aes    <- "x"
-      margin <- "margin_y"
-    }
+    aes    <- params$aes
+    margin <- paste0("margin_", params$alt_aes)
 
     key <- lapply(dodge_idx, function(idx) key[idx, , drop = FALSE])
     if (params$check.overlap) {

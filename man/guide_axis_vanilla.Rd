@@ -46,7 +46,8 @@ in a position scale.
 }
 \description{
 This is mostly a re-implementation of \code{\link[ggplot2:guide_axis]{guide_axis()}}
-with no noticeable changes.
+with one single change: if tick lengths are negative, the label placement is
+readjusted so it is placed outside the panel instead of inside the tick.
 }
 \examples{
 # Works in the same way as `guide_axis`.

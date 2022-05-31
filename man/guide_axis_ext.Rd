@@ -28,8 +28,10 @@ If \code{NULL}, the title is not shown. By default
 (\code{\link[ggplot2:waiver]{waiver()}}), the name of the scale object or the name
 specified in \code{\link[ggplot2:labs]{labs()}} is used for the title.}
 
-\item{subtitle}{A \code{character(1)} or \code{expression(1)} giving a subtitle for the
-guide. If \code{NULL} (default), no subtitle will be shown.}
+\item{subtitle}{A \code{character()} or \code{expression()} giving a subtitle for the
+guide. If \code{NULL} (default), no subtitle will be shown. If
+\code{length(subtitle) > 1}, text will be distributed over axis and \code{hjust}
+setting will be ignored.}
 
 \item{subtitle.theme}{An \code{\link[ggplot2:element]{<element_text>}} object
 or \verb{<element_blank>} object controlling the appearance of the \code{subtitle}

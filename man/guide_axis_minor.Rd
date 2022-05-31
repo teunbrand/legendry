@@ -19,8 +19,10 @@ relative to the \verb{axis.ticks.length.\{x/y\}.\{position\}} theme element. If
 \item{...}{
   Arguments passed on to \code{\link[=guide_axis_ext]{guide_axis_ext}}
   \describe{
-    \item{\code{subtitle}}{A \code{character(1)} or \code{expression(1)} giving a subtitle for the
-guide. If \code{NULL} (default), no subtitle will be shown.}
+    \item{\code{subtitle}}{A \code{character()} or \code{expression()} giving a subtitle for the
+guide. If \code{NULL} (default), no subtitle will be shown. If
+\code{length(subtitle) > 1}, text will be distributed over axis and \code{hjust}
+setting will be ignored.}
     \item{\code{subtitle.theme}}{An \code{\link[ggplot2:element]{<element_text>}} object
 or \verb{<element_blank>} object controlling the appearance of the \code{subtitle}
 argument. By default, it inherits from the relevant
