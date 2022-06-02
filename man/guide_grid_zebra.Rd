@@ -57,6 +57,7 @@ p + coord_guided("grid_zebra") +
 }
 \seealso{
 Other grid variants: 
+\code{\link{guide_grid_swap}()},
 \code{\link{guide_grid_vanilla}()}
 }
 \concept{grid variants}

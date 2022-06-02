@@ -26,6 +26,7 @@ Other vanilla guides:
 \code{\link{guide_legend_vanilla}()}
 
 Other grid variants: 
+\code{\link{guide_grid_swap}()},
 \code{\link{guide_grid_zebra}()}
 }
 \concept{grid variants}

@@ -2,7 +2,8 @@
 % Please edit documentation in R/coord_guided.R, R/gguidance-package.R,
 %   R/guide-.R, R/guide_axis.R, R/guide_axis_ext.R, R/guide_axis_log.R,
 %   R/guide_colourbar.R, R/guide_colourbar_cap.R, R/guide_grid.R,
-%   R/guide_grid_zebra.R, R/guide_legend.R, R/guide_legend_cross.R
+%   R/guide_grid_swap.R, R/guide_grid_zebra.R, R/guide_legend.R,
+%   R/guide_legend_cross.R
 \docType{data}
 \name{CoordGuided}
 \alias{CoordGuided}
@@ -14,6 +15,7 @@
 \alias{GuideColourbar}
 \alias{GuideColourbarCap}
 \alias{GuideGrid}
+\alias{GuideGridSwap}
 \alias{GuideGridZebra}
 \alias{GuideLegend}
 \alias{GuideLegendCross}

@@ -83,6 +83,9 @@ So far, the following has been implemented:
     -   `guide_grid_vanilla()`: A re-implementation of default panel
         grids.
     -   `guide_grid_zebra()`: Alternating stripes at/between breaks.
+    -   `guide_grid_swap()`: Displaying major grid as minor and minor
+        grid as major. Convenient for separating places in discrete
+        scales.
 
 ## Notes
 
