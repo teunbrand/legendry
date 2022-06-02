@@ -1,7 +1,11 @@
 test_that("guide_grid_swap() swaps gridlines", {
 
   p <- ggplot(mpg, aes(class)) +
-    geom_bar()
+    geom_bar() +
+    theme(
+      panel.grid.major = element_line(colour = "red"),
+      panel.grid.minor = element_line(colour = "blue")
+    )
 
   vdiffr::expect_doppelganger(
     "typical swap",
