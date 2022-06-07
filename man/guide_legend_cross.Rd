@@ -35,7 +35,7 @@ the first and second label should map to. Can either be
 \code{\link[ggplot2:element]{<element_text>}} (default) or \verb{<element_blank>}
 object controlling the appearance of horizontal (left/right) or vertical
 (top/bottom) labels respectively. These inherit from the \code{legend.text}
-setting the the plot's theme.}
+setting in the plot's theme.}
 
 \item{h_label.position, v_label.position}{A \code{character(1)} indicating the
 position of a label. \code{h_label.position} can be one of \code{"left"} or

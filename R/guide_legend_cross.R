@@ -23,7 +23,7 @@
 #'   [`<element_text>`][ggplot2::element_text()] (default) or `<element_blank>`
 #'   object controlling the appearance of horizontal (left/right) or vertical
 #'   (top/bottom) labels respectively. These inherit from the `legend.text`
-#'   setting the the plot's theme.
+#'   setting in the plot's theme.
 #' @param h_label.position,v_label.position A `character(1)` indicating the
 #'   position of a label. `h_label.position` can be one of `"left"` or
 #'   `"right"` (default), whereas `v_label.position` can be one of `"top"`
