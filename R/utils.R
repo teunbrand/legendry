@@ -29,7 +29,7 @@ arg_class <- function(
   msg <- paste0(
     arg_nm, " must be of the class ", class, ", not ", arg_class, "."
   )
-  abort(msg, call = caller_env())
+  abort(msg, call = error_call)
 }
 
 is_blank <- function(x) {inherits(x, "element_blank")}

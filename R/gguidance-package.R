@@ -17,6 +17,7 @@ NULL
 #' @importFrom gtable gtable_height
 #' @importFrom gtable gtable_row
 #' @importFrom gtable gtable_width
+#' @importFrom lifecycle deprecated
 #' @importFrom scales oob_censor_any
 #' @importFrom scales oob_squish
 #' @importFrom scales regular_minor_breaks
