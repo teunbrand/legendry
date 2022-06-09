@@ -70,6 +70,7 @@ So far, the following has been implemented:
    * `guide_axis_minor()`: Axes with minor ticks.
    * `guide_axis_trunc()`: Axes with truncated axis lines.
    * `guide_axis_log()`: Axes with log10-based tickmarks.
+   * `guide_axis_table()`: Place a table at tickmarks.
 * **Legend guides**
    * `guide_legend_vanilla()`: A re-implementation of `guide_legend()`.
    * `guide_legend_cross()`: Combining two sets of labels in one legend.

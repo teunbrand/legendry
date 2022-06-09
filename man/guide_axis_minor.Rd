@@ -90,6 +90,7 @@ p + guides(x = guide_axis_minor(minor_size = 1, major_size = 0))
 Other axis variants: 
 \code{\link{guide_axis_ext}()},
 \code{\link{guide_axis_log}()},
+\code{\link{guide_axis_table}()},
 \code{\link{guide_axis_trunc}()},
 \code{\link{guide_axis_vanilla}()}
 }

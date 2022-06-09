@@ -114,6 +114,7 @@ Other axis variants:
 \code{\link{guide_axis_ext}()},
 \code{\link{guide_axis_log}()},
 \code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_table}()},
 \code{\link{guide_axis_vanilla}()}
 }
 \concept{axis variants}

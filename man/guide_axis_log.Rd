@@ -69,6 +69,7 @@ ggplot(pressure, aes(temperature, pressure)) +
 Other axis variants: 
 \code{\link{guide_axis_ext}()},
 \code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_table}()},
 \code{\link{guide_axis_trunc}()},
 \code{\link{guide_axis_vanilla}()}
 }
