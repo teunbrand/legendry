@@ -24,6 +24,9 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/teunbrand/gguidance/branch/master/graph/badge.svg)](https://app.codecov.io/gh/teunbrand/gguidance?branch=master)
 <!-- badges: end -->
 
+> **Warning**
+> Don't rely on current functionality for important scripts yet. It is very likely that ggplot2 changes their implementation of guides in the release *after* 3.4.0. At that point, the current functionality will cease to work.
+
 The goal of gguidance is to provide additional guides to the ggplot2 ecosystem. Guides are re-implemented within the ggproto system to make use of the flexible extension framework.
 
 Please note that this repo is still being worked on and, while probably usable, isn't finished.

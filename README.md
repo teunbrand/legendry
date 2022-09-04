@@ -14,6 +14,11 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 coverage](https://codecov.io/gh/teunbrand/gguidance/branch/master/graph/badge.svg)](https://app.codecov.io/gh/teunbrand/gguidance?branch=master)
 <!-- badges: end -->
 
+> **Warning** Don’t rely on current functionality for important scripts
+> yet. It is very likely that ggplot2 changes their implementation of
+> guides in the release *after* 3.4.0. At that point, the current
+> functionality will cease to work.
+
 The goal of gguidance is to provide additional guides to the ggplot2
 ecosystem. Guides are re-implemented within the ggproto system to make
 use of the flexible extension framework.
@@ -44,6 +49,10 @@ ggplot(msleep, aes(bodywt, sleep_total)) +
   geom_point(aes(colour = sleep_rem)) +
   scale_colour_viridis_c(guide = "colourbar_cap") +
   scale_x_log10(guide = "axis_log")
+#> Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+#> Please use the `linewidth` argument instead.
+#> Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+#> Please use the `linewidth` argument instead.
 ```
 
 <img src="man/figures/README-example-1.png" width="80%" />
