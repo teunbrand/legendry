@@ -14,14 +14,11 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 coverage](https://codecov.io/gh/teunbrand/gguidance/branch/master/graph/badge.svg)](https://app.codecov.io/gh/teunbrand/gguidance?branch=master)
 <!-- badges: end -->
 
-> **Warning** Don’t rely on current functionality for important scripts
-> yet. It is very likely that ggplot2 changes their implementation of
-> guides in the release *after* 3.4.0. At that point, the current
-> functionality will cease to work.
+> **Warning** You’re looking at an experimental branch that explores
+> guide extensions with an upcoming ggproto overhaul in ggplot2.
 
 The goal of gguidance is to provide additional guides to the ggplot2
-ecosystem. Guides are re-implemented within the ggproto system to make
-use of the flexible extension framework.
+ecosystem.
 
 Please note that this repo is still being worked on and, while probably
 usable, isn’t finished.
@@ -32,73 +29,15 @@ You can install the development version of gguidance from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("teunbrand/gguidance")
+# install.packages("remotes")
+remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("5096"))
+remotes::install_github("teunbrand/gguidance", ref = "main")
 ```
 
 ## Examples
 
-Here is a simple example of how to use an axis guide and a colour bar
-guide.
-
 ``` r
 library(gguidance)
 #> Loading required package: ggplot2
-
-ggplot(msleep, aes(bodywt, sleep_total)) +
-  geom_point(aes(colour = sleep_rem)) +
-  scale_colour_viridis_c(guide = "colourbar_cap") +
-  scale_x_log10(guide = "axis_log")
-#> Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
-#> Please use the `linewidth` argument instead.
-#> Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
-#> Please use the `linewidth` argument instead.
+# no examples yet
 ```
-
-<img src="man/figures/README-example-1.png" width="80%" />
-
-Demonstrating a cross legend and axis subtitles.
-
-``` r
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = paste(cyl, year))) +
-  guides(colour = "legend_cross",
-         x = guide_axis_ext(subtitle = "litres"),
-         y = guide_axis_ext(subtitle = "miles per gallon"))
-```
-
-<img src="man/figures/README-example2-1.png" width="80%" />
-
-## Progress
-
-So far, the following has been implemented:
-
--   **Axis guides**
-    -   `guide_axis_vanilla()`: A re-implementation of `guide_axis()`.
-    -   `guide_axis_ext()`: Extended options for axes.
-    -   `guide_axis_minor()`: Axes with minor ticks.
-    -   `guide_axis_trunc()`: Axes with truncated axis lines.
-    -   `guide_axis_log()`: Axes with log10-based tickmarks.
-    -   `guide_axis_table()`: Place a table at tickmarks.
--   **Legend guides**
-    -   `guide_legend_vanilla()`: A re-implementation of
-        `guide_legend()`.
-    -   `guide_legend_cross()`: Combining two sets of labels in one
-        legend.
--   **Colour bar guides**
-    -   `guide_colourbar_vanilla()`: A re-implementation of
-        `guide_colourbar()`.
-    -   `guide_colourbar_cap()`: With cap decorations at the ends.
--   **Coordinate guides** (a new feature in `coord_guided()`)
-    -   `guide_grid_vanilla()`: A re-implementation of default panel
-        grids.
-    -   `guide_grid_zebra()`: Alternating stripes at/between breaks.
-    -   `guide_grid_swap()`: Displaying major grid as minor and minor
-        grid as major. Convenient for separating places in discrete
-        scales.
-
-## Notes
-
-A medium-term goal is to move and refactor guides from the {ggh4x}
-package to {gguidance}. A longer-term goal is to make this package a hub
-for additional axes, legends and other guides.
