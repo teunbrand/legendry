@@ -8,6 +8,19 @@ as_unit <- function(x, unit) {
 seq_row <- function(x) {seq_len(NROW(x))}
 seq_col <- function(x) {seq_len(NCOL(x))}
 
+chr_vapply <- function(
+    X, FUN, FUN.VALUE = character(1),
+    ..., USE.NAMES = FALSE
+) {
+  vapply(X, FUN, FUN.VALUE = FUN.VALUE, ..., USE.NAMES = USE.NAMES)
+}
+
+# Conditional lapply
+clapply <- function(x, test, fun, ...) {
+  x[test] <- lapply(x[test], fun, ...)
+  x
+}
+
 # Function for checking object class is as expected
 arg_class <- function(
   arg, class,
