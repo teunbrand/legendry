@@ -6,31 +6,6 @@
 # applies to the ggplot2 package and can be found at the link below:
 # https://ggplot2.tidyverse.org/LICENSE.html
 
-# ggplot2:::warn_for_guide_position()
-check_position <- function(guide) {
-  key <- guide$key
-  breaks_are_unique <- !duplicated(key$.value)
-  empty <- is.null(key) || nrow(key) == 0 || ncol(key) == 0
-  empty <- empty || inherits(key, "waiver")
-  if (empty || sum(breaks_are_unique) == 1) {
-    return()
-  }
-  if (guide$position %in% c("top", "bottom")) {
-    pos_aes <- "x"
-  } else if (guide$position %in% c("left", "right")) {
-    pos_aes <- "y"
-  } else {
-    return()
-  }
-
-  if (length(unique(key[[pos_aes]][breaks_are_unique])) == 1) {
-    warn(paste0(
-      "Position guide is perpendicular to the intended axis. ",
-      "Did you mean to specify a different guide `position`?"
-    ))
-  }
-}
-
 # ggplot2:::snake_class() + ggplot2:::snakeize()
 snake_class <- function(x) {
   x <- class(x)[1]
