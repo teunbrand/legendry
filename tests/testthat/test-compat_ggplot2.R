@@ -56,8 +56,8 @@ test_that("justify_grobs signals problems", {
 })
 
 test_that("combine_elements combines elements", {
-  test <- combine_elements(element_line(size = 8), element_line(colour = "blue"))
-  expect_equal(test$size, 8)
+  test <- combine_elements(element_line(linewidth = 8), element_line(colour = "blue"))
+  expect_equal(test$linewidth, 8)
   expect_equal(test$colour, "blue")
   expect_s3_class(test, "element_line")
 
@@ -67,11 +67,11 @@ test_that("combine_elements combines elements", {
   test <- combine_elements(element_line(inherit.blank = TRUE), element_blank())
   expect_s3_class(test, "element_blank")
 
-  test <- combine_elements(element_blank(), element_line(size = 8))
+  test <- combine_elements(element_blank(), element_line(linewidth = 8))
   expect_s3_class(test, "element_blank")
 
-  test <- combine_elements(element_line(size = rel(0.5)), element_line(size = 4))
-  expect_equal(test$size, 2)
+  test <- combine_elements(element_line(linewidth = rel(0.5)), element_line(linewidth = 4))
+  expect_equal(test$linewidth, 2)
 
   test <- combine_elements("foo", "bar")
   expect_equal(test, "foo")
@@ -106,20 +106,6 @@ test_that("prtct_zlen returns NULL instead of zero-length vectors", {
 
   x <- prtct_zlen(character())
   expect_null(x)
-})
-
-test_that("validate_guide can find guides", {
-
-  x <- validate_guide("legend_cross")
-  expect_s3_class(x, "GuideLegendCross")
-
-  x <- validate_guide(guide_axis_vanilla())
-  expect_s3_class(x, "GuideAxis")
-
-  expect_error(
-    validate_guide(12),
-    "Unknown guide"
-  )
 })
 
 test_that("find global can search ggplot2 namespace", {

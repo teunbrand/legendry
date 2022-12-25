@@ -26,7 +26,7 @@ elements_text(
 
 \item{colour, color}{Line/border colour. Color is an alias for colour.}
 
-\item{size}{Line/border size in mm; text size in pts.}
+\item{size}{text size in pts.}
 
 \item{hjust}{Horizontal justification (in \eqn{[0, 1]})}
 

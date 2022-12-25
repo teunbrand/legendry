@@ -237,6 +237,11 @@ combine_elements <- function(e1, e2) {
     e1$size <- e2$size * unclass(e1$size)
   }
 
+  # Calculate relative linewidth
+  if (inherits(e1$linewidth, "rel")) {
+    e1$linewidth <- e2$linewidth * unclass(e1$linewidth)
+  }
+
   e1
 }
 
@@ -278,4 +283,9 @@ find_global <- function(name, env = caller_env(),
     return(get(name, envir = nsenv, mode = mode))
   }
   NULL
+}
+
+ggname <- function(prefix, grob) {
+  grob$name <- grobName(grob, prefix)
+  grob
 }
