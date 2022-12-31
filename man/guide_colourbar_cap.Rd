@@ -113,7 +113,7 @@ for which a colourbar can be drawn.}
 \value{
 A \verb{<Guide>} ggproto object that can be given to the
 \code{\link[ggplot2:guides]{guides()}} function, or set as the \code{guide} argument
-in a non-position scale.
+in a colour or fill scale.
 }
 \description{
 Like regular colour bar guides, this capped colour bar guide also shows
