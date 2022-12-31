@@ -23,6 +23,7 @@ NULL
 #' @importFrom scales regular_minor_breaks
 #' @importFrom scales rescale
 #' @importFrom stats setNames
+#' @importFrom utils adist
 #' @importFrom utils head
 #' @importFrom vctrs new_data_frame
 #' @importFrom vctrs vec_assert

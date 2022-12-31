@@ -19,7 +19,7 @@
 #'
 #' @return A `<Guide>` ggproto object that can be given to the
 #'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument
-#'   in a non-position scale.
+#'   in a colour or fill scale.
 #'
 #' @export
 #' @name guide_colourbar_cap
@@ -220,7 +220,7 @@ cap_assemble_drawing = function(grobs, layout, sizes, params, elements) {
   gt <- GuideColourbar$assemble_drawing(grobs, layout, sizes, params, elements)
   cap_size <- elements$cap_size
   position <- unlist(params$cap_position, FALSE, FALSE)
-  cap_size <- unit(cap_size * position, "cm")
+  cap_size <- unit(cap_size, "cm") * as.numeric(position)
 
   if (params$direction == "horizontal") {
     i <- layout$layout$key_col[1] + c(-1, 1)

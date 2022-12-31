@@ -10,7 +10,6 @@ test_that("All directions and cap shapes work", {
   guides <- guides$setup(scales = list(sc))
   guides$train(list(sc), "vertical", list(colour = "Title"))
 
-
   params <- guides$params[[1]]
   params$title.position <- "top"
 
