@@ -15,8 +15,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
-Depends: 
-    ggplot2
 Imports: 
     cli,
     glue,
@@ -32,4 +30,8 @@ Suggests:
     covr,
     testthat (>= 3.0.0),
     vdiffr
+Remotes:
+   tidyverse/ggplot2#5096
 Config/testthat/edition: 3
+Depends: 
+    ggplot2
