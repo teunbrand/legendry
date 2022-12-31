@@ -2,6 +2,8 @@
 
 export(elements_text)
 export(guide_axis_table)
+export(guide_colorbar_cap)
+export(guide_colourbar_cap)
 export(guide_legend_cross)
 import(ggplot2)
 import(grid)
