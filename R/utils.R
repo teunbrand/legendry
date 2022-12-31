@@ -50,3 +50,7 @@ is_blank <- function(x) {inherits(x, "element_blank")}
 prtct_zlen <- function(x) {
   if (length(x) == 0) return(NULL) else x
 }
+
+data_frame0 <- function(...) {
+  data_frame(..., .name_repair = "minimal")
+}

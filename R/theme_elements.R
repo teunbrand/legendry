@@ -100,3 +100,10 @@ distribute_args <- function(..., .fun = element_text, .cull = TRUE) {
     do.call(.fun, arg)
   })
 }
+
+# Theme unions ------------------------------------------------------------
+
+.text_or_blank <- c("element_text", "element_blank")
+.line_or_blank <- c("element_line", "element_blank")
+.rect_or_blank <- c("element_rect", "element_blank")
+
