@@ -43,7 +43,12 @@ remotes::install_github("teunbrand/gguidance", ref = "main")
 
 ## Examples
 
+Demonstrating a 'cross legend'.
+
 ```{r example}
 library(gguidance)
-# no examples yet
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = paste(cyl, year))) +
+  guides(colour = "legend_cross")
 ```
