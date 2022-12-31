@@ -20,6 +20,7 @@ NULL
 #' @importFrom lifecycle deprecated
 #' @importFrom scales oob_censor_any
 #' @importFrom scales oob_squish
+#' @importFrom scales oob_squish_infinite
 #' @importFrom scales regular_minor_breaks
 #' @importFrom scales rescale
 #' @importFrom stats setNames
