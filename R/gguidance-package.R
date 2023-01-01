@@ -26,8 +26,13 @@ NULL
 #' @importFrom stats setNames
 #' @importFrom utils adist
 #' @importFrom utils head
+#' @importFrom utils tail
+#' @importFrom vctrs field
 #' @importFrom vctrs new_data_frame
+#' @importFrom vctrs new_rcrd
 #' @importFrom vctrs vec_assert
+#' @importFrom vctrs vec_c
+#' @importFrom vctrs vec_group_rle
 #' @importFrom vctrs vec_interleave
 #' @importFrom vctrs vec_ptype_full
 #' @importFrom vctrs vec_slice

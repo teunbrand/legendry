@@ -98,6 +98,22 @@ prtct_zlen <- function(x) {
 data_frame0 <- function(...) {
   data_frame(..., .name_repair = "minimal")
 }
+
+absolute_element <- function(element, ..., width, height) {
+  gTree(
+    children = gList(
+      exec(
+        element_grob,
+        element = element,
+        ...
+      )
+    ),
+    width = width, height = height,
+    xmin = NULL, ymin = NULL, vp = NULL,
+    cl = "absoluteGrob"
+  )
+}
+
 # Run length encoding utilities -------------------------------------------
 
 new_rle <- function(x = NULL, lengths = NULL, alt = NULL) {
@@ -135,3 +151,4 @@ rle_start <- function(rle) {
 
 rle_inv <- function(rle) {
   rep.int(field(rle, "group"), field(rle, "length"))
+}
