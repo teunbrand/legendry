@@ -154,6 +154,7 @@ p + theme(plot.margin = margin(l = 32))
 Other axis variants: 
 \code{\link{guide_axis_cap}()},
 \code{\link{guide_axis_extend}()},
-\code{\link{guide_axis_minor}()}
+\code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_nested}()}
 }
 \concept{axis variants}

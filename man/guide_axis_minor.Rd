@@ -92,6 +92,7 @@ p + guides(x = guide_axis_minor(minor_size = 1, major_size = 0))
 Other axis variants: 
 \code{\link{guide_axis_cap}()},
 \code{\link{guide_axis_extend}()},
+\code{\link{guide_axis_nested}()},
 \code{\link{guide_axis_table}()}
 }
 \concept{axis variants}

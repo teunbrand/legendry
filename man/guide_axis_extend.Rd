@@ -98,6 +98,10 @@ options for axis capping, display of minor ticks, subtitles and convenient
 recolouring.
 }
 \examples{
+# For examples with minor ticks or capping, please see:
+# ?guide_axis_minor
+# ?guide_axis_cap
+
 # A basic plot with an axis line
 p <- ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
@@ -125,6 +129,7 @@ p + guides(x = guide_axis_extend(
 Other axis variants: 
 \code{\link{guide_axis_cap}()},
 \code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_nested}()},
 \code{\link{guide_axis_table}()}
 }
 \concept{axis variants}

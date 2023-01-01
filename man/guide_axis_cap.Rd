@@ -79,30 +79,31 @@ p <- ggplot(mpg, aes(displ, hwy)) +
   theme(axis.line = element_line())
 
 # By default, axis lines are truncated to extreme breaks
-p + guides(x = "axis_trunc")
+p + guides(x = "axis_cap")
 
 # Turn off truncation at only one end
-p + guides(x = guide_axis_trunc(trunc_upper = NULL))
+p + guides(x = guide_axis_cap(cap_upper = NULL))
 
 # Truncated at specific data values
-p + guides(x = guide_axis_trunc(trunc_lower = 3, trunc_upper = 6))
+p + guides(x = guide_axis_cap(cap_lower = 3, cap_upper = 6))
 
 # Truncated at some distance
-p + guides(x = guide_axis_trunc(
-  trunc_lower = unit(3, "cm"),
-  trunc_upper = unit(1, "npc") - unit(3, "cm")
+p + guides(x = guide_axis_cap(
+  cap_lower = unit(3, "cm"),
+  cap_upper = unit(1, "npc") - unit(3, "cm")
 ))
 
 # Truncation with functions take existing breaks as input
-p + guides(x = guide_axis_trunc(
-  trunc_lower = function(x) x - 0.3,
-  trunc_upper = ~ .x + 0.3 # rlang lambda syntax function
+p + guides(x = guide_axis_cap(
+  cap_lower = function(x) x - 0.3,
+  cap_upper = ~ .x + 0.3 # rlang lambda syntax function
 ))
 }
 \seealso{
 Other axis variants: 
 \code{\link{guide_axis_extend}()},
 \code{\link{guide_axis_minor}()},
+\code{\link{guide_axis_nested}()},
 \code{\link{guide_axis_table}()}
 }
 \concept{axis variants}
