@@ -25,6 +25,7 @@
 #'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument
 #'   in a colour or fill scale.
 #' @export
+#' @family colour bar variants
 #'
 #' @examples
 #' # A standard plot with continuous colour scale

@@ -141,4 +141,8 @@ p + guides(colour = guide_colourbar_cap(cap_position = "upper"))
 p + guides(colour = guide_colourbar_cap(cap_size  = unit(1, "cm"),
                                         cap_shape = "round"))
 }
+\seealso{
+Other colour bar variants: 
+\code{\link{guide_colour_violin}()}
+}
 \concept{colour bar variants}
