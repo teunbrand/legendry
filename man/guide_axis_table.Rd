@@ -150,4 +150,10 @@ p
 # This can be remedied by setting the plot margins appropriately
 p + theme(plot.margin = margin(l = 32))
 }
+\seealso{
+Other axis variants: 
+\code{\link{guide_axis_cap}()},
+\code{\link{guide_axis_extend}()},
+\code{\link{guide_axis_minor}()}
+}
 \concept{axis variants}
