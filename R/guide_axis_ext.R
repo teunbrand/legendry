@@ -142,7 +142,7 @@ guide_axis_extend <- function(
     position       = position,
     name           = "axis",
     available_aes  = c("x", "y"),
-    ...,
+    !!!args,
     super          = super
   )
 }
@@ -206,7 +206,7 @@ GuideAxisExtend <- ggproto(
     check_axis_cap(cap_lower, cap_upper)
 
     # Make data.frame
-    cap <- data_frame0(start = cap_lower, end = cap_upper)
+    cap <- new_data_frame(list(start = cap_lower, end = cap_upper))
     cap <- cap[!is.na(cap_lower) & !is.na(cap_upper), , drop = FALSE]
     colnames(cap) <- paste0(aesthetic, c("", "end"))
     cap
@@ -274,7 +274,7 @@ GuideAxisExtend <- ggproto(
       element_grob,
       element = elements$line,
       !!params$aes      := pos,
-      !!params$orth_aes := unit(rep(params$orth_side, 2), "npc")
+      !!params$orth_aes := unit(rep(params$orth_side, length(pos)), "npc")
     )
   },
 
