@@ -98,3 +98,40 @@ prtct_zlen <- function(x) {
 data_frame0 <- function(...) {
   data_frame(..., .name_repair = "minimal")
 }
+# Run length encoding utilities -------------------------------------------
+
+new_rle <- function(x = NULL, lengths = NULL, alt = NULL) {
+
+  if (!is.null(lengths)) {
+    new_rcrd(
+      list(
+        group  = seq_along(lengths),
+        length = as.integer(lengths)
+      ),
+      n     = length(lengths),
+      class = "vctrs_group_rle"
+    )
+  } else if (!is.null(x)) {
+    vec_group_rle(x)
+  } else {
+    new_rcrd(
+      list(
+        group  = 1L,
+        length = alt
+      ),
+      n     = 1L,
+      class = "vctrs_group_rle"
+    )
+  }
+}
+
+rle_end <- function(rle) {
+  cumsum(field(rle, "length"))
+}
+
+rle_start <- function(rle) {
+  c(1L, rle_end(rle)[-length(rle)] + 1L)
+}
+
+rle_inv <- function(rle) {
+  rep.int(field(rle, "group"), field(rle, "length"))
