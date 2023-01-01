@@ -43,33 +43,76 @@ remotes::install_github("teunbrand/gguidance", ref = "main")
 
 ## Examples
 
+Let's first set up a basic plot to experiment with
+
+```{r setup}
+library(gguidance)
+
+p <- ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  labs(
+    x = "Engine displacement",
+    y = "Highway miles per gallon"
+  ) +
+  theme(axis.line = element_line())
+```
+
+### Legends
+
 A 'cross legend' can show two variables in a single legend.
 
 ```{r legend_cross}
-library(gguidance)
-
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = paste(cyl, year))) +
+p + aes(colour = paste(cyl, year)) +
   guides(colour = "legend_cross")
 ```
 
-A capped legend:
+### Colour bars
+
+A capped colour bar:
 
 ```{r colourbar_cap}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = cty)) +
-  scale_colour_viridis_c() +
-  guides(colour = guide_colourbar_cap())
+p + aes(colour = cty) +
+  scale_colour_viridis_c(guide = "colourbar_cap")
 ```
 
 Using a violin as a colour guide:
 
 ```{r colour_violin}
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point(aes(colour = cty)) +
-  scale_colour_viridis_c(
-    guide = guide_colour_violin(density = mpg$cty)
-  )
+p + aes(colour = cty) +
+  scale_colour_viridis_c(guide = guide_colour_violin(density = mpg$cty))
+```
+
+### Axes
+
+Using subtitles.
+
+```{r axis_extend}
+p + guides(x = guide_axis_extend(subtitle = c("Less", "More")))
+```
+
+Using minor ticks.
+
+```{r axis_minor}
+p + guides(x = "axis_minor")
+```
+
+Using capped lines.
+
+```{r axis_cap}
+p + guides(x = "axis_cap")
+```
+
+With bracketed ranges.
+
+```{r axis_nested}
+ggplot(mpg, aes(class, displ)) +
+  geom_boxplot() +
+  guides(x = guide_axis_nested(
+    range_start = c(0.5, 3.5),
+    range_end   = c(4.5, 6.5),
+    range_name  = c("First range", "Second range"),
+    bracket     = "square" 
+  ))
 ```
 
 
