@@ -71,167 +71,6 @@ guide_colourbar_cap <- function(
 #' @export
 guide_colorbar_cap <- guide_colourbar_cap
 
-# #' @export
-# #' @inheritParams guide_coloursteps
-# #' @rdname guide_colourbar_cap
-# guide_coloursteps_cap <- function(
-#   cap_shape    = "triangle",
-#   cap_size     = NULL,
-#   cap_position = "both",
-#   even.steps   = TRUE,
-#   show.limits  = NULL,
-#   ticks        = element_blank(),
-#   ...
-# ) {
-#
-#   cap_shape    <- arg_match0(cap_shape, c("triangle", "round", "arched"))
-#   cap_position <- arg_match0(cap_position, c("lower", "upper", "both"))
-#   cap_position <- list(
-#     lower = cap_position %in% c("lower", "both"),
-#     upper = cap_position %in% c("upper", "both")
-#   )
-#   cap_size <- arg_class(cap_size, c("NULL", "unit"))[1]
-#
-#   guide_colourbar(
-#     cap_shape    = cap_shape,
-#     cap_size     = cap_size,
-#     cap_position = cap_position,
-#     even.steps   = even.steps,
-#     show.limits  = show.limits,
-#     ticks        = ticks,
-#     nbin         = 100,
-#     raster       = FALSE,
-#     ...,
-#     super = GuideColourstepsCap
-#   )
-# }
-
-# Functions ---------------------------------------------------------------
-
-cap_override_elements = function(params, elements, theme) {
-  elements <- GuideColourbar$override_elements(params, elements, theme)
-
-  cap_size     <- params$cap_size
-
-  # Resolve cap size
-  if (is.null(cap_size)) {
-    if (params$direction == "horizontal") {
-      cap_size <- 0.5 * elements$key.height
-    } else {
-      cap_size <- 0.5 * elements$key.width
-    }
-    if (params$cap_shape != "round") {
-      cap_size <- sin((2 * pi) / 3) * cap_size * 2
-    }
-  }
-
-  elements$cap_size <- cap_size
-  elements
-}
-
-cap_build_decor <- function(decor, ticks, elements, params) {
-  bargrob <- GuideColourbar$build_decor(decor, ticks, elements, params)
-  bar <- bargrob$bar
-
-  direction <- params$direction
-  position  <- params$cap_position
-  width     <- elements$key.width
-  height    <- elements$key.height
-
-  size <- elements$cap_size
-  orth <- if (direction == "horizontal") height else width
-
-  switch(
-    params$cap_shape,
-    triangle = {
-      x <- c(0, 0.5, 1)
-      y <- c(0,   1, 0)
-    },
-    round = {
-      t <- seq(1, 0, length.out = 100) * pi
-      x <- cos(t) * 0.5 + 0.5
-      y <- sin(t)
-    },
-    arched = {
-      t <- seq((1 * pi) / 3, 0, length.out = 50)
-      x <- c(1 - rev(cos(t)), cos(t))
-      y <- c(rev(sin(t)), sin(t)) / sin(head(t, 1))
-    }
-  )
-
-  major <- unit(y * size, "cm")
-  minor <- unit(x * orth, "cm")
-  minor <- unit.c(unit(0, "npc"), minor, unit(1, "npc"))
-  n <- length(minor)
-
-  if (position$lower && position$upper) {
-    major <- unit.c(unit(-1, "pt"), major, unit(-1, "pt"))
-    major <- unit.c(major + unit(1, "npc"), unit(0, "npc") - major)
-    minor <- unit.c(minor, rev(minor))
-    id    <- 1:2
-    fill  <- decor$colour[c(nrow(decor), 1)]
-  } else {
-    major <- unit.c(unit(-1, "pt"), major, unit(-1, "pt"))
-    id    <- 1
-    if (position$lower) {
-      major <- unit(0, "npc") - major
-      fill  <- decor$colour[1]
-    } else {
-      major <- unit(1, "npc") + major
-      fill  <- decor$colour[nrow(decor)]
-    }
-  }
-
-  if (direction == "horizontal") {
-    x <- major
-    y <- minor
-  } else {
-    x <- minor
-    y <- major
-  }
-
-  caps <- polygonGrob(
-    x = x, y = y,
-    id = rep(id, each = n),
-    gp = gpar(fill = fill, col = NA)
-  )
-
-  frame <- elements$frame
-  if (!is_blank(frame)) {
-    frame <- polygonGrob(
-      x = x, y = y,
-      gp = gpar(
-        fill = frame$fill,
-        col  = frame$colour,
-        lwd  = if (length(frame$size) == 0) NULL else (frame$size * .pt),
-        lty  = frame$linetype
-      )
-    )
-  } else {
-    frame <- zeroGrob()
-  }
-
-  list(
-    cap = caps, bar = bargrob$bar, frame = frame, ticks = bargrob$ticks
-  )
-}
-
-cap_assemble_drawing = function(grobs, layout, sizes, params, elements) {
-  gt <- GuideColourbar$assemble_drawing(grobs, layout, sizes, params, elements)
-  cap_size <- elements$cap_size
-  position <- unlist(params$cap_position, FALSE, FALSE)
-  cap_size <- unit(cap_size, "cm") * as.numeric(position)
-
-  if (params$direction == "horizontal") {
-    i <- layout$layout$key_col[1] + c(-1, 1)
-    gt$widths[i] <- gt$widths[i] + cap_size
-  } else {
-    i <- layout$layout$key_row[1] + c(-1, 1)
-    gt$heights[i] <- gt$heights[i] + rev(cap_size)
-  }
-  gt
-}
-
 # Classes ------------------------------------------------------------------
 
 GuideColourbarCap <- ggproto(
@@ -241,22 +80,129 @@ GuideColourbarCap <- ggproto(
     list(cap_shape = "triangle", cap_size = NULL, cap_position = "both",
          steps = FALSE)
   ),
-  override_elements = cap_override_elements,
-  build_decor       = cap_build_decor,
-  assemble_drawing  = cap_assemble_drawing
+
+  override_elements = function(params, elements, theme) {
+    elements <- GuideColourbar$override_elements(params, elements, theme)
+
+    cap_size     <- params$cap_size
+
+    # Resolve cap size
+    if (is.null(cap_size)) {
+      if (params$direction == "horizontal") {
+        cap_size <- 0.5 * elements$key.height
+      } else {
+        cap_size <- 0.5 * elements$key.width
+      }
+      if (params$cap_shape != "round") {
+        cap_size <- sin((2 * pi) / 3) * cap_size * 2
+      }
+    }
+
+    elements$cap_size <- cap_size
+    elements
+  },
+
+  build_decor       = function(decor, ticks, elements, params) {
+    bargrob <- GuideColourbar$build_decor(decor, ticks, elements, params)
+    bar <- bargrob$bar
+
+    direction <- params$direction
+    position  <- params$cap_position
+    width     <- elements$key.width
+    height    <- elements$key.height
+
+    size <- elements$cap_size
+    orth <- if (direction == "horizontal") height else width
+
+    switch(
+      params$cap_shape,
+      triangle = {
+        x <- c(0, 0.5, 1)
+        y <- c(0,   1, 0)
+      },
+      round = {
+        t <- seq(1, 0, length.out = 100) * pi
+        x <- cos(t) * 0.5 + 0.5
+        y <- sin(t)
+      },
+      arched = {
+        t <- seq((1 * pi) / 3, 0, length.out = 50)
+        x <- c(1 - rev(cos(t)), cos(t))
+        y <- c(rev(sin(t)), sin(t)) / sin(head(t, 1))
+      }
+    )
+
+    major <- unit(y * size, "cm")
+    minor <- unit(x * orth, "cm")
+    minor <- unit.c(unit(0, "npc"), minor, unit(1, "npc"))
+    n <- length(minor)
+
+    if (position$lower && position$upper) {
+      major <- unit.c(unit(-1, "pt"), major, unit(-1, "pt"))
+      major <- unit.c(major + unit(1, "npc"), unit(0, "npc") - major)
+      minor <- unit.c(minor, rev(minor))
+      id    <- 1:2
+      fill  <- decor$colour[c(nrow(decor), 1)]
+    } else {
+      major <- unit.c(unit(-1, "pt"), major, unit(-1, "pt"))
+      id    <- 1
+      if (position$lower) {
+        major <- unit(0, "npc") - major
+        fill  <- decor$colour[1]
+      } else {
+        major <- unit(1, "npc") + major
+        fill  <- decor$colour[nrow(decor)]
+      }
+    }
+
+    if (direction == "horizontal") {
+      x <- major
+      y <- minor
+    } else {
+      x <- minor
+      y <- major
+    }
+
+    caps <- polygonGrob(
+      x = x, y = y,
+      id = rep(id, each = n),
+      gp = gpar(fill = fill, col = NA)
+    )
+
+    frame <- elements$frame
+    if (!is_blank(frame)) {
+      frame <- polygonGrob(
+        x = x, y = y,
+        gp = gpar(
+          fill = frame$fill,
+          col  = frame$colour,
+          lwd  = if (length(frame$size) == 0) NULL else (frame$size * .pt),
+          lty  = frame$linetype
+        )
+      )
+    } else {
+      frame <- zeroGrob()
+    }
+
+    list(
+      cap = caps, bar = bargrob$bar, frame = frame, ticks = bargrob$ticks
+    )
+  },
+
+  assemble_drawing  = function(grobs, layout, sizes, params, elements) {
+    gt <- GuideColourbar$assemble_drawing(grobs, layout, sizes, params, elements)
+    cap_size <- elements$cap_size
+    position <- unlist(params$cap_position, FALSE, FALSE)
+    cap_size <- unit(cap_size, "cm") * as.numeric(position)
+
+    if (params$direction == "horizontal") {
+      i <- layout$layout$key_col[1] + c(-1, 1)
+      gt$widths[i] <- gt$widths[i] + cap_size
+    } else {
+      i <- layout$layout$key_row[1] + c(-1, 1)
+      gt$heights[i] <- gt$heights[i] + rev(cap_size)
+    }
+    gt
+  }
 )
-
-# GuideColourstepsCap <- ggproto(
-#   "GuideColourstepsCap", GuideColoursteps,
-#
-#   params = c(
-#     GuideColoursteps$params,
-#     list(cap_shape = "triangle", cap_size = NULL, cap_position = "both",
-#          steps = TRUE)
-#   ),
-#   override_elements = cap_override_elements,
-#   build_decor       = cap_build_decor_step,
-#   assemble_drawing  = cap_assemble_drawing
-# )
-
 
