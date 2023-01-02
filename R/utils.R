@@ -61,11 +61,10 @@ arg_range <- function(
   n_oob <- sum(oob)
   n_na  <- sum(isna)
 
-  if (n_na == length(arg)) {
-    cli::cli_abort(
-      "{.arg {arg_nm}} cannot be {.code NA}: it has {n_na} {.code NA}{?s}."
-    )
-  }
+  abort_if(
+    n_na == length(arg),
+    "{.arg {arg_nm}} cannot be {.code NA}: it has {n_na} {.code NA}{?s}."
+  )
 
   if (all(range == c(0, Inf))) {
     msg <- c(i = "{.arg {arg_nm}} must be positive.")
@@ -117,6 +116,33 @@ absolute_element <- function(element, ..., width, height) {
 as_cli <- function(..., .envir = parent.frame()) {
   cli::cli_fmt(cli::cli_text(do.call(paste0, list(...)), .envir = .envir))
 }
+
+.trbl <- c("top", "right", "bottom", "left")
+
+update_element <- function(element, ...) {
+  if (is_blank(element)) {
+    return(element)
+  }
+  args <- list2(...)
+  for (name in names(args)) {
+    assign <- args[[name]] %||% element[[name]]
+    if (is.null(assign)) {
+      next
+    }
+    element[[name]] <- args[[name]] %||% element[[name]]
+  }
+  element
+}
+
+arg_null_or_match <- function(
+  arg, values, arg_nm = caller_arg(arg), error_call = caller_env()
+) {
+  if (is.null(arg)) {
+    return(arg)
+  }
+  arg_match0(arg, values, argn_nm, error_call)
+}
+
 abort_if <- function(test, ..., i = character(), .envir = parent.frame()) {
   if (!test) {
     return(invisible())

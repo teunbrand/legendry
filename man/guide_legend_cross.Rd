@@ -115,4 +115,8 @@ ggplot(mtcars, aes(mpg, disp)) +
   geom_point(aes(colour = factor(cyl), shape = factor(vs))) +
   guides(colour = guide, shape = guide)
 }
+\seealso{
+Other legend variants: 
+\code{\link{guide_legend_string}()}
+}
 \concept{legend variants}
