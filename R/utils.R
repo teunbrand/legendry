@@ -114,6 +114,20 @@ absolute_element <- function(element, ..., width, height) {
   )
 }
 
+as_cli <- function(..., .envir = parent.frame()) {
+  cli::cli_fmt(cli::cli_text(do.call(paste0, list(...)), .envir = .envir))
+}
+abort_if <- function(test, ..., i = character(), .envir = parent.frame()) {
+  if (!test) {
+    return(invisible())
+  }
+  cli::cli_abort(
+    c(as_cli(..., .envir = .envir),
+      setNames(i, rep("i", length(i)))),
+    .envir = .envir
+  )
+}
+
 # Run length encoding utilities -------------------------------------------
 
 new_rle <- function(x = NULL, lengths = NULL, alt = NULL) {

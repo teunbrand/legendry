@@ -335,23 +335,19 @@ GuideAxisExtend <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-check_axis_cap <- function(
-  lower, upper, arg1_nm = "cap_lower", arg2_nm = "cap_upper"
-) {
+check_axis_cap <- function(lower, upper) {
   if (is.function(lower) || is.function(upper)) {
     return(invisible())
   }
   lengths <- c(length(lower), length(upper))
-  if (lengths[1] != lengths[2] & !any(lengths == 0)) {
-    cli::cli_abort(c(paste0(
-      "Axis capping must have an equal number of upper and lower capping ",
-      "points."
-    ),
+  abort_if(
+    lengths[1] != lengths[2] & !any(lengths == 0),
+    "Axis capping must have an equal number of upper and lower capping points.",
     i = paste0(
-      "{.arg {arg1_nm}} has {lengths[1]} values, whereas {.arg {arg2_nm}} has ",
+      "{.arg cap_lower} has {lengths[1]} values, whereas {.arg cap_upper} has ",
       "{lengths[2]} values."
-    )))
-  }
+    )
+  )
 }
 
 simplify_cap <- function(cap, type) {

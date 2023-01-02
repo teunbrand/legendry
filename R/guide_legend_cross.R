@@ -83,12 +83,11 @@ guide_legend_cross <- function(
   valid_order <- length(label_order) == 2L & is.character(label_order)
   valid_order <- valid_order & all(c("row", "column") %in% label_order)
 
-  if (!valid_order) {
-    cli::cli_abort(paste0(
-      'The {.arg label_order} argument should be either ',
-      '{.code c("row", "column")} or {.code c("column", "row")}.'
-    ))
-  }
+  abort_if(
+    !valid_order,
+    'The {.arg label_order} argument should be either ',
+    '{.code c("row", "column")} or {.code c("column", "row")}.'
+  )
 
   args <- list2(...)
   super <- args$super %||% GuideLegendCross
@@ -198,7 +197,6 @@ GuideLegendCross <- ggproto(
   },
 
   merge = function(self, params, new_guide, new_params) {
-    # browser()
 
     left_ready  <- all(c(".row", ".column") %in% names(params$key))
     right_ready <- all(c(".row", ".column") %in% names(new_params$key))
@@ -209,12 +207,12 @@ GuideLegendCross <- ggproto(
       col_match <- match(params$key$.column_label, new_params$key$.label)
       drop_row  <- all(is.na(row_match))
       drop_col  <- all(is.na(col_match))
-      if (drop_row && drop_col) {
-        cli::cli_abort(c(
-          x = "Cannot cross legend for {.field {aesthetic}} aesthetic.",
-          i = "The {.field {aesthetic}} labels do not match the others."
-        ))
-      }
+
+      abort_if(
+        drop_row && drop_col,
+        "Cannot cross legend for {.field {aesthetic}} aesthetic.",
+        i = "The {.field {aesthetic}} labels do not match the others."
+      )
       if (!drop_row && !drop_col && !identical(row_match, col_match)) {
         cli::cli_warn(c(
           x = "Ambiguous matches for crossing {.field {aesthetic}} aesthetic.",

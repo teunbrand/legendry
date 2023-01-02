@@ -58,20 +58,20 @@ guide_colour_violin <- function(
   if (!is.list(density)) {
     density <- density(density)
   }
-  if (!all(c("x", "y") %in% names(density))) {
-    cli::cli_abort(paste0(
-      "The {.arg density} argument must be a named {.cls list} with {.field x}",
-      " and {.field y} elements."
-    ))
-  }
-  if ((length(density$x) != length(density$y)) || length(density$x) < 2) {
-    cli::cli_abort(c(paste0(
-      "The {.field x} and {.field y} elements in the {.arg density} ",
-      "argument must be of equal length and at least length 2."
-    ), "i" = "{.code density$x} is length {length(density$x)}.",
-       "i" = "{.code density$y} is length {length(density$y)}."
-    ))
-  }
+  abort_if(
+    !all(c("x", "y") %in% names(density)),
+    "The {.arg density} argument must be a named {.cls list} with {.field x} ",
+    "and {.field y} elements."
+  )
+  abort_if(
+    (length(density$x) != length(density$y)) || length(density$x) < 2,
+    "The {.field x} and {.field y} elements in the {.arg density} ",
+    "argument must be of equal length and at least length 2.",
+    i = c(
+      "{.code density$x} is length {length(density$x)}.",
+      "{.code density$y} is length {length(density$y)}."
+    )
+  )
   just <- arg_range(just, c(0, 1))[1]
 
   guide_colourbar(
@@ -108,18 +108,16 @@ GuideColourViolin <- ggproto(
     # xin <- scales::oob_censor(xin, range = limits)
     finite <- is.finite(xin)
 
-    if (sum(finite) < 2) {
-      cli::cli_abort(c(
-        "Need at least 2 values in {.arg density$x} to be inside scale limits.",
-        i = "The scale limits are [{limits[1]}, {limits[2]}]."
-      ))
-    }
-    if (any(!finite)) {
-      cli::cli_warn(paste0(
-        "{.fun {snake_class(self)}} has dropped {sum(!finite)} non-finite ",
-        "values from the {.arg density$x} input."
-      ))
-    }
+    abort_if(
+      sum(finite) < 2,
+      "Need at least 2 values in {.arg density$x} to be inside scale limits.",
+      i = "The scale limits are [{limits[1]}, {limits[2]}]."
+    )
+    abort_if(
+      any(!finite),
+      "{.fun {snake_class(self)}} has dropped {sum(!finite)} non-finite ",
+      "values from the {.arg density$x} input."
+    )
 
     apprx <- approx(xin[finite], density$y[finite], xout = bar)
     bar <- data_frame0(

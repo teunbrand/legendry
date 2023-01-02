@@ -104,24 +104,22 @@ validate_bracket <- function(bracket) {
   if (is.character(bracket)) {
     fun <- find_global(paste0("bracket_", bracket), env = global_env(),
                        mode = "function")
-    if (is.function(fun)) {
-      bracket <- fun()
-    } else {
-      cli::cli_abort("Unknown {.arg bracket}: {bracket}")
-    }
+    abort_if(
+      !is.function(fun),
+      "Unknown {.arg bracket}: {bracket}"
+    )
+    bracket <- fun()
   }
   bracket <- arg_class(bracket, "matrix")
-  if (ncol(bracket) != 2) {
-    cli::cli_abort(
-      "The {.arg bracket} argument must be a {.cls matrix} with 2 columns."
-    )
-  }
-  if (nrow(bracket) < 2) {
-    cli::cli_abort(c(
-      "The {.arg bracket} argument requires at least 2 points to draw a line.",
-      "i" = "The provided {.arg bracket} has {nrow(bracket)} row{?s}."
-    ))
-  }
+  abort_if(
+    ncol(bracket) !=  2,
+    "The {.arg bracket} argument must be a {.cls matrix} with 2 columns."
+  )
+  abort_if(
+    nrow(bracket) < 2,
+    "The {.arg bracket} argument requires at least 2 points to draw a line.",
+    i = "The provided {.arg bracket} has {nrow(bracket)} row{?s}."
+  )
   bracket
 }
 
