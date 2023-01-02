@@ -17,7 +17,6 @@ guide_legend_string(
   face = NULL,
   size = NULL,
   direction = NULL,
-  default.unit = "line",
   override.aes = list(),
   nrow = NULL,
   ncol = NULL,
@@ -63,9 +62,6 @@ the family, face and size in \code{\link[ggplot2:element]{element_text()}}.}
 
 \item{direction}{A character string indicating the direction of the guide.
 One of "horizontal" or "vertical."}
-
-\item{default.unit}{A character string indicating \code{\link[grid:unit]{grid::unit()}}
-for \code{keywidth} and \code{keyheight}.}
 
 \item{override.aes}{A list specifying aesthetic parameters of legend key.
 See details and examples.}

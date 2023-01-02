@@ -140,7 +140,7 @@ arg_null_or_match <- function(
   if (is.null(arg)) {
     return(arg)
   }
-  arg_match0(arg, values, argn_nm, error_call)
+  arg_match0(arg, values, arg_nm, error_call)
 }
 
 abort_if <- function(test, ..., i = character(), .envir = parent.frame()) {
