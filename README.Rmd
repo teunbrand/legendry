@@ -37,7 +37,7 @@ You can install the development version of gguidance from [GitHub](https://githu
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("5096"))
+remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("4879"))
 remotes::install_github("teunbrand/gguidance", ref = "main")
 ```
 
@@ -64,6 +64,13 @@ A 'cross legend' can show two variables in a single legend.
 ```{r legend_cross}
 p + aes(colour = paste(cyl, year)) +
   guides(colour = "legend_cross")
+```
+
+A string legend doesn't display keys, but colours the labels.
+
+```{r legend_string}
+p + aes(colour = class) +
+  guides(colour = "legend_string")
 ```
 
 ### Colour bars

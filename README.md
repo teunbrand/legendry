@@ -30,7 +30,7 @@ You can install the development version of gguidance from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("5096"))
+remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("4879"))
 remotes::install_github("teunbrand/gguidance", ref = "main")
 ```
 
@@ -61,6 +61,15 @@ p + aes(colour = paste(cyl, year)) +
 ```
 
 <img src="man/figures/README-legend_cross-1.png" width="80%" />
+
+A string legend doesn’t display keys, but colours the labels.
+
+``` r
+p + aes(colour = class) +
+  guides(colour = "legend_string")
+```
+
+<img src="man/figures/README-legend_string-1.png" width="80%" />
 
 ### Colour bars
 
