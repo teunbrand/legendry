@@ -34,6 +34,23 @@ remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("4879"))
 remotes::install_github("teunbrand/gguidance", ref = "main")
 ```
 
+## Overview
+
+A table of contents of this package’s utilities:
+
+1.  [Legends](#legends)
+    1.  [Cross legend](#cross-legend)
+    2.  [String legend](#string-legend)
+2.  [Colour bars](#colour-bars)
+    1.  [Capped colour bar](#capped-colour-bar)
+    2.  [Violin colour bar](#violin-colour-bar)
+3.  [Axes](#axes)
+    1.  [Subtitles](#subtitles)
+    2.  [Minor ticks](#minor-ticks)
+    3.  [Capping](#capping)
+    4.  [Ranges](#ranges)
+    5.  [Table](#table)
+
 ## Examples
 
 Let’s first set up a basic plot to experiment with
@@ -53,6 +70,8 @@ p <- ggplot(mpg, aes(displ, hwy)) +
 
 ### Legends
 
+#### Cross legend
+
 A ‘cross legend’ can show two variables in a single legend.
 
 ``` r
@@ -61,6 +80,8 @@ p + aes(colour = paste(cyl, year)) +
 ```
 
 <img src="man/figures/README-legend_cross-1.png" width="80%" />
+
+#### String legend
 
 A string legend doesn’t display keys, but colours the labels.
 
@@ -73,6 +94,8 @@ p + aes(colour = class) +
 
 ### Colour bars
 
+#### Capped colour bar
+
 A capped colour bar:
 
 ``` r
@@ -81,6 +104,8 @@ p + aes(colour = cty) +
 ```
 
 <img src="man/figures/README-colourbar_cap-1.png" width="80%" />
+
+#### Violin colour bar
 
 Using a violin as a colour guide:
 
@@ -93,6 +118,8 @@ p + aes(colour = cty) +
 
 ### Axes
 
+#### Subtitles
+
 Using subtitles.
 
 ``` r
@@ -100,6 +127,8 @@ p + guides(x = guide_axis_extend(subtitle = c("Less", "More")))
 ```
 
 <img src="man/figures/README-axis_extend-1.png" width="80%" />
+
+#### Minor ticks
 
 Using minor ticks.
 
@@ -109,6 +138,8 @@ p + guides(x = "axis_minor")
 
 <img src="man/figures/README-axis_minor-1.png" width="80%" />
 
+#### Capping
+
 Using capped lines.
 
 ``` r
@@ -116,6 +147,8 @@ p + guides(x = "axis_cap")
 ```
 
 <img src="man/figures/README-axis_cap-1.png" width="80%" />
+
+#### Ranges
 
 With bracketed ranges.
 
@@ -131,6 +164,8 @@ ggplot(mpg, aes(class, displ)) +
 ```
 
 <img src="man/figures/README-axis_nested-1.png" width="80%" />
+
+#### Table
 
 Using a table as an axis guide.
 

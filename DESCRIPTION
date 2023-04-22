@@ -14,7 +14,7 @@ Description: A 'ggplot2' extension that focusses on expanding the plotter's
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Depends: 
     ggplot2
 Imports: 
@@ -35,4 +35,3 @@ Suggests:
 Remotes:
    tidyverse/ggplot2#4879
 Config/testthat/edition: 3
-

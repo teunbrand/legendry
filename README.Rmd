@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -40,12 +40,28 @@ You can install the development version of gguidance from [GitHub](https://githu
 remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("4879"))
 remotes::install_github("teunbrand/gguidance", ref = "main")
 ```
+## Overview
 
+A table of contents of this package's utilities:
+
+1. [Legends](#legends)
+    1. [Cross legend](#cross-legend)
+    1. [String legend](#string-legend)
+1. [Colour bars](#colour-bars)
+    1. [Capped colour bar](#capped-colour-bar)
+    1. [Violin colour bar](#violin-colour-bar)
+1. [Axes](#axes)
+   1. [Subtitles](#subtitles)
+   1. [Minor ticks](#minor-ticks)
+   1. [Capping](#capping)
+   1. [Ranges](#ranges)
+   1. [Table](#table)
+   
 ## Examples
 
 Let's first set up a basic plot to experiment with
 
-```{r setup}
+```{r plot_setup}
 library(gguidance)
 
 p <- ggplot(mpg, aes(displ, hwy)) +
@@ -59,12 +75,16 @@ p <- ggplot(mpg, aes(displ, hwy)) +
 
 ### Legends
 
+#### Cross legend
+
 A 'cross legend' can show two variables in a single legend.
 
 ```{r legend_cross}
 p + aes(colour = paste(cyl, year)) +
   guides(colour = "legend_cross")
 ```
+
+#### String legend
 
 A string legend doesn't display keys, but colours the labels.
 
@@ -75,12 +95,16 @@ p + aes(colour = class) +
 
 ### Colour bars
 
+#### Capped colour bar
+
 A capped colour bar:
 
 ```{r colourbar_cap}
 p + aes(colour = cty) +
   scale_colour_viridis_c(guide = "colourbar_cap")
 ```
+
+#### Violin colour bar
 
 Using a violin as a colour guide:
 
@@ -91,11 +115,15 @@ p + aes(colour = cty) +
 
 ### Axes
 
+#### Subtitles
+
 Using subtitles.
 
 ```{r axis_extend}
 p + guides(x = guide_axis_extend(subtitle = c("Less", "More")))
 ```
+
+#### Minor ticks
 
 Using minor ticks.
 
@@ -103,11 +131,15 @@ Using minor ticks.
 p + guides(x = "axis_minor")
 ```
 
+#### Capping
+
 Using capped lines.
 
 ```{r axis_cap}
 p + guides(x = "axis_cap")
 ```
+
+#### Ranges
 
 With bracketed ranges.
 
@@ -122,6 +154,7 @@ ggplot(mpg, aes(class, displ)) +
   ))
 ```
 
+#### Table
 
 Using a table as an axis guide.
 
