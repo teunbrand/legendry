@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# gguidance
+# gguidance <img src="man/figures/logo.png" align="right" height="138" />
 
 <!-- badges: start -->
 
@@ -79,7 +79,7 @@ p + aes(colour = paste(cyl, year)) +
   guides(colour = "legend_cross")
 ```
 
-<img src="man/figures/README-legend_cross-1.png" width="80%" />
+<img src="man/figures/README-legend_cross-1.png" width="80%" style="display: block; margin: auto;" />
 
 #### String legend
 
@@ -90,7 +90,7 @@ p + aes(colour = class) +
   guides(colour = "legend_string")
 ```
 
-<img src="man/figures/README-legend_string-1.png" width="80%" />
+<img src="man/figures/README-legend_string-1.png" width="80%" style="display: block; margin: auto;" />
 
 ### Colour bars
 
@@ -103,7 +103,7 @@ p + aes(colour = cty) +
   scale_colour_viridis_c(guide = "colourbar_cap")
 ```
 
-<img src="man/figures/README-colourbar_cap-1.png" width="80%" />
+<img src="man/figures/README-colourbar_cap-1.png" width="80%" style="display: block; margin: auto;" />
 
 #### Violin colour bar
 
@@ -114,7 +114,7 @@ p + aes(colour = cty) +
   scale_colour_viridis_c(guide = guide_colour_violin(density = mpg$cty))
 ```
 
-<img src="man/figures/README-colour_violin-1.png" width="80%" />
+<img src="man/figures/README-colour_violin-1.png" width="80%" style="display: block; margin: auto;" />
 
 ### Axes
 
@@ -126,7 +126,7 @@ Using subtitles.
 p + guides(x = guide_axis_extend(subtitle = c("Less", "More")))
 ```
 
-<img src="man/figures/README-axis_extend-1.png" width="80%" />
+<img src="man/figures/README-axis_extend-1.png" width="80%" style="display: block; margin: auto;" />
 
 #### Minor ticks
 
@@ -136,7 +136,7 @@ Using minor ticks.
 p + guides(x = "axis_minor")
 ```
 
-<img src="man/figures/README-axis_minor-1.png" width="80%" />
+<img src="man/figures/README-axis_minor-1.png" width="80%" style="display: block; margin: auto;" />
 
 #### Capping
 
@@ -146,7 +146,7 @@ Using capped lines.
 p + guides(x = "axis_cap")
 ```
 
-<img src="man/figures/README-axis_cap-1.png" width="80%" />
+<img src="man/figures/README-axis_cap-1.png" width="80%" style="display: block; margin: auto;" />
 
 #### Ranges
 
@@ -163,7 +163,7 @@ ggplot(mpg, aes(class, displ)) +
   ))
 ```
 
-<img src="man/figures/README-axis_nested-1.png" width="80%" />
+<img src="man/figures/README-axis_nested-1.png" width="80%" style="display: block; margin: auto;" />
 
 #### Table
 
@@ -182,4 +182,4 @@ ggplot(mpg, aes(factor(cyl), displ)) +
   guides(x = guide_axis_table(table = my_table, key_col = cyl))
 ```
 
-<img src="man/figures/README-axis_table-1.png" width="80%" />
+<img src="man/figures/README-axis_table-1.png" width="80%" style="display: block; margin: auto;" />

@@ -10,12 +10,13 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "80%",
+  fig.align = "center",
   dev = "ragg_png",
-  dpi = 90
+  dpi = 132
 )
 ```
 
-# gguidance
+# gguidance <img src="man/figures/logo.png" align="right" height="138" />
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/gguidance)](https://CRAN.R-project.org/package=gguidance)
