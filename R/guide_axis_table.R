@@ -470,7 +470,6 @@ GuideAxisTable <- ggproto(
 
     lapply(labels, function(lab) {
       lab[[where]] <- sizes
-      lab$vp$parent$layout[[where]] <- sizes
       lab
     })
   },
@@ -589,7 +588,6 @@ GuideAxisTable <- ggproto(
         size <- unit(size, "cm")
         lapply(label, function(lab) {
           lab[[orth_sizes]] <- size
-          lab$vp$parent$layout[[orth_sizes]] <- size
           lab
         })
       },
@@ -667,7 +665,6 @@ GuideAxisTable <- ggproto(
       function(lab, size) {
         size <- unit(size, "cm")
         lab[[orth_sizes]] <- size
-        lab$vp$parent$layout[[orth_sizes]] <- size
         lab
       },
       lab  = grobs$title,
