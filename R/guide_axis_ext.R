@@ -264,7 +264,7 @@ GuideAxisExtend <- ggproto(
     )
   },
 
-  build_decor = function(decor, ticks, elements, params) {
+  build_decor = function(decor, grobs, elements, params) {
 
     pos <- unit.c(decor[[1]], decor[[2]])
     pos[c(TRUE, FALSE)] <- decor[[1]]

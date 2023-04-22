@@ -102,8 +102,8 @@ GuideColourbarCap <- ggproto(
     elements
   },
 
-  build_decor       = function(decor, ticks, elements, params) {
-    bargrob <- GuideColourbar$build_decor(decor, ticks, elements, params)
+  build_decor = function(decor, grobs, elements, params) {
+    bargrob <- GuideColourbar$build_decor(decor, grobs, elements, params)
     bar <- bargrob$bar
 
     direction <- params$direction

@@ -131,7 +131,7 @@ GuideColourViolin <- ggproto(
     bar
   },
 
-  build_decor = function(decor, ticks, elements, params) {
+  build_decor = function(decor, grobs, elements, params) {
 
     norm  <- rescale(decor$value)
     major <- c(norm, rev(norm))
@@ -177,9 +177,9 @@ GuideColourViolin <- ggproto(
       )
     }
     if (params$ticks.ontop) {
-      list(bar = poly, frame = frame, ticks = ticks)
+      list(bar = poly, frame = frame, ticks = grobs$ticks)
     } else {
-      list(ticks = ticks, bar = poly, frame = frame)
+      list(ticks = grobs$ticks, bar = poly, frame = frame)
     }
   }
 )

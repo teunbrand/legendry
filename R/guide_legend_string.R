@@ -129,7 +129,7 @@ GuideLegendString <- ggproto(
     GuideColourbar$geom(params, layers, default_mapping)
   },
 
-  build_decor = function(decor, ticks, elements, params) {
+  build_decor = function(decor, grobs, elements, params) {
     NULL
   },
 
