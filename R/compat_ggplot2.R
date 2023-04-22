@@ -285,7 +285,25 @@ find_global <- function(name, env = caller_env(),
   NULL
 }
 
+# ggplot2:::ggname
 ggname <- function(prefix, grob) {
   grob$name <- grobName(grob, prefix)
   grob
 }
+
+# ggplot2:::flip_element_grob
+flip_element_grob <- function(..., flip = FALSE) {
+  if (!flip) {
+    ans <- element_grob(...)
+    return(ans)
+  }
+  args <- list(...)
+  translate <- names(args) %in% names(flip_names)
+  names(args)[translate] <- flip_names[names(args)[translate]]
+  do.call(element_grob, args)
+}
+
+flip_names <- c(
+  x = "y", y = "x", width = "height", height = "width", hjust = "vjust",
+  vjust = "hjust", margin_x = "margin_y", margin_y = "margin_x"
+)

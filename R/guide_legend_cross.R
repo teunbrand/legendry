@@ -313,7 +313,7 @@ GuideLegendCross <- ggproto(
     elements$key.width  <-  width_cm(params$key.width  %||% elements$key.width)
     elements$key.height <- height_cm(params$key.height %||% elements$key.height)
 
-    gap <- title$size %||% elmeents$theme.title$size %||% elements$text$size %||% 11
+    gap <- title$size %||% elements$theme.title$size %||% elements$text$size %||% 11
     gap <- unit(gap * 0.5, "pt")
 
     elements$hgap <-  width_cm(theme$legend.spacing.x %||% gap)

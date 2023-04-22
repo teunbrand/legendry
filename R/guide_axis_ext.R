@@ -256,7 +256,7 @@ GuideAxisExtend <- ggproto(
     tick <- vec_interleave(params$orth_side, pos) * elements$ticks_length
     mark <- unit(rep(breaks, each = 2), "npc")
 
-    ggplot2:::flip_element_grob(
+    flip_element_grob(
       elements$ticks,
       x = tick, y = mark,
       id.lengths = rep(2, n_breaks),
