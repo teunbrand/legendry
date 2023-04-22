@@ -119,20 +119,7 @@ as_cli <- function(..., .envir = parent.frame()) {
 
 .trbl <- c("top", "right", "bottom", "left")
 
-update_element <- function(element, ...) {
-  if (is_blank(element)) {
-    return(element)
-  }
-  args <- list2(...)
-  for (name in names(args)) {
-    assign <- args[[name]] %||% element[[name]]
-    if (is.null(assign)) {
-      next
-    }
-    element[[name]] <- args[[name]] %||% element[[name]]
-  }
-  element
-}
+
 
 arg_null_or_match <- function(
   arg, values, arg_nm = caller_arg(arg), error_call = caller_env()
@@ -152,6 +139,34 @@ abort_if <- function(test, ..., i = character(), .envir = parent.frame()) {
       setNames(i, rep("i", length(i)))),
     .envir = .envir
   )
+}
+
+# Updating ----------------------------------------------------------------
+
+update_element <- function(element, ..., .envir = caller_env()) {
+  if (is_blank(element)) {
+    return(element)
+  }
+  args <- match.call(expand.dots = FALSE)$`...`
+  update_list(element, args = args, .envir = .envir)
+}
+
+update_with_defaults <- function(list = list(), ..., .envir = caller_env()) {
+  args <- match.call(expand.dots = FALSE)$`...`
+  update_list(list, args = args, .envir = .envir)
+}
+
+update_list <- function(list = list(), args = list(), .envir = caller_env()) {
+  nms <- names(args)
+  nms <- nms[!is.na(nms) & nms != ""]
+  for (name in nms) {
+    value <- list[[name]] %||% eval(args[[name]], envir = .envir)
+    if (is.null(value)) {
+      next
+    }
+    list[[name]] <- value
+  }
+  list
 }
 
 # Run length encoding utilities -------------------------------------------
