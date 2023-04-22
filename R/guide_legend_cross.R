@@ -265,7 +265,7 @@ GuideLegendCross <- ggproto(
     list(guide = self, params = params)
   },
 
-  geom = function(self, params, layers, default_mapping) {
+  get_layer_key = function(self, params, layers) {
 
     key_nms <- names(params$key)
     required_cols <- c(".row", ".column", ".row_label", ".column_label")
@@ -285,7 +285,7 @@ GuideLegendCross <- ggproto(
         ))
       }
     }
-    ggproto_parent(GuideLegend, self)$geom(params, layers, default_mapping)
+    ggproto_parent(GuideLegend, self)$get_layer_key(params, layers)
   },
 
   override_elements = function(params, elements, theme) {

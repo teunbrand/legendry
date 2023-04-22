@@ -125,8 +125,8 @@ GuideLegendString <- ggproto(
     order        = 0
   ),
 
-  geom = function(params, layers, default_mapping) {
-    GuideColourbar$geom(params, layers, default_mapping)
+  get_layer_key = function(params, layers) {
+    GuideColourbar$get_layer_key(params, layers)
   },
 
   build_decor = function(decor, grobs, elements, params) {
