@@ -10,7 +10,7 @@ test_that("legend string can be placed anywhere", {
   sc <- scale_colour_discrete()
   sc$train(mpg$class)
 
-  guides <- ggplot2:::guides_list(list(colour = leg))
+  guides <- guides(colour = leg)
   guides <- guides$setup(list(sc))
   guides$train(list(sc), "vertical", list(colour = "Title"))
 

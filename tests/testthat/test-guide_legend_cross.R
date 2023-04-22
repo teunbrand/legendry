@@ -11,14 +11,14 @@ test_that("legend cross labels can be placed anywhere", {
   sc <- scale_colour_discrete()
   sc$train(c("A:a", "B:a", "C:a", "A:b", "C:b"))
 
-  guides <- ggplot2:::guides_list(list(colour = leg))
+  guides <- guides(colour = leg)
   guides <- guides$setup(list(sc))
   guides$train(list(sc), "vertical", list(colour = "Title"))
 
   lay <- geom_point(aes(colour = c("A:a", "B:a", "C:a", "A:b", "C:b")))
   lay$computed_mapping <- lay$mapping
 
-  guides$process_layers(list(lay), NULL)
+  guides$process_layers(list(lay))
 
   params <- guides$get_params("colour")
   params$title.position <- "top"

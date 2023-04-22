@@ -2,11 +2,11 @@ test_that("All directions and cap shapes work", {
   tmp <- tempfile(fileext = ".pdf")
   grDevices::pdf(tmp)
 
-  leg <- guide_colourbar_cap(nbin = 3)
+  leg <- guide_colourbar_cap()
   sc  <- scale_colour_continuous()
   sc$train(c(0, 10))
 
-  guides <- ggplot2:::guides_list(list(leg))
+  guides <- guides(colour = leg)
   guides <- guides$setup(scales = list(sc))
   guides$train(list(sc), "vertical", list(colour = "Title"))
 

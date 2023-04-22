@@ -6,7 +6,7 @@ test_that("All directions and justifications work", {
   sc  <- scale_colour_continuous()
   sc$train(range(mpg$displ))
 
-  guides <- ggplot2:::guides_list(list(colour = leg))
+  guides <- guides(colour = leg)
   guides <- guides$setup(scales = list(sc))
   guides$train(list(sc), "vertical", list(colour = "Title"))
 
