@@ -139,7 +139,7 @@ guide_axis_table <- function(
   ...
 ) {
 
-  table <- arg_class(table, "data.frame")
+  arg_class(table, "data.frame")
   rownames(table) <- NULL
   colnames <- colnames %||% colnames(table)
 
@@ -147,30 +147,30 @@ guide_axis_table <- function(
   key_col <- eval_tidy(key_col, table)
 
   # Check separator theme elements
-  sep_cell_rows <- arg_class(sep_cell_rows, .line_or_blank)
-  sep_cell_cols <- arg_class(sep_cell_cols, .line_or_blank)
-  sep_borders   <- arg_class(sep_borders,   .line_or_blank)
-  sep_title     <- arg_class(sep_title,     .line_or_blank)
+  arg_class(sep_cell_rows, .line_or_blank)
+  arg_class(sep_cell_cols, .line_or_blank)
+  arg_class(sep_borders,   .line_or_blank)
+  arg_class(sep_title,     .line_or_blank)
 
   # Check shading theme elements
-  shade_odd     <- arg_class(shade_odd,     .rect_or_blank)
-  shade_even    <- arg_class(shade_even,    .rect_or_blank)
-  shade_title   <- arg_class(shade_title,   .rect_or_blank)
+  arg_class(shade_odd,     .rect_or_blank)
+  arg_class(shade_even,    .rect_or_blank)
+  arg_class(shade_title,   .rect_or_blank)
 
   # Should be a list of elements, not a single element
   if (inherits(cell_text_theme, .text_or_blank)) {
     cell_text_theme <- list(cell_text_theme)
   }
   cell_text_theme <- rep_len(cell_text_theme, ncol(table))
-  cell_text_theme <- Map(
+  Map(
     arg_class,
     arg   = cell_text_theme,
     class = list(.text_or_blank),
     arg_nm = paste0("cell_text_theme", "[[", seq_along(cell_text_theme), "]]"),
-    error_call = list(caller_env())
+    MoreArgs = list(caller_env())
   )
 
-  cell_padding <- arg_class(cell_padding, c("unit", "numeric", "integer"))
+  arg_class(cell_padding, c("unit", "numeric", "integer"))
 
   new_guide(
     table             = table,

@@ -110,7 +110,7 @@ validate_bracket <- function(bracket) {
     )
     bracket <- fun()
   }
-  bracket <- arg_class(bracket, "matrix")
+  arg_class(bracket, "matrix")
   abort_if(
     ncol(bracket) !=  2,
     "The {.arg bracket} argument must be a {.cls matrix} with 2 columns."

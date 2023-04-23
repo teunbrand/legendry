@@ -28,6 +28,7 @@ NULL
 #' @importFrom utils head
 #' @importFrom utils tail
 #' @importFrom vctrs field
+#' @importFrom vctrs list_sizes
 #' @importFrom vctrs new_data_frame
 #' @importFrom vctrs new_rcrd
 #' @importFrom vctrs vec_assert

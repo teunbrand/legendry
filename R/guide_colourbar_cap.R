@@ -56,7 +56,7 @@ guide_colourbar_cap <- function(
     lower = cap_position %in% c("lower", "both"),
     upper = cap_position %in% c("upper", "both")
   )
-  cap_size <- arg_class(cap_size, c("NULL", "unit"))[1]
+  arg_class(cap_size, c("NULL", "unit"))[1]
 
   guide_colourbar(
     cap_shape    = cap_shape,

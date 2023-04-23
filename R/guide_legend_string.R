@@ -56,7 +56,7 @@ guide_legend_string <- function(
   title.position <- arg_null_or_match(title.position, .trbl)
 
   title.theme <- title.theme %||% element_text(inherit.blank = TRUE)
-  title.theme <- arg_class(title.theme, .text_or_blank)
+  arg_class(title.theme, .text_or_blank)
   title.theme <- update_element(
     title.theme,
     hjust = title.hjust,
@@ -64,7 +64,7 @@ guide_legend_string <- function(
   )
 
   label.theme <- label.theme %||% element_text(inherit.blank = TRUE)
-  label.theme <- arg_class(label.theme, .text_or_blank)
+  arg_class(label.theme, .text_or_blank)
   label.theme <- update_element(
     label.theme,
     hjust  = label.hjust,

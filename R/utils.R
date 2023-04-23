@@ -27,22 +27,20 @@ arg_class <- function(
   arg_nm = caller_arg(arg),
   error_call = caller_env()
 ) {
-  if (inherits(arg, class)) {
-    return(arg)
+  if (!is_missing(arg) && inherits(arg, class)) {
+    return(invisible())
   }
-  arg_class <- if (is_vector(arg)) {
-    vec_ptype_full(arg)
+  if (is_missing(arg)) {
+    friendly <- "absent"
   } else {
-    class(arg)[[1]]
+    friendly <- "{.obj_type_friendly {arg}}"
   }
-  arg_class <- paste0("<", arg_class, ">")
-  class     <- paste0("<", class, ">")
-  class     <- glue_collapse(class, sep = ", ", last = " or ")
-  arg_nm    <- paste0("`", arg_nm, "`")
+  class <- paste0("{.cls ", class, "}")
+  class <- glue_collapse(class, sep = ", ", last = " or ")
   msg <- paste0(
-    arg_nm, " must be of the class ", class, ", not ", arg_class, "."
+    "{.arg arg_nm} must be of the class ", class, ", not ", friendly, "."
   )
-  abort(msg, call = error_call)
+  cli::cli_abort(msg, call = error_call)
 }
 
 arg_range <- function(
