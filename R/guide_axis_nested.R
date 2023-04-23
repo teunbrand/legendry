@@ -76,37 +76,70 @@
 #'     deep_text     = element_text(colour = "tomato")
 #'   ))
 guide_axis_nested <- function(
-  sep            = "[^[:alnum:]]+",
+  range_data     = NULL,
+  range_mapping  = NULL,
   range_start    = NULL,
   range_end      = NULL,
   range_name     = NULL,
-  range_depth    = NULL,
+  range_level    = NULL,
+  sep            = "[^[:alnum:]]+",
   bracket        = "line",
   bracket_size   = unit(2, "mm"),
   bracket_theme  = element_line(),
   deep_text      = element_text(),
+  handle_oob     = "squish",
   mirror_padding = TRUE,
+  extend_discrete = 0.4,
+  drop_zero      = TRUE,
   ...
 ) {
-
+  mapped <- FALSE
+  ranges <- NULL
+  if (!is.null(range_data) && !is.null(range_mapping)) {
+    mapped <- TRUE
+    ranges <- eval_aes(
+      range_data, range_mapping,
+      c("start", "end", "name", "level")
+    )
+  }
   ranges <- data_frame0(
-    start  = range_start,
-    end    = range_end,
-    .label = range_name,
-    .level = range_depth
+    start  = range_start %||% ranges$start,
+    end    = range_end   %||% ranges$end,
+    .label = range_name  %||% ranges$name,
+    .level = range_level %||% ranges$level
   )
+  if (nrow(ranges) > 0L) {
+    if (!all(c("start", "end") %in% names(ranges))) {
+      missing <- setdiff(c("start", "end"), names(ranges))
+      param <- "aesthetic: {.field "
+      if (!mapped) {
+        missing <- paste0("range_", missing)
+        param <- "argument: {.arg "
+      }
+      cli::cli_abort(
+        paste0("Missing required ", param, "{missing}}.")
+      )
+    }
+  }
+  if (!is.null(ranges$.level)) {
+    ranges$.level <- match(ranges$.level, sort(unique(ranges$.level)))
+  }
+
   bracket <- validate_bracket(bracket)
 
   guide_axis_extend(
-    sep            = sep,
-    ranges         = ranges,
-    bracket        = bracket,
-    bracket_size   = bracket_size,
-    bracket_theme  = bracket_theme,
-    deep_text      = deep_text,
-    mirror_padding = mirror_padding,
+    sep             = sep,
+    ranges          = ranges,
+    bracket         = bracket,
+    bracket_size    = bracket_size,
+    bracket_theme   = bracket_theme,
+    deep_text       = deep_text,
+    handle_oob      = handle_oob,
+    mirror_padding  = mirror_padding,
+    extend_discrete = extend_discrete,
+    drop_zero       = drop_zero,
     ...,
-    super          = GuideAxisNested
+    super = GuideAxisNested
   )
 }
 
@@ -119,12 +152,15 @@ GuideAxisNested <- ggproto(
     GuideAxisExtend$params,
     list(
       sep = "^[[:alphanum:]]+",
-      ranges = data_frame(),
+      ranges  = data_frame(),
       bracket = matrix(ncol = 2),
-      bracket_size  = unit(2, "mm"),
-      bracket_theme = element_line(),
-      deep_text     = element_text(),
-      mirror_padding = TRUE
+      bracket_size   = unit(2, "mm"),
+      bracket_theme  = element_line(),
+      deep_text      = element_text(),
+      handle_oob     = "squish",
+      mirror_padding = TRUE,
+      extend_discrete = 0.4,
+      drop_zero      = TRUE
     )
   ),
 
@@ -133,42 +169,42 @@ GuideAxisNested <- ggproto(
     aes <- params$aesthetic
     ranges <- params$ranges
 
+    # If no manual ranges were provided, infer from labels
     if (prod(dim(ranges)) == 0) {
-      # Derive ranges from key
-      key <- params$key
-      # Split labels
-      labels <- strsplit(key$.label, params$sep)
-      # Pad labels with empty strings
-      labels <- pad_list(labels, padding = "")
-      labels <- do.call(rbind, labels)
-      # Replace axis labels with first label
-      key$.label <- labels[, 1]
-      params$key <- key
-      labels <- labels[, -1, drop = FALSE]
-
-      if (prod(dim(labels)) == 0) {
-        ranges <- data_frame0()
-      } else {
-        # Run-length encode labels to get ranges
-        value  <- key[[aes]]
-        ranges <- apply(labels, 2, function(labs) {
-          rle   <- new_rle(labs)
-          start <- rle_start(rle)
-          data_frame0(
-            start = value[start],
-            end   = value[rle_end(rle)],
-            .label = labs[start]
-          )
-        })
-        # Combine and assign levels
-        nrows  <- vapply(ranges, nrow, integer(1))
-        ranges <- vec_c(!!!ranges)
-        ranges$.level <- rep(seq_along(nrows), each = nrows)
-      }
+      ranges <- ranges_from_labels(params$key, params$sep, aes,
+                                   "guide_axis_nested")
+      params$key <- ranges$key
+      ranges <- ranges$ranges
     }
     if (is.null(ranges$.level)) {
       ranges <- disjoin_ranges(ranges)
     }
+    # User input is expected on original scale, so transform input
+    ranges$start <- scale_transform(ranges$start, scale)
+    ranges$end   <- scale_transform(ranges$end,   scale)
+    # Sort ranges
+    ranges[, c("start", "end")] <- list(
+      start = pmin(ranges$start, ranges$end),
+      end   = pmax(ranges$start, ranges$end)
+    )
+
+    ranges$.draw <- TRUE
+    if (isTRUE(params$drop_zero)) {
+      ranges$.draw <- (ranges$end - ranges$start) > 1000 * .Machine$double.eps
+    }
+
+    if (scale$is_discrete() && !is.null(params$extend_discrete)) {
+      ranges$start <- ranges$start - params$extend_discrete
+      ranges$end   <- ranges$end   + params$extend_discrete
+    }
+
+    ranges <- switch(
+      arg_match0(params$handle_oob, c("squish", "censor", "none")),
+      "squish" = range_squish(ranges, scale),
+      "censor" = range_censor(ranges, scale),
+      "none"   = ranges
+    )
+
     colnames(ranges)[1:2] <- c(aes, paste0(aes, "end"))
 
     params$ranges <- ranges
@@ -197,15 +233,14 @@ GuideAxisNested <- ggproto(
       )
       elements$text$margin <- margin
     }
-    deep_text <- params$deep_text
-    if (inherits(deep_text, .text_or_blank)) {
-      deep_text <- list(deep_text)
-    }
-    deep_text <- lapply(deep_text, function(elem) {
-      combine_elements(elem, elements$text)
-    })
-    elements$deep_text <- deep_text
-    elements$bracket <- combine_elements(params$bracket_theme, elements$ticks)
+
+    elements$deep_text <- combine_element_list(
+      params$deep_text, elements$text, .text_or_blank
+    )
+    elements$bracket <- combine_element_list(
+      params$bracket_theme, elements$ticks, .line_or_blank
+    )
+
     elements
 
   },
@@ -258,17 +293,6 @@ GuideAxisNested <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-pad_list <- function(list, padding = "") {
-  lengths <- lengths(list)
-  max_len <- max(lengths)
-  if (all(lengths == max_len)) {
-    return(list)
-  }
-  lapply(list, function(el) {
-    c(el, rep("", max_len - length(el)))
-  })
-}
-
 # This is conceptually similar to IRanges::disjointBins
 disjoin_ranges <- function(ranges) {
   if (nrow(ranges) < 2) {
@@ -304,3 +328,79 @@ disjoin_ranges <- function(ranges) {
   ranges$.level <- bin
   ranges
 }
+
+range_squish <- function(ranges, scale) {
+  limits <- sort(scale$continuous_range)
+  start  <- ranges$start
+  end    <- ranges$end
+  oob_start <- start < limits[1] | start > limits[2]
+  oob_end   <- end   < limits[1] | end   > limits[2]
+  keep <- !oob_start | !oob_end | (start < limits[1] & end > limits[2])
+  ranges <- vec_slice(ranges, keep)
+  ranges$start <- pmin(pmax(ranges$start, limits[1]), limits[2])
+  ranges$end   <- pmin(pmax(ranges$end,   limits[1]), limits[2])
+  ranges
+}
+
+range_censor <- function(ranges, scale) {
+  limits    <- sort(scale$continuous_range)
+  oob_start <- ranges$start < limits[1] | ranges$start > limits[2]
+  oob_end   <- ranges$end   < limits[1] | ranges$end   > limits[2]
+  keep <- !oob_start & !oob_end
+  vec_slice(ranges, keep)
+}
+
+ranges_from_labels <- function(key, sep = "[^[:alnum:]]+", aes,
+                               fun_nm, rev = FALSE) {
+  # Split labels
+  labels <- strsplit(key$.label, sep)
+
+  # Pad label vectors if necessary
+  lengths <- lengths(labels)
+  max_len <- max(lengths)
+  if (!all(lengths == max_len)) {
+    cli::cli_warn(c(
+      "Not all {.field labels} in {.fn {fun_nm}} can be split into equal lengths.",
+      i = "Is \"{sep}\" the correct {.arg sep} argument?"
+    ))
+    labels <- lapply(labels, function(el) {
+      c(el, rep(NA, max_len - length(el)))
+    })
+  }
+  labels <- do.call(rbind, labels)
+  if (isTRUE(rev)) {
+    labels <- labels[, rev(seq_len(ncol(labels))), ncol = FALSE]
+  }
+
+  # Set key label to the first one
+  key$.label <- labels[, 1]
+  labels <- labels[, -1, drop = FALSE]
+
+  # Early exit if there are no ranges to infer
+  if (prod(dim(labels)) == 0) {
+    return(list(key = key, ranges = data_frame0()))
+  }
+
+  # Run-length encode labels to get ranges
+  value  <- key[[aes]]
+  ranges <- apply(labels, 2, function(labs) {
+    rle   <- new_rle(labs)
+    start <- rle_start(rle)
+    data_frame0(
+      start  = value[start],
+      end    = value[rle_end(rle)],
+      .label = labs[start]
+    )
+  })
+  nrows  <- list_sizes(ranges)
+
+  # Combine
+  ranges <- vec_c(!!!ranges)
+
+  # Assign levels
+  ranges$.level <- rep.int(seq_along(nrows), nrows)
+
+  # Delete padded ranges
+  ranges <- vec_slice(ranges, !is.na(ranges$.label))
+
+  list(key = key, ranges = ranges)

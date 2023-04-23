@@ -96,6 +96,13 @@ data_frame0 <- function(...) {
   data_frame(..., .name_repair = "minimal")
 }
 
+combine_element_list <- function(elem, parent, type) {
+  if (inherits(elem, type)) {
+    elem <- list(elem)
+  }
+  lapply(elem, combine_elements, e2 = parent)
+}
+
 absolute_element <- function(element, ..., width, height) {
   gTree(
     children = gList(
