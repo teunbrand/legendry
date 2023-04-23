@@ -139,6 +139,42 @@ abort_if <- function(test, ..., i = character(), .envir = parent.frame()) {
   )
 }
 
+eval_aes <- function(data, mapping, valid,
+                     call = caller_env(),
+                     mapping_arg = caller_arg(mapping),
+                     data_arg = caller_arg(data)) {
+  if (!inherits(mapping, "uneval")) {
+    cli::cli_abort(
+      "{.arg {mapping_arg}} must be an aesthetic mapping created by {.fn aes}."
+    )
+  }
+  arg_class(data, "data.frame", data_arg, call)
+
+  evaled <- lapply(mapping, eval_tidy, data = data)
+  sizes  <- list_sizes(evaled)
+  evaled <- evaled[sizes > 0]
+  extra_nms <- setdiff(names(evaled), valid)
+  if (length(extra_nms) > 0) {
+    cli::cli_warn(
+      "Ignoring unknown aesthetics: {.field {extra_nms}}.",
+      call = call
+    )
+  }
+  evaled <- evaled[intersect(names(evaled), valid)]
+  sizes <- list_sizes(evaled)
+  if (length(sizes) == 0) {
+    cli::cli_warn(
+      "No valid data found with {.arg {mapping_arg}} in {.arg {data_arg}}.",
+      call = call
+    )
+    return(data_frame0())
+  }
+  data_frame(
+    !!!evaled, .size = max(sizes),
+    .name_repair = "minimal", .error_call = call
+  )
+}
+
 # Updating ----------------------------------------------------------------
 
 update_element <- function(element, ..., .envir = caller_env()) {
