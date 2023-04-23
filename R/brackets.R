@@ -126,8 +126,11 @@ validate_bracket <- function(bracket) {
 expand_bracket <- function(
     ranges, bracket,
     position, size,
-    element = element_line()
+    element = list(element_line())
 ) {
+  ulevels <- sort(unique(ranges$.level))
+  ranges <- vec_slice(ranges, ranges$.draw)
+
   # Set parameters
   aes  <- if (position %in% c("top", "bottom")) "x" else "y"
   orth <- setdiff(c("x", "y"), aes)
@@ -152,12 +155,16 @@ expand_bracket <- function(
   diff <- unclass(ranges[[end]] - ranges[[aes]])
   mtx  <- sweep(outer(major, diff), 2, ranges[[aes]], `+`)
 
+  element <- rep_len(element, max(ulevels))
+
   # Convert to grobs
-  ulevels <- unique(ranges$.level)
   lapply(ulevels, function(lvl) {
     mat <- mtx[, ranges$.level == lvl, drop = FALSE]
+    if (prod(dim(mat)) == 0L) {
+      return(zero_bracket(width, height))
+    }
     absolute_element(
-      element = element,
+      element = element[[lvl]],
       !!aes  := as.vector(mat),
       !!orth := rep(minor, ncol(mat)),
       id.lengths = rep(n, ncol(mat)),
@@ -165,4 +172,13 @@ expand_bracket <- function(
       height = height
     )
   })
+}
+
+zero_bracket <- function(width, height) {
+  gTree(
+    children = gList(zeroGrob()),
+    width = width, height = height,
+    xmin = NULL, ymin = NULL, vp = NULL,
+    cl = "absoluteGrob"
+  )
 }
