@@ -372,9 +372,19 @@ train_cap = function(cap, scale, breaks) {
       cap <- cap(trans$inverse(breaks))
     }
   }
-  if (scale$is_discrete()) {
-    (scale$scale$map %||% scale$map)(cap)
+  scale_transform(cap, scale)
+}
+
+scale_transform <- function(x, scale) {
+  # Scale can be either proper scale or viewscale placeholder.
+  # Viewscales doesn't have transform method, so try parent as well.
+  trans <- scale$trans %||% scale$scale$trans
+  # If trans is `NULL` and not identity trans, we have a discrete scale
+  # that needs to be mapped.
+  if (is.null(trans)) {
+    # Again, try parent of placeholder too.
+    (scale$scale$map %||% scale$map)(x)
   } else {
-    trans$transform(cap)
+    trans$transform(x)
   }
 }
