@@ -25,7 +25,7 @@ test_that("guide_axis_nested can be placed at all sides", {
         range_start = c("2seater", "midsize"),
         range_end   = c("minivan", 'suv'),
         range_name  = c("C", "D"),
-        range_depth = 1,
+        range_level = 1,
         bracket = "atan"
       )
     )

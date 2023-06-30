@@ -79,8 +79,6 @@ test_that("combine_elements combines elements", {
 
 test_that("arg_class messages appropriately", {
   el <- element_line()
-  ans <- arg_class(el, c("element_line", "element_blank"))
-  expect_identical(el, ans)
 
   ans <- tryCatch(
     arg_class(el, c("element_rect", "element_blank")),
@@ -90,7 +88,7 @@ test_that("arg_class messages appropriately", {
 
   expect_error(
     arg_class(expression(), "element_rect"),
-    "not <expression>"
+    "not an expression vector"
   )
 
 })

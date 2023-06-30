@@ -38,7 +38,7 @@ arg_class <- function(
   class <- paste0("{.cls ", class, "}")
   class <- glue_collapse(class, sep = ", ", last = " or ")
   msg <- paste0(
-    "{.arg arg_nm} must be of the class ", class, ", not ", friendly, "."
+    "{.arg {arg_nm}} must be of the class ", class, ", not ", friendly, "."
   )
   cli::cli_abort(msg, call = error_call)
 }
@@ -90,6 +90,14 @@ is_blank <- function(x) {inherits(x, "element_blank")}
 is_discrete <- function(x) {
   inherits(x, "mapped_discrete") ||
     is.factor(x) || is.character(x) || is.logical(x)
+}
+
+allow_lambda <- function(x) {
+  if (is_formula(x)) {
+    as_function(x)
+  } else {
+    x
+  }
 }
 
 prtct_zlen <- function(x) {
