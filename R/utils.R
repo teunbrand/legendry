@@ -47,7 +47,7 @@ arg_range <- function(
   arg, range, allow_na = FALSE, arg_nm = caller_arg(arg),
   error_call = caller_env()
 ) {
-  arg <- arg_class(arg, c("numeric"), arg_nm = arg_nm, error_call = error_call)
+  arg_class(arg, c("numeric"), arg_nm = arg_nm, error_call = error_call)
 
   oob  <- arg < range[1] | arg > range[2]
   isna <- is.na(arg)
@@ -86,6 +86,11 @@ arg_range <- function(
 }
 
 is_blank <- function(x) {inherits(x, "element_blank")}
+
+is_discrete <- function(x) {
+  inherits(x, "mapped_discrete") ||
+    is.factor(x) || is.character(x) || is.logical(x)
+}
 
 prtct_zlen <- function(x) {
   if (length(x) == 0) return(NULL) else x

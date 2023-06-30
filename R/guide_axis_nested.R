@@ -5,15 +5,22 @@
 #' representation of position scales. In addition, this axis guide has extra
 #' options to visualise various ranges in the scale.
 #'
+#' @param range_data An optional `data.frame` containing relevant data for
+#'   ranges.
+#' @param range_mapping An optional call to [`aes()`][ggplot2::aes] with
+#'   mappings for `start`, `end`, `name` and/or `level` in the `range_data`
+#'   argument.
+#' @param range_start,range_end Optional vectors giving the starts and ends
+#'   of ranges. Overrules any `start` or `end` aesthetic set in `range_mapping`.
+#' @param range_name An optional `character` vector giving labels to use for
+#'   ranges. Overrules any `name` mapping set in `range_mapping`.
+#' @param range_level An optional `integer` vector indicating at what depth
+#'   a range should be displayed. This is mostly useful for overruling the
+#'   default bracket dodging. Overrules any `level` mapping set in
+#'   `range_mapping`.
 #' @param sep A `character(1)` that acts as a ['regex'][base::regex]
 #'   pattern to split strings into different layers. No string splitting is
 #'   performed when the `range_*` arguments are supplied.
-#' @param range_start A `numeric` vector indicating the start of ranges.
-#' @param range_end A `numeric` vector indicating the end of ranges.
-#' @param range_name A `character` vector giving labels to use for ranges.
-#' @param range_depth (Optional) an `integer` vector indicating at what depth
-#'   a range should be displayed. This is mostly useful for overruling the
-#'   default bracket dodging.
 #' @param bracket One of the following: \itemize{
 #'   \item{A `<matrix[n, 2]>` giving point coordinates for bracket shapes, such
 #'   as returned from [bracket functions][bracket_options].}
@@ -30,11 +37,25 @@
 #'   `<element_blank>` object. Alternatively, a list of such elements, where
 #'   every item applies to a layer of text that are not the regular labels. See
 #'   also [`elements_text()`] to easily construct a list of text elements.
+#' @param handle_oob A `character(1)` describing how to deal with out-of-bounds
+#'   (oob) ranges. The default `"squish"` deletes ranges where the start and
+#'   endpoints are on the same side of limits, and squeezes the remainers to
+#'   fit inside the limits. `"censor"` will delete ranges where any part
+#'   is outside the limits. `"none"` will retain ranges regardless of limits.
 #' @param mirror_margin A `logical(1)` which if `TRUE` (default), will mirror
 #'   the `margin` field in the `axis.text.{x/y}.{position}` theme setting. If
 #'   `FALSE`, margins are taken as-is. This is an option because the default
 #'   margins may sometimes be 0 between text and a bracket, which may look
 #'   uncomfortable.
+#' @param extend_discrete A `numeric(1)` giving how much brackets should be
+#'   extended beyond the tick mark in discrete scales. Should be less than
+#'   `0.5` for adjacent ranges to not touch.
+#' @param drop_zero A `logical(1)` determining whether ranges with no
+#'   difference, up to some tolerance, in start and end point should be drawn.
+#'   If `TRUE` (default), such ranges don't get brackets, and if `FALSE`, such
+#'   ranges do get brackets. Useful to set to `FALSE` when brackets should be
+#'   drawn for single breaks in discrete scales. Note that `extend_discrete`
+#'   has no bearing on `drop_zero`.
 #' @inheritDotParams guide_axis_extend
 #'
 #' @inherit guide_axis_extend return
@@ -59,7 +80,7 @@
 #' ))
 #'
 #' # If ranges overlap, they are automatically dodged. You can override this
-#' # by setting the `range_depth` argument.
+#' # by setting the `range_level` argument.
 #' p + guides(x = guide_axis_nested(
 #'   range_start = c(1, 3),
 #'   range_end   = c(4, 6),
@@ -76,21 +97,21 @@
 #'     deep_text     = element_text(colour = "tomato")
 #'   ))
 guide_axis_nested <- function(
-  range_data     = NULL,
-  range_mapping  = NULL,
-  range_start    = NULL,
-  range_end      = NULL,
-  range_name     = NULL,
-  range_level    = NULL,
-  sep            = "[^[:alnum:]]+",
-  bracket        = "line",
-  bracket_size   = unit(2, "mm"),
-  bracket_theme  = element_line(),
-  deep_text      = element_text(),
-  handle_oob     = "squish",
+  range_data      = NULL,
+  range_mapping   = NULL,
+  range_start     = NULL,
+  range_end       = NULL,
+  range_name      = NULL,
+  range_level     = NULL,
+  sep             = "[^[:alnum:]]+",
+  bracket         = "line",
+  bracket_size    = unit(2, "mm"),
+  bracket_theme   = element_line(),
+  deep_text       = element_text(),
+  handle_oob      = "squish",
   mirror_margin   = TRUE,
   extend_discrete = 0.4,
-  drop_zero      = TRUE,
+  drop_zero       = TRUE,
   ...
 ) {
   mapped <- FALSE
@@ -412,3 +433,4 @@ ranges_from_labels <- function(key, sep = "[^[:alnum:]]+", aes,
   ranges <- vec_slice(ranges, !is.na(ranges$.label))
 
   list(key = key, ranges = ranges)
+}
