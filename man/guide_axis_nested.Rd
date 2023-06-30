@@ -5,33 +5,46 @@
 \title{Nested axis guide}
 \usage{
 guide_axis_nested(
-  sep = "[^[:alnum:]]+",
+  range_data = NULL,
+  range_mapping = NULL,
   range_start = NULL,
   range_end = NULL,
   range_name = NULL,
-  range_depth = NULL,
+  range_level = NULL,
+  sep = "[^[:alnum:]]+",
   bracket = "line",
   bracket_size = unit(2, "mm"),
   bracket_theme = element_line(),
   deep_text = element_text(),
-  mirror_padding = TRUE,
+  handle_oob = "squish",
+  mirror_margin = TRUE,
+  extend_discrete = 0.4,
+  drop_zero = TRUE,
   ...
 )
 }
 \arguments{
+\item{range_data}{An optional \code{data.frame} containing relevant data for
+ranges.}
+
+\item{range_mapping}{An optional call to \code{\link[ggplot2:aes]{aes()}} with
+mappings for \code{start}, \code{end}, \code{name} and/or \code{level} in the \code{range_data}
+argument.}
+
+\item{range_start, range_end}{Optional vectors giving the starts and ends
+of ranges. Overrules any \code{start} or \code{end} aesthetic set in \code{range_mapping}.}
+
+\item{range_name}{An optional \code{character} vector giving labels to use for
+ranges. Overrules any \code{name} mapping set in \code{range_mapping}.}
+
+\item{range_level}{An optional \code{integer} vector indicating at what depth
+a range should be displayed. This is mostly useful for overruling the
+default bracket dodging. Overrules any \code{level} mapping set in
+\code{range_mapping}.}
+
 \item{sep}{A \code{character(1)} that acts as a \link[base:regex]{'regex'}
 pattern to split strings into different layers. No string splitting is
 performed when the \verb{range_*} arguments are supplied.}
-
-\item{range_start}{A \code{numeric} vector indicating the start of ranges.}
-
-\item{range_end}{A \code{numeric} vector indicating the end of ranges.}
-
-\item{range_name}{A \code{character} vector giving labels to use for ranges.}
-
-\item{range_depth}{(Optional) an \code{integer} vector indicating at what depth
-a range should be displayed. This is mostly useful for overruling the
-default bracket dodging.}
 
 \item{bracket}{One of the following: \itemize{
 \item{A \verb{<matrix[n, 2]>} giving point coordinates for bracket shapes, such
@@ -53,11 +66,28 @@ default, it inherits from the \verb{axis.ticks.\{x/y\}.\{position\}} theme setti
 every item applies to a layer of text that are not the regular labels. See
 also \code{\link[=elements_text]{elements_text()}} to easily construct a list of text elements.}
 
-\item{mirror_padding}{A \code{logical(1)} which if \code{TRUE} (default), will mirror
+\item{handle_oob}{A \code{character(1)} describing how to deal with out-of-bounds
+(oob) ranges. The default \code{"squish"} deletes ranges where the start and
+endpoints are on the same side of limits, and squeezes the remainers to
+fit inside the limits. \code{"censor"} will delete ranges where any part
+is outside the limits. \code{"none"} will retain ranges regardless of limits.}
+
+\item{mirror_margin}{A \code{logical(1)} which if \code{TRUE} (default), will mirror
 the \code{margin} field in the \verb{axis.text.\{x/y\}.\{position\}} theme setting. If
 \code{FALSE}, margins are taken as-is. This is an option because the default
 margins may sometimes be 0 between text and a bracket, which may look
 uncomfortable.}
+
+\item{extend_discrete}{A \code{numeric(1)} giving how much brackets should be
+extended beyond the tick mark in discrete scales. Should be less than
+\code{0.5} for adjacent ranges to not touch.}
+
+\item{drop_zero}{A \code{logical(1)} determining whether ranges with no
+difference, up to some tolerance, in start and end point should be drawn.
+If \code{TRUE} (default), such ranges don't get brackets, and if \code{FALSE}, such
+ranges do get brackets. Useful to set to \code{FALSE} when brackets should be
+drawn for single breaks in discrete scales. Note that \code{extend_discrete}
+has no bearing on \code{drop_zero}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=guide_axis_extend]{guide_axis_extend}}
@@ -141,7 +171,7 @@ p + guides(x = guide_axis_nested(
 ))
 
 # If ranges overlap, they are automatically dodged. You can override this
-# by setting the `range_depth` argument.
+# by setting the `range_level` argument.
 p + guides(x = guide_axis_nested(
   range_start = c(1, 3),
   range_end   = c(4, 6),
