@@ -72,6 +72,9 @@ guide_colour_violin <- function(
       "{.code density$y} is length {length(density$y)}."
     )
   )
+  arg_class(density$x, "numeric")
+  arg_class(density$y, "numeric")
+
   just <- arg_range(just, c(0, 1))[1]
 
   guide_colourbar(
@@ -105,7 +108,6 @@ GuideColourViolin <- ggproto(
 
     # Fuss over the input now that limits are known
     xin <- oob_squish_infinite(density$x, limits)
-    # xin <- scales::oob_censor(xin, range = limits)
     finite <- is.finite(xin)
 
     abort_if(
@@ -123,7 +125,7 @@ GuideColourViolin <- ggproto(
     bar <- data_frame0(
       colour  = scale$map(bar),
       value   = bar,
-      density = rescale(apprx$y, to = c(0, 0.95))
+      density = rescale(apprx$y, to = c(0, 0.95), from = c(0, max(density$y)))
     )
     if (reverse) {
       bar <- bar[nrow(bar):1, , drop = FALSE]
