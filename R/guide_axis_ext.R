@@ -224,9 +224,11 @@ GuideAxisExtend <- ggproto(
   },
 
   transform = function(self, params, coord, panel_params) {
+    cap <- params$decor
+    params$decor <- data_frame0()
+
     params <- GuideAxis$transform(params, coord, panel_params)
 
-    cap <- params$decor
     do_trans <- !c(is.unit(cap[[1]]), is.unit(cap[[2]]))
     if (any(do_trans)) {
       cap[, do_trans] <- coord$transform(
