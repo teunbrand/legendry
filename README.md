@@ -29,9 +29,9 @@ You can install the development version of gguidance from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("tidyverse/ggplot2", ref = remotes::github_pull("4879"))
-remotes::install_github("teunbrand/gguidance", ref = "main")
+# install.package("pak")
+pak::pak("tidyverse/ggplot2") # Installs development version of ggplot2
+pak::pak("teunbrand/gguidance@main") # Installs this package
 ```
 
 ## Overview
