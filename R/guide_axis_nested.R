@@ -30,7 +30,7 @@
 #'   `<element_blank>` object. Alternatively, a list of such elements, where
 #'   every item applies to a layer of text that are not the regular labels. See
 #'   also [`elements_text()`] to easily construct a list of text elements.
-#' @param mirror_padding A `logical(1)` which if `TRUE` (default), will mirror
+#' @param mirror_margin A `logical(1)` which if `TRUE` (default), will mirror
 #'   the `margin` field in the `axis.text.{x/y}.{position}` theme setting. If
 #'   `FALSE`, margins are taken as-is. This is an option because the default
 #'   margins may sometimes be 0 between text and a bracket, which may look
@@ -88,7 +88,7 @@ guide_axis_nested <- function(
   bracket_theme  = element_line(),
   deep_text      = element_text(),
   handle_oob     = "squish",
-  mirror_padding = TRUE,
+  mirror_margin   = TRUE,
   extend_discrete = 0.4,
   drop_zero      = TRUE,
   ...
@@ -135,7 +135,7 @@ guide_axis_nested <- function(
     bracket_theme   = bracket_theme,
     deep_text       = deep_text,
     handle_oob      = handle_oob,
-    mirror_padding  = mirror_padding,
+    mirror_margin   = mirror_margin,
     extend_discrete = extend_discrete,
     drop_zero       = drop_zero,
     ...,
@@ -158,7 +158,7 @@ GuideAxisNested <- ggproto(
       bracket_theme  = element_line(),
       deep_text      = element_text(),
       handle_oob     = "squish",
-      mirror_padding = TRUE,
+      mirror_margin  = TRUE,
       extend_discrete = 0.4,
       drop_zero      = TRUE
     )
@@ -222,7 +222,7 @@ GuideAxisNested <- ggproto(
 
     elements <- GuideAxisExtend$override_elements(params, elements, theme)
 
-    if (params$mirror_padding) {
+    if (params$mirror_margin) {
       margin <- elements$text$margin
       switch(
         params$position,
