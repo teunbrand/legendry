@@ -16,7 +16,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends: 
-    ggplot2
+    ggplot2 (>= 3.4.2.9000)
 Imports: 
     cli,
     glue,
@@ -30,8 +30,11 @@ Imports:
     vctrs
 Suggests: 
     covr,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0),
     vdiffr
 Remotes:
    tidyverse/ggplot2#4879
 Config/testthat/edition: 3
+VignetteBuilder: knitr
