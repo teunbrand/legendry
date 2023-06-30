@@ -131,6 +131,35 @@ GuideColourViolin <- ggproto(
     bar
   },
 
+  extract_params = function(scale, params, hashables, title = waiver(),
+                            direction = "vertical", ...) {
+
+    params$title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
+    params$direction <- arg_match0(
+      params$direction %||% direction,
+      c("horizontal", "vertical"), arg_nm = "direction"
+    )
+    valid_label_pos <- switch(
+      params$direction,
+      horizontal = c("bottom", "top"),
+      vertical   = c("right", "left")
+    )
+    params$label.position <- params$label.position %||% valid_label_pos[1]
+    if (!params$label.position %in% valid_label_pos) {
+      cli::cli_abort(paste0(
+        "When {.arg direction} is {.val {params$direction}}, ",
+        "{.arg label.position} must be one of {.or {.val {valid_label_pos}}}, ",
+        "not {.val {params$label.position}}."
+      ))
+    }
+    barlim <- range(params$decor$value)
+    if (params$reverse) {
+      barlim <- rev(barlim)
+    }
+    params$key$.value <- rescale(params$key$.value, from = barlim)
+    Guide$extract_params(scale, params, hashables)
+  },
+
   build_decor = function(decor, grobs, elements, params) {
 
     norm  <- rescale(decor$value)
@@ -139,27 +168,26 @@ GuideColourViolin <- ggproto(
     minor <- c((1 - minor) * params$just,
                1 - (1 - rev(minor)) * (1 - params$just))
 
+    if (params$reverse) {
+      norm  <- 1 - norm
+      major <- 1 - major
+    }
+
     if (params$direction == "horizontal") {
+      grad <- linearGradient(
+        colours = decor$colour, stops = norm,
+        x1 = 0, x2 = 1, y1 = 0.5, y2 = 0.5
+      )
       x  <- major
       y  <- minor
-      x1 <- 0
-      x2 <- 1
-      y1 <- 0.5
-      y2 <- 0.5
     } else {
+      grad <- linearGradient(
+        colours = decor$colour, stops = norm,
+        x1 = 0.5, x2 = 0.5, y1 = 0, y2 = 1
+      )
       x  <- minor
       y  <- major
-      x1 <- 0.5
-      x2 <- 0.5
-      y1 <- 0
-      y2 <- 1
     }
-    grad <- linearGradient(
-      colours = decor$colour,
-      stops   = norm,
-      x1 = x1, x2 = x2,
-      y1 = y1, y2 = y2
-    )
     poly <- polygonGrob(
       x = x, y = y,
       gp = gpar(fill = grad, col = NA)
