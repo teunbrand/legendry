@@ -114,6 +114,17 @@ p + aes(colour = cty) +
   scale_colour_viridis_c(guide = guide_colour_violin(density = mpg$cty))
 ```
 
+#### Histogram colour bar
+
+Using a histogram as a colour guide:
+
+```{r colour_histogram}
+p + aes(colour = cty) +
+  scale_colour_viridis_c(
+    guide = guide_colour_histogram(hist = hist(mpg$cty, breaks = 10))
+  )
+```
+
 ### Axes
 
 #### Subtitles

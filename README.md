@@ -116,6 +116,19 @@ p + aes(colour = cty) +
 
 <img src="man/figures/README-colour_violin-1.png" width="80%" style="display: block; margin: auto;" />
 
+#### Histogram colour bar
+
+Using a histogram as a colour guide:
+
+``` r
+p + aes(colour = cty) +
+  scale_colour_viridis_c(
+    guide = guide_colour_histogram(hist = hist(mpg$cty, breaks = 10))
+  )
+```
+
+<img src="man/figures/README-colour_histogram-1.png" width="80%" style="display: block; margin: auto;" />
+
 ### Axes
 
 #### Subtitles
