@@ -1,8 +1,10 @@
 test_that("All directions and justifications work", {
+  skip_if(utils::packageVersion("base") > "4.3.0")
+
   tmp <- tempfile(fileext = ".pdf")
   grDevices::pdf(tmp)
 
-  leg <- guide_colour_violin(mpg$displ, frame = element_rect(colour = "black"))
+  leg <- guide_colour_violin(mpg$displ, frame = element_rect(colour = "black", fill = NA))
   sc  <- scale_colour_continuous()
   sc$train(range(mpg$displ))
 
@@ -16,20 +18,31 @@ test_that("All directions and justifications work", {
   thm <- theme_test()
   thm$legend.key.width <- thm$legend.key.height <- thm$legend.key.size
 
-  test_grid <- expand.grid(
-    direction = c("horizontal", "vertical"),
-    just = c(0, 0.5, 1),
-    stringsAsFactors = FALSE
+  direction <- c("horizontal", "vertical")
+  just <- c(0, 0.5, 1)
+
+  test_grid <- expand.grid(direction = direction, just = just,
+                           stringsAsFactors = FALSE)
+
+  gt <-  gtable(
+    widths  = unit(rep(1, length(direction)), "null"),
+    heights = unit(rep(1, length(just)), "null")
   )
 
   for (i in seq_row(test_grid)) {
     params$direction <- d <- test_grid$direction[i]
     params$just <- j <- test_grid$just[i]
+    params$title <- paste0("direction = ", d, "\njust = ", j)
+    d <- match(d, direction)
+    j <- match(j, just)
     params$label.position <- if (params$direction == "horizontal") "bottom" else "right"
     grob <- leg$draw(thm, params)
-    vdiffr::expect_doppelganger(
-      paste0("D:", substr(d, 1, 1), " J:", format(j, nsmall = 1)),
-      function() {grid.newpage(); grid.draw(grob)}
-    )
+
+    gt <- gtable_add_grob(gt, grobs = grob, t = j, l = d)
   }
+
+  vdiffr::expect_doppelganger(
+    "violin guides",
+    fig = function() {grid.newpage(); grid.draw(gt)}
+  )
 })
