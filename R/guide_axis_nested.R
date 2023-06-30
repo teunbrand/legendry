@@ -179,23 +179,31 @@ GuideAxisNested <- ggproto(
     if (is.null(ranges$.level)) {
       ranges <- disjoin_ranges(ranges)
     }
+
+    # Assess if input is discrete before scale transform
+    discrete_start <- -1 * is_discrete(ranges$start)
+    discrete_end   <-  1 * is_discrete(ranges$end)
+
     # User input is expected on original scale, so transform input
     ranges$start <- scale_transform(ranges$start, scale)
     ranges$end   <- scale_transform(ranges$end,   scale)
+
     # Sort ranges
     ranges[, c("start", "end")] <- list(
       start = pmin(ranges$start, ranges$end),
       end   = pmax(ranges$start, ranges$end)
     )
 
+    # Omit drawing labels that have ranges that are too small
     ranges$.draw <- TRUE
     if (isTRUE(params$drop_zero)) {
       ranges$.draw <- (ranges$end - ranges$start) > 1000 * .Machine$double.eps
     }
 
-    if (scale$is_discrete() && !is.null(params$extend_discrete)) {
-      ranges$start <- ranges$start - params$extend_discrete
-      ranges$end   <- ranges$end   + params$extend_discrete
+    extend <- params$extend_discrete
+    if (scale$is_discrete() && !is.null(extend)) {
+      ranges$start <- ranges$start + extend * discrete_start
+      ranges$end   <- ranges$end   + extend * discrete_end
     }
 
     ranges <- switch(
