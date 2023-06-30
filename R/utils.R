@@ -30,6 +30,13 @@ arg_class <- function(
   if (!is_missing(arg) && inherits(arg, class)) {
     return(invisible())
   }
+  if (any(class == "numeric")) {
+    # Test separately because integers don't inherit from numeric
+    if (!is_missing(arg) && is.numeric(arg)) {
+      return(invisible())
+    }
+  }
+
   if (is_missing(arg)) {
     friendly <- "absent"
   } else {

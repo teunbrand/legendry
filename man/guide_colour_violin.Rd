@@ -145,6 +145,7 @@ p + guides(colour = guide_colour_violin(mpg$cty, just = 0))
 }
 \seealso{
 Other colour bar variants: 
+\code{\link{guide_colour_histogram}()},
 \code{\link{guide_colourbar_cap}()}
 }
 \concept{colour bar variants}

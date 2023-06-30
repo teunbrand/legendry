@@ -307,3 +307,5 @@ flip_names <- c(
   x = "y", y = "x", width = "height", height = "width", hjust = "vjust",
   vjust = "hjust", margin_x = "margin_y", margin_y = "margin_x"
 )
+
+`%|W|%` <- function(a, b) if (!inherits(a, "waiver")) a else b
