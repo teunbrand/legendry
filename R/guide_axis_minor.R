@@ -1,4 +1,4 @@
-# Public constructor ------------------------------------------------------
+# Constructor -------------------------------------------------------------
 
 #' Axis guide with ticks for minor breaks
 #'

@@ -99,6 +99,10 @@ guide_legend_string <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideLegendString <- ggproto(
   "GuideLegendString", GuideLegend,
 

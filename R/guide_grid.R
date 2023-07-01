@@ -1,3 +1,5 @@
+# Constructor -------------------------------------------------------------
+
 #' Vanilla grid guide
 #'
 #' This guide will draw a regular panel grid, with optional break adjustments.
@@ -29,6 +31,7 @@
 #'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument
 #'   in [`coord_guided()`].
 #' @export
+#' @family grid guide variants
 #'
 #' @examples
 #' # A standard plot
@@ -69,6 +72,13 @@ guide_grid <- function(
   )
 }
 
+
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideGrid <- ggproto(
   "GuideGrid", Guide,
 
@@ -177,6 +187,8 @@ GuideGrid <- ggproto(
     grob
   }
 )
+
+# Helpers -----------------------------------------------------------------
 
 #' Breaks between discrete categories
 #'

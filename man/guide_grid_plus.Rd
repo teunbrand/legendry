@@ -96,3 +96,9 @@ p + coord_guided(guide = guide_grid_plus(edge = FALSE))
 # Turning off the minor gridlines
 p + coord_guided(guide = guide_grid_plus(minor_breaks = NULL))
 }
+\seealso{
+Other grid guide variants: 
+\code{\link{guide_grid_zebra}()},
+\code{\link{guide_grid}()}
+}
+\concept{grid guide variants}

@@ -1,3 +1,5 @@
+# Constructor -------------------------------------------------------------
+
 #' Violin colour guide
 #'
 #' Like regular colour bar guides, this violin guide also shows continuous
@@ -88,6 +90,12 @@ guide_colour_violin <- function(
   )
 }
 
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideColourViolin <- ggproto(
   "GuideColourViolin", GuideColourbar,
   params = c(

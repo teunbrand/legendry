@@ -1,3 +1,4 @@
+# Constructor -------------------------------------------------------------
 
 #' Nested axis guide
 #'
@@ -166,6 +167,10 @@ guide_axis_nested <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideAxisNested <- ggproto(
   "GuideAxisNested", GuideAxisExtend,
 

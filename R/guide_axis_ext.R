@@ -1,4 +1,4 @@
-# Public constructor ------------------------------------------------------
+# Constructor -------------------------------------------------------------
 
 #' Extended axis guide
 #'
@@ -149,6 +149,10 @@ guide_axis_extend <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideAxisExtend <- ggproto(
   "GuideAxisExtend", GuideAxis,
 

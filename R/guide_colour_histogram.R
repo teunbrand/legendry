@@ -1,3 +1,5 @@
+# Constructor -------------------------------------------------------------
+
 #' Histogram colour guide
 #'
 #' Like regular colour bar guides, this histogram guide also shows continuous
@@ -91,6 +93,12 @@ guide_colour_histogram <- function(
   )
 }
 
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideColourHistogram <- ggproto(
   "GuideColourHistogram", GuideColourbar,
   params = c(
@@ -213,6 +221,8 @@ GuideColourHistogram <- ggproto(
     }
   }
 )
+
+# Helpers -----------------------------------------------------------------
 
 # This is a helper function to set `hist(..., plot = FALSE)`
 suppress_hist_plot <- function(hist) {

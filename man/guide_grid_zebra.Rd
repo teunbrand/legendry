@@ -115,3 +115,9 @@ p + coord_guided(guide = guide_grid_zebra(
 p + coord_guided(guide = guide_grid_zebra(direction = 'both', at = "minor")) +
   theme(panel.grid.major = element_line(colour = alpha("white", 0.5)))
 }
+\seealso{
+Other grid guide variants: 
+\code{\link{guide_grid_plus}()},
+\code{\link{guide_grid}()}
+}
+\concept{grid guide variants}

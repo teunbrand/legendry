@@ -1,3 +1,5 @@
+# Constructor -------------------------------------------------------------
+
 #' 'Plus' grid guide
 #'
 #' This guide draws a panel grid, but only displays the grid lines at
@@ -21,6 +23,7 @@
 #'   [`guides()`][ggplot2::guides()] function, or set as the `guide` argument
 #'   in [`coord_guided()`].
 #' @export
+#' @family grid guide variants
 #'
 #' @examples
 #' # A standard plot
@@ -83,6 +86,12 @@ guide_grid_plus <- function(
   )
 }
 
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideGridPlus <- ggproto(
   NULL, GuideGrid,
 

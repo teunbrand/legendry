@@ -1,3 +1,5 @@
+# Constructor -------------------------------------------------------------
+
 #' Zebra grid
 #'
 #' This guide will draw the panel grid as alternating stripes, resembling the
@@ -31,6 +33,7 @@
 #' breaks in the `direction` dimension in between levels. To restore classic
 #' major breaks at discrete scales, one can set the relevant
 #' `breaks_{x/y} = seq_along`.
+#' @family grid guide variants
 #'
 #' @examples
 #' # A standard plot
@@ -122,6 +125,12 @@ guide_grid_zebra <- function(
 
 }
 
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideGridZebra <- ggproto(
   "GuideGridZebra", GuideGrid,
 
@@ -211,7 +220,7 @@ GuideGridZebra <- ggproto(
       min    <- oob_squish(y - height * 0, c(0, 1))
       max    <- oob_squish(y + height * 1, c(0, 1))
       mid    <- (min + max) / 2
-      height <- c(max - min)
+      height <- (max - min)
 
       keep <- seq_along(y) %% 2 == as.numeric(params$odd_y)
 

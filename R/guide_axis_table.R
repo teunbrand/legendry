@@ -1,4 +1,4 @@
-# Public constructor ------------------------------------------------------
+# Constructor -------------------------------------------------------------
 
 #' Table as axis guide
 #'
@@ -208,6 +208,10 @@ guide_axis_table <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideAxisTable <- ggproto(
   "GuideAxisTable", GuideAxis,
 

@@ -1,4 +1,4 @@
-# Public constructor ------------------------------------------------------
+# Constructor -------------------------------------------------------------
 
 #' Capped colour bar guide
 #'
@@ -73,6 +73,10 @@ guide_colorbar_cap <- guide_colourbar_cap
 
 # Classes ------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideColourbarCap <- ggproto(
   "GuideColourbarCap", GuideColourbar,
   params = c(

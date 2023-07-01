@@ -108,6 +108,10 @@ guide_legend_cross <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideLegendCross <- ggproto(
   "GuideLegendCross", GuideLegend,
 

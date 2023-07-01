@@ -67,3 +67,9 @@ p + coord_guided(guide = guide_grid(x_breaks = 0.5:7.5))
 p + coord_guided() +
   guides(grid = guide_grid(x_breaks = breaks_between()))
 }
+\seealso{
+Other grid guide variants: 
+\code{\link{guide_grid_plus}()},
+\code{\link{guide_grid_zebra}()}
+}
+\concept{grid guide variants}
