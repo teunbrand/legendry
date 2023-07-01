@@ -13,7 +13,7 @@ reference:
     Alternatives to `guide_colourbar()` to display continuous colour and fill
     scales.
 - contents:
-  - starts_with("guide_colour_")
+  - starts_with("guide_colour")
 - title: Legend guides
   desc: >
     Variations on a `guide_legend()` to display discrete representations of
@@ -26,3 +26,12 @@ reference:
   contents:
   - coord_guided
   - starts_with("guide_grid")
+- title: Miscellaneous
+  desc: >
+    Functions that aren't directly guide functions
+  contents:
+  - bracket_options
+  - breaks_between
+  - elements_text
+  - gguidance_extensions
+
