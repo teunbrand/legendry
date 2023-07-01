@@ -212,7 +212,8 @@ scale_grid_extract <- function(major = waiver(), minor = waiver(), scale) {
 
     new_scale <- ggproto(
       NULL, scale$scale,
-      breaks = major, minor_breaks = minor
+      breaks = major, minor_breaks = minor,
+      limits = scale$continuous_range
     )
 
     major <- new_scale$get_breaks()
