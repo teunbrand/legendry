@@ -51,12 +51,17 @@ A table of contents of this package's utilities:
 1. [Colour bars](#colour-bars)
     1. [Capped colour bar](#capped-colour-bar)
     1. [Violin colour bar](#violin-colour-bar)
+    1. [Histogram colour bar](#histogram-colour-bar)
 1. [Axes](#axes)
    1. [Subtitles](#subtitles)
    1. [Minor ticks](#minor-ticks)
    1. [Capping](#capping)
    1. [Ranges](#ranges)
    1. [Table](#table)
+1. [Grids](#grids)
+   1. [Regular](#regular)
+   1. [Plus](#plus)
+   1. [Zebra](#zebra)
    
 ## Examples
 
@@ -156,8 +161,14 @@ p + guides(x = "axis_cap")
 With bracketed ranges.
 
 ```{r axis_nested}
-ggplot(mpg, aes(class, displ)) +
+boxplot <- ggplot(mpg, aes(class, displ)) +
   geom_boxplot() +
+  labs(
+    x = "Type of car",
+    y = "Engine displacement"
+  )
+
+boxplot +
   guides(x = guide_axis_nested(
     range_start = c(0.5, 3.5),
     range_end   = c(4.5, 6.5),
@@ -172,13 +183,40 @@ Using a table as an axis guide.
 
 ```{r axis_table}
 # Creating summary table
-my_table <- lapply(split(mpg[, c("displ", "cty", "hwy")], mpg$cyl), colMeans)
+my_table <- lapply(split(mpg[, c("displ", "cty", "hwy")], mpg$class), colMeans)
 my_table <- as.data.frame(do.call(rbind, my_table))
 my_table[] <- lapply(my_table, scales::number, accuracy = 0.01)
-my_table$cyl <- rownames(my_table)
+my_table$class <- rownames(my_table)
 
 # Use summary table as axis guide
-ggplot(mpg, aes(factor(cyl), displ)) +
-  geom_boxplot() +
-  guides(x = guide_axis_table(table = my_table, key_col = cyl))
+boxplot +
+  guides(x = guide_axis_table(table = my_table, key_col = class))
+```
+
+### Grids
+
+#### Regular
+
+Like the vanilla panel grid, but with more options for where breaks appear. Here, between categories.
+
+```{r regular_grid}
+boxplot +
+  coord_guided(guide_grid(x_breaks = breaks_between()))
+```
+
+#### Plus
+
+Subtler grid lines by only drawing the intersections, making a 'plus' symbol.
+
+```{r plus_grid}
+p + coord_guided("grid_plus")
+```
+
+#### Zebra
+
+Alternating stripes between breaks.
+
+```{r zebra_grid}
+boxplot + coord_guided("grid_zebra") +
+  theme(panel.grid.major.x = element_line(alpha("grey50", 0.1)))
 ```

@@ -44,12 +44,17 @@ A table of contents of this package’s utilities:
 2.  [Colour bars](#colour-bars)
     1.  [Capped colour bar](#capped-colour-bar)
     2.  [Violin colour bar](#violin-colour-bar)
+    3.  [Histogram colour bar](#histogram-colour-bar)
 3.  [Axes](#axes)
     1.  [Subtitles](#subtitles)
     2.  [Minor ticks](#minor-ticks)
     3.  [Capping](#capping)
     4.  [Ranges](#ranges)
     5.  [Table](#table)
+4.  [Grids](#grids)
+    1.  [Regular](#regular)
+    2.  [Plus](#plus)
+    3.  [Zebra](#zebra)
 
 ## Examples
 
@@ -166,8 +171,14 @@ p + guides(x = "axis_cap")
 With bracketed ranges.
 
 ``` r
-ggplot(mpg, aes(class, displ)) +
+boxplot <- ggplot(mpg, aes(class, displ)) +
   geom_boxplot() +
+  labs(
+    x = "Type of car",
+    y = "Engine displacement"
+  )
+
+boxplot +
   guides(x = guide_axis_nested(
     range_start = c(0.5, 3.5),
     range_end   = c(4.5, 6.5),
@@ -184,15 +195,50 @@ Using a table as an axis guide.
 
 ``` r
 # Creating summary table
-my_table <- lapply(split(mpg[, c("displ", "cty", "hwy")], mpg$cyl), colMeans)
+my_table <- lapply(split(mpg[, c("displ", "cty", "hwy")], mpg$class), colMeans)
 my_table <- as.data.frame(do.call(rbind, my_table))
 my_table[] <- lapply(my_table, scales::number, accuracy = 0.01)
-my_table$cyl <- rownames(my_table)
+my_table$class <- rownames(my_table)
 
 # Use summary table as axis guide
-ggplot(mpg, aes(factor(cyl), displ)) +
-  geom_boxplot() +
-  guides(x = guide_axis_table(table = my_table, key_col = cyl))
+boxplot +
+  guides(x = guide_axis_table(table = my_table, key_col = class))
 ```
 
 <img src="man/figures/README-axis_table-1.png" width="80%" style="display: block; margin: auto;" />
+
+### Grids
+
+#### Regular
+
+Like the vanilla panel grid, but with more options for where breaks
+appear. Here, between categories.
+
+``` r
+boxplot +
+  coord_guided(guide_grid(x_breaks = breaks_between()))
+```
+
+<img src="man/figures/README-regular_grid-1.png" width="80%" style="display: block; margin: auto;" />
+
+#### Plus
+
+Subtler grid lines by only drawing the intersections, making a ‘plus’
+symbol.
+
+``` r
+p + coord_guided("grid_plus")
+```
+
+<img src="man/figures/README-plus_grid-1.png" width="80%" style="display: block; margin: auto;" />
+
+#### Zebra
+
+Alternating stripes between breaks.
+
+``` r
+boxplot + coord_guided("grid_zebra") +
+  theme(panel.grid.major.x = element_line(alpha("grey50", 0.1)))
+```
+
+<img src="man/figures/README-zebra_grid-1.png" width="80%" style="display: block; margin: auto;" />
