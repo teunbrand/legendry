@@ -1,0 +1,28 @@
+url: https://teunbrand.github.io/gguidance/
+template:
+  bootstrap: 5
+
+reference:
+- title: Axis guides
+  desc: >
+    Extensions of axis guides to tweak the display of position scales.
+- contents:
+  - starts_with("guide_axis_")
+- title: Colourbar guides
+  desc: >
+    Alternatives to `guide_colourbar()` to display continuous colour and fill
+    scales.
+- contents:
+  - starts_with("guide_colour_")
+- title: Legend guides
+  desc: >
+    Variations on a `guide_legend()` to display discrete representations of
+    data.
+- contents:
+  - starts_with("guide_legend_")
+- title: Grid guides
+  desc: >
+    Additional ways of laying out the panel grid.
+  contents:
+  - coord_guided
+  - starts_with("guide_grid")

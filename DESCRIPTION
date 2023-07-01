@@ -39,3 +39,4 @@ Remotes:
    tidyverse/ggplot2#4879
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://teunbrand.github.io/gguidance/
