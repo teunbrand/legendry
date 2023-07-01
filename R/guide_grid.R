@@ -178,60 +178,6 @@ GuideGrid <- ggproto(
   }
 )
 
-# Helper function for extracting breaks from scales.
-scale_grid_extract <- function(major = waiver(), minor = waiver(), scale) {
-
-  default_major <- scale$get_breaks()
-  default_minor <- scale$get_breaks_minor()
-
-  if (scale$is_discrete()) {
-
-    major  <- major %|W|% default_major
-    minor  <- minor %|W|% default_minor
-    limits <- scale$get_limits()
-
-    if (!is.function(major) && !is.numeric(major)) {
-      new_scale <- ggproto(
-        NULL, scale$scale,
-        breaks = major
-      )
-      major <- new_scale$get_breaks()
-    } else if (is.function(major)) {
-      major <- major(limits)
-    }
-    if (is.function(minor)) {
-      minor <- minor(limits)
-    }
-  } else {
-    inverse <- scale$scale$trans$inverse
-    default_major <- inverse(default_major)
-    default_minor <- inverse(default_minor)
-
-    major <- major %|W|% default_major
-    minor <- minor %|W|% default_minor
-
-    new_scale <- ggproto(
-      NULL, scale$scale,
-      breaks = major, minor_breaks = minor,
-      limits = scale$continuous_range
-    )
-
-    major <- new_scale$get_breaks()
-    minor <- new_scale$get_breaks_minor()
-  }
-
-  major <- scale$map(major)
-  minor <- scale$map(minor)
-
-  major <- major[!is.na(major)]
-  minor <- minor[!is.na(minor)]
-
-  list(
-    major = major,
-    minor = setdiff(minor, major)
-  )
-}
-
 #' Breaks between discrete categories
 #'
 #' This is a function factory that returns a function for placing breaks in
