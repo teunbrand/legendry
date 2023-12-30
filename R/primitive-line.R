@@ -1,3 +1,5 @@
+# Constructor -------------------------------------------------------------
+
 #' Guide primitive: line
 #'
 #' This function constructs a line [guide primitive][guide-primitives].
@@ -40,6 +42,12 @@ guide_line <- function(cap = "none", theme = NULL, position = waiver()) {
   )
 }
 
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 GuideLine <- ggproto(
   "GuideLine", Guide,
 
@@ -146,6 +154,8 @@ GuideLine <- ggproto(
     )
   }
 )
+
+# Helpers -----------------------------------------------------------------
 
 check_cap_arg <- function(cap, call = caller_env()) {
   if (is.logical(cap)) {
