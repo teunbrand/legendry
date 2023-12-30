@@ -7,5 +7,6 @@
 #' @import rlang
 #' @import vctrs
 #' @import gtable
+#' @import scales
 ## usethis namespace: end
 NULL

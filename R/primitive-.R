@@ -18,7 +18,12 @@ NULL
 primitive_grob <- function(grob, size, position, name) {
 
   if (!position %in% .trbl) {
-    grob <- gTree(offset = size, children = gList(grob))
+    if (is.grob(grob)) {
+      grob <- gList(grob)
+    } else {
+      grob <- inject(gList(!!!grob))
+    }
+    grob <- gTree(offset = sum(size), children = grob)
     return(grob)
   }
 
@@ -28,15 +33,23 @@ primitive_grob <- function(grob, size, position, name) {
   if (position %in% c("top", "bottom")) {
     width  <- unit(1, "npc")
     height <- size
-    vp     <- viewport(y = origin, height = size, just = opposite)
+    vp     <- viewport(y = origin, height = sum(size), just = opposite)
+    gt <- gtable(widths = width, height = height)
+    gt <- gtable_add_grob(gt, grob, t = seq_along(size), l = 1L, clip = "off", name = name)
   } else {
     height <- unit(1, "npc")
     width  <- size
-    vp     <- viewport(x = origin, width = size, just = opposite)
+    vp     <- viewport(x = origin, width = sum(size), just = opposite)
+    gt <- gtable(widths = width, height = height)
+    gt <- gtable_add_grob(gt, grob, t = 1L, l = seq_along(size), clip = "off", name = name)
   }
 
-  gt <- gtable(widths = width, height = height)
-  gt <- gtable_add_grob(gt, grob, t = 1L, l = 1L, clip = "off", name = name)
-
-  absoluteGrob(grob, width = width, height = height, vp = vp)
+  absoluteGrob(gList(gt), width = sum(width), height = sum(height), vp = vp)
 }
+
+new_params <- function(defaults, ...) {
+  dots <- list2(...)
+  for (i in names(dots)) defaults[i] <- dots[i]
+  defaults
+}
+

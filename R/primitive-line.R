@@ -20,8 +20,16 @@
 #'
 #' @return A `GuideLine` primitive guide that can be used inside other guides.
 #' @export
+#' @family primitives
 #'
 #' @examples
+#' # A standard plot
+#' p <- ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point() +
+#'   theme(axis.line = element_line())
+#'
+#' # Adding as secondary guides
+#' p + guides(x.sec = "line", y.sec = guide_line(cap = "both"))
 guide_line <- function(cap = "none", theme = NULL, position = waiver()) {
   new_guide(
     cap = check_cap_arg(cap),
@@ -84,10 +92,11 @@ GuideLine <- ggproto(
         theta.sec = ".x.top",
         paste0(".", params$aesthetic, ".", params$position)
       )
+      prefix <- "axis."
     } else {
       prefix <- "legend."
     }
-    element <- paste0(prefix, "axis.line", suffix)
+    element <- paste0(prefix, "line", suffix)
     Guide$setup_elements(params, list(line = element), theme)
   },
 
