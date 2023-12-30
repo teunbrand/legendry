@@ -25,3 +25,5 @@ Imports:
     rlang (>= 1.1.0),
     scales,
     vctrs
+Suggests: 
+    testthat (>= 3.0.0)
