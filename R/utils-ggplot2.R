@@ -34,12 +34,76 @@ absoluteGrob <- function(grob, width = NULL, height = NULL,
   )
 }
 
+is_empty <- function(df) {
+  length(df) == 0 || nrow(df) == 0 || is_waive(df)
+}
+
+is.zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
+
 replace_null <- function(obj, ..., env = caller_env()) {
   dots <- enexprs()
   nms  <- names(dots)
   nms  <- nms[vapply(obj[nms], is.null, logical(1))]
   obj[nms] <- inject(list(!!!dots[nms]), env = env)
   obj
+}
+
+.rad2deg <- 180 / pi
+rad2deg <- function(rad) rad * .rad2deg
+
+.deg2rad <- pi / 180
+deg2rad <- function(deg) deg * .deg2rad
+
+flip_text_angle <- function(angle) {
+  angle <- angle %% 360
+  flip  <- angle > 90 & angle < 270
+  angle[flip] <- angle[flip] + 180
+  angle
+}
+
+width_cm <- function(x) {
+  if (is.grob(x)) x <- grobWidth(x)
+  if (is.unit(x)) {
+    convertWidth(x, "cm", valueOnly = TRUE)
+  } else if (is.list(x)) {
+    vapply(x, width_cm, numeric(1))
+  } else {
+    cli::cli_abort("Don't know how to get width of {.cls {class(x)}} object.")
+  }
+}
+
+height_cm <- function(x) {
+  if (is.grob(x)) x <- grobHeight(x)
+  if (is.unit(x)) {
+    convertHeight(x, "cm", TRUE)
+  } else if (is.list(x)) {
+    vapply(x, height_cm, numeric(1))
+  } else {
+    cli::cli_abort("Don't know how to get height of {.cls {class(x)}} object.")
+  }
+}
+
+data_frame0 <- function(...) data_frame(..., .name_repair = "minimal")
+
+find_global <- function(name, env, mode = "any") {
+  if (exists(name, envir = env, mode = mode)) {
+    return(get(name, envir = env, mode = mode))
+  }
+  nsenv <- asNamespace("gguidance")
+  if (exists(name, envir = nsenv, mode = mode)) {
+    return(get(name, envir = nsenv, mode = mode))
+  }
+  nsenv <- asNamespace("ggplot2")
+  if (exists(name, envir = nsenv, mode = mode)) {
+    return(get(name, envir = nsenv, mode = mode))
+  }
+  NULL
+}
+
+is_mapped_discrete <- function(x) inherits(x, "mapped_discrete")
+
+as_cli <- function(..., env = caller_env()) {
+  cli::cli_fmt(cli::cli_text(..., .envir = env))
 }
 
 # nocov end
