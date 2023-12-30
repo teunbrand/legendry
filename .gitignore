@@ -5,4 +5,5 @@
 .httr-oauth
 .DS_Store
 .quarto
+Rplot*
 docs
