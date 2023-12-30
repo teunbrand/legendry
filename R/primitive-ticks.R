@@ -66,7 +66,9 @@ GuideTicks <- ggproto(
 
   override_elements = function(params, elements, theme) {
     if (is_blank(elements$ticks) || nrow(params$key) < 1) {
-      elements$ticks_length <- unit(0, "cm")
+      elements$ticks_length <- 0
+    } else {
+      elements$ticks_length <- cm(elements$ticks_length)
     }
     elements
   },

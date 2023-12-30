@@ -89,12 +89,7 @@ GuideTitle <- ggproto(
       prefix <- "legend."
     }
     elements <- list(title = paste0(prefix, "title", suffix))
-    if (is.null(params$stack_offset)) {
-      elements$offset <- 0
-    } else {
-      elements$offset <-
-        convertUnit(params$stack_offset, "cm", valueOnly = TRUE)
-    }
+    elements$offset <- cm(params$stack_offset %||% 0)
     Guide$setup_elements(params, elements, theme)
   },
 
@@ -162,7 +157,7 @@ draw_theta_title <- function(label, elements, params) {
   }
   rad <- deg2rad(angle)
 
-  margin <- convertUnit(max(title$margin), "cm", valueOnly = TRUE)
+  margin <- cm(max(title$margin))
   offset <- offset + margin
 
   x <- rescale(r * sin(theta) + 0.5, from = bbox$x)

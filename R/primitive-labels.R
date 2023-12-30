@@ -79,11 +79,7 @@ GuideLabels <- ggproto(
       prefix <- "legend."
     }
     elements <- list(text = paste0(prefix, "text", suffix))
-    if (is.null(params$stack_offset)) {
-      elements$offset <- 0
-    } else {
-      elements$offset <- convertUnit(params$stack_offset, "cm", valueOnly = TRUE)
-    }
+    elements$offset <- cm(params$stack_offset %||% 0)
     Guide$setup_elements(params, elements, theme)
   },
 
@@ -198,7 +194,7 @@ draw_labels <- function(key, element, angle, offset,
     position, top = 0, bottom = 1, left = 1.5, right = 0.5
   ))
 
-  margin <- convertUnit(max(element$margin), "cm", valueOnly = TRUE)
+  margin <- cm(max(element$margin))
   offset <- offset + margin
 
   x <- x + unit(offset * sin(theta), "cm")

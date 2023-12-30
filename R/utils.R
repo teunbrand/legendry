@@ -91,4 +91,19 @@ polar_xy <- function(data, r, theta, bbox) {
   data
 }
 
+scale_transform <- function(x, scale) {
+  transform <- scale$get_transformation()
+  if (is.null(transform)) {
+    (scale$scale$map %||% scale$map)(x)
+  } else {
+    transform$transform(x)
+  }
+}
+
+cm <- function(x) {
+  if (!is.unit(x)) {
+    return(x)
+  }
+  convertUnit(x, "cm", valueOnly = TRUE)
+}
 
