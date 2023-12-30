@@ -164,7 +164,7 @@ draw_labels <- function(key, element, angle, offset,
     key <- vec_slice(key, order)
   }
 
-  just <- ggplot2:::rotate_just(angle %||% element$angle, element$hjust, element$vjust)
+  just <- rotate_just(angle %||% element$angle, element$hjust, element$vjust)
   x <- switch(position, left = , right = just$hjust, key$x)
   y <- switch(position, top = , bottom = just$vjust, key$y)
 

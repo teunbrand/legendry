@@ -106,4 +106,34 @@ as_cli <- function(..., env = caller_env()) {
   cli::cli_fmt(cli::cli_text(..., .envir = env))
 }
 
+rotate_just <- function(angle = NULL, hjust, vjust) {
+  angle <- (angle %||% 0) %% 360
+
+  # Apply recycle rules
+  size  <- vec_size_common(angle, hjust, vjust)
+  angle <- vec_recycle(angle, size)
+  hjust <- vec_recycle(hjust, size)
+  vjust <- vec_recycle(vjust, size)
+
+  # Find quadrant on circle
+  case <- findInterval(angle, c(0, 90, 180, 270, 360))
+
+  hnew <- hjust
+  vnew <- vjust
+
+  is_case <- which(case == 2) # 90 <= x < 180
+  hnew[is_case] <- 1 - vjust[is_case]
+  vnew[is_case] <- hjust[is_case]
+
+  is_case <- which(case == 3) # 180 <= x < 270
+  hnew[is_case] <- 1 - hjust[is_case]
+  vnew[is_case] <- 1 - vjust[is_case]
+
+  is_case <- which(case == 4) # 270 <= x < 360
+  hnew[is_case] <- vjust[is_case]
+  vnew[is_case] <- 1 - hjust[is_case]
+
+  list(hjust = hnew, vjust = vnew)
+}
+
 # nocov end
