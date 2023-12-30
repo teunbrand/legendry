@@ -4,11 +4,14 @@ is_blank <- function(x) inherits(x, "element_blank")
 .in2cm <- convertUnit(unit(1, "in"), "cm", valueOnly = TRUE)
 
 eval_aes <- function(
-  data, mapping, valid = NULL,
-  call = caller_env(),
+  data, mapping,
+  required = character(),
+  optional = character(),
+  call     = caller_env(),
   arg_mapping = caller_arg(mapping),
   arg_data    = caller_arg(data)
 ) {
+  valid <- c(optional, required)
   call <- call %||% current_call()
   if (!inherits(mapping, "uneval")) {
     cli::cli_abort(
@@ -41,10 +44,20 @@ eval_aes <- function(
     )
     return(data_frame0())
   }
-  data_frame0(
+  df <- data_frame0(
     !!!values, .size = max(sizes),
     .error_call = call
   )
+
+  if (!all(required %in% names(df))) {
+    missing <- setdiff(required, names(df))
+    cli::cli_abort(
+      "The {.field {missing}} column{?s} {?is/are} required.",
+      call = call
+    )
+  }
+
+  df
 }
 
 pad <- function(x, length, fill = NA, where = "end") {
