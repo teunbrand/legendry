@@ -1,4 +1,6 @@
-#' Typical keys
+# Standard keys -----------------------------------------------------------
+
+#' Standard keys
 #'
 #' @description
 #' These functions are helper functions for working with tick marks as keys
@@ -34,7 +36,11 @@
 #'   formatted labels.
 #'
 #' @name key_standard
-#' @return A function.
+#' @family keys
+#' @return
+#' For `key_auto()`, `key_minor()` and `key_log()` a function. For
+#' `key_manual()` and `key_map()` a `<data.frame>` with the `<key_standard>`
+#' class.
 #'
 #' @examples
 #' # An example scale
@@ -294,7 +300,8 @@ transform_key <- function(key, position, coord, panel_params) {
 
   if (ends[1]) {
     key <- rename(key, c("x", "xend"), rev)
-  } else if (ends[2]) {
+  }
+  if (ends[2]) {
     key <- rename(key, c("y", "yend"), rev)
   }
   key <- coord$transform(key, panel_params)
