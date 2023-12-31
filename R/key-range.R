@@ -167,6 +167,37 @@ range_extract_key <- function(
 
 # Helpers -----------------------------------------------------------------
 
+range_oob <- function(ranges, method, limits) {
+  limits <- sort(limits)
+  ranges <- switch(
+    method,
+    "squish" = range_squish(ranges, limits),
+    "censor" = range_censor(ranges, limits),
+    ranges
+  )
+  vec_slice(ranges, !is.na(ranges$.draw))
+}
+
+range_squish <- function(ranges, limits) {
+  start  <- ranges$start
+  end    <- ranges$end
+  oob_start <- is_oob(start, limits)
+  oob_end   <- is_oob(end,   limits)
+  keep <- !oob_start | !oob_end | (start < limits[1] & end > limits[2])
+  ranges$.draw[!keep] <- NA
+  ranges$start <- pmin(pmax(ranges$start, limits[1]), limits[2])
+  ranges$end   <- pmin(pmax(ranges$end,   limits[1]), limits[2])
+  ranges
+}
+
+range_censor <- function(ranges, limits) {
+  oob_start <- is_oob(ranges$start, limits)
+  oob_end   <- is_oob(ranges$end, limits)
+  keep      <- !oob_start & !oob_end
+  ranges$.draw[!keep] <- NA
+  ranges
+}
+
 range_from_label <- function(
   scale, aesthetic = NULL, sep =  "[^[:alnum:]]+", reverse = FALSE, call = caller_env()
 ) {

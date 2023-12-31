@@ -1,0 +1,342 @@
+# Constructor -------------------------------------------------------------
+
+#' Guide primitive: brackets
+#'
+#' This function constructs a brackets [guide primitive][guide-primitives].
+#'
+#' @param key A [range key][key_range] specification. See more information
+#'   in the linked topic.
+#' @param bracket A [bracket][bracket_options] by either providing one of the
+#'  following:
+#'  * A bracket `<function>`, such as `bracket_square`.
+#'  * A `<character[1]>` naming a bracket function without the
+#'  `bracket_`-prefix, e.g. `"square"`.
+#'  * A two-column `<matrix[n, 2]>` giving line coordinates for a bracket,
+#'  like those created by bracket functions, such as `bracket_round()`.
+#' @param oob A method for dealing with out-of-bounds (oob) ranges. Can be one
+#'  of `"squish"`, `"censor"` or `"none"`.
+#' @param drop_zero A `<logical[1]>` whether to drop near-zero width ranges
+#'   (`TRUE`, default) or preserve them (`FALSE`).
+#' @param pad_discrete A `<numeric[1]>` giving the amount ranges should be
+#'   extended when given as a discrete variable. This is applied after
+#'   the `drop_zero` setting.
+#' @inheritParams ggplot2::guide_axis
+#'
+#' @return A `<GuideBracket>` primitive guide that can be used inside other
+#'   guides.
+#' @family primitives
+#' @export
+#'
+#' @examples
+#' # A standard plot
+#' p <- ggplot(mpg, aes(interaction(drv, year), displ)) +
+#'  geom_point()
+#'
+#' # Adding as secondary guides
+#' p + guides(
+#'   x.sec = "bracket",
+#'   y.sec = guide_bracket(key = key_range_manual(c(2, 4), c(5, 6), c("A", "B")))
+#' )
+guide_bracket <- function(
+  key = "range_auto",
+  bracket = "line",
+  angle = waiver(),
+  oob = "squish",
+  drop_zero = TRUE,
+  pad_discrete = 0.4,
+  theme = NULL,
+  position = waiver()
+) {
+
+  key <- resolve_key(key)
+  oob <- arg_match0(oob, c("squish", "censor", "none"))
+  check_bool(drop_zero)
+  check_number_decimal(pad_discrete, allow_infinite = FALSE)
+  bracket <- resolve_bracket(bracket)
+
+  new_guide(
+    key = key,
+    oob = oob,
+    angle = angle,
+    drop_zero = drop_zero,
+    pad_discrete = pad_discrete,
+    bracket = bracket,
+    theme = theme,
+    position = position,
+    available_aes = c("any", "x", "y", "r", "theta"),
+    super = GuideBracket
+  )
+}
+
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
+GuideBracket <- ggproto(
+  "GuideBracket", Guide,
+
+  params = new_params(
+    Guide$params, key = NULL, oob = "squish", drop_zero = TRUE,
+    pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0, 1), 0.5)
+  ),
+
+  extract_key = function(scale, aesthetic, key,
+                         drop_zero = TRUE, pad_discrete = 0,  oob = "squish",
+                         ...) {
+    if (is.function(key)) {
+      key <- key(scale, aesthetic)
+    }
+    if (is.null(key$.level)) {
+      key <- disjoin_ranges(key)
+    }
+
+    # Mark discrete variables separately for start and end
+    disc_start <- -1 * is_discrete(key$start)
+    disc_end   <- +1 * is_discrete(key$end)
+
+    key$start <- scale_transform(key$start, scale, map = TRUE, "start")
+    key$end   <- scale_transform(key$end,   scale, map = TRUE, "end")
+
+    # Sort starts and ends
+    key[c("start", "end")] <- list(
+      start = pmin(key$start, key$end),
+      end   = pmax(key$start, key$end)
+    )
+
+    # Mark ranges where no brackets should be drawn
+    key$.draw <- TRUE
+    if (!isFALSE(drop_zero)) {
+      key$.draw <- abs(key$end - key$start) > sqrt(.Machine$double.eps)
+    }
+    key$.draw <- key$.draw & key$.level > 0
+
+    # Apply padding for discrete variables
+    extend <- pad_discrete
+    if (scale$is_discrete() && !is.null(extend)) {
+      key$start <- key$start + extend * disc_start
+      key$end   <- key$end   + extend * disc_end
+    }
+
+    # Apply out-of-bounds rules
+    limits <- scale$continuous_range %||% scale$get_limits()
+    range_oob(key, oob, limits)
+  },
+
+  extract_params = function(scale, params, ...) {
+    params$position <- params$position %|W|% NULL
+
+    aesthetic <- params$aesthetic
+    if (aesthetic %in% c("x", "y")) {
+      params$key <-
+        rename(params$key, c("start", "end"), paste0(aesthetic, c("", "end")))
+    }
+    params
+  },
+
+  extract_decor = function(scale, aesthetic, position, key, bracket, ...) {
+    bracket <- resolve_bracket(bracket)
+
+    key <- vec_slice(key, key$.draw)
+    n_keys <- nrow(key)
+
+    brackets <- vec_rep(bracket, n_keys)
+    keys <- vec_rep_each(key, nrow(bracket))
+
+    value <- brackets[, 1] * (keys$end - keys$start) + keys$start
+
+    data_frame0(
+      !!aesthetic := value,
+      offset = brackets[, 2],
+      group = rep(seq_len(n_keys), each = nrow(bracket)),
+      .level = keys$.level
+    )
+  },
+
+  transform = function(self, params, coord, panel_params) {
+    params$key <-
+      transform_key(params$key, params$position, coord, panel_params)
+    params$bbox  <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
+    params$decor <-
+      transform_bracket(params$decor, params$position, coord, panel_params)
+    params
+  },
+
+  setup_elements = function(params, elements, theme) {
+    prefix <- ""
+    suffix <- ""
+    if (params$aesthetic %in% c("x", "y")) {
+      suffix <- switch(
+        params$position,
+        theta = ".x.bottom",
+        theta.sec = ".x.top",
+        paste0(".", params$aesthetic, ".", params$position)
+      )
+      prefix <- "axis."
+    } else {
+      prefix <- "legend."
+    }
+    elements <- list(
+      text = paste0(prefix, "text", suffix),
+      line = "gguidance.bracket",
+      size = "gguidance.bracket.size"
+    )
+    elements$offset <- cm(params$stack_offset %||% 0)
+    Guide$setup_elements(params, elements, theme)
+  },
+
+  override_elements = function(params, elements, theme) {
+    elements$size <- cm(elements$size)
+    elements
+  },
+
+  build_bracket = function(key, decor, elements, params) {
+
+    levels <- unique(c(key$.level, decor$.level))
+
+    hjust <- elements$text$hjust
+    vjust <- elements$text$vjust
+    if (params$position %in% c("theta", "theta.sec")) {
+      add <- if (params$position == "theta.sec") pi else 0
+      key$theta <-
+        justify_range(key$theta, key$thetaend, hjust)
+      key <- polar_xy(key, key$r, key$theta + add, params$bbox)
+    } else if (params$position %in% c("top", "bottom")) {
+      key$x <- justify_range(key$x, key$xend, hjust)
+    } else {
+      key$y <- justify_range(key$y, key$yend, vjust)
+    }
+
+    if (is_blank(elements$line) || is_empty(decor)) {
+      decor <- vec_slice(decor, 0)
+    } else if (params$position %in% .trbl) {
+      offset <- decor$offset
+      offset <- if (params$position %in% .trbl[1:2]) 1 - offset else offset
+      decor$x <- switch(params$position, left = , right = offset, decor$x)
+      decor$y <- switch(params$position, top = , bottom = offset, decor$y)
+      decor$offset <- 0
+    }
+
+    elements$text <- angle_labels(elements$text, params$angle, params$position)
+    brackets <- list()
+    labels <- list()
+    offset <- elements$offset
+    angle  <- params$angle %|W|% NULL
+
+    for (i in levels) {
+      dec <- vec_slice(decor, decor$.level == i)
+      bracket <- draw_bracket(dec, elements, params$position, offset)
+      offset <- offset + as.numeric(!is.zero(bracket)) * elements$size
+      brackets <- c(brackets, list(bracket))
+      text <- draw_labels(
+        vec_slice(key, key$.level == i),
+        elements$text, angle = angle, offset = offset, params$position
+      )
+      offset <- offset + attr(text, "size") %||% 0
+      labels <- c(labels, list(text))
+    }
+    if (params$position %in% c("top", "left")) {
+      brackets <- rev(brackets)
+      labels   <- rev(labels)
+    }
+
+    list(brackets = brackets, labels = labels)
+  },
+
+  measure_grobs = function(grobs, params, elements) {
+    labels <- switch(
+      params$position,
+      top  = , bottom = height_cm(grobs$labels),
+      left = , right  =  width_cm(grobs$labels),
+      vapply(grobs$labels, attr, which = "size", numeric(1))
+    )
+    is_bracket <- as.numeric(!vapply(grobs$brackets, is.zero, logical(1)))
+    bracket <- is_bracket * elements$size
+    list(brackets = bracket, labels = labels)
+  },
+
+  draw = function(self, theme, position = NULL, direction = NULL,
+                  params = self$params) {
+
+    params <- replace_null(params, position = position, direction = direction)
+
+    elems    <- self$setup_elements(params, self$elements, theme)
+    elems    <- self$override_elements(params, elems, theme)
+    brackets <- self$build_bracket(params$key, params$decor, elems, params)
+    size     <- self$measure_grobs(brackets, params, elems)
+
+    if (params$position %in% c("top", "left")) {
+      grobs <- vec_interleave(brackets$labels, brackets$brackets)
+      size  <- vec_interleave(size$labels, size$brackets)
+    } else {
+      grobs <- vec_interleave(brackets$brackets, brackets$labels)
+      size  <- vec_interleave(size$brackets, size$labels)
+    }
+
+    primitive_grob(
+      grob = grobs,
+      size = unit(size, "cm"),
+      position = params$position,
+      name = "bracket"
+    )
+  }
+)
+
+# Helpers -----------------------------------------------------------------
+
+draw_bracket <- function(decor, elements, position, offset) {
+  if (nrow(decor) < 2) {
+    return(zeroGrob())
+  }
+  x <- unit(decor$x, "npc")
+  y <- unit(decor$y, "npc")
+
+  if (position %in% c("theta", "theta.sec")) {
+    offset <- (1 - decor$offset) * elements$size + offset
+    x <- x + unit(sin(decor$theta) * offset, "cm")
+    y <- y + unit(cos(decor$theta) * offset, "cm")
+  }
+
+  id <- vec_unrep(decor$group)$times
+
+  element_grob(elements$line, x = x, y = y, id.lengths = id)
+}
+
+disjoin_ranges <- function(ranges) {
+
+  n_ranges <- nrow(ranges)
+  if (n_ranges < 2) {
+    ranges$.level <- rep(1L, nrow(ranges))
+    return(ranges)
+  }
+
+  # Sort and extract
+  ranges <- ranges[order(ranges$start, ranges$end), , drop = FALSE]
+  ranges <- vec_slice(ranges, order(ranges$start, ranges$end))
+  starts <- ranges$start
+  ends   <- ranges$end
+
+  # Initialise first range
+  end_tracker <- ends[1]
+  bin <- rep(NA_integer_, nrow(ranges))
+  bin[1] <- 1L
+
+  # Find bins
+  for (range_id in seq_len(n_ranges)[-1]) {
+    candidate <- which(end_tracker < starts[range_id])
+    if (length(candidate) > 0) {
+      # If there is room in this bin, update this bin
+      ans <- candidate[1]
+      end_tracker[ans] <- ends[range_id]
+    } else {
+      # Register new bin
+      end_tracker <- c(end_tracker, ends[range_id])
+      ans <- length(end_tracker)
+    }
+    bin[range_id] <- ans
+  }
+
+  ranges$.level <- bin
+  ranges
+}

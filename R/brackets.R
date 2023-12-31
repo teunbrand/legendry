@@ -90,3 +90,75 @@ bracket_curvy <- function(angle = 225, n = 100) {
   y <- c(y, rev(y))
   cbind(x, y)
 }
+
+# Helpers -----------------------------------------------------------------
+
+resolve_bracket <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (is.character(x)) {
+    x <- paste0("bracket_", x)
+    fun <- find_global(x, env = global_env(), mode = "function")
+    if (!is.function(fun)) {
+      cli::cli_abort("Cannot find function: {.fn {x}}.", call = call)
+    }
+    x <- fun
+  }
+  if (is.function(x)) {
+    msg <- "{.arg {arg}} must return a {type}, not {obj_type_friendly(x)}."
+    x <- x()
+  } else {
+    msg <- "{.arg {arg}} must be a {type}, not {obj_type_friendly(x)}"
+  }
+  if (is.matrix(x) & ncol(x) %in% c(2, 3) & nrow(x) > 1) {
+    return(x)
+  }
+  if (!is.matrix(x)) {
+    type <- as_cli("a {.cls matrix}")
+    cli::cli_abort(msg, call = call)
+  }
+  if (!ncol(x) %in% c(2, 3)) {
+    type <- as_cli("a {.cls matrix} with 2 or 3 columns")
+    cli::cli_abort(msg, call = call)
+  }
+  if (nrow(x) < 2) {
+    msg <- c(msg, "The provided {.arg {arg}} has {nrow(x)} row{?s}.")
+  }
+  x
+}
+
+transform_bracket <- function(bracket, position, coord, panel_params) {
+  if (is_empty(bracket)) {
+    return(bracket)
+  }
+
+  bbox  <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
+
+  if (position %in% c("theta", "theta.sec")) {
+    bbox  <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
+    range <- panel_params$r.range
+    if (position == "theta") {
+      other <- rescale(1 + bracket$offset * 0.1, to = range, from = c(0, 1))
+    } else {
+      other <- rescale(0 - bracket$offset * 0.1, to = range, from = c(0, 1))
+    }
+  } else {
+    other <- switch(position, top = , right = -Inf, Inf)
+  }
+
+  bracket$x <- bracket$x %||% other
+  bracket$y <- bracket$y %||% other
+  bracket   <- coord_munch(coord, bracket, panel_params)
+
+  if (!position %in% c("theta", "theta.sec")) {
+    return(bracket)
+  }
+  donut <- panel_params$donut
+  r <- donut[as.numeric(position == "theta") + 1]
+  bracket <- polar_xy(bracket, r, bracket$theta, bbox)
+  if (position == "theta") {
+    bracket$offset <- (rescale(bracket$r, to = c(0, 1), from = donut) - 1) * 10
+  } else {
+    bracket$theta  <- bracket$theta + pi
+    bracket$offset <- abs(rescale(bracket$r, to = c(0, 1), from = donut) * 10)
+  }
+  bracket
+}

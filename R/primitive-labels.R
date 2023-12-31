@@ -2,7 +2,7 @@
 
 #' Guide primitive: labels
 #'
-#' This functions contructs a labels [guide primitive][guide-primitives].
+#' This function constructs a labels [guide primitive][guide-primitives].
 #'
 #' @inheritParams ggplot2::guide_axis
 #'
@@ -178,7 +178,7 @@ draw_labels <- function(key, element, angle, offset,
       x = x, y = y,
       margin_x = margin_x,
       margin_y = margin_y,
-      check.overlap = check_overlap
+      check.overlap = check_overlap %||% FALSE
     )
     return(grob)
   }
