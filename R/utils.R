@@ -1,5 +1,5 @@
 
-is_blank <- function(x) inherits(x, "element_blank")
+is_blank <- function(x) inherits(x, c("element_blank", "NULL"))
 
 .in2cm <- convertUnit(unit(1, "in"), "cm", valueOnly = TRUE)
 
@@ -91,13 +91,22 @@ polar_xy <- function(data, r, theta, bbox) {
   data
 }
 
-scale_transform <- function(x, scale) {
+scale_transform <- function(x, scale, map = FALSE, arg = caller_arg(x)) {
+  if (is_discrete(x) && !scale$is_discrete()) {
+    cli::cli_abort(
+      "The key {.field {arg}} must be {.emph continuous}, not discrete."
+    )
+  }
   transform <- scale$get_transformation()
   if (is.null(transform)) {
-    (scale$scale$map %||% scale$map)(x)
-  } else {
-    transform$transform(x)
+    x <- (scale$scale$map %||% scale$map)(x)
+    return(x)
   }
+  x <- transform$transform(x)
+  if (map) {
+    x <- (scale$scale$map %||% scale$map)(x)
+  }
+  x
 }
 
 cm <- function(x) {
