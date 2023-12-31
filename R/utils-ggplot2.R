@@ -157,4 +157,54 @@ new_aesthetic <- function(x, env = global_env()) {
   x
 }
 
+combine_elements <- function(e1, e2) {
+
+  if (is.null(e2) || is_blank(e2)) {
+    return(e1)
+  }
+  if (is.null(e1)) {
+    return(e2)
+  }
+  if (is.rel(e1)) {
+    if (is.rel(e2)) {
+      return(rel(unclass(e1) * unclass(e2)))
+    }
+    if (is.numeric(e2) || is.unit(e2)) {
+      return(unclass(e1) * e2)
+    }
+    return(e1)
+  }
+  if (!inherits(e1, "element") && !inherits(e2, "element")) {
+    return(e1)
+  }
+  if (is_blank(e2)) {
+    out <- if (e1$inherit.blank) e2 else e1
+    return(out)
+  }
+  n <- names(e1)[vapply(e1, is.null, logical(1))]
+  e1[n] <- e2[n]
+
+  if (is.rel(e1$size)) {
+    e1$size <- e2$size * unclass(e1$size)
+  }
+  if (is.rel(e1$linewidth)) {
+    e1$linewidth <- e2$linewidth * unclass(e1$linewidth)
+  }
+  if (is.subclass(e2, e1)) {
+    new <- defaults(e1, e2)
+    e2[names(new)] <- new
+    return(e2)
+  }
+  e1
+}
+
+is.rel <- function(x) inherits(x, "rel")
+
+defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])
+
+is.subclass <- function(x, y) {{
+  inheritance <- inherits(x, class(y), which = TRUE)
+  !any(inheritance == 0) && length(setdiff(class(x), class(y))) > 0
+}}
+
 # nocov end
