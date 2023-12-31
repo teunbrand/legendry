@@ -64,7 +64,7 @@ key_auto <- function() {
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- Guide$extract_key(scale, aesthetic)
-    class(df) <- c("key", class(df))
+    class(df) <- c("key_standard", "key", class(df))
     df
   }
 }
@@ -95,7 +95,7 @@ key_map <- function(data, ..., .call = caller_env()) {
   df$label <- df$label %||% as.character(df$aesthetic)
 
   df <- rename(df, c("value", "label"), c(".value", ".label"))
-  class(df) <- c("key_range", "key", class(df))
+  class(df) <- c("key_standard", "key", class(df))
   df
 }
 
@@ -106,7 +106,7 @@ key_minor <- function() {
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- GuideAxis$extract_key(scale, aesthetic, minor.ticks = TRUE)
-    class(df) <- c("key", class(df))
+    class(df) <- c("key_standard", "key", class(df))
     df
   }
 }
@@ -268,7 +268,9 @@ log10_keys <- function(scale, aesthetic,
   } else {
     range <- scale$get_limits()
   }
-  vec_slice(key, !is_oob(ticks, range))
+  key <- vec_slice(key, !is_oob(ticks, range))
+  class(key) <- c("key_standard", "key", class(key))
+  key
 }
 
 transform_key <- function(key, position, coord, panel_params) {
