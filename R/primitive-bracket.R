@@ -10,7 +10,7 @@
 #'  following:
 #'  * A bracket `<function>`, such as `bracket_square`.
 #'  * A `<character[1]>` naming a bracket function without the
-#'  `bracket_`-prefix, e.g. `"square"`.
+#'  '`bracket_`'-prefix, e.g. `"square"`.
 #'  * A two-column `<matrix[n, 2]>` giving line coordinates for a bracket,
 #'  like those created by bracket functions, such as `bracket_round()`.
 #' @param oob A method for dealing with out-of-bounds (oob) ranges. Can be one
