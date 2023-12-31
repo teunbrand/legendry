@@ -282,21 +282,32 @@ transform_key <- function(key, position, coord, panel_params) {
   key$y <- key$y %||% other
   transformed <- coord$transform(key, panel_params)
 
-  if (!position %in% c("theta", "theta.sec")) {
+  if (position %in% c("theta", "theta.sec")) {
+    add <- if (position == "theta.sec") pi else 0
+    transformed$theta <- transformed$theta + add
+  }
+
+  ends <- c("xend", "yend") %in% names(key)
+  if (!any(ends)) {
     return(transformed)
   }
 
-  add <- if (position == "theta.sec") pi else 0
-  transformed$theta <- transformed$theta + add
-
-  if ("xend" %in% names(key)) {
+  if (ends[1]) {
     key <- rename(key, c("x", "xend"), rev)
-  } else if ("yend" %in% names(key)) {
+  } else if (ends[2]) {
     key <- rename(key, c("y", "yend"), rev)
-  } else {
-    return(transformed)
   }
   key <- coord$transform(key, panel_params)
-  transformed$thetaend <- key$theta + add
+  if (position %in% c("theta", "theta.sec")) {
+    transformed$thetaend <- key$theta + add
+  } else {
+    if (ends[1]) {
+      transformed$xend <- key$x
+    }
+    if (ends[2]) {
+      transformed$yend <- key$y
+    }
+  }
+
   transformed
 }
