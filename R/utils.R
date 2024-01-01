@@ -49,16 +49,11 @@ eval_aes <- function(
     .error_call = call
   )
 
-  if (!all(required %in% names(df))) {
-    missing <- setdiff(required, names(df))
-    cli::cli_abort(
-      "The {.field {missing}} column{?s} {?is/are} required.",
-      call = call
-    )
-  }
+  check_columns(df, required, arg = 'key', call = call)
 
   df
 }
+
 
 pad <- function(x, length, fill = NA, where = "end") {
   padding <- rep(fill, length - length(x))

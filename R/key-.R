@@ -78,8 +78,10 @@ key_auto <- function() {
 #' @rdname key_standard
 #' @export
 key_manual <- function(aesthetic, value = aesthetic, label = as.character(value), type = NULL) {
-  df <- data_frame0(aesthetic = aesthetic, .value = value,
-                    .label = label, .type = type)
+  df <- data_frame0(aesthetic = aesthetic, value = value,
+                    label = label, type = type)
+  check_columns(df, c("aesthetic", "value", "label"))
+  df <- rename(df, c("value", "label", "type"), c(".value", ".label", ".type"))
   class(df) <- c("key_standard", "key", class(df))
   df
 }
@@ -99,6 +101,7 @@ key_map <- function(data, ..., .call = caller_env()) {
   )
   df$value <- df$value %||% df$aesthetic
   df$label <- df$label %||% as.character(df$aesthetic)
+  check_columns(df, c("aesthetic", "value", "label"))
 
   df <- rename(df, c("value", "label"), c(".value", ".label"))
   class(df) <- c("key_standard", "key", class(df))
