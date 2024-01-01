@@ -17,8 +17,7 @@
 #'   * A `<function>` that takes the scale's breaks as the first argument, the
 #'   scale's limits as the second argument and returns a `<numeric>[2n]` as
 #'   described above.
-#' @inheritParams ggplot2::guide_legend
-#'
+#' @inheritParams guide_labels
 #'
 #' @return A `GuideLine` primitive guide that can be used inside other guides.
 #' @export
@@ -32,8 +31,10 @@
 #'
 #' # Adding as secondary guides
 #' p + guides(x.sec = "line", y.sec = guide_line(cap = "both"))
-guide_line <- function(cap = "none", theme = NULL, position = waiver()) {
+guide_line <- function(key = NULL, cap = "none", theme = NULL,
+                       position = waiver()) {
   new_guide(
+    key = key,
     cap = check_cap_arg(cap),
     theme = theme,
     position = position,
@@ -51,7 +52,14 @@ guide_line <- function(cap = "none", theme = NULL, position = waiver()) {
 GuideLine <- ggproto(
   "GuideLine", Guide,
 
-  params = c(Guide$params, list(cap = c(-Inf, Inf))),
+  params = new_params(cap = c(-Inf, Inf), key = NULL),
+
+  elements = list(
+    position = list(line = "axis.line"),
+    legend   = list(line = "legend.axis.line")
+  ),
+
+  extract_key = standard_extract_key,
 
   extract_decor = function(scale, aesthetic, position, cap, key, ...) {
     limits <- scale$continuous_range %||% scale$get_limits()
@@ -90,23 +98,7 @@ GuideLine <- ggproto(
     params
   },
 
-  setup_elements = function(params, elements, theme) {
-    prefix <- ""
-    suffix <- ""
-    if (params$aesthetic %in% c("x", "y")) {
-      suffix <- switch(
-        params$position,
-        theta = ".x.bottom",
-        theta.sec = ".x.top",
-        paste0(".", params$aesthetic, ".", params$position)
-      )
-      prefix <- "axis."
-    } else {
-      prefix <- "legend."
-    }
-    element <- paste0(prefix, "line", suffix)
-    Guide$setup_elements(params, list(line = element), theme)
-  },
+  setup_elements = primitive_setup_elements,
 
   build_decor = function(decor, grobs, elements, params) {
     if (ggplot2:::empty(decor)) {
@@ -114,10 +106,10 @@ GuideLine <- ggproto(
     }
     x <- y <- NULL
     if ("theta" %in% names(decor)) {
-      theta <- decor$theta + as.numeric(params$position == "theta.sec") * pi
-      offset <- params$stack_offset %||% unit(0, "cm")
-      x <- unit(decor$x, "npc") + sin(theta) * offset
-      y <- unit(decor$y, "npc") + cos(theta) * offset
+      theta  <- decor$theta + as.numeric(params$position == "theta.sec") * pi
+      offset <- elements$offset
+      x <- unit(decor$x, "npc") + unit(sin(theta) * offset, "cm")
+      y <- unit(decor$y, "npc") + unit(cos(theta) * offset, "cm")
     }
     if (!all(c("x", "y") %in% names(decor))) {
       if (params$position %in% c("left", "right")) {

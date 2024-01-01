@@ -4,9 +4,12 @@
 #'
 #' This function constructs a labels [guide primitive][guide-primitives].
 #'
+#' @param key A [standard key][key_standard] specification. See more information
+#'   in the linked topic.
 #' @inheritParams ggplot2::guide_axis
 #'
-#' @return A `GuideLabels` primitive guide that can be used inside other guides.
+#' @return A `<GuideLabels>` primitive guide that can be used inside other
+#'   guides.
 #' @export
 #' @family primitives
 #'
@@ -17,7 +20,8 @@
 #'
 #' # Adding as secondary guides
 #' p + guides(x.sec = "labels", y.sec = guide_labels(n.dodge = 2))
-guide_labels <- function(angle = waiver(), n.dodge = 1, check.overlap = FALSE,
+guide_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
+                         check.overlap = FALSE,
                          theme = NULL, position = waiver()) {
   if (!is_waive(angle)) {
     check_number_decimal(
@@ -32,6 +36,7 @@ guide_labels <- function(angle = waiver(), n.dodge = 1, check.overlap = FALSE,
     angle = angle,
     n_dodge = n.dodge,
     check_overlap = check.overlap,
+    key = key,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
@@ -49,9 +54,13 @@ guide_labels <- function(angle = waiver(), n.dodge = 1, check.overlap = FALSE,
 GuideLabels <- ggproto(
   "GuideLabels", Guide,
 
-  params = c(
-    Guide$params,
-    list(angle = waiver(), n_dodge = 1, check_overlap = FALSE)
+  params = new_params(
+    angle = waiver(), n_dodge = 1, check_overlap = FALSE, key = NULL
+  ),
+
+  elements = list(
+    position = list(text = "axis.text"),
+    legend   = list(text = "legend.text")
   ),
 
   extract_params = function(scale, params, ...) {
@@ -59,29 +68,15 @@ GuideLabels <- ggproto(
     params
   },
 
+  extract_key = standard_extract_key,
+
   transform = function(self, params, coord, panel_params) {
     params$key <-
       transform_key(params$key, params$position, coord, panel_params)
     params
   },
 
-  setup_elements = function(params, elements, theme) {
-    prefix <- ""
-    suffix <- ""
-    if (params$aesthetic %in% c("x", "y")) {
-      suffix <- switch(
-        params$position,
-        theta = ".x.bottom", theta.sec = ".x.top",
-        paste0(".", params$aesthetic, ".", params$position)
-      )
-      prefix <- "axis."
-    } else {
-      prefix <- "legend."
-    }
-    elements <- list(text = paste0(prefix, "text", suffix))
-    elements$offset <- cm(params$stack_offset %||% 0)
-    Guide$setup_elements(params, elements, theme)
-  },
+  setup_elements = primitive_setup_elements,
 
   override_elements = function(params, elements, theme) {
     elements$text <- angle_labels(elements$text, params$angle, params$position)
@@ -170,11 +165,13 @@ draw_labels <- function(key, element, angle, offset,
   if (!is.unit(x)) x <- unit(x, "npc")
   if (!is.unit(y)) y <- unit(y, "npc")
 
+  labels <- validate_labels(key$.label)
+
   if (position %in% .trbl) {
     # Classic labels
     grob <- element_grob(
       element = element,
-      label = key$.label,
+      label = labels,
       x = x, y = y,
       margin_x = margin_x,
       margin_y = margin_y,

@@ -280,7 +280,7 @@ log10_keys <- function(scale, aesthetic,
 }
 
 transform_key <- function(key, position, coord, panel_params) {
-  if (nrow(key) < 1) {
+  if (is_empty(key)) {
     return(key)
   }
   other <- switch(position, bottom = , left = , theta.sec = -Inf, Inf)

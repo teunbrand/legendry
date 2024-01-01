@@ -116,3 +116,15 @@ cm <- function(x) {
   convertUnit(x, "cm", valueOnly = TRUE)
 }
 
+suffix_position <- function(value, position) {
+
+  aesthetic <- switch(position, left = , right = "y", "x")
+  position  <- switch(position, theta = "bottom", theta.sec = "top", position)
+  suffix <- paste0(".", aesthetic, ".", position)
+
+  char <- vapply(value, is.character, logical(1))
+  char <- char & !vapply(value, inherits, logical(1), "AsIs")
+  value[char] <- lapply(value[char], paste0, suffix)
+  value
+}
+

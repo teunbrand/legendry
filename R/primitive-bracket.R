@@ -78,8 +78,19 @@ GuideBracket <- ggproto(
   "GuideBracket", Guide,
 
   params = new_params(
-    Guide$params, key = NULL, oob = "squish", drop_zero = TRUE,
+    key = NULL, oob = "squish", drop_zero = TRUE,
     pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0, 1), 0.5)
+  ),
+
+  elements = list(
+    position = list(
+      text = "axis.text", line = I("gguidance.bracket"),
+      size = I("gguidance.bracket.size")
+    ),
+    legend = list(
+      text = "legend.text", line = I("gguidance.bracket"),
+      size = I("gguidance.bracket.size")
+    )
   ),
 
   extract_key = function(scale, aesthetic, key,
@@ -163,28 +174,7 @@ GuideBracket <- ggproto(
     params
   },
 
-  setup_elements = function(params, elements, theme) {
-    prefix <- ""
-    suffix <- ""
-    if (params$aesthetic %in% c("x", "y")) {
-      suffix <- switch(
-        params$position,
-        theta = ".x.bottom",
-        theta.sec = ".x.top",
-        paste0(".", params$aesthetic, ".", params$position)
-      )
-      prefix <- "axis."
-    } else {
-      prefix <- "legend."
-    }
-    elements <- list(
-      text = paste0(prefix, "text", suffix),
-      line = "gguidance.bracket",
-      size = "gguidance.bracket.size"
-    )
-    elements$offset <- cm(params$stack_offset %||% 0)
-    Guide$setup_elements(params, elements, theme)
-  },
+  setup_elements = primitive_setup_elements,
 
   override_elements = function(params, elements, theme) {
     elements$size <- cm(elements$size)

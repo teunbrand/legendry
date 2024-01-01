@@ -4,7 +4,7 @@
 #'
 #' This function contructs a ticks [guide primitive][guide-primitives].
 #'
-#' @inheritParams ggplot2::guide_legend
+#' @inheritParams guide_labels
 #'
 #' @return A `GuideTicks` primitive guide that can be used inside other guides.
 #' @export
@@ -36,7 +36,23 @@ guide_ticks <- function(key = NULL, theme = NULL, position = waiver()) {
 GuideTicks <- ggproto(
   "GuideTicks", Guide,
 
-  params = new_params(Guide$params, key = NULL),
+  params = new_params(key = NULL),
+
+  elements = list(
+    position = list(
+      ticks = "axis.ticks",       ticks_length = "axis.ticks.length",
+      minor = "axis.minor.ticks", minor_length = "axis.minor.ticks.length"
+    ),
+    legend = list(
+      ticks        = "legend.ticks",
+      ticks_length = "legend.ticks.length",
+      minor        = "gguidance.legend.minor.ticks",
+      minor_length = "gguidance.legend.minor.ticks.length",
+      # Mini ticks for legends don't have complicated inheritance
+      mini         = "gguidance.legend.mini.ticks",
+      mini_length  = "gguidance.legend.mini.ticks.length"
+    )
+  ),
 
   extract_key = standard_extract_key,
 
@@ -51,79 +67,34 @@ GuideTicks <- ggproto(
     params
   },
 
-  setup_elements = function(params, elements, theme) {
-    prefix <- ""
-    suffix <- ""
-    elements <- c("ticks", "ticks.length")
-    if (params$aesthetic %in% c("x", "y")) {
-      suffix <- switch(
-        params$position,
-        theta = ".x.bottom", theta.sec = ".x.top",
-        paste0(".", params$aesthetic, ".", params$position)
-      )
-      prefix <- "axis."
-      elements <- c(elements, "minor.ticks", "minor.ticks.length")
-      elements <- paste0(prefix, elements, suffix)
-    } else {
-      prefix <- "legend."
-      elements <- paste0(prefix, elements, suffix)
-      elements <- c(
-        elements,
-        "gguidance.legend.minor.ticks",
-        "gguidance.legend.minor.ticks.length"
-      )
-    }
-    elements <- list(
-      ticks = elements[1], ticks_length = elements[2],
-      minor = elements[3], minor_length = elements[4]
-    )
-    Guide$setup_elements(params, elements, theme)
-  },
+  setup_elements = primitive_setup_elements,
 
   override_elements = function(params, elements, theme) {
+
+    # Count how many ticks of each type we need
     type <- params$key$.type %||% "major"
     n_major <- sum(type == "major")
     n_minor <- sum(type == "minor")
     n_mini  <- sum(type == "mini")
-    if (is_blank(elements$ticks) || n_major < 1) {
-      elements$ticks_length <- 0
-    } else {
-      elements$ticks_length <- cm(elements$ticks_length)
+
+    # We need to setup mini ticks for axes, as the inheritance tree isn't
+    # mirrored for every aesthetic/position combination.
+    if (n_mini > 0 && params$aesthetic %in% c("x", "y")) {
+      elements$mini <- combine_elements(
+        theme$gguidance.axis.mini.ticks,
+        elements$minor
+      )
+      elements$mini_length <- combine_elements(
+        theme$gguidance.axis.mini.ticks.length,
+        elements$minor_length
+      )
     }
-    if (is_blank(elements$minor) || n_minor < 1) {
-      elements$minor_length <- 0
-    } else {
-      elements$minor_length <- cm(elements$minor_length)
-    }
-    if (n_mini > 0) {
-      if (params$aesthetic %in% c("x", "y")) {
-        mini <- combine_elements(
-          theme$gguidance.axis.mini.ticks,
-          elements$minor
-        )
-        mini_length <- combine_elements(
-          theme$gguidance.axis.mini.ticks.length,
-          elements$minor_length
-        )
-      } else {
-        mini <- combine_elements(
-          theme$gguidance.legend.mini.ticks,
-          elements$minor
-        )
-        mini_length <- combine_elements(
-          theme$gguidance.legend.mini.ticks.length,
-          elements$minor
-        )
-      }
-      elements$mini <- mini
-      if (is_blank(mini)) {
-        elements$mini_length <- 0
-      } else {
-        elements$mini_length <- cm(mini_length)
-      }
-    } else {
-      elements$mini_length <- 0
-    }
+
+    # Set absent ticks to empty
+    elements <- zap_tick(elements, "ticks", n_major)
+    elements <- zap_tick(elements, "minor", n_minor)
+    elements <- zap_tick(elements, "mini",  n_mini)
+
     lengths <- c("ticks_length", "minor_length", "mini_length")
     elements$size <- inject(range(!!!elements[lengths], 0))
     elements
@@ -131,18 +102,20 @@ GuideTicks <- ggproto(
 
   build_ticks = function(key, elements, params, position = params$position) {
     type <- key$.type %||% "major"
+    offset <- elements$offset
     major <- draw_ticks(
       vec_slice(key, type == "major"),
-      elements$ticks, params, position, elements$ticks_length
+      elements$ticks, params, position, elements$ticks_length, offset
     )
     minor <- draw_ticks(
       vec_slice(key, type == "minor"),
-      elements$minor, params, position, elements$minor_length
+      elements$minor, params, position, elements$minor_length, offset
     )
     mini <- draw_ticks(
       vec_slice(key, type == "mini"),
-      elements$mini, params, position, elements$mini_length
+      elements$mini, params, position, elements$mini_length, offset
     )
+    # Discard zeroGrobs
     grob <- list(major, minor, mini)
     grob <- grob[!vapply(grob, is.zero, logical(1))]
     if (length(grob) == 0) {
@@ -158,10 +131,11 @@ GuideTicks <- ggproto(
 
     elems <- self$setup_elements(params, self$elements, theme)
     elems <- self$override_elements(params, elems, theme)
-
     ticks <- self$build_ticks(params$key, elems, params)
-    ticks <- list(ticks, zeroGrob())
 
+    # If ticks have negative length, we want to preserve reasonable spacing
+    # to text labels.
+    ticks <- list(ticks, zeroGrob())
     size <- unit(c(elems$size[2], max(0, -1 * diff(elems$size))), "cm")
 
     primitive_grob(
@@ -173,7 +147,9 @@ GuideTicks <- ggproto(
   }
 )
 
-draw_ticks = function(key, element, params, position, length) {
+# Helpers -----------------------------------------------------------------
+
+draw_ticks = function(key, element, params, position, length, offset = 0) {
   n_breaks <- nrow(key)
   if (n_breaks < 1 || is_blank(element) || length == 0) {
     return(zeroGrob())
@@ -189,14 +165,28 @@ draw_ticks = function(key, element, params, position, length) {
   y      <- rep(key$y,     each = 2)
 
   length <- rep(length, length.out = n_breaks * 2)
-  length <- unit(rep(c(0, 1), times = n_breaks) * length, "cm")
-  if (!is.null(params$stack_offset)) {
-    length <- length + params$stack_offset
-  }
+  length <- rep(c(0, 1), times = n_breaks) * length
+  length <- unit(length + offset, "cm")
+
   element_grob(
     element,
     x = unit(x, "npc") + sin(angle) * length,
     y = unit(y, "npc") + cos(angle) * length,
     id.lengths = rep(2, n_breaks)
   )
+}
+
+zap_tick <- function(elements, name, n) {
+  length <- paste0(name, "_length")
+  # If there are no ticks, set the element to NULL
+  if (n < 1) {
+    elements[[name]] <- NULL
+  }
+  # If there is no element, set the length to 0
+  if (is_blank(elements[[name]])) {
+    elements[[length]] <- 0
+  }
+  # Ensure tick lengths are in centimetres
+  elements[[length]] <- cm(elements[[length]])
+  elements
 }

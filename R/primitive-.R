@@ -34,7 +34,7 @@ primitive_grob <- function(grob, size, position, name) {
     width  <- unit(1, "npc")
     height <- size
     vp     <- viewport(y = origin, height = sum(size), just = opposite)
-    gt <- gtable(widths = width, height = height)
+    gt <- gtable(widths = width, heights = height)
     gt <- gtable_add_grob(gt, grob, t = seq_along(size), l = 1L, clip = "off", name = name)
   } else {
     height <- unit(1, "npc")
@@ -47,9 +47,30 @@ primitive_grob <- function(grob, size, position, name) {
   absoluteGrob(gList(gt), width = sum(width), height = sum(height), vp = vp)
 }
 
-new_params <- function(defaults, ...) {
+new_params <- function(...) {
+  required <- list(
+    title = waiver(),
+    theme = NULL,
+    name  = character(),
+    position = waiver(),
+    direction = NULL,
+    order = 0L,
+    hash = character(0)
+  )
   dots <- list2(...)
-  for (i in names(dots)) defaults[i] <- dots[i]
-  defaults
+  for (i in names(dots)) required[i] <- dots[i]
+  required
 }
 
+primitive_setup_elements <- function(params, elements, theme) {
+  if (params$aesthetic %in% c("x", "y")) {
+    elements <- suffix_position(elements$position, params$position)
+  } else {
+    elements <- elements$legend
+  }
+  theme <- theme + params$theme
+  is_char <- vapply(elements, is.character, logical(1))
+  elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
+  elements$offset <- cm(params$stack_offset %||% 0)
+  elements
+}

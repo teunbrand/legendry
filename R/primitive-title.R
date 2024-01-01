@@ -49,10 +49,10 @@ guide_title = function(title = waiver(), angle = waiver(),
 GuideTitle <- ggproto(
   "GuideTitle", Guide,
 
-  params = new_params(Guide$params, my_title = waiver(), angle = waiver()),
+  params = new_params(my_title = waiver(), angle = waiver()),
 
   extract_key = function(scale, aesthetic, ...) {
-    # Need to keep track of limits
+    # Need to keep track of limits for r/r.sec positions
     data_frame0(!!aesthetic := c(-Inf, Inf))
   },
 
