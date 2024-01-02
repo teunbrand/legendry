@@ -7,3 +7,4 @@
 .quarto
 Rplot*
 docs
+inst/doc

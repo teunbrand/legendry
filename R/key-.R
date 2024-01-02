@@ -287,8 +287,7 @@ transform_key <- function(key, position, coord, panel_params) {
     return(key)
   }
   other <- switch(position, bottom = , left = , theta.sec = -Inf, Inf)
-  key$x <- key$x %||% other
-  key$y <- key$y %||% other
+  key <- replace_null(key, x = other, y = other)
   transformed <- coord$transform(key, panel_params)
 
   if (position %in% c("theta", "theta.sec")) {

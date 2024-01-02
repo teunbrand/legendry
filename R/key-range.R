@@ -123,9 +123,10 @@ key_range_map <- function(data, ..., .call = caller_env()) {
 # Extractor ---------------------------------------------------------------
 
 range_extract_key <- function(
-    scale, aesthetic, key,
-    drop_zero = TRUE, pad_discrete = 0,  oob = "squish",
-    ...) {
+  scale, aesthetic, key,
+  drop_zero = TRUE, pad_discrete = 0,  oob = "squish",
+  ...
+) {
   if (is.function(key)) {
     key <- key(scale, aesthetic)
   }
@@ -265,6 +266,10 @@ range_from_label <- function(
   df
 }
 
-justify_range <- function(start, end, just) {
+justify_range <- function(start, end, just, theta = FALSE) {
+  if (theta) {
+    add <- end < start
+    end[add] <- end[add] + 2 * pi
+  }
   (end - start) * just + start
 }

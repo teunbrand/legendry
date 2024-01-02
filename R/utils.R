@@ -99,7 +99,7 @@ scale_transform <- function(x, scale, map = FALSE, arg = caller_arg(x)) {
   }
   x <- transform$transform(x)
   if (map) {
-    x <- (scale$scale$map %||% scale$map)(x)
+    x <- scale$map(x)
   }
   x
 }

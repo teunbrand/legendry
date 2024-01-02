@@ -144,11 +144,14 @@ GuideLabels <- ggproto(
 draw_labels <- function(key, element, angle, offset,
                         position, check_overlap = NULL) {
 
+  n_breaks  <- length(key$.label)
+  if (n_breaks < 1 || is_blank(element)) {
+    return(zeroGrob())
+  }
+
   aes <- switch(position, top = , bottom = "x", "y")
   margin_x <- switch(position, left = , right = TRUE, FALSE)
   margin_y <- switch(position, top = , bottom = TRUE, FALSE)
-
-  n_breaks  <- nrow(key)
 
   if (check_overlap %||% FALSE) {
     order <- label_priority(n_breaks)

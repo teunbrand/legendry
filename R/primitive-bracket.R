@@ -93,47 +93,7 @@ GuideBracket <- ggproto(
     )
   ),
 
-  extract_key = function(scale, aesthetic, key,
-                         drop_zero = TRUE, pad_discrete = 0,  oob = "squish",
-                         ...) {
-    if (is.function(key)) {
-      key <- key(scale, aesthetic)
-    }
-    if (is.null(key$.level)) {
-      key <- disjoin_ranges(key)
-    }
-
-    # Mark discrete variables separately for start and end
-    disc_start <- -1 * is_discrete(key$start)
-    disc_end   <- +1 * is_discrete(key$end)
-
-    key$start <- scale_transform(key$start, scale, map = TRUE, "start")
-    key$end   <- scale_transform(key$end,   scale, map = TRUE, "end")
-
-    # Sort starts and ends
-    key[c("start", "end")] <- list(
-      start = pmin(key$start, key$end),
-      end   = pmax(key$start, key$end)
-    )
-
-    # Mark ranges where no brackets should be drawn
-    key$.draw <- TRUE
-    if (!isFALSE(drop_zero)) {
-      key$.draw <- abs(key$end - key$start) > sqrt(.Machine$double.eps)
-    }
-    key$.draw <- key$.draw & key$.level > 0
-
-    # Apply padding for discrete variables
-    extend <- pad_discrete
-    if (scale$is_discrete() && !is.null(extend)) {
-      key$start <- key$start + extend * disc_start
-      key$end   <- key$end   + extend * disc_end
-    }
-
-    # Apply out-of-bounds rules
-    limits <- scale$continuous_range %||% scale$get_limits()
-    range_oob(key, oob, limits)
-  },
+  extract_key = range_extract_key,
 
   extract_params = function(scale, params, ...) {
     params$position <- params$position %|W|% NULL
@@ -185,17 +145,18 @@ GuideBracket <- ggproto(
 
     levels <- unique(c(key$.level, decor$.level))
 
-    hjust <- elements$text$hjust
-    vjust <- elements$text$vjust
-    if (params$position %in% c("theta", "theta.sec")) {
-      add <- if (params$position == "theta.sec") pi else 0
-      key$theta <-
-        justify_range(key$theta, key$thetaend, hjust)
-      key <- polar_xy(key, key$r, key$theta + add, params$bbox)
-    } else if (params$position %in% c("top", "bottom")) {
-      key$x <- justify_range(key$x, key$xend, hjust)
-    } else {
-      key$y <- justify_range(key$y, key$yend, vjust)
+    if (!is_blank(elements$text)) {
+      hjust <- elements$text$hjust
+      vjust <- elements$text$vjust
+      if (params$position %in% c("theta", "theta.sec")) {
+        add <- if (params$position == "theta.sec") pi else 0
+        key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
+        key <- polar_xy(key, key$r, key$theta + add, params$bbox)
+      } else if (params$position %in% c("top", "bottom")) {
+        key$x <- justify_range(key$x, key$xend, hjust)
+      } else {
+        key$y <- justify_range(key$y, key$yend, vjust)
+      }
     }
 
     if (is_blank(elements$line) || is_empty(decor)) {

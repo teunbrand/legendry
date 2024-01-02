@@ -101,7 +101,7 @@ GuideLine <- ggproto(
   setup_elements = primitive_setup_elements,
 
   build_decor = function(decor, grobs, elements, params) {
-    if (ggplot2:::empty(decor)) {
+    if (is_empty(decor)) {
       return(zeroGrob())
     }
     x <- y <- NULL

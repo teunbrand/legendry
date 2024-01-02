@@ -22,8 +22,6 @@ opposite_position <- function(position) {
   )
 }
 
-.trbl <- c("top", "right", "bottom", "left")
-
 absoluteGrob <- function(grob, width = NULL, height = NULL,
                          xmin = NULL, ymin = NULL, vp = NULL) {
   gTree(
@@ -41,9 +39,9 @@ is_empty <- function(df) {
 is.zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
 
 replace_null <- function(obj, ..., env = caller_env()) {
-  dots <- enexprs()
+  dots <- enexprs(...)
   nms  <- names(dots)
-  nms  <- nms[vapply(obj[nms], is.null, logical(1))]
+  nms  <- nms[vapply(.subset(obj, nms), is.null, logical(1))]
   obj[nms] <- inject(list(!!!dots[nms]), env = env)
   obj
 }

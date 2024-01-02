@@ -32,7 +32,7 @@ check_object <- function(
 
 check_inherits <- function(
   x, class, what = NULL, ...,
-  allow_null = FALSE, call = caller_env()
+  allow_null = FALSE, arg = caller_arg(x), call = caller_env()
 ) {
   if (!missing(x)) {
     if (inherits(x, class)) {

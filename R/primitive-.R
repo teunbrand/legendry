@@ -47,21 +47,6 @@ primitive_grob <- function(grob, size, position, name) {
   absoluteGrob(gList(gt), width = sum(width), height = sum(height), vp = vp)
 }
 
-new_params <- function(...) {
-  required <- list(
-    title = waiver(),
-    theme = NULL,
-    name  = character(),
-    position = waiver(),
-    direction = NULL,
-    order = 0L,
-    hash = character(0)
-  )
-  dots <- list2(...)
-  for (i in names(dots)) required[i] <- dots[i]
-  required
-}
-
 primitive_setup_elements <- function(params, elements, theme) {
   if (params$aesthetic %in% c("x", "y")) {
     elements <- suffix_position(elements$position, params$position)

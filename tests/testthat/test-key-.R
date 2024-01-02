@@ -34,15 +34,10 @@ test_that("key_map works as intended", {
   expect_equal(test$.value, levels(iris$Species))
   expect_equal(test$.label, levels(iris$Species))
 
-  expect_warning(expect_warning(
+  expect_error(expect_warning(expect_warning(
     key_map(iris, foo = Species),
     "No valid data"
-  ), "Ignoring unknown")
-
-  expect_error(
-    key_map(iris, value = Species),
-    "column is required"
-  )
+  ), "Ignoring unknown"), "columns are required")
 })
 
 test_that("key_minor works as intended", {
