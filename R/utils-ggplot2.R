@@ -196,6 +196,8 @@ combine_elements <- function(e1, e2) {
   e1
 }
 
+`%0%` <- function(e1, e2) if (length(e1) == 0) e2 else e1
+
 is.rel <- function(x) inherits(x, "rel")
 
 defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])

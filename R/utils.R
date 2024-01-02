@@ -54,6 +54,18 @@ eval_aes <- function(
   df
 }
 
+`%|NA|%` <- function(x, y) {
+  if (length(x) == 0) {
+    return(y)
+  }
+  if (length(y) == 1) {
+    x[is.na(x)] <- y
+  } else {
+    x[is.na(x)] <- y[is.na(x)]
+  }
+  x
+}
+
 
 pad <- function(x, length, fill = NA, where = "end") {
   padding <- rep(fill, length - length(x))
@@ -69,6 +81,14 @@ rename <- function(df, old, new) {
   i <- i[!is.na(i)]
   names(df)[i] <- new
   df
+}
+
+.flip_names <-
+  c(x = "y", y = "x", width = "height", height = "width", hjust = "vjust",
+    vjust = "hjust", margin_x = "margin_y", margin_y = "margin_x")
+
+flip_names <- function(x) {
+  rename(x, .flip_names, names(.flip_names))
 }
 
 is_discrete <- function(x) {
@@ -111,6 +131,13 @@ cm <- function(x) {
   convertUnit(x, "cm", valueOnly = TRUE)
 }
 
+new_rle <- function(x) {
+  rle <- vec_unrep(x)
+  rle$end   <- cumsum(rle$times)
+  rle$start <- rle$end - rle$times + 1
+  rle
+}
+
 suffix_position <- function(value, position) {
 
   aesthetic <- switch(position, left = , right = "y", "x")
@@ -121,5 +148,21 @@ suffix_position <- function(value, position) {
   char <- char & !vapply(value, inherits, logical(1), "AsIs")
   value[char] <- lapply(value[char], paste0, suffix)
   value
+}
+
+validate_guide <- function(guide, args = list()) {
+  input <- guide
+  if (is.character(guide)) {
+    guide <- find_global(paste0("guide_", input), env = global_env(),
+                         mode = "function")
+  }
+  if (is.function(guide)) {
+    args <- args[intersect(names(args), fn_fmls_names(guide))]
+    guide <- inject(guide(!!!args))
+  }
+  if (inherits(guide, "Guide")) {
+    return(guide)
+  }
+  cli::cli_abort("Unknown guide: {input}.")
 }
 

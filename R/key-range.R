@@ -120,6 +120,13 @@ key_range_map <- function(data, ..., .call = caller_env()) {
   df
 }
 
+key_range_rle <- function(x) {
+  rle <- vec_unrep(x)
+  end <- cumsum(rle$times) + 0.5
+  start <- end - rle$times
+  key_range_manual(start, end, name = rle$key, level = 1L)
+}
+
 # Extractor ---------------------------------------------------------------
 
 range_extract_key <- function(
@@ -169,6 +176,8 @@ range_extract_key <- function(
 
 # Helpers -----------------------------------------------------------------
 
+## Out-of-bounds utilities ------------------------------------------------
+
 range_oob <- function(ranges, method, limits) {
   limits <- sort(limits)
   ranges <- switch(
@@ -199,6 +208,8 @@ range_censor <- function(ranges, limits) {
   ranges$.draw[!keep] <- NA
   ranges
 }
+
+## Other helpers ----------------------------------------------------------
 
 range_from_label <- function(
   scale, aesthetic = NULL, sep =  "[^[:alnum:]]+", reverse = FALSE, call = caller_env()
@@ -272,4 +283,42 @@ justify_range <- function(start, end, just, theta = FALSE) {
     end[add] <- end[add] + 2 * pi
   }
   (end - start) * just + start
+}
+
+disjoin_ranges <- function(ranges) {
+
+  n_ranges <- nrow(ranges)
+  if (n_ranges < 2) {
+    ranges$.level <- rep(1L, nrow(ranges))
+    return(ranges)
+  }
+
+  # Sort and extract
+  ranges <- ranges[order(ranges$start, ranges$end), , drop = FALSE]
+  ranges <- vec_slice(ranges, order(ranges$start, ranges$end))
+  starts <- ranges$start
+  ends   <- ranges$end
+
+  # Initialise first range
+  end_tracker <- ends[1]
+  bin <- rep(NA_integer_, nrow(ranges))
+  bin[1] <- 1L
+
+  # Find bins
+  for (range_id in seq_len(n_ranges)[-1]) {
+    candidate <- which(end_tracker < starts[range_id])
+    if (length(candidate) > 0) {
+      # If there is room in this bin, update this bin
+      ans <- candidate[1]
+      end_tracker[ans] <- ends[range_id]
+    } else {
+      # Register new bin
+      end_tracker <- c(end_tracker, ends[range_id])
+      ans <- length(end_tracker)
+    }
+    bin[range_id] <- ans
+  }
+
+  ranges$.level <- bin
+  ranges
 }
