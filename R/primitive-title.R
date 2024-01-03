@@ -2,11 +2,12 @@
 
 #' Guide primitive: title
 #'
-#' This function constructs a [guide primitive][guide-primitives].
+#' This function constructs a title [guide primitive][guide-primitives].
 #'
 #' @inheritParams ggplot2::guide_axis
 #'
-#' @return A `PrimitiveTitle` primitive guide that can be used inside other guides.
+#' @return A `<PrimitiveTitle>` primitive guide that can be used inside other
+#'   guides.
 #' @export
 #' @family primitives
 #'
