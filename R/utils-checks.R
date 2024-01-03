@@ -51,3 +51,33 @@ check_inherits <- function(
     allow_null = allow_null, arg = arg, call = call
   )
 }
+
+check_argmatch <- function(
+    x, options,
+    ...,
+    allow_null = FALSE,
+    arg = caller_arg(x),
+    call = caller_env()
+) {
+  if (!missing(x)) {
+    if (allow_null && is_null(x)) {
+      return(invisible(NULL))
+    }
+    if (is.character(x)) {
+      arg_match0(x, options, arg_nm = arg, error_call = call)
+      return(invisible(NULL))
+    }
+  }
+
+  stop_input_type(
+    x, "a single string", ...,
+    allow_na = FALSE, allow_null = allow_null,
+    arg = arg, call = call
+  )
+}
+
+check_position <- new_function(
+  `[[<-`(fn_fmls(check_argmatch), "options", .trblt),
+  body(check_argmatch),
+  fn_env(check_argmatch)
+)

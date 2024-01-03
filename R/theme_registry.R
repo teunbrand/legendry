@@ -13,6 +13,7 @@ on_load({
     gguidance.legend.mini.ticks.length = rel(0.5),
     gguidance.axis.mini.ticks = element_line(),
     gguidance.axis.mini.ticks.length = rel(0.5),
+    gguidance.guide.spacing = unit(2.25, "pt"),
     element_tree = list(
       gguidance.bracket.size = el_def("unit"),
       gguidance.bracket = el_line("line"),
@@ -22,7 +23,8 @@ on_load({
       gguidance.legend.mini.ticks = el_line("gguidance.legend.minor.ticks"),
       gguidance.legend.mini.ticks.length = el_unit("gguidance.legend.minor.ticks.length"),
       gguidance.axis.mini.ticks = el_line("axis.ticks"),
-      gguidance.axis.mini.ticks.length = el_unit("axis.minor.ticks.length")
+      gguidance.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
+      gguidance.guide.spacing = el_unit("axis.ticks.length"),
     )
   )
 })
