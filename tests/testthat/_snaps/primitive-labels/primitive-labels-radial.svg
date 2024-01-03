@@ -58,6 +58,6 @@
 <text x='204.62' y='79.67' style='font-size: 8.80px; fill: #FF0000; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>40</text>
 <text x='366.30' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.62px' lengthAdjust='spacingAndGlyphs'>displ</text>
 <text transform='translate(47.79,290.36) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='19.57px' lengthAdjust='spacingAndGlyphs'>hwy</text>
-<text x='52.82' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='110.08px' lengthAdjust='spacingAndGlyphs'>guide_labels radial</text>
+<text x='52.82' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='126.93px' lengthAdjust='spacingAndGlyphs'>primitive_labels radial</text>
 </g>
 </svg>

@@ -1,5 +1,5 @@
 
-test_that("guide_box works as axis", {
+test_that("primitive_box works as axis", {
 
   base <- ggplot(mpg, aes(displ, interaction(drv, year))) +
     geom_blank() +
@@ -13,34 +13,34 @@ test_that("guide_box works as axis", {
 
   p <- base +
     guides(
-      y = guide_box(),
-      y.sec = guide_box(
+      y = primitive_box(),
+      y.sec = primitive_box(
         min_size = 1,
         key = key_range_auto(reverse = TRUE), drop_zero = FALSE
       ),
-      x = guide_box(
+      x = primitive_box(
         key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
       ),
-      x.sec = guide_box(
+      x.sec = primitive_box(
         key = key_range_manual(
           start = c(2, 4, 3), end = c(5, 7, 6), level = c(1, 2, 3)
         )
       )
     )
 
-  vdiffr::expect_doppelganger("guide_box cartesian", p)
+  vdiffr::expect_doppelganger("primitive_box cartesian", p)
 
   p <- base +
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
     guides(
-      r = guide_box(),
-      r.sec = guide_box(
+      r = primitive_box(),
+      r.sec = primitive_box(
         key = key_range_auto(reverse = TRUE), drop_zero = FALSE
       ),
-      theta = guide_box(
+      theta = primitive_box(
         key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
       ),
-      theta.sec = guide_box(
+      theta.sec = primitive_box(
         key = key_range_manual(
           start = c(2, 4, 3), end = c(5, 7, 6),
           level = c(1, 2, 3)
@@ -48,5 +48,5 @@ test_that("guide_box works as axis", {
       )
     )
 
-  vdiffr::expect_doppelganger("guide_box radial", p)
+  vdiffr::expect_doppelganger("primitive_box radial", p)
 })

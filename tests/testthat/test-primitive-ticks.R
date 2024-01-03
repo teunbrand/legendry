@@ -1,5 +1,5 @@
 
-test_that("guide_ticks works as axis", {
+test_that("primitive_ticks works as axis", {
 
   base <- ggplot(mpg, aes(displ, hwy)) +
     geom_blank() +
@@ -13,23 +13,23 @@ test_that("guide_ticks works as axis", {
 
   p <- base +
     guides(
-      x     = "ticks",
-      x.sec = guide_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),
-      y     = "ticks",
-      y.sec = guide_ticks(theme = theme(axis.ticks = element_line(colour = "red")))
+      x     = primitive_ticks(),
+      x.sec = primitive_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),
+      y     = primitive_ticks(),
+      y.sec = primitive_ticks(theme = theme(axis.ticks = element_line(colour = "red")))
     )
 
-  vdiffr::expect_doppelganger("guide_ticks cartesian", p)
+  vdiffr::expect_doppelganger("primitive_ticks cartesian", p)
 
   p <- base +
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
     guides(
-      theta     = "ticks",
-      theta.sec = guide_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),
-      r         = "ticks",
-      r.sec = guide_ticks(theme = theme(axis.ticks = element_line(colour = "red")))
+      theta     = primitive_ticks(),
+      theta.sec = primitive_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),
+      r         = primitive_ticks(),
+      r.sec = primitive_ticks(theme = theme(axis.ticks = element_line(colour = "red")))
     )
 
-  vdiffr::expect_doppelganger("guide_ticks radial", p)
+  vdiffr::expect_doppelganger("primitive_ticks radial", p)
 
 })

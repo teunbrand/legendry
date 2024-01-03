@@ -45,6 +45,6 @@
 <polyline points='18.07,557.93 714.52,557.93 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
 <text x='366.30' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.62px' lengthAdjust='spacingAndGlyphs'>displ</text>
 <text transform='translate(13.05,290.36) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='19.57px' lengthAdjust='spacingAndGlyphs'>hwy</text>
-<text x='18.07' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='117.42px' lengthAdjust='spacingAndGlyphs'>guide_line cartesian</text>
+<text x='18.07' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='134.27px' lengthAdjust='spacingAndGlyphs'>primitive_line cartesian</text>
 </g>
 </svg>

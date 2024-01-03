@@ -58,6 +58,6 @@
 <polyline points='680.37,557.93 680.37,555.19 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='366.30' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.62px' lengthAdjust='spacingAndGlyphs'>displ</text>
 <text transform='translate(13.05,288.99) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='19.57px' lengthAdjust='spacingAndGlyphs'>hwy</text>
-<text x='20.81' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='123.29px' lengthAdjust='spacingAndGlyphs'>guide_ticks cartesian</text>
+<text x='20.81' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='140.14px' lengthAdjust='spacingAndGlyphs'>primitive_ticks cartesian</text>
 </g>
 </svg>

@@ -6,7 +6,7 @@
 #'
 #' @inheritParams ggplot2::guide_axis
 #'
-#' @return A `GuideTitle` primitive guide that can be used inside other guides.
+#' @return A `PrimitiveTitle` primitive guide that can be used inside other guides.
 #' @export
 #' @family primitives
 #'
@@ -17,10 +17,10 @@
 #'
 #' # Adding as secondary guides
 #' p + guides(
-#'   x.sec = guide_title("Horizontal Title"),
-#'   y.sec = guide_title(c("along vertical", "Multiple tiles"))
+#'   x.sec = primitive_title("Horizontal Title"),
+#'   y.sec = primitive_title(c("along vertical", "Multiple tiles"))
 #' )
-guide_title = function(title = waiver(), angle = waiver(),
+primitive_title = function(title = waiver(), angle = waiver(),
                        theme = NULL, position = waiver()) {
   if (!is_waive(angle)) {
     check_number_decimal(
@@ -36,7 +36,7 @@ guide_title = function(title = waiver(), angle = waiver(),
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
-    super = GuideTitle
+    super = PrimitiveTitle
   )
 }
 
@@ -46,8 +46,8 @@ guide_title = function(title = waiver(), angle = waiver(),
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideTitle <- ggproto(
-  "GuideTitle", Guide,
+PrimitiveTitle <- ggproto(
+  "PrimitiveTitle", Guide,
 
   params = new_params(my_title = waiver(), angle = waiver()),
 

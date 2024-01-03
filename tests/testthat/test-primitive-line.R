@@ -1,5 +1,5 @@
 
-test_that("guide_line works as axis line", {
+test_that("primitive_line works as axis line", {
 
   base <- ggplot(mpg, aes(displ, hwy)) +
     geom_blank() +
@@ -13,28 +13,28 @@ test_that("guide_line works as axis line", {
 
   p <- base +
     guides(
-      x     = "line",
-      x.sec = guide_line(cap = "both"),
-      y     = guide_line(cap = c(15, 25, 35, 40)),
-      y.sec = guide_line(cap = function(breaks, limits) {
+      x     = primitive_line(),
+      x.sec = primitive_line(cap = "both"),
+      y     = primitive_line(cap = c(15, 25, 35, 40)),
+      y.sec = primitive_line(cap = function(breaks, limits) {
         c(min(breaks, na.rm = TRUE), limits[2])
       })
     )
 
-  vdiffr::expect_doppelganger("guide_line cartesian", p)
+  vdiffr::expect_doppelganger("primitive_line cartesian", p)
 
   p <- base +
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
     guides(
-      theta.sec = "line",
-      theta     = guide_line(cap = "both"),
-      r         = guide_line(cap = c(15, 25, 35, 40)),
-      r.sec     = guide_line(cap = function(breaks, limits) {
+      theta.sec = primitive_line(),
+      theta     = primitive_line(cap = "both"),
+      r         = primitive_line(cap = c(15, 25, 35, 40)),
+      r.sec     = primitive_line(cap = function(breaks, limits) {
         c(min(breaks, na.rm = TRUE), limits[2])
       })
     )
 
-  vdiffr::expect_doppelganger("guide_line radial", p)
+  vdiffr::expect_doppelganger("primitive_line radial", p)
 
 })
 

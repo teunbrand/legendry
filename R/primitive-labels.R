@@ -8,7 +8,7 @@
 #'   in the linked topic.
 #' @inheritParams ggplot2::guide_axis
 #'
-#' @return A `<GuideLabels>` primitive guide that can be used inside other
+#' @return A `<PrimitiveLabels>` primitive guide that can be used inside other
 #'   guides.
 #' @export
 #' @family primitives
@@ -19,8 +19,11 @@
 #'  geom_point()
 #'
 #' # Adding as secondary guides
-#' p + guides(x.sec = "labels", y.sec = guide_labels(n.dodge = 2))
-guide_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
+#' p + guides(
+#'   x.sec = primative_labels(),
+#'   y.sec = primitive_labels(n.dodge = 2)
+#' )
+primitive_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
                          check.overlap = FALSE,
                          theme = NULL, position = waiver()) {
   if (!is_waive(angle)) {
@@ -40,7 +43,7 @@ guide_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
-    super = GuideLabels
+    super = PrimitiveLabels
   )
 }
 
@@ -51,8 +54,8 @@ guide_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideLabels <- ggproto(
-  "GuideLabels", Guide,
+PrimitiveLabels <- ggproto(
+  "PrimitiveLabels", Guide,
 
   params = new_params(
     angle = waiver(), n_dodge = 1, check_overlap = FALSE, key = NULL

@@ -22,7 +22,7 @@
 #'   the `drop_zero` setting.
 #' @inheritParams ggplot2::guide_axis
 #'
-#' @return A `<GuideBracket>` primitive guide that can be used inside other
+#' @return A `<PrimitiveBracket>` primitive guide that can be used inside other
 #'   guides.
 #' @family primitives
 #' @export
@@ -32,12 +32,14 @@
 #' p <- ggplot(mpg, aes(interaction(drv, year), displ)) +
 #'  geom_point()
 #'
+#' key <- key_range_manual(c(2, 4), c(5, 6), c("A", "B"))
+#'
 #' # Adding as secondary guides
 #' p + guides(
-#'   x.sec = "bracket",
-#'   y.sec = guide_bracket(key = key_range_manual(c(2, 4), c(5, 6), c("A", "B")))
+#'   x.sec = primitive_bracket(),
+#'   y.sec = primitive_bracket(key = key)
 #' )
-guide_bracket <- function(
+primitive_bracket <- function(
   key = "range_auto",
   bracket = "line",
   angle = waiver(),
@@ -64,7 +66,7 @@ guide_bracket <- function(
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
-    super = GuideBracket
+    super = PrimitiveBracket
   )
 }
 
@@ -74,8 +76,8 @@ guide_bracket <- function(
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideBracket <- ggproto(
-  "GuideBracket", Guide,
+PrimitiveBracket <- ggproto(
+  "PrimitiveBracket", Guide,
 
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,

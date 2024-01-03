@@ -45,6 +45,6 @@
 <text transform='translate(454.28,149.89) rotate(-45)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='17.74px' lengthAdjust='spacingAndGlyphs'>qux</text>
 <text transform='translate(532.27,71.90) rotate(-45)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='18.35px' lengthAdjust='spacingAndGlyphs'>egg</text>
 <text x='236.07' y='105.12' text-anchor='middle' style='font-size: 11.00px; fill: #FF0000; font-family: sans;' textLength='31.19px' lengthAdjust='spacingAndGlyphs'>foobar</text>
-<text x='39.14' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='96.13px' lengthAdjust='spacingAndGlyphs'>guide_title radial</text>
+<text x='39.14' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='112.97px' lengthAdjust='spacingAndGlyphs'>primitive_title radial</text>
 </g>
 </svg>

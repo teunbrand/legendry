@@ -17,9 +17,10 @@
 #'   * A `<function>` that takes the scale's breaks as the first argument, the
 #'   scale's limits as the second argument and returns a `<numeric>[2n]` as
 #'   described above.
-#' @inheritParams guide_labels
+#' @inheritParams primitive_labels
 #'
-#' @return A `GuideLine` primitive guide that can be used inside other guides.
+#' @return A `PrimitiveLine` primitive guide that can be used inside other
+#'   guides.
 #' @export
 #' @family primitives
 #'
@@ -30,8 +31,11 @@
 #'   theme(axis.line = element_line())
 #'
 #' # Adding as secondary guides
-#' p + guides(x.sec = "line", y.sec = guide_line(cap = "both"))
-guide_line <- function(key = NULL, cap = "none", theme = NULL,
+#' p + guides(
+#'   x.sec = primitive_line(),
+#'   y.sec = primitive_line(cap = "both")
+#' )
+primitive_line <- function(key = NULL, cap = "none", theme = NULL,
                        position = waiver()) {
   new_guide(
     key = key,
@@ -39,7 +43,7 @@ guide_line <- function(key = NULL, cap = "none", theme = NULL,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
-    super = GuideLine
+    super = PrimitiveLine
   )
 }
 
@@ -49,8 +53,8 @@ guide_line <- function(key = NULL, cap = "none", theme = NULL,
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideLine <- ggproto(
-  "GuideLine", Guide,
+PrimitiveLine <- ggproto(
+  "PrimitiveLine", Guide,
 
   params = new_params(cap = c(-Inf, Inf), key = NULL),
 

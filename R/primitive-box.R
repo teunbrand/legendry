@@ -4,10 +4,11 @@
 #'
 #' This function constructs a boxes [guide primitive][guide-primitives].
 #'
-#' @inheritParams guide_bracket
+#' @inheritParams primitive_bracket
 #' @param min_size
 #'
-#' @return A `<GuideBox>` primitive guide that can be used inside other guides.
+#' @return A `<PrimitiveBox>` primitive guide that can be used inside other
+#'   guides.
 #' @family primitives
 #' @export
 #'
@@ -16,12 +17,14 @@
 #' p <- ggplot(mpg, aes(interaction(drv, year), displ)) +
 #'  geom_point()
 #'
+#' key <- key_range_manual(c(2, 4), c(5, 6), c("A", "B"))
+#'
 #' # Adding as secondary guides
 #' p + guides(
-#'   x.sec = "box",
-#'   y.sec = guide_box(key = key_range_manual(c(2, 4), c(5, 6), c("A", "B")))
+#'   x.sec = primitive_box,
+#'   y.sec = primitive_box(key = key)
 #' )
-guide_box <- function(
+primitive_box <- function(
   key = "range_auto",
   angle = waiver(),
   oob = "squish",
@@ -47,7 +50,7 @@ guide_box <- function(
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
-    super = GuideBox
+    super = PrimitiveBox
   )
 }
 
@@ -57,8 +60,8 @@ guide_box <- function(
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideBox <- ggproto(
-  "GuideBox", Guide,
+PrimitiveBox <- ggproto(
+  "PrimitiveBox", Guide,
 
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,

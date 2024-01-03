@@ -4,9 +4,10 @@
 #'
 #' This function contructs a ticks [guide primitive][guide-primitives].
 #'
-#' @inheritParams guide_labels
+#' @inheritParams primitive_labels
 #'
-#' @return A `GuideTicks` primitive guide that can be used inside other guides.
+#' @return A `PrimitiveTicks` primitive guide that can be used inside other
+#'   guides.
 #' @export
 #' @family primitives
 #'
@@ -16,14 +17,14 @@
 #'   geom_point()
 #'
 #' # Adding as secondary guides
-#' p + guides(x.sec = "ticks", y.sec = guide_ticks())
-guide_ticks <- function(key = NULL, theme = NULL, position = waiver()) {
+#' p + guides(x.sec = primitive_ticks(), y.sec = primitive_ticks())
+primitive_ticks <- function(key = NULL, theme = NULL, position = waiver()) {
   new_guide(
     key = key,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
-    super = GuideTicks
+    super = PrimitiveTicks
   )
 }
 
@@ -33,8 +34,8 @@ guide_ticks <- function(key = NULL, theme = NULL, position = waiver()) {
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideTicks <- ggproto(
-  "GuideTicks", Guide,
+PrimitiveTicks <- ggproto(
+  "PrimitiveTicks", Guide,
 
   params = new_params(key = NULL),
 

@@ -1,5 +1,5 @@
 
-test_that("guide_bracket works as axis", {
+test_that("primitive_bracket works as axis", {
 
   base <- ggplot(mpg, aes(displ, interaction(drv, year))) +
     geom_blank() +
@@ -13,16 +13,16 @@ test_that("guide_bracket works as axis", {
 
   p <- base +
     guides(
-      y = guide_bracket(bracket = "curvy"),
-      y.sec = guide_bracket(
+      y = primitive_bracket(bracket = "curvy"),
+      y.sec = primitive_bracket(
         bracket = "round",
         key = key_range_auto(reverse = TRUE), drop_zero = FALSE
       ),
-      x = guide_bracket(
+      x = primitive_bracket(
         bracket = "square",
         key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
       ),
-      x.sec = guide_bracket(
+      x.sec = primitive_bracket(
         bracket = "chevron",
         key = key_range_manual(
           start = c(2, 4, 3), end = c(5, 7, 6), name = c("1", "2", "3"),
@@ -31,21 +31,21 @@ test_that("guide_bracket works as axis", {
       )
     )
 
-  vdiffr::expect_doppelganger("guide_bracket cartesian", p)
+  vdiffr::expect_doppelganger("primitive_bracket cartesian", p)
 
   p <- base +
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
     guides(
-      r = guide_bracket(bracket = "curvy"),
-      r.sec = guide_bracket(
+      r = primitive_bracket(bracket = "curvy"),
+      r.sec = primitive_bracket(
         bracket = "round", angle = 0,
         key = key_range_auto(reverse = TRUE), drop_zero = FALSE
       ),
-      theta = guide_bracket(
+      theta = primitive_bracket(
         bracket = "chevron",
         key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
       ),
-      theta.sec = guide_bracket(
+      theta.sec = primitive_bracket(
         bracket = "square",
         key = key_range_manual(
           start = c(2, 4, 3), end = c(5, 7, 6), name = c("1", "2", "3"),
@@ -54,5 +54,5 @@ test_that("guide_bracket works as axis", {
       )
     )
 
-  vdiffr::expect_doppelganger("guide_bracket radial", p)
+  vdiffr::expect_doppelganger("primitive_bracket radial", p)
 })

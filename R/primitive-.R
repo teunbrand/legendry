@@ -3,8 +3,9 @@
 #'
 #' @description
 #' Guide primitives are the building blocks of more complex guides. On their
-#' own, they are not very useful as a visual reflection of a scale. Their
-#' purpose is to be combined with one another to form a more complex,
+#' own, they are not very useful as a visual reflection of a scale.
+#'
+#' Their purpose is to be combined with one another to form a more complex,
 #' complete guides that *do* reflect a scale in some way.
 #'
 #' @details
@@ -40,7 +41,7 @@ primitive_grob <- function(grob, size, position, name) {
     height <- unit(1, "npc")
     width  <- size
     vp     <- viewport(x = origin, width = sum(size), just = opposite)
-    gt <- gtable(widths = width, height = height)
+    gt <- gtable(widths = width, heights = height)
     gt <- gtable_add_grob(gt, grob, t = 1L, l = seq_along(size), clip = "off", name = name)
   }
 
