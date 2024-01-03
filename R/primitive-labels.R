@@ -208,7 +208,7 @@ draw_labels <- function(key, element, angle, offset,
 
   grob <- element_grob(
     element = element,
-    label = key$.label,
+    label = labels,
     x = x, y = y,
     hjust = hjust, vjust = vjust,
     angle = angle,
@@ -220,7 +220,7 @@ draw_labels <- function(key, element, angle, offset,
       measure_textpath_labels(grob)
   } else {
     height <-
-      measure_theta_labels(element, key$.label, margin, theta + rad, hjust, vjust)
+      measure_theta_labels(element, labels, margin, theta + rad, hjust, vjust)
   }
   attr(grob, "size") <- height
   grob
