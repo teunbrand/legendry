@@ -1,8 +1,4 @@
-
-el_unit <- function(...) el_def(c("unit", "rel"), ...)
-el_line <- function(...) el_def("element_line", ...)
-
-on_load({
+register_gguidance_elements <- function() {
   register_theme_elements(
     gguidance.bracket.size = unit(2, "mm"),
     gguidance.bracket = element_line(),
@@ -14,6 +10,8 @@ on_load({
     gguidance.axis.mini.ticks = element_line(),
     gguidance.axis.mini.ticks.length = rel(0.5),
     gguidance.guide.spacing = unit(2.25, "pt"),
+    gguidance.side.titles = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
+    gguidance.side.titles.position = c("left", "top"),
     element_tree = list(
       gguidance.bracket.size = el_def("unit"),
       gguidance.bracket = el_line("line"),
@@ -25,6 +23,13 @@ on_load({
       gguidance.axis.mini.ticks = el_line("axis.ticks"),
       gguidance.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       gguidance.guide.spacing = el_unit("axis.ticks.length"),
+      gguidance.side.titles = el_def("element_text", "axis.text"),
+      gguidance.side.titles.position = el_def("character")
     )
   )
-})
+}
+
+on_load(register_gguidance_elements())
+
+el_unit <- function(...) el_def(c("unit", "rel"), ...)
+el_line <- function(...) el_def("element_line",   ...)
