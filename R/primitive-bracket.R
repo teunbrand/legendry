@@ -152,9 +152,9 @@ GuideBracket <- ggproto(
         add <- if (params$position == "theta.sec") pi else 0
         key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
         key <- polar_xy(key, key$r, key$theta + add, params$bbox)
-      } else if (params$position %in% c("top", "bottom")) {
+      } else if ("xend" %in% names(key)) {
         key$x <- justify_range(key$x, key$xend, hjust)
-      } else {
+      } else if ("yend" %in% names(key)) {
         key$y <- justify_range(key$y, key$yend, vjust)
       }
     }
