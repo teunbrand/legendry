@@ -20,7 +20,7 @@
 #'
 #' # Adding as secondary guides
 #' p + guides(
-#'   x.sec = primative_labels(),
+#'   x.sec = primitive_labels(),
 #'   y.sec = primitive_labels(n.dodge = 2)
 #' )
 primitive_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,

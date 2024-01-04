@@ -12,6 +12,8 @@
 #'   [`key_auto()`]. See more information in the linked topic and the 'Details'
 #'   section.
 #' @inheritParams primitive_labels
+#' @inheritParams primitive_line
+#' @inheritParams compose_stack
 #'
 #' @details
 #' Under the hood, this guide is a [stack composition][compose_stack] of a

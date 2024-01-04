@@ -3,7 +3,7 @@
 #' Bracket options
 #'
 #' These functions construct various sorts of brackets. They construct a matrix
-#' that can be supplied as the `bracket` argument in [`primtive_bracket()`].
+#' that can be supplied as the `bracket` argument in [`primitive_bracket()`].
 #'
 #' @param n An `integer(1)` number of points to use for the bracket.
 #' @param curvature A `numeric(1)` that controls the curliness of the bracket.

@@ -21,7 +21,7 @@
 #'
 #' # Adding as secondary guides
 #' p + guides(
-#'   x.sec = primitive_box,
+#'   x.sec = primitive_box(),
 #'   y.sec = primitive_box(key = key)
 #' )
 primitive_box <- function(

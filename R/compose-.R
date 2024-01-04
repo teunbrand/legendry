@@ -19,7 +19,7 @@
 #' @param available_aes A `<character>` giving aesthetics that must match the
 #'   the guides.
 #' @param super A `<Compose>` class object giving a meta-guide for composition.
-#' @param .call A [call][rlang::topic-error-call] to display in messages.
+#' @param call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @name guide-composition
 #' @return A `<Compose>` (sub-)class guide that composes other guides.

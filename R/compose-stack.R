@@ -22,6 +22,14 @@
 #' @param drop An `<integer>` giving the indices of guides that should be
 #'   dropped when a facet requests no labels to be drawn at axes in between
 #'   panels. The default, `NULL`, will drop every guide except the first.
+#' @param title A `<character[1]>` or `<expression[1]>` indicating a title of
+#'   the guide. If `NULL`, the title is not shown. By default
+#'   ([`waiver()`][ggplot2::waiver()]), the name of the scale object or the
+#'   name specified in [`labs()`][ggplot2::labs] is used for the title.
+#' @param order A positive `<integer[1]>` that specifies the order of this guide
+#'   among multiple guides. This controls in which order guides are merged
+#'   if there are multiple guides for the same position. If `0` (default),
+#'   the order is determined by a secret algorithm.
 #'
 #' @return A `<ComposeStack>` guide object.
 #' @export
@@ -40,7 +48,7 @@ compose_stack <- function(
   ..., args = list(),
   key = NULL, title = waiver(), side.titles = waiver(),
   angle = waiver(), theme = NULL, order = 0, drop = NULL,
-  position = waiver(), available_aes = NULL, call = caller_env()
+  position = waiver(), available_aes = NULL
 ) {
   new_compose(
     guides = list2(...),
