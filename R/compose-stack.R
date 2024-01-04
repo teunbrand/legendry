@@ -19,6 +19,9 @@
 #'   side of the stack. Set to `NULL` to display no side titles. If `waiver()`,
 #'   an attempt is made to extract the titles from the guides and use these
 #'   as side titles.
+#' @param drop An `<integer>` giving the indices of guides that should be
+#'   dropped when a facet requests no labels to be drawn at axes in between
+#'   panels. The default, `NULL`, will drop every guide except the first.
 #'
 #' @return A `<ComposeStack>` guide object.
 #' @export
@@ -36,7 +39,7 @@
 compose_stack <- function(
   ..., args = list(),
   key = NULL, title = waiver(), side.titles = waiver(),
-  angle = waiver(), theme = NULL, order = 0,
+  angle = waiver(), theme = NULL, order = 0, drop = NULL,
   position = waiver(), available_aes = NULL, call = caller_env()
 ) {
   new_compose(
@@ -46,6 +49,7 @@ compose_stack <- function(
     key = key,
     angle = angle,
     side_titles = side.titles,
+    drop = drop,
     available_aes = available_aes,
     order = order,
     position = position,
@@ -65,7 +69,7 @@ ComposeStack <- ggproto(
 
   params = new_params(
     guides = list(), guide_params = list(),
-    key = NULL, side_titles = NULL, angle = waiver()
+    key = NULL, side_titles = NULL, angle = waiver(), drop = NULL
   ),
 
   elements = list(
@@ -133,15 +137,19 @@ ComposeStack <- ggproto(
 
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
+    n_guides <- length(params$guides)
+    if (n_guides < 1) {
+      return(zeroGrob())
+    }
+
     theme <- theme + params$theme
-    position  <- params$position  %||% position
+    position <- params$position <- params$position  %||% position
     check_position(position)
-    direction <- params$direction %||% direction
+    direction <- params$direction <-  params$direction %||% direction
 
     elems <- self$setup_elements(params, self$elements, theme)
     elems <- self$override_elements(params, elems, theme)
 
-    n_guides <- length(params$guides)
     guide_index <- seq_len(n_guides)
     grobs  <- vector("list", n_guides)
 
@@ -178,7 +186,12 @@ ComposeStack <- ggproto(
 
     side_titles <- self$build_title(params$side_titles, elems, params)
 
-    draw_label <- params$draw_label %||% TRUE
+    keep <- rep(TRUE, n_guides)
+    draw_label <- !isFALSE(params$draw_label %||% TRUE)
+    if (!draw_label && length(params$drop) > 0) {
+      drop <- intersect(params$drop %||% guide_index[-1], guide_index)
+      keep[drop] <- FALSE
+    }
 
     for (i in guide_index) {
       pars <- params$guide_params[[i]]
@@ -188,7 +201,7 @@ ComposeStack <- ggproto(
       )
     }
 
-    keep <- !vapply(grobs, is.zero, logical(1))
+    keep <- keep & !vapply(grobs, is.zero, logical(1))
     grobs <- grobs[keep]
     if (length(grobs) == 0) {
       return(zeroGrob())

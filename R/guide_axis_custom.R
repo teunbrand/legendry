@@ -64,7 +64,7 @@ guide_axis_custom <- function(
     primitive_labels(
       angle = angle, n.dodge = n.dodge, check.overlap = check.overlap
     ),
-    key = key, side.titles = NULL,
+    key = key, side.titles = NULL, drop = 3L,
     title = title, theme = theme, order = order,
     available_aes = c("x", "y", "r", "theta"),
     position = position
