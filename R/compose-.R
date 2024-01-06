@@ -65,7 +65,9 @@ Compose <- ggproto(
 
   elements = list(spacing = "gguidance.guide.spacing"),
 
-  train = function(self, params = self$params, scale, aesthetic = NULL, ...) {
+  train = function(self, params = self$params, scale, aesthetic = NULL,
+                   title = NULL,...) {
+    params$title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
     position  <- params$position  <- params$position %|W|% NULL
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     check_position(position, allow_null = TRUE)
@@ -81,6 +83,7 @@ Compose <- ggproto(
       )
     }
     params$guide_params <- guide_params
+    params$hash <- hash(guide_params)
     params
   },
 
