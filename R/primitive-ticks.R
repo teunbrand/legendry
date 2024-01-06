@@ -57,10 +57,7 @@ PrimitiveTicks <- ggproto(
 
   extract_key = standard_extract_key,
 
-  extract_params = function(scale, params, ...) {
-    params$position <- params$position %|W|% NULL
-    params
-  },
+  extract_params = primitive_extract_params,
 
   transform = function(self, params, coord, panel_params) {
     params$key <-

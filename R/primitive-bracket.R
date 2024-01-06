@@ -98,8 +98,7 @@ PrimitiveBracket <- ggproto(
   extract_key = range_extract_key,
 
   extract_params = function(scale, params, ...) {
-    params$position <- params$position %|W|% NULL
-
+    params <- primitive_extract_params(scale, params, ...)
     aesthetic <- params$aesthetic
     if (aesthetic %in% c("x", "y")) {
       params$key <-

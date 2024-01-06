@@ -66,10 +66,7 @@ PrimitiveLabels <- ggproto(
     legend   = list(text = "legend.text")
   ),
 
-  extract_params = function(scale, params, ...) {
-    params$position <- params$position %|W|% NULL
-    params
-  },
+  extract_params = primitive_extract_params,
 
   extract_key = standard_extract_key,
 

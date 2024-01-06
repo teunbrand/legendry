@@ -60,3 +60,9 @@ primitive_setup_elements <- function(params, elements, theme) {
   elements$offset <- cm(params$stack_offset %||% 0)
   elements
 }
+
+primitive_extract_params = function(scale, params, ...) {
+  params$position <- params$position %|W|% NULL
+  params$limits   <- scale$get_limits()
+  params
+}

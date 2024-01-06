@@ -5,7 +5,7 @@
 #' This function constructs a line [guide primitive][guide-primitives].
 #'
 #' @param cap A method to cap the axes. One of the following:
-#'   * A `<character>[1]` with one of the following:
+#'   * A `<character[1]>` with one of the following:
 #'     * `"none"` to perform no capping.
 #'     * `"both"` to cap the line at both ends at the most extreme breaks.
 #'     * `"upper"` to cap the line at the upper extreme break.
@@ -92,10 +92,7 @@ PrimitiveLine <- ggproto(
     decor
   },
 
-  extract_params = function(scale, params, ...) {
-    params$position <- params$position %|W|% NULL
-    params
-  },
+  extract_params = primitive_extract_params,
 
   transform = function(self, params, coord, panel_params) {
     params$decor <- coord_munch(coord, params$decor, panel_params)
