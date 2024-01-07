@@ -38,3 +38,21 @@ test_that("primitive_line works as axis line", {
 
 })
 
+test_that("primitive_line works as legend", {
+
+  p <- ggplot(mtcars) +
+    aes(
+      x = disp, y = mpg,
+      colour = hp,
+      fill = hp
+    ) +
+    geom_point() +
+    guides(
+      colour = primitive_line(),
+      fill = primitive_line(position = "bottom")
+    )
+
+
+  vdiffr::expect_doppelganger("primitive_line legend", p)
+
+})

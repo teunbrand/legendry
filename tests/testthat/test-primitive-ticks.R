@@ -33,3 +33,21 @@ test_that("primitive_ticks works as axis", {
   vdiffr::expect_doppelganger("primitive_ticks radial", p)
 
 })
+
+test_that("primitive_ticks works as legend", {
+
+  p <- ggplot(mtcars) +
+    aes(
+      x = disp, y = mpg,
+      colour = hp,
+      fill = hp
+    ) +
+    geom_point() +
+    guides(
+      colour = primitive_ticks(key = key_manual(c(100, 300))),
+      fill = primitive_ticks(position = "bottom")
+    )
+
+  vdiffr::expect_doppelganger("primitive_ticks legend", p)
+
+})

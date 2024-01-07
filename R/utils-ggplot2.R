@@ -27,6 +27,7 @@ absoluteGrob <- function(grob, width = NULL, height = NULL,
   gTree(
     children = grob,
     width = width, height = height,
+    widths = width, heights = height,
     xmin = xmin, ymin = ymin,
     vp = vp, cl = "absoluteGrob"
   )

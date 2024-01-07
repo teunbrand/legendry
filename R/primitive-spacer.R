@@ -42,6 +42,7 @@ PrimitiveSpacer <- ggproto(
   train = function(self, params = self$params, scale, aesthetic = NULL, ...) {
     params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     params$position  <- params$position %|W|% NULL
+    params$hash <- hash(list(params$position, params$space))
     params
   },
 

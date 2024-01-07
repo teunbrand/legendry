@@ -33,3 +33,21 @@ test_that("primitive_labels works as axis", {
   vdiffr::expect_doppelganger("primitive_labels radial", p)
 
 })
+
+test_that("primitive_labels works as legend", {
+
+  p <- ggplot(mtcars) +
+    aes(
+      x = disp, y = mpg,
+      colour = hp,
+      fill = hp
+    ) +
+    geom_point() +
+    guides(
+      colour = primitive_labels(),
+      fill = primitive_labels(key = key_manual(c(200, 300)), position = "bottom")
+    )
+
+  vdiffr::expect_doppelganger("primitive_labels legend", p)
+
+})

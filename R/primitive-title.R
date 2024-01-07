@@ -50,11 +50,13 @@ primitive_title = function(title = waiver(), angle = waiver(),
 PrimitiveTitle <- ggproto(
   "PrimitiveTitle", Guide,
 
+  hashables = exprs(my_title),
+
   params = new_params(my_title = waiver(), angle = waiver()),
 
   extract_key = function(scale, aesthetic, ...) {
     # Need to keep track of limits for r/r.sec positions
-    data_frame0(!!aesthetic := c(-Inf, Inf))
+    data_frame0(!!aesthetic := c(-Inf, Inf), .value = scale$get_limits())
   },
 
   extract_params = function(scale, params, title = waiver(), ...) {
@@ -73,6 +75,8 @@ PrimitiveTitle <- ggproto(
       transform_key(params$key, params$position, coord, panel_params)
     params
   },
+
+  setup_params = primitive_setup_params,
 
   setup_elements = function(params, elements, theme) {
     prefix <- ""
@@ -114,6 +118,8 @@ PrimitiveTitle <- ggproto(
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
     params <- replace_null(params, position = position, direction = direction)
+    params <- self$setup_params(params)
+
     elems <- self$setup_elements(params, self$elements, theme)
     title <- self$build_title(params$my_title, elems, params)
     size  <- self$measure_grobs(title, params, elements)
@@ -191,8 +197,12 @@ draw_theta_title <- function(label, elements, params) {
 }
 
 draw_cart_title <- function(label, elements, params) {
+  if (length(label) < 1) {
+    return(zeroGrob())
+  }
 
   limits <- sort(params$key[[params$aesthetic]])
+  limits <- oob_squish_infinite(limits)
 
   title    <- elements$title
   position <- params$position

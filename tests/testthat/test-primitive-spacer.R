@@ -29,3 +29,21 @@ test_that("primitive_spacer works in guide_axis_stack()", {
 
   vdiffr::expect_doppelganger("primitive_spacer radial", p)
 })
+
+test_that("primitive_spacer works as legend", {
+
+  p <- ggplot(mtcars) +
+    aes(
+      x = disp, y = mpg,
+      colour = hp,
+      fill = hp
+    ) +
+    geom_point() +
+    guides(
+      colour = primitive_spacer(space = unit(2, "cm")),
+      fill = primitive_spacer(position = "bottom", space = unit(2, "cm"))
+    )
+
+  vdiffr::expect_doppelganger("primitive_spacer legend", p)
+
+})

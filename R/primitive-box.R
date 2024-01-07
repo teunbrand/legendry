@@ -63,6 +63,8 @@ primitive_box <- function(
 PrimitiveBox <- ggproto(
   "PrimitiveBox", Guide,
 
+  hashables = exprs(key, decor),
+
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,
     pad_discrete = 0.4, angle = waiver(), min_size = NULL

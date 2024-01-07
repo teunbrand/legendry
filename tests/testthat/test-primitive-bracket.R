@@ -56,3 +56,29 @@ test_that("primitive_bracket works as axis", {
 
   vdiffr::expect_doppelganger("primitive_bracket radial", p)
 })
+
+
+test_that("primitive_bracket works as legend", {
+
+  p <- ggplot(mtcars) +
+    aes(
+      x = disp, y = mpg,
+      colour = hp,
+      fill = hp
+    ) +
+    geom_point() +
+    guides(
+      colour = primitive_bracket(key = key_range_manual(
+        c(100, 200), c(250, 300), c("A", "B")
+      )),
+      fill = primitive_bracket(key = key_range_manual(
+        c(100, 150, 200), c(300, 300, 300), c("A", "B", "C")
+      ), position = "bottom")
+    ) +
+    theme(
+      legend.box.just = "center"
+    )
+
+  vdiffr::expect_doppelganger("primitive_bracket legend", p)
+
+})

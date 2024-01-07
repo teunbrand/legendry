@@ -114,7 +114,9 @@ scale_transform <- function(x, scale, map = FALSE, arg = caller_arg(x)) {
   }
   transform <- scale$get_transformation()
   if (is.null(transform)) {
-    x <- (scale$scale$map %||% scale$map)(x)
+    if (map) {
+      x <- (scale$scale$map %||% scale$map)(x)
+    }
     return(x)
   }
   x <- transform$transform(x)
@@ -149,3 +151,8 @@ suffix_position <- function(value, position) {
   value[char] <- lapply(value[char], paste0, suffix)
   value
 }
+
+set_list_element <- function(x, i, value) {
+  lapply(x, `[<-`, i = i, value = list(value))
+}
+

@@ -66,6 +66,8 @@ PrimitiveLabels <- ggproto(
     legend   = list(text = "legend.text")
   ),
 
+  hashables = exprs(key$.label),
+
   extract_params = primitive_extract_params,
 
   extract_key = standard_extract_key,
@@ -75,6 +77,8 @@ PrimitiveLabels <- ggproto(
       transform_key(params$key, params$position, coord, panel_params)
     params
   },
+
+  setup_params = primitive_setup_params,
 
   setup_elements = primitive_setup_elements,
 
@@ -129,6 +133,8 @@ PrimitiveLabels <- ggproto(
                   params = self$params) {
 
     params <- replace_null(params, position = position, direction = direction)
+    params <- self$setup_params(params)
+
     elems  <- self$setup_elements(params, self$elements, theme)
     elems  <- self$override_elements(params, elems, theme)
     labels <- self$build_labels(params$key, elems, params)
@@ -319,4 +325,14 @@ label_priority_between <- function(min, max) {
   }
   mid <- min - 1 + (n + 1) %/% 2
   c(mid, label_priority_between(min, mid), label_priority_between(mid, max))
+}
+
+position_margin <- function(position, margin = margin(), gap = unit(0, "pt")) {
+  switch(
+    position,
+    top    = replace(margin, 3, margin[3] + gap),
+    bottom = replace(margin, 1, margin[1] + gap),
+    left   = replace(margin, 2, margin[2] + gap),
+    right  = replace(margin, 4, margin[4] + gap)
+  )
 }

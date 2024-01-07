@@ -268,6 +268,7 @@ log10_keys <- function(scale, aesthetic,
 
   key <- data_frame0(
     !!aesthetic := ticks,
+    .value = ticks,
     .label = labels,
     .type = rep(c("major", "minor", "mini"), times = nticks)
   )

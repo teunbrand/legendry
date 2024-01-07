@@ -39,6 +39,8 @@ PrimitiveTicks <- ggproto(
 
   params = new_params(key = NULL),
 
+  hashables = exprs(key),
+
   elements = list(
     position = list(
       ticks = "axis.ticks",       ticks_length = "axis.ticks.length",
@@ -64,6 +66,8 @@ PrimitiveTicks <- ggproto(
       transform_key(params$key, params$position, coord, panel_params)
     params
   },
+
+  setup_params = primitive_setup_params,
 
   setup_elements = primitive_setup_elements,
 
@@ -126,6 +130,7 @@ PrimitiveTicks <- ggproto(
                   params = self$params) {
 
     params <- replace_null(params, position = position, direction = direction)
+    params <- self$setup_params(params)
 
     elems <- self$setup_elements(params, self$elements, theme)
     elems <- self$override_elements(params, elems, theme)
@@ -153,6 +158,11 @@ draw_ticks = function(key, element, params, position, length, offset = 0) {
     return(zeroGrob())
   }
   if (params$position %in% .trbl) {
+    if (params$aesthetic %in% c("x", "y")) {
+      key <- key[[params$aesthetic]]
+    } else {
+      key <- key[[switch(params$direction, horizontal = "x", "y")]]
+    }
     ticks <- Guide$build_ticks(
       key, element, params, opposite_position(position), unit(length, "cm")
     )

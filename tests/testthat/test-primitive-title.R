@@ -34,3 +34,21 @@ test_that("primitive_title works as axis", {
 
   vdiffr::expect_doppelganger("primitive_title radial", p)
 })
+
+test_that("primitive_title works as legend", {
+
+  p <- ggplot(mtcars) +
+    aes(
+      x = disp, y = mpg,
+      colour = hp,
+      fill = hp
+    ) +
+    geom_point() +
+    guides(
+      colour = primitive_title(title = "right title"),
+      fill = primitive_title(title = "bottom title", position = "bottom")
+    )
+
+  vdiffr::expect_doppelganger("primitive_title legend", p)
+
+})

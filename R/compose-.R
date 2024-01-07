@@ -66,7 +66,7 @@ Compose <- ggproto(
   elements = list(spacing = "gguidance.guide.spacing"),
 
   train = function(self, params = self$params, scale, aesthetic = NULL,
-                   title = NULL,...) {
+                   title = waiver(), ...) {
     params$title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
     position  <- params$position  <- params$position %|W|% NULL
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
@@ -100,6 +100,9 @@ Compose <- ggproto(
       params$guides, params$guide_params, "get_layer_key",
       layers = layers, data = data
     )
+    # Collect limits
+    limits <- get_limits(params)
+    params <- set_limits(params, limits)
     params
   },
 
@@ -166,4 +169,34 @@ validate_guide <- function(guide, args = list(), env = global_env(),
     return(guide)
   }
   cli::cli_abort("Unknown guide: {input}.", call = call)
+}
+
+accumulate_limits <- function(...) {
+  args <- list2(...)
+  args <- args[lengths(args) > 0]
+  if (length(args) == 0) {
+    return(NULL)
+  }
+  if (is.character(args[[1]])) {
+    unique(unlist(args))
+  } else {
+    inject(range(!!!args))
+  }
+}
+
+get_limits <- function(params) {
+  if ("guide_params" %in% names(params)) {
+    limits <- lapply(params$guide_params, get_limits)
+    accumulate_limits(!!!limits)
+  } else {
+    params$limits
+  }
+}
+
+set_limits <- function(params, limits) {
+  if ("guide_params" %in% names(params)) {
+    params$guide_params <- lapply(params$guide_params, set_limits, limits = limits)
+  }
+  params$limits <- limits
+  params
 }

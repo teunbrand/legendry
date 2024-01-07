@@ -84,6 +84,8 @@ PrimitiveBracket <- ggproto(
     pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0, 1), 0.5)
   ),
 
+  hashables = exprs(key, decor, bracket),
+
   elements = list(
     position = list(
       text = "axis.text", line = I("gguidance.bracket"),

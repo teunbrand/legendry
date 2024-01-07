@@ -58,6 +58,10 @@ primitive_setup_elements <- function(params, elements, theme) {
   if (identical(elements$text, "legend.text")) {
     elements$text <- setup_legend_text(theme, params$direction)
   }
+  if (identical(elements$ticks_length, "legend.ticks.length")) {
+    theme$legend.ticks.length <- theme$legend.ticks.length %||%
+      (calc_element("legend.key.size", theme) * 0.2)
+  }
   is_char <- vapply(elements, is.character, logical(1))
   elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
   elements$offset <- cm(params$stack_offset %||% 0)
@@ -71,6 +75,10 @@ primitive_extract_params = function(scale, params, ...) {
 }
 
 primitive_setup_params <- function(params) {
+  if (params$aesthetic %in% c("x", "y")) {
+    return(params)
+  }
+
   if (!is_empty(params$key)) {
     key   <- params$key
     value <- rescale(key$.value, to = c(0, 1), from = params$limits %||% c(0, 1))
@@ -87,22 +95,4 @@ primitive_setup_params <- function(params) {
     params$decor <- decor
   }
   params
-}
-
-setup_legend_text <- function(theme, direction = "vertical") {
-  position <- calc_element("legend.text.position", theme)
-  position <- position %||% switch(horizontal = "bottom", vertical = "right")
-  gap    <- calc_element("legend.key.spacing", theme)
-  margin <- calc_element("text", theme)$margin
-  margin <- position_margin(position, margin, gap)
-  text <- theme(
-    text = switch(
-      position,
-      top    = element_text(hjust = 0.5, vjust = 0.0, margin = margin),
-      bottom = element_text(hjust = 0.5, vjust = 1.0, margin = margin),
-      left   = element_text(hjust = 1.0, vjust = 0.5, margin = margin),
-      right  = element_text(hjust = 0.0, vjust = 0.5, margin = margin)
-    )
-  )
-  calc_element("legend.text", theme + text)
 }

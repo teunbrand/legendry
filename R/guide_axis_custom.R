@@ -68,7 +68,7 @@ guide_axis_custom <- function(
     ),
     key = key, side.titles = NULL, drop = 3L,
     title = title, theme = theme, order = order,
-    available_aes = c("x", "y", "r", "theta"),
+    available_aes = c("any", "x", "y", "r", "theta"),
     position = position
   )
 }

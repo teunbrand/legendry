@@ -63,6 +63,8 @@ PrimitiveLine <- ggproto(
     legend   = list(line = "legend.axis.line")
   ),
 
+  hashables = exprs(decor),
+
   extract_key = standard_extract_key,
 
   extract_decor = function(scale, aesthetic, position, cap, key, ...) {
