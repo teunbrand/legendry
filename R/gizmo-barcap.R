@@ -42,12 +42,12 @@
 #'   geom_point()
 #'
 #' # Just a bar
-#' p + scale_colour_viridis_c(guide = gizmo_colourcap())
+#' p + scale_colour_viridis_c(guide = gizmo_barcap())
 #'
 #' # Caps show up when there is data outside the limits
 #' p + scale_colour_viridis_c(
 #'   limits = c(10, 30),
-#'   guide  = gizmo_colourcap()
+#'   guide  = gizmo_barcap()
 #' )
 #'
 #' # The scale's out-of-bounds handler determines cap colour
@@ -231,7 +231,7 @@ GizmoBarcap <- ggproto(
       gp <- gpar(fill = gradient, col = NA)
     }
     poly <- inject(polygonGrob(!!!poly_args, gp = gp))
-    list(poly = poly, upper = size_upper, lower = size_lower)
+    list(grob = poly, upper = size_upper, lower = size_lower)
   },
 
   draw = function(self, theme, position = NULL, direction = NULL,
@@ -250,7 +250,7 @@ GizmoBarcap <- ggproto(
       }
       widths  <- unit.c(bar$lower, middle, bar$upper)
       gt <- gtable(widths = widths, heights = elems$height)
-      gt <- gtable_add_grob(gt, bar$poly, 1, l = 1, r = -1, clip = "off", name = "barcap")
+      gt <- gtable_add_grob(gt, bar$grob, 1, l = 1, r = -1, clip = "off", name = "barcap")
       gt$align <- list(horizontal = c(2, -2))
     } else {
       middle <- elems$height
@@ -259,7 +259,7 @@ GizmoBarcap <- ggproto(
       }
       heights <- unit.c(bar$upper, middle, bar$lower)
       gt <- gtable(widths = elems$width, heights = heights)
-      gt <- gtable_add_grob(gt, bar$poly, t = 1, b = -1, l = 1, clip = "off", name = "barcap")
+      gt <- gtable_add_grob(gt, bar$grob, t = 1, b = -1, l = 1, clip = "off", name = "barcap")
       gt$align <- list(vertical = c(2, -2))
     }
     gt

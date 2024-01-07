@@ -14,7 +14,6 @@
 #'   among all guides that have `NULL` keys themselves. See more information
 #'   in the linked topic.
 #' @inheritParams guide-composition
-#' @inheritParams primitive_labels
 #' @param side.titles A `<character>` giving labels for titles displayed on the
 #'   side of the stack. Set to `NULL` to display no side titles. If `waiver()`,
 #'   an attempt is made to extract the titles from the guides and use these
@@ -22,14 +21,7 @@
 #' @param drop An `<integer>` giving the indices of guides that should be
 #'   dropped when a facet requests no labels to be drawn at axes in between
 #'   panels. The default, `NULL`, will drop every guide except the first.
-#' @param title A `<character[1]>` or `<expression[1]>` indicating a title of
-#'   the guide. If `NULL`, the title is not shown. By default
-#'   ([`waiver()`][ggplot2::waiver()]), the name of the scale object or the
-#'   name specified in [`labs()`][ggplot2::labs] is used for the title.
-#' @param order A positive `<integer[1]>` that specifies the order of this guide
-#'   among multiple guides. This controls in which order guides are merged
-#'   if there are multiple guides for the same position. If `0` (default),
-#'   the order is determined by a secret algorithm.
+#' @inheritParams common_parameters
 #'
 #' @return A `<ComposeStack>` guide object.
 #' @export

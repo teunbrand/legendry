@@ -20,7 +20,7 @@
 #' @param pad_discrete A `<numeric[1]>` giving the amount ranges should be
 #'   extended when given as a discrete variable. This is applied after
 #'   the `drop_zero` setting.
-#' @inheritParams ggplot2::guide_axis
+#' @inheritParams common_parameters
 #'
 #' @return A `<PrimitiveBracket>` primitive guide that can be used inside other
 #'   guides.

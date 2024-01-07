@@ -337,8 +337,8 @@ setup_range_params <- function(params) {
   if (!is_empty(params$key)) {
     key <- params$key
 
-    start <- rescale(key$start, to = c(0, 1), from = limits)
-    end   <- rescale(key$end,   to = c(0, 1), from = limits)
+    start <- guide_rescale(key$start, limits)
+    end   <- guide_rescale(key$end, limits)
 
     key <- switch(
       params$direction,
@@ -352,7 +352,7 @@ setup_range_params <- function(params) {
 
   if (!is_empty(params$decor)) {
     decor <- params$decor
-    value <- rescale(decor[[params$aesthetic]], to = c(0, 1), from = limits)
+    value <- guide_rescale(decor[[params$aesthetic]], limits)
     decor <- switch(
       params$direction,
       horizontal = replace_null(decor, x = value, y = other),

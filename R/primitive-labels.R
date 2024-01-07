@@ -6,7 +6,12 @@
 #'
 #' @param key A [standard key][key_standard] specification. See more information
 #'   in the linked topic.
-#' @inheritParams ggplot2::guide_axis
+#' @param n.dodge An positive `<integer[1]>` setting the number of layers text
+#'   labels can occupy to avoid overlapping labels.
+#' @param check.overlap A `<logical[1]>` indicating whether to check for and
+#'   omit overlapping text. If `TRUE`, first, last and middle labels are
+#'   recursively prioritised in that order. If `FALSE`, all labels are drawn.
+#' @inheritParams common_parameters
 #'
 #' @return A `<PrimitiveLabels>` primitive guide that can be used inside other
 #'   guides.

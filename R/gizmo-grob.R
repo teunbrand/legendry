@@ -18,6 +18,8 @@
 #' @family gizmos
 #'
 #' @examples
+#' circle <- grid::circleGrob()
+#'
 #' # A standard plot with grob gizmos
 #' ggplot(mpg, aes(displ, hwy, colour = cty)) +
 #'   geom_point() +
@@ -26,7 +28,9 @@
 #'       circle, hjust = 0.75,
 #'       width = unit(2, "cm"), height = unit(2, "cm")
 #'     ),
-#'     colour = gizmo_grob(circle, width = unit(1, "cm"), height = unit(1, "cm"))
+#'     colour = gizmo_grob(
+#'       circle, width = unit(1, "cm"), height = unit(1, "cm")
+#'     )
 #'   )
 gizmo_grob <- function(
   grob, width = grobWidth(grob), height = grobHeight(grob),

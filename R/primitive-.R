@@ -81,7 +81,7 @@ primitive_setup_params <- function(params) {
 
   if (!is_empty(params$key)) {
     key   <- params$key
-    value <- rescale(key$.value, to = c(0, 1), from = params$limits %||% c(0, 1))
+    value <- guide_rescale(key$.value, params$limits)
     key$x <- key$x %||% switch(params$position, left = 1, right = 0, value)
     key$y <- key$y %||% switch(params$position, bottom = 1, top = 0, value)
     params$key <- key

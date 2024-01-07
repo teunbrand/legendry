@@ -4,7 +4,7 @@
 #'
 #' This function constructs a title [guide primitive][guide-primitives].
 #'
-#' @inheritParams ggplot2::guide_axis
+#' @inheritParams common_parameters
 #'
 #' @return A `<PrimitiveTitle>` primitive guide that can be used inside other
 #'   guides.
@@ -22,7 +22,7 @@
 #'   y.sec = primitive_title(c("along vertical", "Multiple tiles"))
 #' )
 primitive_title = function(title = waiver(), angle = waiver(),
-                       theme = NULL, position = waiver()) {
+                           theme = NULL, position = waiver()) {
   if (!is_waive(angle)) {
     check_number_decimal(
       angle, min = -360, max = 360,

@@ -5,7 +5,7 @@
 #' This function constructs a spacer [guide primitive][guide-primitives].
 #'
 #' @param space A [`<unit[1]>`][grid::unit()]
-#' @inheritParams ggplot2::guide_axis
+#' @inheritParams common_parameters
 #'
 #' @return A `<PrimitiveSpacer>` primitive guide that can be used inside
 #'   other guides.
