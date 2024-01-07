@@ -114,6 +114,8 @@ PrimitiveBox <- ggproto(
     params
   },
 
+  setup_params = setup_range_params,
+
   setup_elements = primitive_setup_elements,
 
   build_box = function(key, decor, elements, params) {
@@ -174,6 +176,7 @@ PrimitiveBox <- ggproto(
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
     params <- replace_null(params, position = position, direction = direction)
+    params <- self$setup_params(params)
 
     elems <- self$setup_elements(params, self$elements, theme)
     box <- self$build_box(params$key, params$decor, elems, params)

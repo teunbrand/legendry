@@ -6,7 +6,7 @@
 #'
 #' @param key A [range key][key_range] specification. See more information
 #'   in the linked topic.
-#' @param bracket A [bracket][bracket_options] by either providing one of the
+#' @param bracket A [bracket][bracket_options] by providing one of the
 #'  following:
 #'  * A bracket `<function>`, such as `bracket_square`.
 #'  * A `<character[1]>` naming a bracket function without the
@@ -135,6 +135,8 @@ PrimitiveBracket <- ggproto(
     params
   },
 
+  setup_params = setup_range_params,
+
   setup_elements = primitive_setup_elements,
 
   override_elements = function(params, elements, theme) {
@@ -212,6 +214,7 @@ PrimitiveBracket <- ggproto(
                   params = self$params) {
 
     params <- replace_null(params, position = position, direction = direction)
+    params <- self$setup_params(params)
 
     elems    <- self$setup_elements(params, self$elements, theme)
     elems    <- self$override_elements(params, elems, theme)

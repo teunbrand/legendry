@@ -145,8 +145,9 @@ range_extract_key <- function(
   disc_start <- -1 * is_discrete(key$start)
   disc_end   <- +1 * is_discrete(key$end)
 
-  key$start <- scale_transform(key$start, scale, map = TRUE, "start")
-  key$end   <- scale_transform(key$end,   scale, map = TRUE, "end")
+  map <- aesthetic %in% c("x", "y")
+  key$start <- scale_transform(key$start, scale, map = map, "start")
+  key$end   <- scale_transform(key$end,   scale, map = map, "end")
 
   # Sort starts and ends
   key[c("start", "end")] <- list(
@@ -321,4 +322,46 @@ disjoin_ranges <- function(ranges) {
 
   ranges$.level <- bin
   ranges
+}
+
+setup_range_params <- function(params) {
+  if (params$aesthetic %in% c("x", "y")) {
+    # parameters are already transformed
+    return(params)
+  }
+
+  limits   <- params$limits %||% c(0, 1)
+  other    <- switch(params$position, bottom = , left = 1, 0)
+  position <- params$position
+
+  if (!is_empty(params$key)) {
+    key <- params$key
+
+    start <- rescale(key$start, to = c(0, 1), from = limits)
+    end   <- rescale(key$end,   to = c(0, 1), from = limits)
+
+    key <- switch(
+      params$direction,
+      horizontal = replace_null(key, x = start, xend = end, y = other),
+      vertical   = replace_null(key, y = start, yend = end, x = other),
+      key
+    )
+
+    params$key <- key
+  }
+
+  if (!is_empty(params$decor)) {
+    decor <- params$decor
+    value <- rescale(decor[[params$aesthetic]], to = c(0, 1), from = limits)
+    decor <- switch(
+      params$direction,
+      horizontal = replace_null(decor, x = value, y = other),
+      vertical   = replace_null(decor, y = value, x = other),
+      decor
+    )
+
+    params$decor <- decor
+  }
+
+  params
 }
