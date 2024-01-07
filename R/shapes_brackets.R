@@ -16,6 +16,11 @@
 #' @return A `<matrix[n, 2]>` with coordinates for points on the brackets.
 #' @name bracket_options
 #'
+#' @details
+#' When designing custom bracket shapes, the expectation is both columns are
+#' are a number between 0 and 1. The first column follows the direction of the
+#' guide whereas the second column is orthogonal to that direction.
+#'
 #' @examples
 #' plot(bracket_sigmoid(), type = 'l')
 NULL

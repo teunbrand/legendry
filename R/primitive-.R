@@ -55,6 +55,9 @@ primitive_setup_elements <- function(params, elements, theme) {
     elements <- elements$legend
   }
   theme <- theme + params$theme
+  if (identical(elements$text, "legend.text")) {
+    elements$text <- setup_legend_text(theme, params$direction)
+  }
   is_char <- vapply(elements, is.character, logical(1))
   elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
   elements$offset <- cm(params$stack_offset %||% 0)
@@ -65,4 +68,41 @@ primitive_extract_params = function(scale, params, ...) {
   params$position <- params$position %|W|% NULL
   params$limits   <- scale$get_limits()
   params
+}
+
+primitive_setup_params <- function(params) {
+  if (!is_empty(params$key)) {
+    key   <- params$key
+    value <- rescale(key$.value, to = c(0, 1), from = params$limits %||% c(0, 1))
+    key$x <- key$x %||% switch(params$position, left = 1, right = 0, value)
+    key$y <- key$y %||% switch(params$position, bottom = 1, top = 0, value)
+    params$key <- key
+  }
+
+  decor <- params$decor
+  if (!is_empty(params$decor)) {
+    decor <- params$decor
+    decor$x <- decor$x %||% switch(params$position, left = 1, right = 0, 0.5)
+    decor$y <- decor$y %||% switch(params$position, bottom = 1, top = 0, 0.5)
+    params$decor <- decor
+  }
+  params
+}
+
+setup_legend_text <- function(theme, direction = "vertical") {
+  position <- calc_element("legend.text.position", theme)
+  position <- position %||% switch(horizontal = "bottom", vertical = "right")
+  gap    <- calc_element("legend.key.spacing", theme)
+  margin <- calc_element("text", theme)$margin
+  margin <- position_margin(position, margin, gap)
+  text <- theme(
+    text = switch(
+      position,
+      top    = element_text(hjust = 0.5, vjust = 0.0, margin = margin),
+      bottom = element_text(hjust = 0.5, vjust = 1.0, margin = margin),
+      left   = element_text(hjust = 1.0, vjust = 0.5, margin = margin),
+      right  = element_text(hjust = 0.0, vjust = 0.5, margin = margin)
+    )
+  )
+  calc_element("legend.text", theme + text)
 }
