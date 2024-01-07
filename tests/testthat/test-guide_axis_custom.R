@@ -1,4 +1,11 @@
 
+test_that("guide_axis_custom contains all primitive parameters", {
+  fmls <- fn_fmls_names(guide_axis_custom)
+  expect_in(fn_fmls_names(primitive_line), fmls)
+  expect_in(fn_fmls_names(primitive_labels), fmls)
+  expect_in(fn_fmls_names(primitive_ticks), fmls)
+})
+
 test_that("guide_axis_custom looks good as axis", {
 
   base <- ggplot(msleep, aes(bodywt, awake)) +
