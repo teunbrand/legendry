@@ -56,6 +56,7 @@ compose_crux <- function(
   available_aes = NULL
 ) {
   check_bool(complete)
+  check_bool(reverse)
   new_compose(
     guides = list(
       centre = centre,
@@ -89,9 +90,9 @@ ComposeCrux <- ggproto(
   "ComposeCrux", Compose,
 
   params = c(
-    Compose$params, complete = FALSE, reverse = FALSE,
+    Compose$params, list(complete = FALSE, reverse = FALSE,
     theme_defaults = list()
-  ),
+  )),
 
   elements = list(
     title_position = "legend.title.position",

@@ -52,7 +52,7 @@
 #'     guide = guide_axis_custom("log")
 #'   )
 guide_axis_custom <- function(
-  key = "auto", title = waiver(),
+  key = NULL, title = waiver(),
   theme = NULL, n.dodge = 1, check.overlap = FALSE, angle = waiver(),
   cap = "none", order = 0, position = waiver()
 ) {
