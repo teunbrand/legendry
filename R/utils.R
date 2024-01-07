@@ -1,7 +1,7 @@
 
 is_blank <- function(x) inherits(x, c("element_blank", "NULL"))
 
-.in2cm <- convertUnit(unit(1, "in"), "cm", valueOnly = TRUE)
+.in2cm <- 2.54
 
 eval_aes <- function(
   data, mapping,
@@ -154,5 +154,10 @@ suffix_position <- function(value, position) {
 
 set_list_element <- function(x, i, value) {
   lapply(x, `[<-`, i = i, value = list(value))
+}
+
+guide_rescale <- function(value, from = range(value), oob = oob_squish_infinite) {
+  from <- from %||% c(0, 1)
+  rescale(oob(value, from), to = c(0, 1), from)
 }
 

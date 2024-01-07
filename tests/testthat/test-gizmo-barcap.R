@@ -1,10 +1,10 @@
 
-test_that("gizmo_colourcap trains correctly", {
+test_that("gizmo_barcap trains correctly", {
 
   scale <- scale_colour_viridis_c(na.value = "red")
   scale$train(c(10, 30))
 
-  guide <- gizmo_colourcap(nbin = 11)
+  guide <- gizmo_barcap(nbin = 11)
 
   # No out-of-bounds
   params <- guide$train(guide$params, scale, "colour")
@@ -41,7 +41,7 @@ test_that("gizmo_colourcap trains correctly", {
 
   # Can ignore out of bounds by setting upper/lower to FALSE
   params <- guide$params
-  params$upper <- params$lower <- FALSE
+  params$show <- c(FALSE, FALSE)
   params <- guide$train(params, scale, "colour")
   expect_equal(params$limits, c(10, 30))
   expect_equal(nrow(params$key), 11)
@@ -52,7 +52,7 @@ test_that("gizmo_colourcap trains correctly", {
   scale$train(c(10, 30))
 
   params <- guide$params
-  params$upper <- params$lower <- TRUE
+  params$show <- c(TRUE, TRUE)
   params <- guide$train(params, scale, "colour")
   expect_equal(params$limits, c(9.98, 30.02))
   expect_equal(nrow(params$key), 13)
@@ -60,7 +60,7 @@ test_that("gizmo_colourcap trains correctly", {
 
   # Can also squish into limits
   params <- guide$params
-  params$upper <- params$lower <- TRUE
+  params$show <- c(TRUE, TRUE)
   params$oob <- oob_squish
   params <- guide$train(params, scale, "colour")
   expect_equal(params$limits, c(10, 30))
@@ -68,11 +68,11 @@ test_that("gizmo_colourcap trains correctly", {
   expect_equal(params$key$colour[c(1, 13)], c("#440154", "#FDE725"))
 })
 
-test_that("gizmo_colourcap shows caps correctly", {
+test_that("gizmo_barcap shows caps correctly", {
   p <- ggplot(mpg, aes(displ, hwy, colour = cty)) + geom_point() +
     scale_colour_viridis_c(
       oob = oob_squish,
-      guide = gizmo_colourcap(upper = TRUE, lower = TRUE)
+      guide = gizmo_barcap(show = TRUE)
     ) +
     theme(legend.frame = element_rect(colour = "black"),
           legend.key.size = unit(1, "cm"))

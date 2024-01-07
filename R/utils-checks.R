@@ -79,10 +79,10 @@ check_length <- function(
       what <- "a value with {.field length} less than or equal to {max}"
     }
   } else if (!is.null(exact)) {
-    if (exact > 1) {
-      what <- "a vector with {.field length} equal to {exact}"
+    if (any(exact > 1)) {
+      what <- "a vector with {.field length} equal to {.or {exact}}"
     } else {
-      what <- "a single value with {.field length} equal to {exact}"
+      what <- "a single value with {.field length} equal to {.or {exact}}"
     }
   }
   obj <- obj_type_friendly(x, value = FALSE)

@@ -3,7 +3,7 @@
 #' Cap options
 #'
 #' These functions construct various sorts of caps. They construct a matrix
-#' that can be supplied as the `shape` argument in [`gizmo_colourcap()`].
+#' that can be supplied as the `shape` argument in [`gizmo_barcap()`].
 #'
 #' @param n An `<integer[n]>` number of points to use for the cap.
 #'
@@ -17,7 +17,7 @@
 #' whereas the second column follows the direction of the bar.
 #'
 #' @examples
-#' plot(cap_arched(), type = 'l')
+#' plot(cap_arch(), type = 'l')
 NULL
 
 #' @export

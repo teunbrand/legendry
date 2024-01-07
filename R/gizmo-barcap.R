@@ -15,28 +15,24 @@
 #' @param size A [`<unit>`][grid::unit] setting the size of the cap. When
 #'   `NULL` (default), cap size will be proportional to the `shape` coordinates
 #'   and the `legend.key.size` theme setting.
-#' @param lower,upper A `<logical[1]>` to control whether caps are displayed
-#'   at the lower or upper end of the bar respectively. When `TRUE`, caps are
-#'   always displayed. When `FALSE`, caps are never displayed. When `NA`
-#'   (default), caps are displayed when the data range exceed the limits.
+#'
+#' @param show A `<logical>` to control how caps are displayed at the ends
+#'   of the bar. When `TRUE`, caps are always displayed. When `FALSE`, caps
+#'   are never displayed. When `NA` (default), caps are displayed when the
+#'   data range exceed the limits. When given as `<logical[2]>`, `show[1]`
+#'   controls the display at the lower end and `show[2]` at the upper end.
 #' @param nbin An `<integer[1]>` giving how many colours will be used to
 #'   display the colour gradient.
 #' @param alpha A `<numeric[1]>` between 0 and 1 setting the colour transparency
 #'   of the bar. Use `NA` to preserve the alpha encoded in the colour itself.
-#' @param theme A [`<theme>`][ggplot2::theme] object to style the guide
-#'   individually of differently from the plot's theme settings. The `theme`
-#'   arguments in the guide overrides, and is combined with, the plot's theme.
-#' @param position Where this guide should be drawn: one of `"top"`, `"bottom"`,
-#'   `"left"`, or `"right"`.
-#' @param direction The direction of the colour bar. Can be `"horizontal"` or
-#'   `"vertical"`.
 #' @param oob An out-of-bounds handling function that affects the cap colour.
 #'   Can be one of the following:
 #'   * A `<function>` like [`oob_squish`][scales::oob_squish].
 #'   * A `<character[1]>` naming such a function without the '`oob`'-prefix,
 #'   such as `"keep"`.
+#' @inheritParams common_parameters
 #'
-#' @return A `<GizmoColourcap>` object.
+#' @return A `<GizmoBarcap>` object.
 #' @family gizmos
 #' @export
 #'
@@ -57,15 +53,15 @@
 #' # The scale's out-of-bounds handler determines cap colour
 #' p + scale_colour_viridis_c(
 #'   limits = c(10, 30), oob = scales::oob_squish,
-#'   guide = gizmo_colourcap()
+#'   guide = gizmo_barcap()
 #' )
 #'
 #' # Customising display of the guide
 #' p +
 #'   scale_colour_viridis_c(
 #'     oob = scales::oob_squish,
-#'     guide = gizmo_colourcap(
-#'       shape = "arch", lower = FALSE, upper = TRUE,
+#'     guide = gizmo_barcap(
+#'       shape = "arch", show = c(FALSE, TRUE),
 #'       size = unit(2, "cm"),
 #'       theme = theme(legend.key.height = unit(4, "cm"))
 #'     )
@@ -74,17 +70,18 @@
 #'     legend.frame = element_rect(colour = "black"),
 #'     legend.key.width = unit(0.5, "cm")
 #'   )
-gizmo_colourcap <- function(shape = "triangle", size = NULL,
-                            lower = NA, upper = NA,
-                            nbin = 15, alpha = NA, theme = NULL,
-                            position = waiver(), oob = "keep") {
+gizmo_barcap <- function(shape = "triangle", size = NULL, show = NA,
+                         nbin = 15, alpha = NA, oob = "keep", theme = NULL,
+                         position = waiver(), direction = NULL) {
   check_number_whole(nbin, min = 2)
   check_number_decimal(
     alpha, min = 0, max = 1,
     allow_infinite = FALSE, allow_na = TRUE
   )
-  check_bool(lower, allow_na = TRUE)
-  check_bool(upper, allow_na = TRUE)
+  check_logical(show)
+  check_length(show, exact = 1:2)
+  show <- rep(show, length.out = 2)
+
   check_unit(size, allow_null = TRUE)
   shape <- resolve_cap_shape(shape)
   oob <- resolve_oob(oob)
@@ -92,15 +89,15 @@ gizmo_colourcap <- function(shape = "triangle", size = NULL,
   new_guide(
     shape = shape,
     size  = size,
-    lower = lower,
-    upper = upper,
+    show  = show,
     nbin  = nbin,
     alpha = alpha,
     oob = oob,
     theme = theme,
     position = position,
+    direction = direction,
     available_aes = c("colour", "fill"),
-    super = GizmoColourcap
+    super = GizmoBarcap
   )
 }
 
@@ -110,8 +107,8 @@ gizmo_colourcap <- function(shape = "triangle", size = NULL,
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GizmoColourcap <- ggproto(
-  "GizmoColourcap", Guide,
+GizmoBarcap <- ggproto(
+  "GizmoBarcap", Guide,
 
   elements = list(
     frame  = "legend.frame",
@@ -120,7 +117,7 @@ GizmoColourcap <- ggproto(
   ),
 
   params = new_params(nbin = 15, alpha = NA, shape = NULL,
-                      lower = NA, upper = NA, size = NULL, oob = oob_keep),
+                      show = NA, size = NULL, oob = oob_keep),
 
   extract_key = extract_colourbar,
 
@@ -128,10 +125,15 @@ GizmoColourcap <- ggproto(
     params$position <- params$position %|W|% NULL
     limits <- scale$get_limits()
     range <- scale$range$range
-    params$lower <- !isFALSE(params$lower %|NA|% (range[1] < limits[1]))
-    params$upper <- !isFALSE(params$upper %|NA|% (range[2] > limits[2]))
+
+    lower_oob <- range[1] < limits[1]
+    upper_oob <- range[2] > limits[2]
+
+    params$show[1] <- !isFALSE(params$show[1] %|NA|% lower_oob)
+    params$show[2] <- !isFALSE(params$show[2] %|NA|% upper_oob)
+
     add <- diff(limits) / 1000
-    if (params$lower) {
+    if (params$show[1]) {
       val <- params$oob(limits[1] - add, limits)
       limits <- range(limits, val)
       params$key <- data_frame0(
@@ -139,7 +141,7 @@ GizmoColourcap <- ggproto(
         value  = c(val, params$key$value)
       )
     }
-    if (params$upper) {
+    if (params$show[2]) {
       val <- params$oob(limits[2] + add, limits)
       limits <- range(limits, val)
       params$key <- data_frame0(
@@ -153,7 +155,7 @@ GizmoColourcap <- ggproto(
 
   setup_params = function(params) {
     key <- params$key
-    key$value <- rescale(key$value, to = c(0, 1), params$limits)
+    key$value <- guide_rescale(key$value, params$limits)
     key$x <- switch(params$position, left = , right = 0.5, key$value)
     key$y <- switch(params$position, left = , right = key$value, 0.5)
     params$key <- key
@@ -172,7 +174,7 @@ GizmoColourcap <- ggproto(
 
   build_decor = function(key, grobs = NULL, elements, params) {
 
-    check_device("gradients", call = expr(gizmo_colourcap()))
+    check_device("gradients", call = expr(gizmo_barcap()))
     if (params$direction == "horizontal") {
       dir <- elements$width
       ort <- elements$height
@@ -186,16 +188,16 @@ GizmoColourcap <- ggproto(
     shape[, 2] <- rescale(shape[, 2], to = c(0, 1), from = c(0, max))
     size_upper <- size_lower <- params$size %||% (max * ort)
     if (params$limits[1] > params$limits[2]) {
-      params <- rename(params, c("upper", "lower"), c("lower", "upper"))
+      params$show <- rev(params$show)
     }
 
-    if (!isFALSE(params$upper)) {
+    if (!isFALSE(params$show[2])) {
       upper <- cbind(rev(shape[, 1]), 1 - rev(shape[, 2]))
     } else {
       upper <- cbind(c(1, 0), c(1, 1))
       size_upper <- unit(0, "cm")
     }
-    if (!isFALSE(params$lower)) {
+    if (!isFALSE(params$show[1])) {
       lower <- cbind(shape[, 1], 1 - shape[, 2])
     } else {
       lower <- cbind(c(0, 1), c(1, 1))
@@ -248,7 +250,7 @@ GizmoColourcap <- ggproto(
       }
       widths  <- unit.c(bar$lower, middle, bar$upper)
       gt <- gtable(widths = widths, heights = elems$height)
-      gt <- gtable_add_grob(gt, bar$poly, 1, l = 1, r = -1, clip = "off", name = "colourcap")
+      gt <- gtable_add_grob(gt, bar$poly, 1, l = 1, r = -1, clip = "off", name = "barcap")
       gt$align <- list(horizontal = c(2, -2))
     } else {
       middle <- elems$height
@@ -257,7 +259,7 @@ GizmoColourcap <- ggproto(
       }
       heights <- unit.c(bar$upper, middle, bar$lower)
       gt <- gtable(widths = elems$width, heights = heights)
-      gt <- gtable_add_grob(gt, bar$poly, t = 1, b = -1, l = 1, clip = "off", name = "colourcap")
+      gt <- gtable_add_grob(gt, bar$poly, t = 1, b = -1, l = 1, clip = "off", name = "barcap")
       gt$align <- list(vertical = c(2, -2))
     }
     gt
