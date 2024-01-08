@@ -59,6 +59,7 @@ compose_sandwich <- function(
     reverse = reverse,
     available_aes = available_aes,
     order = order,
+    theme = theme,
     theme_defaults = theme_defaults,
     position = position,
     name = "sandwich_composition",

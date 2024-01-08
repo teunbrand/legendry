@@ -145,6 +145,8 @@ ComposeStack <- ggproto(
     theme <- theme + params$theme
     position <- params$position <- params$position  %||% position
     check_position(position)
+    params$guide_params <-
+      set_list_element(params$guide_params, "position", position)
     direction <- params$direction <-  params$direction %||% direction
 
     elems <- self$setup_elements(params, self$elements, theme)
