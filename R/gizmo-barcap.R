@@ -21,8 +21,6 @@
 #'   are never displayed. When `NA` (default), caps are displayed when the
 #'   data range exceed the limits. When given as `<logical[2]>`, `show[1]`
 #'   controls the display at the lower end and `show[2]` at the upper end.
-#' @param nbin An `<integer[1]>` giving how many colours will be used to
-#'   display the colour gradient.
 #' @param alpha A `<numeric[1]>` between 0 and 1 setting the colour transparency
 #'   of the bar. Use `NA` to preserve the alpha encoded in the colour itself.
 #' @param oob An out-of-bounds handling function that affects the cap colour.
@@ -70,10 +68,9 @@
 #'     legend.frame = element_rect(colour = "black"),
 #'     legend.key.width = unit(0.5, "cm")
 #'   )
-gizmo_barcap <- function(shape = "triangle", size = NULL, show = NA,
-                         nbin = 15, alpha = NA, oob = "keep", theme = NULL,
+gizmo_barcap <- function(key = "sequence", shape = "triangle", size = NULL,
+                         show = NA, alpha = NA, oob = "keep", theme = NULL,
                          position = waiver(), direction = NULL) {
-  check_number_whole(nbin, min = 2)
   check_number_decimal(
     alpha, min = 0, max = 1,
     allow_infinite = FALSE, allow_na = TRUE
@@ -87,10 +84,10 @@ gizmo_barcap <- function(shape = "triangle", size = NULL, show = NA,
   oob <- resolve_oob(oob)
 
   new_guide(
+    key = key,
     shape = shape,
     size  = size,
     show  = show,
-    nbin  = nbin,
     alpha = alpha,
     oob = oob,
     theme = theme,
@@ -116,10 +113,16 @@ GizmoBarcap <- ggproto(
     height = "legend.key.height"
   ),
 
-  params = new_params(nbin = 15, alpha = NA, shape = NULL,
+  params = new_params(alpha = NA, shape = NULL, key = "sequence",
                       show = NA, size = NULL, oob = oob_keep),
 
-  extract_key = map_sequence,
+  extract_key = function(scale, aesthetic, key, ...) {
+    key <- resolve_key(key %||% "sequence")
+    if (is.function(key)) {
+      key <- key(scale, aesthetic)
+    }
+    key
+  },
 
   extract_params = function(scale, params, ...) {
     params$position <- params$position %|W|% NULL
@@ -139,7 +142,7 @@ GizmoBarcap <- ggproto(
       limits <- range(limits, val)
       params$key <- data_frame0(
         colour = c(scale$map(val), params$key$colour),
-        value  = c(val, params$key$value)
+        .value  = c(val, params$key$.value)
       )
     }
     if (params$show[2]) {
@@ -147,7 +150,7 @@ GizmoBarcap <- ggproto(
       limits <- range(limits, val)
       params$key <- data_frame0(
         colour = c(params$key$colour, scale$map(val)),
-        value  = c(params$key$value, val)
+        .value  = c(params$key$.value, val)
       )
     }
     params$limits <- limits
@@ -156,9 +159,9 @@ GizmoBarcap <- ggproto(
 
   setup_params = function(params) {
     key <- params$key
-    key$value <- guide_rescale(key$value, params$limits)
-    key$x <- switch(params$position, left = , right = 0.5, key$value)
-    key$y <- switch(params$position, left = , right = key$value, 0.5)
+    key$.value <- guide_rescale(key$.value, params$limits)
+    key$x <- switch(params$position, left = , right = 0.5, key$.value)
+    key$y <- switch(params$position, left = , right = key$.value, 0.5)
     params$key <- key
     if (params$limits[1] > params$limits[2]) {
       params$show <- rev(params$show)
@@ -221,7 +224,7 @@ GizmoBarcap <- ggproto(
     grad_args <- list(
       x1 = unit(0, "npc") + grobs$lower,
       x2 = unit(1, "npc") - grobs$upper,
-      y1 = 0.5, y2 = 0.5, colours = key$colour, stops = key$value
+      y1 = 0.5, y2 = 0.5, colours = key$colour, stops = key$.value
     )
     if (params$direction == "vertical") {
       grad_args <- flip_names(grad_args)

@@ -87,7 +87,8 @@ guide_colourbar_custom <- function(
 ) {
 
   bar <- gizmo_barcap(
-    shape = shape, size = size, show = show, nbin = nbin, alpha = alpha,
+    key = key_sequence(nbin),
+    shape = shape, size = size, show = show, alpha = alpha,
     oob = oob
   )
 

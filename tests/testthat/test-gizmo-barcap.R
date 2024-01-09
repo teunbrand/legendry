@@ -4,12 +4,12 @@ test_that("gizmo_barcap trains correctly", {
   scale <- scale_colour_viridis_c(na.value = "red")
   scale$train(c(10, 30))
 
-  guide <- gizmo_barcap(nbin = 11)
+  guide <- gizmo_barcap(key = key_sequence(11))
 
   # No out-of-bounds
   params <- guide$train(guide$params, scale, "colour")
   expect_equal(params$limits, c(10, 30))
-  expect_equal(params$key$value, seq(10, 30, length.out = 11))
+  expect_equal(params$key$.value, seq(10, 30, length.out = 11))
   expect_equal(params$key$colour[c(1, 11)], c("#440154", "#FDE725"))
 
   # Upper out-of-bounds
@@ -79,7 +79,7 @@ test_that("gizmo_barcap shows caps correctly", {
   b <- ggplot_build(p)
 
   theme <- ggplot2:::plot_theme(b$plot)
-  theme$legend.key.width <- theme$legend.key.size
+  theme$legend.key.width  <- theme$legend.key.size
   theme$legend.key.height <- theme$legend.key.size
 
   guide <- b$plot$guides
