@@ -11,6 +11,46 @@
 #' @export
 #' @family primitives
 #'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
+#'
+#' Common to both types is the following:
+#'
+#' ## As an axis guide
+#'
+#' * `axis.ticks.{x/y}.{position}` an [`<element_line>`][ggplot2::element_line]
+#'   for major tick lines.
+#' * `axis.minor.ticks.{x/y}.{position}` an
+#'   [`<element_line>`][ggplot2::element_line] for minor tick lines.
+#' * `gguidance.axis.mini.ticks` an [`<element_line>`][ggplot2::element_line]
+#'   internally inheriting from the minor ticks for the smallest ticks in e.g.
+#'   log axes.
+#' * `axis.ticks.length.{x/y}.{position}` a [`<unit>`][grid::unit] for the major
+#'   ticks length.
+#' * `axis.minor.ticks.length.{x/y}.{position}` a [`<unit>`][grid::unit] for the
+#'   minor ticks length.
+#' * `gguidance.axis.mini.ticks.length` a [`<unit>`][grid::unit] internally
+#'   inheriting from the minor tick length for the smallest ticks in e.g.
+#'   log axes.
+#'
+#' ## As a legend guide
+#'
+#' * `legend.ticks` an [`<element_line>`][ggplot2::element_line] for major tick
+#'   lines.
+#' * `gguidance.legend.minor.ticks` an [`<element_line>`][ggplot2::element_line]
+#'   for minor tick lines.
+#' * `gguidance.legend.mini.ticks` an [`<element_line>`][ggplot2::element_line]
+#'   for the smallest ticks in e.g. log axes.
+#' * `legend.ticks.length` a [`<unit>`][grid::unit] for the major ticks length.
+#' * `gguidance.legend.minor.ticks.length` a [`<unit>`][grid::unit] for the
+#'   minor ticks length.
+#' * `gguidance.legend.mini.ticks.length` a [`<unit>`][grid::unit] for the
+#'   smallest ticks in e.g. log axes.
+#'
 #' @examples
 #' # A standard plot
 #' p <- ggplot(mpg, aes(displ, hwy)) +

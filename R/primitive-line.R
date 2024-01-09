@@ -24,6 +24,23 @@
 #' @export
 #' @family primitives
 #'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
+#'
+#' ## As an axis guide
+#'
+#' * `axis.line.{x/y}.{position}` an [`<element_line>`][ggplot2::element_line]
+#'   for the line style.
+#'
+#' ## As a legend guide
+#'
+#' * `legend.axis.line` an [`<element_line>`][ggplot2::element_line] for the
+#'   line style.
+#'
 #' @examples
 #' # A standard plot
 #' p <- ggplot(mpg, aes(displ, hwy)) +

@@ -12,6 +12,16 @@
 #' @export
 #' @family primitives
 #'
+#' @details
+#' # Styling options
+#'
+#' #' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide. This guide does not have option dependent on its role as axis or
+#' legend.
+#'
+#' * `gguidance.guide.spacing` A [`<unit>`][grid::unit] setting the amount of
+#'   spacing when the `space` argument is `NULL`.
+#'
 #' @examples
 #' ggplot(mpg, aes(displ, hwy)) +
 #'   geom_point() +

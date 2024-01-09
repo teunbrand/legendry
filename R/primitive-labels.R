@@ -18,6 +18,23 @@
 #' @export
 #' @family primitives
 #'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
+#'
+#' ## As an axis guide
+#'
+#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
+#'   for the display of the labels.
+#'
+#' ## As a legend guide.
+#'
+#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the display
+#'   of the labels.
+#'
 #' @examples
 #' # A standard plot
 #' p <- ggplot(mpg, aes(displ, hwy)) +

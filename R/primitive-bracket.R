@@ -27,6 +27,30 @@
 #' @family primitives
 #' @export
 #'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in an
+#' axis or a legend context.
+#'
+#' Common to both types is the following:
+#'
+#' * `gguidance.bracket` an [`<element_line>`][ggplot2::element_line] for the
+#'   line used to draw the brackets.
+#' * `gguidance.backet.size` a [`<unit>`][grid::unit] setting the space afforded
+#'   to a bracket.
+#'
+#' ## As an axis guide
+#'
+#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
+#'   for the text displayed over the brackets.
+#'
+#' ## As a legend guide
+#'
+#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
+#'   displayed over the brackets.
+#'
 #' @examples
 #' # A standard plot
 #' p <- ggplot(mpg, aes(interaction(drv, year), displ)) +

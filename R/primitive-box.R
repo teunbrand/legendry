@@ -12,6 +12,28 @@
 #' @family primitives
 #' @export
 #'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
+#'
+#' Common to both types is the following:
+#'
+#' * `gguidance.box` an [`<element_rect>`][ggplot2::element_rect] for the boxes
+#'   to draw.
+#'
+#' ## As an axis guide
+#'
+#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
+#'   for the text inside the boxes.
+#'
+#' ## As a legend guide
+#'
+#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
+#'   inside the boxes.
+#'
 #' @examples
 #' # A standard plot
 #' p <- ggplot(mpg, aes(interaction(drv, year), displ)) +
