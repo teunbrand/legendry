@@ -72,11 +72,16 @@ Compose <- ggproto(
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     check_position(position, allow_null = TRUE)
 
+    key <- params$key
+    if (is.function(key)) {
+      key <- key(scale, aesthetic %||% scale$aesthetics[1])
+    }
+
     guide_params <- params$guide_params
     for (i in seq_along(params$guides)) {
       guide_params[[i]]$position <- position
       guide_params[[i]]$angle <- guide_params[[i]]$angle %|W|% params$angle
-      guide_params[[i]]["key"] <- list(guide_params[[i]]$key %||% params$key)
+      guide_params[[i]]["key"] <- list(guide_params[[i]]$key %||% key)
       guide_params[[i]] <- params$guides[[i]]$train(
         params = guide_params[[i]], scale = scale, aesthetic = aesthetic,
         ...
@@ -180,7 +185,7 @@ accumulate_limits <- function(...) {
   if (is.character(args[[1]])) {
     unique(unlist(args))
   } else {
-    inject(range(!!!args))
+    inject(range(!!!args, na.rm = TRUE))
   }
 }
 
