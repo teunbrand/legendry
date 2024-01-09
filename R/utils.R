@@ -85,7 +85,8 @@ rename <- function(df, old, new) {
 
 .flip_names <-
   c(x = "y", y = "x", width = "height", height = "width", hjust = "vjust",
-    vjust = "hjust", margin_x = "margin_y", margin_y = "margin_x")
+    vjust = "hjust", margin_x = "margin_y", margin_y = "margin_x",
+    x1 = "y1", x2 = "y2", y1 = "x1", y2 = "x2")
 
 flip_names <- function(x) {
   rename(x, .flip_names, names(.flip_names))

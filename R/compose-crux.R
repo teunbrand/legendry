@@ -208,18 +208,15 @@ ComposeCrux <- ggproto(
 )
 
 try_alignment <- function(guide, gt) {
-  v <- gt$align$vertical
-  h <- gt$align$vertical
-  if (!is.null(v) && !is.null(h)) {
-    return(list(v = v, h = h))
-  }
+  v <- gt$align$vertical   %||% c(1, -1)
+  h <- gt$align$horizontal %||% c(1, -1)
   if (inherits(guide, "GuideLegend")) {
     layout <- gt$layout[grepl("bar|key", gt$layout$name),]
     v <- range(layout$t, layout$b)
     h <- range(layout$l, layout$r)
     v[2] <- v[2] - nrow(gt) - 1L
     h[2] <- h[2] - ncol(gt) - 1L
-    return(list(v = v, h = h))
+
   }
-  list(v = c(1, -1), h = c(1, -1))
+  return(list(v = v, h = h))
 }
