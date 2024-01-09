@@ -152,6 +152,9 @@ key_log <- function(
 
 standard_extract_key <- function(scale, aesthetic, key, ...) {
   key <- resolve_key(key %||% "auto")
+  if (inherits(key, "key") && !inherits(key, "key_standard")) {
+    return(key) # probably not a standard key, no need to treat
+  }
   if (is.function(key)) {
     key <- key(scale, aesthetic)
   } else {

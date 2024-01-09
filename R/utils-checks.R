@@ -3,13 +3,27 @@ check_columns <- function(data, columns, call = caller_env(),
                           arg = caller_arg(data)) {
   check_data_frame(data, arg = arg, call = call)
   if (all(columns %in% names(data))) {
-    return()
+    return(invisible())
   }
   missing <- setdiff(columns, names(data))
   cli::cli_abort(
     "The {.field {missing}} column{?s} {?is/are} required.",
     call = call
   )
+}
+
+check_list_names <- function(data, names, call = caller_env(),
+                             arg = caller_arg(data)) {
+  check_object(data, is.list, what = "a {.cls list}", arg = arg, call = call)
+  if (all(names %in% names(data))) {
+    return(invisible())
+  }
+  missing <- setdiff(names, names(data))
+  a <- if (length(missing) == 1) "a" else ""
+  cli::cli_abort(paste0(
+    "The {.arg {arg}} argument must have {a} named {.field {missing}} ",
+    "element{?s}."
+  ), call = call)
 }
 
 check_unit <- function(x, allow_null = FALSE, call = caller_env(),
@@ -24,6 +38,22 @@ check_unit <- function(x, allow_null = FALSE, call = caller_env(),
   }
   stop_input_type(
     x, as_cli("a {.cls unit} object"),
+    allow_null = allow_null, arg = arg, call = call
+  )
+}
+
+check_bare_numeric <- function(x, ..., allow_null = FALSE,
+                               arg = caller_arg(x), call = caller_env()) {
+  if (!missing(x)) {
+    if (is_bare_numeric(x)) {
+      return(invisible(NULL))
+    }
+    if (allow_null && is_null(x)) {
+      return(invisible())
+    }
+  }
+  stop_input_type(
+    x, as_cli("a bare {.cls numeric} vector"), ...,
     allow_null = allow_null, arg = arg, call = call
   )
 }

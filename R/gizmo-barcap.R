@@ -126,7 +126,7 @@ GizmoBarcap <- ggproto(
 
   extract_params = function(scale, params, ...) {
     params$position <- params$position %|W|% NULL
-    params$key <- rename(params$key, params$aesthetic, "colour")
+    key <- rename(params$key, params$aesthetic, "colour")
     limits <- scale$get_limits()
     range <- scale$range$range
 
@@ -140,20 +140,24 @@ GizmoBarcap <- ggproto(
     if (params$show[1]) {
       val <- params$oob(limits[1] - add, limits)
       limits <- range(limits, val)
-      params$key <- data_frame0(
-        colour = c(scale$map(val), params$key$colour),
-        .value  = c(val, params$key$.value)
+      key <- data_frame0(
+        colour = c(scale$map(val), key$colour),
+        .value = c(val, key$.value)
       )
     }
     if (params$show[2]) {
       val <- params$oob(limits[2] + add, limits)
       limits <- range(limits, val)
-      params$key <- data_frame0(
-        colour = c(params$key$colour, scale$map(val)),
-        .value  = c(params$key$.value, val)
+      key <- data_frame0(
+        colour = c(key$colour, scale$map(val)),
+        .value = c(key$.value, val)
       )
     }
+    if ("colour" %in% names(key)) {
+      key$colour <- alpha(key$colour, alpha = params$alpha)
+    }
     params$limits <- limits
+    params$key <- key
     params
   },
 
@@ -217,7 +221,7 @@ GizmoBarcap <- ggproto(
     list(grob = frame, upper = size_upper, lower = size_lower)
   },
 
-  build_decor = function(key, grobs = NULL, elements, params) {
+  fill_frame = function(key, grobs = NULL, elements, params) {
 
     check_device("gradients", call = expr(gizmo_barcap()))
 
@@ -263,7 +267,7 @@ GizmoBarcap <- ggproto(
     elems  <- self$setup_elements(params, self$elements, theme)
 
     frame <- self$build_frame(params$key, elems, params)
-    bar   <- self$build_decor(params$key, frame, elems, params = params)
+    bar   <- self$fill_frame(params$key, frame, elems, params = params)
 
     self$assemble_drawing(
       grobs = bar$grob, layout = params$direction,

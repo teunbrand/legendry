@@ -33,6 +33,8 @@ absoluteGrob <- function(grob, width = NULL, height = NULL,
   )
 }
 
+unique0 <- function(x, ...) if (is.null(x)) x else vec_unique(x, ...)
+
 is_empty <- function(df) {
   length(df) == 0 || nrow(df) == 0 || is_waive(df)
 }
