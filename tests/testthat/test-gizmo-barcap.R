@@ -1,7 +1,7 @@
 
 test_that("gizmo_barcap trains correctly", {
 
-  scale <- scale_colour_viridis_c(na.value = "red")
+  scale <- scale_colour_viridis_c(na.value = "#FF0000")
   scale$train(c(10, 30))
 
   guide <- gizmo_barcap(key = key_sequence(11))
@@ -13,31 +13,31 @@ test_that("gizmo_barcap trains correctly", {
   expect_equal(params$key$colour[c(1, 11)], c("#440154", "#FDE725"))
 
   # Upper out-of-bounds
-  scale <- scale_colour_viridis_c(limits = c(10, 30), na.value = "red")
+  scale <- scale_colour_viridis_c(limits = c(10, 30), na.value = "#FF0000")
   scale$train(c(10, 40))
 
   params <- guide$train(guide$params, scale, "colour")
   expect_equal(params$limits, c(10, 30.02))
   expect_equal(nrow(params$key), 12)
-  expect_equal(params$key$colour[c(1, 12)], c("#440154", "red"))
+  expect_equal(params$key$colour[c(1, 12)], c("#440154", "#FF0000"))
 
   # Lower out-of-bounds
-  scale <- scale_colour_viridis_c(limits = c(10, 30), na.value = "red")
+  scale <- scale_colour_viridis_c(limits = c(10, 30), na.value = "#FF0000")
   scale$train(c(0, 30))
 
   params <- guide$train(guide$params, scale, "colour")
   expect_equal(params$limits, c(9.98, 30))
   expect_equal(nrow(params$key), 12)
-  expect_equal(params$key$colour[c(1, 12)], c("red", "#FDE725"))
+  expect_equal(params$key$colour[c(1, 12)], c("#FF0000", "#FDE725"))
 
   # Both out of bounds
-  scale <- scale_colour_viridis_c(limits = c(10, 30), na.value = "red")
+  scale <- scale_colour_viridis_c(limits = c(10, 30), na.value = "#FF0000")
   scale$train(c(0, 40))
 
   params <- guide$train(guide$params, scale, "colour")
   expect_equal(params$limits, c(9.98, 30.02))
   expect_equal(nrow(params$key), 13)
-  expect_equal(params$key$colour[c(1, 13)], c("red", "red"))
+  expect_equal(params$key$colour[c(1, 13)], c("#FF0000", "#FF0000"))
 
   # Can ignore out of bounds by setting upper/lower to FALSE
   params <- guide$params
@@ -48,7 +48,7 @@ test_that("gizmo_barcap trains correctly", {
   expect_equal(params$key$colour[c(1, 11)], c("#440154", "#FDE725"))
 
   # Can include caps even when all in bounds
-  scale <- scale_colour_viridis_c(na.value = "red")
+  scale <- scale_colour_viridis_c(na.value = "#FF0000")
   scale$train(c(10, 30))
 
   params <- guide$params
@@ -56,7 +56,7 @@ test_that("gizmo_barcap trains correctly", {
   params <- guide$train(params, scale, "colour")
   expect_equal(params$limits, c(9.98, 30.02))
   expect_equal(nrow(params$key), 13)
-  expect_equal(params$key$colour[c(1, 13)], c("red", "red"))
+  expect_equal(params$key$colour[c(1, 13)], c("#FF0000", "#FF0000"))
 
   # Can also squish into limits
   params <- guide$params

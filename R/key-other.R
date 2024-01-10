@@ -1,11 +1,12 @@
-# Specialty keys ----------------------------------------------------------
+# Speciality keys ----------------------------------------------------------
 
-#' Specialty keys
+#' Speciality keys
 #'
 #' @description
 #' These functions are helper functions for working with keys in guides. The
 #' functions described here are not widely applicable and may only apply
-#' to a small subset of guides.
+#' to a small subset of guides. As such, it is fine to adjust the arguments
+#' of a speciality key, but swapping types is ill-advised.
 #'
 #' * `key_sequence()` is a function factory whose functions create a regularly
 #'   spaced sequence between the limits of a scale. It is used in colour bar
@@ -89,10 +90,11 @@ map_sequence <- function(scale, aesthetic, nbin = 15, ...) {
 
 binned_key <- function(scale, aesthetic, even_steps, show_limits = NULL) {
 
+  breaks <- scale$get_breaks()
   limits <- scale$get_limits()
 
   if (even_steps) {
-    breaks <- parse_binned_breaks(scale, even.steps = even_steps)
+    breaks <- parse_binned_breaks(scale, breaks, even.steps = even_steps)
 
     n <- length(breaks$bin_at)
     seq <- seq(0, n)
@@ -109,7 +111,6 @@ binned_key <- function(scale, aesthetic, even_steps, show_limits = NULL) {
     key$.label[breaks$all %in% breaks$breaks] <- scale$get_labels(breaks$breaks)
     key$.value <- seq
   } else {
-    breaks <- scale$get_breaks()
     all <- unique(sort(c(limits, breaks)))
     n <- length(all)
     bin_at <- (all[-1] + all[-n]) / 2

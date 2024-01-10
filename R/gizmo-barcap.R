@@ -5,6 +5,9 @@
 #' This guide displays a colour bar with optional caps at either ends of
 #' the bar.
 #'
+#' @param key A [sequence key][key_sequence] specification. Defaults to
+#'   [`key_sequence(n = 15)`][key_sequence]. Changing the argument to
+#'   `key_sequence()` is fine, but changing the key type is not advised.
 #' @param shape A [cap][cap_options] specification by providing one of the
 #'   following:
 #'   * A cap `<function>`, such as `cap_triangle()`.
