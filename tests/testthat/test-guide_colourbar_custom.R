@@ -1,29 +1,25 @@
 test_that("guide_colourbar_custom works in all positions", {
 
-  base <- ggplot(mtcars, aes(disp, mpg, colour = cyl, fill = wt)) +
+  base <- ggplot(mtcars, aes(disp, mpg, colour = cyl)) +
     geom_point(shape = 21) +
+    scale_colour_viridis_c(
+      oob = oob_squish,
+      guide = compose_stack(
+        guide_colourbar_custom(show = c(FALSE, FALSE)),
+        guide_colourbar_custom(show = c(TRUE,  FALSE)),
+        guide_colourbar_custom(show = c(FALSE, TRUE)),
+        guide_colourbar_custom(show = c(TRUE,  TRUE))
+      )
+    ) +
     theme(
       legend.frame = element_rect(colour = "black"),
-      legend.ticks = element_line(colour = "black", arrow = arrow(length = unit(2, "mm"))),
+      legend.ticks = element_line(colour = "black"),
     )
 
-  p <- base +
-    scale_colour_viridis_c(guide = guide_colourbar_custom(position = "right")) +
-    scale_fill_viridis_c(guide = guide_colourbar_custom(position = 'bottom'))
-
-  suppressWarnings(
-    expect_snapshot_warning(
-      vdiffr::expect_doppelganger("bottom right position", p),
-    )
-  )
-
-  p <- base +
-    scale_colour_viridis_c(guide = guide_colourbar_custom(position = "top")) +
-    scale_fill_viridis_c(guide = guide_colourbar_custom(position = 'left'))
-
-  suppressWarnings(
-    expect_snapshot_warning(
-      vdiffr::expect_doppelganger("top left position", p),
-    )
-  )
+  suppressWarnings({
+    vdiffr::expect_doppelganger("right position", base + theme(legend.position = "right"))
+    vdiffr::expect_doppelganger("left position", base + theme(legend.position = "left"))
+    vdiffr::expect_doppelganger("bottom position", base + theme(legend.position = "bottom"))
+    vdiffr::expect_doppelganger("top position", base + theme(legend.position = "top"))
+  })
 })
