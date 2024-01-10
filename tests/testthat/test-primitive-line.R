@@ -1,4 +1,17 @@
 
+test_that("check_cap_arg wors", {
+
+  expect_type( check_cap_arg(TRUE), "closure")
+  expect_equal(check_cap_arg(FALSE), c(-Inf, Inf))
+  expect_type( check_cap_arg("upper"), "closure")
+  expect_snapshot_error(check_cap_arg(NA))
+  expect_error(
+    check_cap_arg(environment()),
+    "not an environment"
+  )
+
+})
+
 test_that("primitive_line works as axis line", {
 
   base <- ggplot(mpg, aes(displ, hwy)) +
@@ -56,3 +69,5 @@ test_that("primitive_line works as legend", {
   vdiffr::expect_doppelganger("primitive_line legend", p)
 
 })
+
+
