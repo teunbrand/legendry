@@ -170,7 +170,7 @@ parse_binned_breaks <- function(scale, breaks = scale$get_breaks(),
     }
     bin_at <- breaks
     nums <- as.character(breaks)
-    nums <- sstrsplit(gsub("\\(|\\)|\\[|\\]", "", nums), ",\\s?")
+    nums <- strsplit(gsub("\\(|\\)|\\[|\\]", "", nums), ",\\s?")
     nums <- as.numeric(unlist(nums, FALSE, FALSE))
 
     if (anyNA(nums)) {

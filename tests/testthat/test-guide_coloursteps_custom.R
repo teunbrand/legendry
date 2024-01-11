@@ -18,9 +18,9 @@ test_that("guide_colourbar_custom works in all positions", {
     )
 
   suppressWarnings({
-    vdiffr::expect_doppelganger("right position", base + theme(legend.position = "right"))
-    vdiffr::expect_doppelganger("left position", base + theme(legend.position = "left"))
+    vdiffr::expect_doppelganger("right position",  base + theme(legend.position = "right"))
+    vdiffr::expect_doppelganger("left position",   base + theme(legend.position = "left"))
     vdiffr::expect_doppelganger("bottom position", base + theme(legend.position = "bottom"))
-    vdiffr::expect_doppelganger("top position", base + theme(legend.position = "top"))
+    vdiffr::expect_doppelganger("top position",    base + theme(legend.position = "top"))
   })
 })

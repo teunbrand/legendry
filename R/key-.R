@@ -157,7 +157,8 @@ standard_extract_key <- function(scale, aesthetic, key, ...) {
   }
   if (is.function(key)) {
     key <- key(scale, aesthetic)
-  } else {
+  }
+  if ("aesthetic" %in% names(key)) {
     key$aesthetic <-
       scale_transform(key$aesthetic, scale, map = TRUE, "aesthetic")
     key$.value <-
