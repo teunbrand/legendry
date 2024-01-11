@@ -3,12 +3,15 @@ test_that("gizmo_density can compute density in various ways", {
 
   values <- mtcars$mpg
   target <- density(mtcars$mpg, n = 10)
+  scale  <- scale_colour_continuous(limits = range(values))
+  scale$train(values)
 
   guide <- gizmo_density(density = target)
   expect_equal(guide$params$density[c("x", "y")], target[c("x", "y")])
 
   guide <- gizmo_density(density = values, density.args = list(n = 10))
-  expect_equal(guide$params$density[c("x", "y")], target[c("x", "y")])
+  params <- guide$train(guide$params, scale, "colour")
+  expect_equal(params$decor[c("x", "y")], target[c("x", "y")])
 
   p <- ggplot(mtcars, aes(drat, wt, colour = mpg)) + geom_point() +
     guides(colour = gizmo_density(density.args = list(n = 10)))

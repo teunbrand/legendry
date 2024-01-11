@@ -221,7 +221,6 @@ typeset_chunks <- function(chunks, element) {
   )
 }
 
-#' @importFrom stats ave
 chunk_string <- function(string, open = "{.", close = "}") {
 
   lines  <- strsplit(string, "\n", fixed = TRUE)[[1]]

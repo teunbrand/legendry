@@ -9,17 +9,19 @@
 #'   specification.
 #' @param density One of the following:
 #'  * `NULL` for using kernel density estimation on the data values (default).
-#'  * an atomic `<vector>` to feed to the `density.fun` function.
+#'  * a `<numeric>` vector to feed to the `density.fun` function.
 #'  * A named `<list>` with `x` and `y` numeric elements of equal length, such
 #'    as one returned by using the [`density()`][stats::density] function.
+#'    Please note that `<list>` input is expected in scale-transformed space,
+#'    not original data space.
 #' @param density.args A `<list>` with additional arguments to the
 #'   `density.fun` argument. Only applies when `density` is not provided as a
 #'   `<list>`. already.
 #' @param density.fun A `<function>` to use for kernel density estimation when
 #'   the `density` argument is not provided as a list already.
-#' @param just A `<numeric>` between 0 and 1. Use 0 for bottom- or left-aligned
-#'   densities, use 1 for top- or right-aligned densities and 0.5 for violin
-#'   shapes.
+#' @param just A `<numeric[1]>` between 0 and 1. Use 0 for bottom- or
+#'   left-aligned densities, use 1 for top- or right-aligned densities and 0.5
+#'   for violin shapes.
 #' @inheritParams gizmo_barcap
 #'
 #' @details
@@ -57,12 +59,7 @@ gizmo_density <- function(
   # standard arguments
   theme = NULL, position = waiver(), direction = NULL
 ) {
-  if (is.atomic(density) && !is.null(density)) {
-    density <- inject(density.fun(density[is.finite(density)], !!!density.args))
-  }
-  if (length(density) > 0) {
-    check_density(density)
-  }
+
   check_number_decimal(just, min = 0, max = 1, allow_infinite = FALSE)
 
   new_guide(
@@ -106,6 +103,18 @@ GizmoDensity <- ggproto(
     key
   },
 
+  extract_decor = function(scale, density, density_args, density_fun, ...) {
+    if (is.null(density)) {
+      return(NULL)
+    }
+    if (is.atomic(density)) {
+      density <- filter_finite(scale$transform(density))
+      density <- inject(density_fun(density, !!!density_args))
+    }
+    check_density(density)
+    density
+  },
+
   extract_params = function(scale, params, ...) {
 
     params$position <- params$position %|W|% NULL
@@ -147,10 +156,9 @@ GizmoDensity <- ggproto(
   },
 
   get_layer_key = function(params, layers, data = NULL) {
-    density <- params$density
+    density <- params$decor %||% params$density
     if (length(density) == 0) {
-      values  <- vec_c(!!!lapply(data, .subset2, params$aesthetic))
-      values  <- values[is.finite(values)]
+      values  <- filter_finite(vec_c(!!!lapply(data, .subset2, params$aesthetic)))
       density <- inject(params$density_fun(values, !!!params$density_args))
       check_density(density)
     }

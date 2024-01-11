@@ -44,7 +44,7 @@
 #'
 #' # It also shows how oob values are handled
 #' p + scale_colour_viridis_c(
-#'   limits = c(10, NA), oob = oob_squish,
+#'   limits = c(10, NA), oob = scales::oob_squish,
 #'   guide = "colourbar_custom"
 #' )
 #'
