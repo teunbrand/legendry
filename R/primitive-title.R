@@ -69,6 +69,11 @@ PrimitiveTitle <- ggproto(
 
   hashables = exprs(my_title),
 
+  elements = list(
+    position = list(title = "axis.title"),
+    legend   = list(title = "legend.title")
+  ),
+
   params = new_params(my_title = waiver(), angle = waiver()),
 
   extract_key = function(scale, aesthetic, ...) {
@@ -95,24 +100,7 @@ PrimitiveTitle <- ggproto(
 
   setup_params = primitive_setup_params,
 
-  setup_elements = function(params, elements, theme) {
-    prefix <- ""
-    suffix <- ""
-    if (params$aesthetic %in% c("x", "y")) {
-      suffix <- switch(
-        params$position,
-        theta = ".x.bottom",
-        theta.sec = ".x.top",
-        paste0(".", params$aesthetic, ".", params$position)
-      )
-      prefix <- "axis."
-    } else {
-      prefix <- "legend."
-    }
-    elements <- list(title = paste0(prefix, "title", suffix))
-    elements$offset <- cm(params$stack_offset %||% 0)
-    Guide$setup_elements(params, elements, theme)
-  },
+  setup_elements = primitive_setup_elements,
 
   measure_grobs = function(grobs, params, elements) {
     switch(
@@ -136,6 +124,8 @@ PrimitiveTitle <- ggproto(
                   params = self$params) {
     params <- replace_null(params, position = position, direction = direction)
     params <- self$setup_params(params)
+
+    theme <- replace_null(theme, legend.title.position = params$position)
 
     elems <- self$setup_elements(params, self$elements, theme)
     title <- self$build_title(params$my_title, elems, params)

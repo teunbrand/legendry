@@ -154,12 +154,11 @@ ComposeCrux <- ggproto(
 
     for (i in names(params$guides)) {
       pars <- params$guide_params[[i]]
-      pars$position  <- switch(i, centre = position, i)
-      pars$direction <- directions[i]
+      pars$position  <- unname(switch(i, centre = position, i))
+      pars$direction <- unname(directions[i])
 
       grobs[[i]] <- params$guides[[i]]$draw(
         theme = theme + theme(legend.text.position = text_positions[i]),
-        position = NULL, direction = NULL,
         params = pars
       )
     }

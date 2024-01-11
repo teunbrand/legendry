@@ -20,6 +20,10 @@
 #' @export
 #' @family composition
 #'
+#' @details
+#' The sandwich composition is effectively the same as a
+#' [crux composition][compose_crux] lacking two opposing arms.
+#'
 #' @examples
 #' # A standard plot with a sandwich guide
 #' ggplot(mpg, aes(displ, hwy)) +

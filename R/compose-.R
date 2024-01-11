@@ -67,7 +67,7 @@ Compose <- ggproto(
 
   train = function(self, params = self$params, scale, aesthetic = NULL,
                    title = waiver(), ...) {
-    params$title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
+    title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
     position  <- params$position  <- params$position %|W|% NULL
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     check_position(position, allow_null = TRUE)
@@ -76,16 +76,28 @@ Compose <- ggproto(
     if (is.function(key)) {
       key <- key(scale, aesthetic %||% scale$aesthetics[1])
     }
+    any_title <- FALSE
 
     guide_params <- params$guide_params
     for (i in seq_along(params$guides)) {
+      if (inherits(params$guides[[i]], "PrimitiveTitle")) {
+        guide_title <- title
+        any_title   <- TRUE
+      } else {
+        guide_title <- waiver()
+      }
       guide_params[[i]]$position <- position
       guide_params[[i]]$angle <- guide_params[[i]]$angle %|W|% params$angle
       guide_params[[i]]["key"] <- list(guide_params[[i]]$key %||% key)
       guide_params[[i]] <- params$guides[[i]]$train(
         params = guide_params[[i]], scale = scale, aesthetic = aesthetic,
-        ...
+        title = guide_title, ...
       )
+    }
+    if (any_title) {
+      params$title <- NULL
+    } else {
+      params$title <- title
     }
     params$guide_params <- guide_params
     params$hash <- hash(guide_params)

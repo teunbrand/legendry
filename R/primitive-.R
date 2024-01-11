@@ -58,6 +58,9 @@ primitive_setup_elements <- function(params, elements, theme) {
   if (identical(elements$text, "legend.text")) {
     elements$text <- setup_legend_text(theme, params$direction)
   }
+  if (identical(elements$title, "legend.title")) {
+    elements$title <- setup_legend_title(theme, params$direction)
+  }
   if (identical(elements$ticks_length, "legend.ticks.length")) {
     theme$legend.ticks.length <- theme$legend.ticks.length %||%
       (calc_element("legend.key.size", theme) * 0.2)
