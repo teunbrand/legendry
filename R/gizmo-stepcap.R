@@ -6,7 +6,7 @@
 #' either ends of the bar.
 #'
 #' @param key A [bins key][key_bins] specificiation. Defaults to
-#'   [`key_bins(even.steps = FALSE, show.limits = NULL)`]. Changing the
+#'   `key_bins(even.steps = FALSE, show.limits = NULL)`. Changing the
 #'   arguments to `key_bins()` is fine, but changing the key type is not
 #'   advised.
 #' @inheritParams gizmo_barcap
@@ -176,7 +176,7 @@ GizmoStepcap <- ggproto(
     n <- nrow(key)
 
     args <- list(
-      x = 0.5, width = 1,
+      x = 0.5,
       y = unit.c(
         unit(0, "npc"), min + key$mid[-c(1, n)] * delta, unit(1, "npc")
       ),
@@ -191,6 +191,9 @@ GizmoStepcap <- ggproto(
 
     if (params$direction == "horizontal") {
       args <- flip_names(args)
+      args$height <- grobHeight(grobs$grob)
+    } else {
+      args$width <- grobWidth(grobs$grob)
     }
     args$vp <- viewport(clip = grobs$grob)
     grobs$grob <- editGrob(grobs$grob, gp = gpar(fill = NA))

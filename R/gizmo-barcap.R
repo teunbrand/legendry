@@ -193,7 +193,9 @@ GizmoBarcap <- ggproto(
 
     shape <- params$shape
     max   <- max(shape[, 2])
-    shape[, 2] <- rescale_max(shape[, 2], from = c(0, max))
+    if (max != 0) {
+      shape[, 2] <- rescale_max(shape[, 2], from = c(0, max))
+    }
 
     size_lower <- size_upper <- params$size %||% (max * short_side)
     if (!isFALSE(params$show[1])) {

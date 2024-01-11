@@ -1,0 +1,107 @@
+# Constructor -------------------------------------------------------------
+
+#' Custom colour steps guide
+#'
+#' Similar to [`guide_coloursteps()`][ggplot2::guide_coloursteps], this guide
+#' displays continuous `colour` or `fill` aesthetics. It has additional options
+#' to display caps at the end of the bar, depending on out-of-bounds values.
+#'
+#' @param first_guide,second_guide Guides to flank the colour steps. Each guide
+#'   can be specified using one of the following:
+#'   * A `<Guide>` class object.
+#'   * A `<function>` that returns a `<Guide>` class object.
+#'   * A `<character>` naming such a function, without the `guide_` or
+#'   `primitive_` prefix.
+#'
+#' The `first_guide` will be placed at the location specified by the
+#' `legend.text.position` theme setting. The `second_guide` will be placed
+#' opposite that position. When `second_guide` has a label suppression
+#' mechanism, no labels will be drawn for that guide.
+#'
+#' @inheritParams gizmo_stepcap
+#' @inheritParams compose_sandwich
+#'
+#' @details
+#' As steps are rendered as clipped rectangles, it is important to use a
+#' graphics device that can render clipped paths. This can be checked by using
+#' [`check_device("clippingPaths")`][ggplot2::check_device].
+#'
+#' @return A `<Guide>` object
+#' @export
+#' @family standalone guides
+#'
+#' @examples
+#' p <- ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = cty))
+#'
+#' # The colour steps show caps when values are out-of-bounds
+#' p + scale_colour_viridis_b(
+#'   limits = c(10, NA),
+#'   guide = "coloursteps_custom"
+#' )
+#'
+#' # It also shows how oob values are handled
+#' p + scale_colour_viridis_b(
+#'   limits = c(10, 30), oob = scales::oob_censor,
+#'   guide = "coloursteps_custom"
+#' )
+#'
+#' # Adjusting the type of cap
+#' p + scale_colour_viridis_b(
+#'   limits = c(10, 30),
+#'   guide = guide_coloursteps_custom(shape = "round")
+#' )
+#'
+#' # The default is to use the breaks as-is
+#' p + scale_colour_viridis_b(
+#'   limits = c(10, 30), breaks = c(10, 20, 25),
+#'   guide = "coloursteps_custom"
+#' )
+#'
+#' # But the display can be set to use evenly spaced steps
+#' p + scale_colour_viridis_b(
+#'   limits = c(10, 30), breaks = c(10, 20, 25),
+#'   guide = guide_coloursteps_custom(key = key_bins(even.steps = TRUE))
+#' )
+#'
+#' # Using tick marks by swapping side guides
+#' p + scale_colour_viridis_b(
+#'   guide = guide_coloursteps_custom(
+#'     first_guide  = "axis_custom",
+#'     second_guide = "axis_custom"
+#'   )
+#' )
+guide_coloursteps_custom <- function(
+  title = waiver(),
+  key = "bins",
+  first_guide = "labels",
+  second_guide = "none",
+  shape = "triangle",
+  size = NULL,
+  show = NA,
+  alpha = NA,
+  reverse = FALSE,
+  oob = scales::oob_keep,
+  theme = NULL,
+  position = waiver(),
+  available_aes = c("colour", "fill")
+) {
+
+  steps <- gizmo_stepcap(
+    key = NULL, shape = shape, size = size, show = show, alpha = alpha,
+    oob = oob
+  )
+
+  compose_sandwich(
+    key = key,
+    middle = steps,
+    text = first_guide,
+    opposite = second_guide,
+    complete = TRUE,
+    title = title,
+    theme = theme,
+    theme_defaults = .theme_defaults_colourbar,
+    position = position,
+    available_aes = available_aes
+  )
+}

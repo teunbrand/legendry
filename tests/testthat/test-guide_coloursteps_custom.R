@@ -5,10 +5,10 @@ test_that("guide_colourbar_custom works in all positions", {
     scale_colour_viridis_c(
       oob = oob_squish,
       guide = compose_stack(
-        guide_colourbar_custom(show = c(FALSE, FALSE)),
-        guide_colourbar_custom(show = c(TRUE,  FALSE)),
-        guide_colourbar_custom(show = c(FALSE, TRUE)),
-        guide_colourbar_custom(show = c(TRUE,  TRUE))
+        guide_coloursteps_custom(show = c(FALSE, FALSE)),
+        guide_coloursteps_custom(show = c(TRUE,  FALSE)),
+        guide_coloursteps_custom(show = c(FALSE, TRUE)),
+        guide_coloursteps_custom(show = c(TRUE,  TRUE))
       )
     ) +
     theme(

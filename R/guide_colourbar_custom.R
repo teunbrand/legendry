@@ -2,9 +2,9 @@
 
 #' Custom colour bar guide
 #'
-#' Similar [`guide_colourbar()`][ggplot2::guide_colourbar], this guide displays
-#' continuous `colour` or `fill` aesthetics. It has additional options to
-#' display caps at the end of the bar, depending on out-of-bounds values.
+#' Similar to [`guide_colourbar()`][ggplot2::guide_colourbar], this guide
+#' displays continuous `colour` or `fill` aesthetics. It has additional options
+#' to display caps at the end of the bar, depending on out-of-bounds values.
 #'
 #' @param first_guide,second_guide Guides to flank the colour bar. Each guide
 #'   can be specified using one of the following:
@@ -17,12 +17,15 @@
 #' `legend.text.position` theme setting. The `second_guide` will be placed
 #' opposite that position. When `second_guide` has a label suppression
 #' mechanism, no labels will be drawn for that guide.
+#' @param nbin A positive `<integer[1]>` determining how many colours to use
+#'   for the colour gradient.
 #' @inheritParams gizmo_barcap
 #' @inheritParams compose_sandwich
 #'
 #' @details
 #' As colours are always rendered as gradients, it is important to use a
-#' graphics device that can render these.
+#' graphics device that can render these. This can be checked by using
+#' [`check_device("gradients")`][ggplot2::check_device].
 #'
 #' @return A `<Guide>` object
 #' @export
@@ -47,7 +50,7 @@
 #'
 #' # Adjusting the type of cap
 #' p + scale_colour_viridis_c(
-#'   limits = c(10, 30), oob = oob_squish,
+#'   limits = c(10, 30), oob = scales::oob_squish,
 #'   guide = guide_colourbar_custom(shape = "round")
 #' )
 #'
@@ -80,7 +83,7 @@ guide_colourbar_custom <- function(
   nbin = 15,
   alpha = NA,
   reverse = FALSE,
-  oob = oob_keep,
+  oob = scales::oob_keep,
   theme = NULL,
   position = waiver(),
   available_aes = c("colour", "fill")
