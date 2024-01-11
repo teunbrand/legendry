@@ -3,6 +3,10 @@ is_blank <- function(x) inherits(x, c("element_blank", "NULL"))
 
 .in2cm <- 2.54
 
+match_self <- function(x) {
+  match(x, sort(unique(x)))
+}
+
 eval_aes <- function(
   data, mapping,
   required = character(),
@@ -153,6 +157,14 @@ suffix_position <- function(value, position) {
   value
 }
 
+# Based on example in ?vctrs::vec_chop
+# It's faster than stats::ave
+vec_ave <- function(x, group, fun, ...) {
+  index   <- vec_group_loc(group)$loc
+  chopped <- lapply(vec_chop(x, indices = index), fun, ...)
+  list_unchop(chopped, indices = index)
+}
+
 set_list_element <- function(x, i, value) {
   lapply(x, `[<-`, i = i, value = list(value))
 }
@@ -160,5 +172,9 @@ set_list_element <- function(x, i, value) {
 guide_rescale <- function(value, from = range(value), oob = oob_squish_infinite) {
   from <- from %||% c(0, 1)
   rescale(oob(value, from), to = c(0, 1), from)
+}
+
+filter_finite <- function(x) {
+  x[is.finite(x)]
 }
 
