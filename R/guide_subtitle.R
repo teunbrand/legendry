@@ -11,6 +11,7 @@
 #' @inheritParams common_parameters
 #'
 #' @details
+#' ## Text formatting
 #' Chunks of text are formatted as follows: the title is chopped up into
 #' pieces split by the `open` and `close` delimiters. When the `open` delimiter
 #' is followed by an integer, that integer is matched up against the scale's
@@ -29,6 +30,19 @@
 #' While implemented as a legend guide, it takes style options from the
 #' `plot.subtitle` theme element. As it is not a true subtitle, there might
 #' be complications if other guides co-occupy the `"top"` legend position.
+#'
+#' ## Right-to-left scripts
+#' The typesetting of this guide is primitive and only concerns itself with
+#' placing text pieces, not individual glyphs. The only consideration given
+#' to right-to-left script is that a line is converted from LtR to RtL when
+#' all pieces of text on a line contain characters from RtL character sets.
+#' Bidirectional text is given no consideration within this function. Glyphs
+#' that should have ligatures in normal text, but are in separate pieces will
+#' probably not render as ligatures. The task of actually rendering what is
+#' within pieces of text, is handled by the graphics device, which have varying
+#' degrees of modern text feature support. The author of this function,
+#' who only knows LtR natural languages, profusely apologises for this
+#' inconvenience.
 #'
 #' @return A `<Guide>` object.
 #' @export
@@ -102,6 +116,12 @@ GuideSubtitle <- ggproto(
 
   elements = list(title = "plot.subtitle", spacing = "legend.box.spacing"),
 
+  extract_params = function(scale, params, title = waiver(), ...) {
+    params$title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
+    check_string(params$title, allow_null = TRUE, arg = "title")
+    params
+  },
+
   setup_elements = function(params, elements, theme) {
     theme <- theme + params$theme
     title <- calc_element("plot.subtitle", theme)
@@ -109,12 +129,6 @@ GuideSubtitle <- ggproto(
     i <- match(opposite_position(params$position), .trbl)
     title$margin[i] <- title$margin[i] - spacing
     title
-  },
-
-  extract_params = function(scale, params, title = waiver(), ...) {
-    params$title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
-    check_string(params$title, allow_null = TRUE, arg = "title")
-    params
   },
 
   draw = function(self, theme, position = NULL, direction = NULL,
@@ -201,7 +215,11 @@ typeset_chunks <- function(chunks, element) {
   width_line <- vec_ave(xmax, chunks$line, max)
   width_max  <- max(width_line)
 
+  rtl <- grepl(rtl_charsets, chunks$string)
+  rtl <- vec_ave(rtl, chunks$line, all)
+
   x <- (xmax + xmin) / 2 + (width_max - width_line) * hjust
+  x[rtl] <- width_line[rtl] - x[rtl]
   x <- margin[2] * (1 - hjust) - (margin[1] + width_max) * hjust + x
   x <- unit(hjust, "npc") + unit(x, "cm")
 
