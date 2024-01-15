@@ -2,8 +2,10 @@
 
 #' Guide primitive: line
 #'
-#' This function contructs a ticks [guide primitive][guide-primitives].
+#' This function constructs a ticks [guide primitive][guide-primitives].
 #'
+#' @param bidi A `<logical[1]>`: whether ticks should be drawn bidirectionally
+#'   (`TRUE`) or in a single direction (`FALSE`, default).
 #' @inheritParams primitive_labels
 #'
 #' @return A `PrimitiveTicks` primitive guide that can be used inside other
@@ -58,9 +60,12 @@
 #'
 #' # Adding as secondary guides
 #' p + guides(x.sec = primitive_ticks(), y.sec = primitive_ticks())
-primitive_ticks <- function(key = NULL, theme = NULL, position = waiver()) {
+primitive_ticks <- function(key = NULL, bidi = FALSE, theme = NULL,
+                            position = waiver()) {
+  check_bool(bidi)
   new_guide(
     key = key,
+    bidi = bidi,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
@@ -77,7 +82,7 @@ primitive_ticks <- function(key = NULL, theme = NULL, position = waiver()) {
 PrimitiveTicks <- ggproto(
   "PrimitiveTicks", Guide,
 
-  params = new_params(key = NULL),
+  params = new_params(key = NULL, bidi = FALSE),
 
   hashables = exprs(key),
 
@@ -197,31 +202,42 @@ draw_ticks = function(key, element, params, position, length, offset = 0) {
   if (n_breaks < 1 || is_blank(element) || length == 0) {
     return(zeroGrob())
   }
-  if (params$position %in% .trbl) {
-    if (params$aesthetic %in% c("x", "y")) {
-      key <- key[[params$aesthetic]]
-    } else {
-      key <- key[[switch(params$direction, horizontal = "x", "y")]]
-    }
-    ticks <- Guide$build_ticks(
-      key, element, params, opposite_position(position), unit(length, "cm")
+  bidi <- c(1, -as.numeric(params$bidi %||% FALSE))
+  if (position %in% c("theta", "theta.sec")) {
+    angle  <- rep(key$theta, each = 2)
+    x      <- rep(key$x,     each = 2)
+    y      <- rep(key$y,     each = 2)
+
+    length <- rep(length, length.out = n_breaks * 2)
+    length <- rep(bidi, times = n_breaks) * length
+    length <- unit(length + offset, "cm")
+
+    ticks <- element_grob(
+      element,
+      x = unit(x, "npc") + sin(angle) * length,
+      y = unit(y, "npc") + cos(angle) * length,
+      id.lengths = rep(2, n_breaks)
     )
     return(ticks)
   }
-  angle  <- rep(key$theta, each = 2)
-  x      <- rep(key$x,     each = 2)
-  y      <- rep(key$y,     each = 2)
-
-  length <- rep(length, length.out = n_breaks * 2)
-  length <- rep(c(0, 1), times = n_breaks) * length
-  length <- unit(length + offset, "cm")
-
-  element_grob(
-    element,
-    x = unit(x, "npc") + sin(angle) * length,
-    y = unit(y, "npc") + cos(angle) * length,
-    id.lengths = rep(2, n_breaks)
+  aes <- params$aesthetic
+  aes <- switch(
+    aes, x = "x", y = "y",
+    switch(params$direction, horizontal = "x", "y")
   )
+
+  mark <- unit(rep(key[[aes]], each = 2), "npc")
+
+  pos <- switch(position, top = , right = 0, left = , bottom = 1)
+  dir <- (-2 * pos + 1) * bidi
+  pos <- unit(rep(pos, 2 * n_breaks), "npc")
+  tick <- unit(rep(dir, n_breaks) * rep(length, each = 2), "cm") + pos
+
+  args <- list(x = tick, y = mark, id.lengths = rep(2, n_breaks))
+  if (position %in% c("top", "bottom")) {
+    args <- flip_names(args)
+  }
+  inject(element_grob(element, !!!args))
 }
 
 zap_tick <- function(elements, name, n) {

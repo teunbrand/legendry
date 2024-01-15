@@ -13,6 +13,7 @@
 #'   section.
 #' @inheritParams primitive_labels
 #' @inheritParams primitive_line
+#' @inheritParams primitive_ticks
 #' @inheritParams compose_stack
 #'
 #' @details
@@ -52,9 +53,9 @@
 #'     guide = guide_axis_custom("log")
 #'   )
 guide_axis_custom <- function(
-  key = NULL, title = waiver(),
-  theme = NULL, n.dodge = 1, check.overlap = FALSE, angle = waiver(),
-  cap = "none", order = 0, position = waiver()
+  key = NULL, title = waiver(), theme = NULL,
+  n.dodge = 1, check.overlap = FALSE, angle = waiver(),
+  cap = "none", bidi = FALSE, order = 0, position = waiver()
 ) {
   theme <- theme %||% theme()
   theme$gguidance.guide.spacing <-
@@ -62,7 +63,7 @@ guide_axis_custom <- function(
 
   compose_stack(
     primitive_line(cap = cap, position = position),
-    primitive_ticks(position = position),
+    primitive_ticks(bidi = bidi, position = position),
     primitive_labels(
       angle = angle, n.dodge = n.dodge, check.overlap = check.overlap
     ),
