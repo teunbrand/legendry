@@ -173,7 +173,7 @@ ComposeStack <- ggproto(
         }
         grobs[[i]] <- grob
       }
-      keep <- !vapply(grobs, is.zero, logical(1))
+      keep <- !is_each(grobs, is.zero)
       if (!any(keep)) {
         return(zeroGrob())
       }
@@ -203,7 +203,7 @@ ComposeStack <- ggproto(
       )
     }
 
-    keep <- keep & !vapply(grobs, is.zero, logical(1))
+    keep <- keep & !is_each(grobs, is.zero)
     grobs <- grobs[keep]
     if (length(grobs) == 0) {
       return(zeroGrob())

@@ -164,7 +164,7 @@ PrimitiveTicks <- ggproto(
     )
     # Discard zeroGrobs
     grob <- list(major, minor, mini)
-    grob <- grob[!vapply(grob, is.zero, logical(1))]
+    grob <- grob[!is_each(grob, is.zero)]
     if (length(grob) == 0) {
       return(zeroGrob())
     }

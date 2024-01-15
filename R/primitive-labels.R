@@ -325,7 +325,7 @@ validate_labels <- function(labels) {
   if (!is.list(labels)) {
     return(labels)
   }
-  if (any(vapply(labels, is.language, logical(1)))) {
+  if (any(is_each(labels, is.language))) {
     do.call(expression, labels)
   } else {
     unlist(labels)

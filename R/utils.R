@@ -151,8 +151,8 @@ suffix_position <- function(value, position) {
   position  <- switch(position, theta = "bottom", theta.sec = "top", position)
   suffix <- paste0(".", aesthetic, ".", position)
 
-  char <- vapply(value, is.character, logical(1))
-  char <- char & !vapply(value, inherits, logical(1), "AsIs")
+  char <- is_each(value, is.character)
+  char <- char & !is_each(value, inherits, what = "AsIs")
   value[char] <- lapply(value[char], paste0, suffix)
   value
 }
@@ -177,6 +177,10 @@ set_list_element <- function(x, i, value) {
 guide_rescale <- function(value, from = range(value), oob = oob_squish_infinite) {
   from <- from %||% c(0, 1)
   rescale(oob(value, from), to = c(0, 1), from)
+}
+
+is_each <- function(x, fun, ...) {
+  vapply(x, FUN = fun, FUN.VALUE = logical(1), ...)
 }
 
 filter_finite <- function(x) {
