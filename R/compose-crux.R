@@ -199,7 +199,7 @@ ComposeCrux <- ggproto(
     }
     if (params$complete) {
       title <- self$build_title(params$title, elems, params)
-      gt <- add_legend_title(gt, title, elems$title_position, elems$title)
+      gt <- legend_add_title(gt, title, elems$title_position, elems$title)
       gt <- gtable_add_padding(gt, elems$margin)
     }
     gt

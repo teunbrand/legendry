@@ -165,6 +165,11 @@ vec_ave <- function(x, group, fun, ...) {
   list_unchop(chopped, indices = index)
 }
 
+by_group <- function(x, group, fun, ..., value = x[1]) {
+  index <- vec_group_loc(group)$loc
+  vapply(vec_chop(x, indices = index), FUN = fun, FUN.VALUE = value, ...)
+}
+
 set_list_element <- function(x, i, value) {
   lapply(x, `[<-`, i = i, value = list(value))
 }
@@ -176,5 +181,21 @@ guide_rescale <- function(value, from = range(value), oob = oob_squish_infinite)
 
 filter_finite <- function(x) {
   x[is.finite(x)]
+}
+
+insert_before <- function(x, i, value) {
+  new <- vec_init(x, length(x) + length(i))
+  i <- i + seq_along(i) - 1
+  new[i] <- value
+  new[-i] <- x
+  new
+}
+
+insert_after <- function(x, i, value) {
+  new <- vec_init(x, length(x) + length(i))
+  i <- i + seq_along(i)
+  new[i] <- value
+  new[-i] <- x
+  new
 }
 

@@ -171,3 +171,27 @@ check_position <- new_function(
   body(check_argmatch),
   fn_env(check_argmatch)
 )
+
+check_exclusive <- function(
+  x, y, required = FALSE,
+  x_arg = caller_arg(x), y_arg = caller_arg(y), call = caller_env()
+) {
+  x_present <- !(is_missing(x) || is.null(x))
+  y_present <- !(is_missing(y) || is.null(y))
+  if (xor(x_present, y_present)) {
+    return(invisible())
+  }
+  if (required && !x_present && !y_present) {
+    cli::cli_abort(
+      "Either the {.arg {x_arg}} or {.arg {y_arg}} argument is required.",
+      call = call
+    )
+  }
+  if (!x_present && !y_present) {
+    return(invisible())
+  }
+  cli::cli_abort(c(
+    "The {.arg {x_arg}} and {.arg {y_arg}} arguments are mutually exclusive.",
+    i = "Please use one, but not both."
+  ), call = call)
+}

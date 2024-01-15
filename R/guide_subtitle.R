@@ -333,6 +333,6 @@ format_ggtext <- function(chunks, element) {
   main_colour <- element$colour
   i <- chunks$depth > 0 & chunks$matches > 0 & colours != main_colour
   strings[i] <- paste0("<span style='color:", colours[i], "'>", strings[i], "</span>")
-  text <- vapply(split(strings, chunks$line), paste0, "", collapse = "")
+  text <- by_group(strings, chunks$line, paste0, collapse = "")
   paste0(text, collapse = "<br>")
 }

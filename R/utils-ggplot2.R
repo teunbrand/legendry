@@ -210,4 +210,11 @@ is.subclass <- function(x, y) {{
   !any(inheritance == 0) && length(setdiff(class(x), class(y))) > 0
 }}
 
+get_key_size <- function(keys, which = "width", n) {
+  size <- lapply(keys, attr, which = which)
+  size[lengths(size) != 1] <- 0
+  size <- matrix(unlist(size), ncol = n)
+  apply(size, 2, max)
+}
+
 # nocov end
