@@ -156,7 +156,7 @@ transform_bracket <- function(bracket, position, coord, panel_params) {
   if (!position %in% c("theta", "theta.sec")) {
     return(bracket)
   }
-  donut <- panel_params$donut
+  donut <- panel_params$inner_radius
   r <- donut[as.numeric(position == "theta") + 1]
   bracket <- polar_xy(bracket, r, bracket$theta, bbox)
   if (position == "theta") {

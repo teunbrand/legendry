@@ -37,7 +37,7 @@ test_that("primitive_line works as axis line", {
   vdiffr::expect_doppelganger("primitive_line cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       theta.sec = primitive_line(),
       theta     = primitive_line(cap = "both"),

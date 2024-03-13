@@ -31,7 +31,7 @@ test_that("primitive_box works as axis", {
   vdiffr::expect_doppelganger("primitive_box cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       r = primitive_box(),
       r.sec = primitive_box(

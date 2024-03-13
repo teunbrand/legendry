@@ -31,7 +31,7 @@ test_that("guide_axis_custom looks good as axis", {
   vdiffr::expect_doppelganger("guide_axis_custom cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) + guides(
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) + guides(
       theta = guide_axis_custom("log", angle = 0),
       theta.sec = guide_axis_custom("minor"),
       r = guide_axis_custom(key = key_manual(c(5, 7, 9)), angle = 0),

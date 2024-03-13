@@ -91,7 +91,7 @@ PrimitiveTitle <- ggproto(
     if (params$position %in% c("theta", "theta.sec")) {
       params$bbox  <- panel_params$bbox  %||% list(c(x = c(0, 1), y = c(0, 1)))
       params$arc   <- panel_params$arc   %||% c(0, 2 * pi)
-      params$donut <- panel_params$donut %||% c(0, 0.4)
+      params$donut <- panel_params$inner_radius %||% c(0, 0.4)
     }
     params$key <-
       transform_key(params$key, params$position, coord, panel_params)

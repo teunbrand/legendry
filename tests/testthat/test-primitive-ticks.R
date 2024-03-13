@@ -22,7 +22,7 @@ test_that("primitive_ticks works as axis", {
   vdiffr::expect_doppelganger("primitive_ticks cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       theta     = primitive_ticks(),
       theta.sec = primitive_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),

@@ -38,7 +38,7 @@ test_that("compose_ontop works as axis line", {
   vdiffr::expect_doppelganger("compose_ontop cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       theta = ontop, theta.sec = ontop,
       r = ontop, r.sec = ontop

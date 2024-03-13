@@ -24,7 +24,7 @@ test_that("primitive_title works as axis", {
   vdiffr::expect_doppelganger("primitive_title cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       theta.sec = primitive_title(c("foo", "bar", "baz"), angle = 0),
       theta = primitive_title("horizontal title"),

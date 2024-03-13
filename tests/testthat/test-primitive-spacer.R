@@ -24,7 +24,7 @@ test_that("primitive_spacer works in guide_axis_stack()", {
   theta <- guide_axis_stack("axis_theta", spacer, "axis_theta")
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, donut = 0.5) +
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(theta = theta, theta.sec = theta, r = stack, r.sec = stack)
 
   vdiffr::expect_doppelganger("primitive_spacer radial", p)
