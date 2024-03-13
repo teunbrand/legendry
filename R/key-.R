@@ -148,35 +148,6 @@ key_log <- function(
   }
 }
 
-# Extractor ---------------------------------------------------------------
-
-standard_extract_key <- function(scale, aesthetic, key, ...) {
-  key <- resolve_key(key %||% "auto")
-  if (inherits(key, "key") && !inherits(key, "key_standard")) {
-    return(key) # probably not a standard key, no need to treat
-  }
-  if (is.function(key)) {
-    key <- key(scale, aesthetic)
-  }
-  if ("aesthetic" %in% names(key)) {
-    key$aesthetic <-
-      scale_transform(key$aesthetic, scale, map = TRUE, "aesthetic")
-    key$.value <-
-      scale_transform(key$.value, scale, map = FALSE, "value")
-  }
-  key <- rename(key, "aesthetic", aesthetic)
-  key <- validate_key_types(key)
-
-  if (is.numeric(key$.value)) {
-    range <- scale$continuous_range %||% scale$get_limits()
-    key <- vec_slice(key, is.finite(oob_censor_any(key$.value, range)))
-  } else {
-    key
-  }
-
-  key
-}
-
 # Helpers -----------------------------------------------------------------
 
 validate_key_types <- function(key, call = caller_env()) {
