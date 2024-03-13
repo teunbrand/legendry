@@ -96,6 +96,12 @@ ComposeSandwich <- ggproto(
     check_position(text_position, valid_position, arg = "legend.text.position")
 
     theme <- theme + params$theme
+    if (inherits(params$theme_defaults$legend.ticks.length, "rel")) {
+      # We need to special case default ticks length for colourbars
+      theme$legend.ticks.length <- theme$legend.ticks.length *
+        params$theme_defaults$legend.ticks.length
+      params$theme_defaults$legend.ticks.length <- NULL
+    }
     theme <- replace_null(theme, !!!params$theme_defaults)
 
     opposite <- opposite_position(text_position)

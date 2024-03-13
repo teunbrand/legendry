@@ -113,5 +113,5 @@ guide_colourbar_custom <- function(
 .theme_defaults_colourbar <- theme(
   legend.axis.line = element_blank(),
   legend.ticks = element_line(colour = "white", linewidth = 0.5 / .pt),
-  legend.ticks.length = unit(-0.2 * 1.2, "lines")
+  legend.ticks.length = rel(-1)
 )
