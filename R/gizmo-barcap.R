@@ -139,7 +139,8 @@ GizmoBarcap <- ggproto(
     params$show[1] <- !isFALSE(params$show[1] %|NA|% lower_oob)
     params$show[2] <- !isFALSE(params$show[2] %|NA|% upper_oob)
 
-    add <- abs(diff(limits)) / 1000
+    # ragg gradient buffer has 512 values in LUT
+    add <- abs(diff(limits)) / 511
     if (params$show[1]) {
       val <- params$oob(limits[1] - add, limits)
       limits <- range(limits, val)

@@ -17,7 +17,7 @@ test_that("gizmo_barcap trains correctly", {
   scale$train(c(10, 40))
 
   params <- guide$train(guide$params, scale, "colour")
-  expect_equal(params$limits, c(10, 30.02))
+  expect_equal(params$limits, c(10, 30.0391), tolerance = 1e-3)
   expect_equal(nrow(params$key), 12)
   expect_equal(params$key$colour[c(1, 12)], c("#440154", "#FF0000"))
 
@@ -26,7 +26,7 @@ test_that("gizmo_barcap trains correctly", {
   scale$train(c(0, 30))
 
   params <- guide$train(guide$params, scale, "colour")
-  expect_equal(params$limits, c(9.98, 30))
+  expect_equal(params$limits, c(9.9609, 30), tolerance = 1e-3)
   expect_equal(nrow(params$key), 12)
   expect_equal(params$key$colour[c(1, 12)], c("#FF0000", "#FDE725"))
 
@@ -35,7 +35,7 @@ test_that("gizmo_barcap trains correctly", {
   scale$train(c(0, 40))
 
   params <- guide$train(guide$params, scale, "colour")
-  expect_equal(params$limits, c(9.98, 30.02))
+  expect_equal(params$limits, c(9.9609, 30.0391), tolerance = 1e-3)
   expect_equal(nrow(params$key), 13)
   expect_equal(params$key$colour[c(1, 13)], c("#FF0000", "#FF0000"))
 
@@ -54,7 +54,7 @@ test_that("gizmo_barcap trains correctly", {
   params <- guide$params
   params$show <- c(TRUE, TRUE)
   params <- guide$train(params, scale, "colour")
-  expect_equal(params$limits, c(9.98, 30.02))
+  expect_equal(params$limits, c(9.9609, 30.0391), tolerance = 1e-3)
   expect_equal(nrow(params$key), 13)
   expect_equal(params$key$colour[c(1, 13)], c("#FF0000", "#FF0000"))
 
