@@ -41,7 +41,7 @@ compose_sandwich <- function(
   text = "none",
   opposite = "none",
   args = list(),
-  complete = FALSE,
+  complete = TRUE,
   theme = NULL,
   theme_defaults = list(),
   reverse = FALSE,
