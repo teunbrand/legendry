@@ -8,7 +8,8 @@
 [![R-CMD-check](https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of gguidance is to …
+The goal of gguidance is to provide additional guide functionality to
+the ggplot2 ecosystem.
 
 ## Installation
 
@@ -22,34 +23,89 @@ devtools::install_github("teunbrand/gguidance")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Let’s first set up a basic plot to experiment with:
 
 ``` r
 library(gguidance)
 #> Loading required package: ggplot2
-## basic example code
+
+base <- ggplot(mpg, aes(displ, hwy, colour = cty)) +
+  geom_point() +
+  labs(
+    x = "Engine displacement",
+    y = "Highway miles per gallon",
+    col = "City miles\nper gallon"
+  ) +
+  theme(axis.line = element_line())
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+The gguidance package offers a selection of what it calls ‘complete
+guides’. These complete guides can just be drop-in replacement of
+regular guides, which you can specify using ggplot2’s `guides()`
+function or using the `guide` argument in scales. In the example below,
+we’re using two custom variants of vanilla guides, namely
+`guide_axis_custom()` and `guide_colourbar_custom()`. These custom
+variants have additional options that allow a greater degree of
+customisation:
+
+- The axis guide has an option for bidirectional ticks.
+- The colourbar automatically recognises out-of-bounds values and
+  displays this with a cap.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+base + 
+  scale_colour_viridis_c(
+    limits = c(NA, 30),
+    guide = "colourbar_custom"
+  ) +
+  guides(
+    x = guide_axis_custom(bidi = TRUE)
+  )
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+<img src="man/figures/README-full_guides-1.svg" width="80%" style="display: block; margin: auto;" />
 
-You can also embed plots, for example:
+Besides complete guides, gguidance also has incomplete guides that can
+be composed. The `ggplot2::guide_axis_stack()` is an axis composition
+function that can be used to display multiple guides. Here, we use a
+‘primitive’ guide (incomplete building block) to display a range on the
+axis. By stacking it with a regular axis the primitive guide is
+completed.
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+# A partial guide to display a bracket
+efficient_bracket <- primitive_bracket(
+  # Keys determine what is displayed
+  key = key_range_manual(start = 25, end = Inf, name = "Efficient"),
+  bracket = "square",
+  # We want vertical text
+  theme = theme(
+    legend.text = element_text(angle = 90, hjust = 0.5),
+    axis.text.y.left = element_text(angle = 90, hjust = 0.5)
+  )
+)
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+base + guides(y = guide_axis_stack("axis", efficient_bracket))
+```
+
+<img src="man/figures/README-primitives-1.svg" width="80%" style="display: block; margin: auto;" />
+
+The gguidance package extends this guide composition concept beyond the
+axes for other types of guides. In the example below we compose a
+‘sandwich’: a central guide flanked by two others. Because our bracket
+is a primitive, it does not matter what aesthetic it displays and we can
+re-use it for the sandwich. I’ve yet to write the vignette on
+composition.
+
+``` r
+base + 
+  scale_colour_viridis_c(
+    guide = compose_sandwich(
+      middle = gizmo_density(), 
+      text = "axis_custom",
+      opposite = efficient_bracket
+    )
+  )
+```
+
+<img src="man/figures/README-composition-1.svg" width="80%" style="display: block; margin: auto;" />
