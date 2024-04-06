@@ -188,7 +188,6 @@ ComposeCrux <- ggproto(
         gt, grobs$left, t = align$v[1], b = align$v[2], l = 1,
         clip = "off", name = "left-guide"
       )
-      # halign[1] <- halign[1] + 1
     }
     if (!is.zero(grobs$right)) {
       gt <- gtable_add_cols(gt, grobs$right$width, pos = -1)
@@ -198,8 +197,12 @@ ComposeCrux <- ggproto(
       )
     }
     if (params$complete) {
-      title <- self$build_title(params$title, elems, params)
-      gt <- legend_add_title(gt, title, elems$title_position, elems$title)
+      gt <- self$add_title(
+        gt,
+        title = self$build_title(params$title, elems, params),
+        position = elems$title_position,
+        with(elements$title, rotate_just(angle, hjust, vjust))
+      )
       gt <- gtable_add_padding(gt, elems$margin)
     }
     gt
