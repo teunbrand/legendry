@@ -10,12 +10,6 @@
     <loc>https://teunbrand.github.io/gguidance/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/articles/axes.html</loc>
-  </url>
-  <url>
-    <loc>https://teunbrand.github.io/gguidance/articles/index.html</loc>
-  </url>
-  <url>
     <loc>https://teunbrand.github.io/gguidance/authors.html</loc>
   </url>
   <url>
@@ -28,13 +22,22 @@
     <loc>https://teunbrand.github.io/gguidance/reference/bracket_options.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/breaks_between.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/cap_options.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/coord_guided.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/common_parameters.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/elements_text.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/compose_crux.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/compose_ontop.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/compose_sandwich.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/compose_stack.html</loc>
   </url>
   <url>
     <loc>https://teunbrand.github.io/gguidance/reference/gguidance-package.html</loc>
@@ -43,45 +46,72 @@
     <loc>https://teunbrand.github.io/gguidance/reference/gguidance_extensions.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_axis_cap.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/gizmo_barcap.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_axis_extend.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/gizmo_density.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_axis_minor.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/gizmo_grob.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_axis_nested.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/gizmo_histogram.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_axis_table.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/gizmo_stepcap.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_colour_histogram.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide-composition.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_colour_violin.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide-gizmos.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_colourbar_cap.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide-primitives.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_grid.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide_axis_custom.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_grid_plus.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide_colourbar_custom.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_grid_zebra.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide_coloursteps_custom.html</loc>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_legend_cross.html</loc>
-  </url>
-  <url>
-    <loc>https://teunbrand.github.io/gguidance/reference/guide_legend_string.html</loc>
+    <loc>https://teunbrand.github.io/gguidance/reference/guide_subtitle.html</loc>
   </url>
   <url>
     <loc>https://teunbrand.github.io/gguidance/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/key_range.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/key_specialty.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/key_standard.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_box.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_bracket.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_labels.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_line.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_spacer.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_ticks.html</loc>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/gguidance/reference/primitive_title.html</loc>
   </url>
 </urlset>
