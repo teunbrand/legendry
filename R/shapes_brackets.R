@@ -108,26 +108,25 @@ resolve_bracket <- function(x, arg = caller_arg(x), call = caller_env()) {
     x <- fun
   }
   if (is.function(x)) {
-    msg <- "{.arg {arg}} must return a {type}, not {obj_type_friendly(x)}."
+    msg <- "{.arg {arg}} must return {type}, not {obj_type_friendly(x)}."
     x <- x()
   } else {
-    msg <- "{.arg {arg}} must be a {type}, not {obj_type_friendly(x)}"
+    msg <- "{.arg {arg}} must be {type}, not {obj_type_friendly(x)}"
   }
   if (is.matrix(x) & ncol(x) %in% c(2, 3) & nrow(x) > 1) {
     return(x)
   }
-  if (!is.matrix(x)) {
-    type <- as_cli("a {.cls matrix}")
-    cli::cli_abort(msg, call = call)
-  }
+  type <- as_cli("a {.cls matrix}")
+  expand <- FALSE
   if (!ncol(x) %in% c(2, 3)) {
     type <- as_cli("a {.cls matrix} with 2 or 3 columns")
-    cli::cli_abort(msg, call = call)
+    msg <- c(msg, "The provided {.arg {arg}} has {ncol(x)} column{?s}.")
   }
   if (nrow(x) < 2) {
+    type <- as_cli("a {.cls matrix} with 2 or more rows")
     msg <- c(msg, "The provided {.arg {arg}} has {nrow(x)} row{?s}.")
   }
-  x
+  cli::cli_abort(msg, call = call)
 }
 
 transform_bracket <- function(bracket, position, coord, panel_params) {

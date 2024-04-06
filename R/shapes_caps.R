@@ -88,17 +88,14 @@ resolve_cap_shape <- function(x, arg = caller_arg(x), call = caller_env()) {
   if (is.matrix(x) && ncol(x) == 2 & nrow(x) > 1) {
     return(x)
   }
-  if (!is.matrix(x)) {
-    type <- as_cli("a {.cls matrix}")
-    cli::cli_abort(msg, call = call)
-  }
-  if (!ncol(x) == 2) {
+  type <- as_cli("a {.cls matrix}")
+  if (ncol(x) != 2) {
     type <- as_cli("a {.cls matrix} with 2 columns")
-    cli::cli_abort(msg, call = call)
+    msg <- c(msg, "The provided {.arg {arg}} has {ncol(x)} column{?s}.")
   }
   if (nrow(x) < 2) {
-    type <- as_cli("a {.cls matrix} with >1 row")
+    type <- as_cli("a {.cls matrix} with 2 or more rows")
     msg <- c(msg, "The provided {.arg {arg}} has {nrow(x)} row{?s}.")
   }
-  cli::cli_abort(msg)
+  cli::cli_abort(msg, call = call)
 }
