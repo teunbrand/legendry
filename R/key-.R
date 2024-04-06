@@ -184,7 +184,7 @@ log10_keys <- function(scale, aesthetic,
                        prescale_base = prescale_base,
                        negative_small = negative_small,
                        expanded = expanded,
-                       labeller = label_log(),
+                       labeller = NULL,
                        call = caller_env()) {
   aesthetic <- aesthetic %||% scale$aesthetics[1]
   if (scale$is_discrete()) {
@@ -228,7 +228,9 @@ log10_keys <- function(scale, aesthetic,
     fives <- c(fives, -fives)
     ones  <- ones[ones >= negative_small]
     ones  <- c(ones, -ones)
+    labeller <- labeller %||% negative_log_label
   }
+  labeller <- labeller %||% scales::label_log()
   labels <- labeller(tens)
 
   ticks  <- transform$transform(c(tens, fives, ones))
@@ -256,6 +258,29 @@ log10_keys <- function(scale, aesthetic,
   key <- vec_slice(key, !is_oob(ticks, range))
   class(key) <- c("key_standard", "key", class(key))
   key
+}
+
+negative_log_label <- function(x) {
+  if (length(x) == 0) {
+    return(expression)
+  }
+  sign <- as.character(sign(x))
+  sign[sign == "-1"] <- "-"
+  sign[sign == "1"] <- "+"
+  sign[sign == "0"] <- ""
+
+  abs <- abs(x)
+  exponent <- format(log(abs, base = 10), digits = 3)
+  text <- paste0(sign, 10, "^", exponent)
+  text[x == 0] <- "0"
+
+  out <- vector("expression", length(text))
+  for (i in seq_along(text)) {
+    expr <- parse(text = text[[i]])
+    out[[i]] <- if (length(expr) == 0) NA else expr[[1]]
+  }
+  out[is.na(x)] <- NA
+  out
 }
 
 transform_key <- function(key, position, coord, panel_params) {
