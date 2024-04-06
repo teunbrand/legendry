@@ -62,6 +62,7 @@ get_fontmetrics <- function(x) {
     x <- get_text_gp(x)
   }
   check_inherits(x, "gpar", "a {.cls gpar} object")
+  check_installed("systemfonts")
   res <- 72
   info <- systemfonts::font_info(
     family = x$fontfamily,

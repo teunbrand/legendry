@@ -37,8 +37,6 @@ standard_extract_key <- function(scale, aesthetic, key, ...) {
   if (is.numeric(key$.value)) {
     range <- scale$continuous_range %||% scale$get_limits()
     key <- vec_slice(key, is.finite(oob_censor_any(key$.value, range)))
-  } else {
-    key
   }
 
   key

@@ -202,15 +202,6 @@ check_unique <- function(x, arg = caller_arg(x), call = caller_env()) {
   ))
 }
 
-# if (vec_duplicate_any(members)) {
-#   dups <- unique(members[vec_duplicate_detect(members)])
-#   dups <- dups[1:pmin(5, length(dups))]
-#   cli::cli_abort(c(
-#     "Cannot create a lookup table with duplicate {.arg members}.",
-#     i = "Example duplicate{?s}: {.and {dups}}."
-#   ))
-# }
-
 check_exclusive <- function(
   x, y, required = FALSE,
   x_arg = caller_arg(x), y_arg = caller_arg(y), call = caller_env()

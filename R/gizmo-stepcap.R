@@ -99,6 +99,13 @@ GizmoStepcap <- ggproto(
 
   extract_params = function(scale, params, ...) {
 
+    if (scale$is_discrete()) {
+      cli::cli_abort(
+        "This guide does not (yet) work with discrete scales. \\
+        Please defer to {.fn guide_coloursteps}."
+      )
+    }
+
     params$position <- params$position %|W|% NULL
     limits <- scale$get_limits()
     range  <- scale$range$range

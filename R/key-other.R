@@ -44,6 +44,7 @@ NULL
 #' @rdname key_specialty
 key_sequence <- function(n = 15) {
   force(n)
+  check_number_whole(n, min = 2)
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- map_sequence(scale = scale, aesthetic = aesthetic, nbin = n)

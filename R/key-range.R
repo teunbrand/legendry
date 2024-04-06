@@ -16,7 +16,7 @@
 #'   use for splitting labels provided by the scale using
 #'   [`strsplit()`][base::strsplit]. Defaults to splitting on any
 #'   non-alphanumeric character.
-#' @param reverse A `<logical[1]>` which if `FALSE` (defaults) treats the first
+#' @param reverse A `<logical[1]>` which if `FALSE` (default) treats the first
 #'   labels as the inner labels and the last labels as the outer labels.
 #'   If `TRUE`, thee first labels are treated as the outer labels and the last
 #'   labels are treated as the inner labels.
