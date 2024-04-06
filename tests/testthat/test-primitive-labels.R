@@ -51,3 +51,58 @@ test_that("primitive_labels works as legend", {
   vdiffr::expect_doppelganger("primitive_labels legend", p)
 
 })
+
+# Helper tests ------------------------------------------------------------
+
+test_that("draw_labels sets priorities", {
+
+  elem <- theme_gray()$text
+  key <- data.frame(
+    x = c(0, 0.25, 0.5, 0.75, 1),
+    y = 1,
+    .label = c("A", "B", "C", "D", "E")
+  )
+
+  test <- withr::with_pdf(
+    tempfile(fileext = ".pdf"),
+    draw_labels(key, elem, 0, 0, "bottom", check_overlap = TRUE)
+  )
+  # Expect outer labels first
+  expect_equal(test$children[[1]]$label, c("A", "E", "C", "B", "D"))
+
+})
+
+test_that("draw_labels can draw theta labels", {
+
+  elem <- theme_gray()$text
+
+  key <- data.frame(
+    x = c(0, 0.25, 0.5, 0.75, 1),
+    y = 1,
+    .label = c("A", "B", "C", "D", "E")
+  )
+  key$theta <- key$x
+  key$r <- 0.4
+
+  test <- withr::with_pdf(
+    tempfile(fileext = ".pdf"),
+    draw_labels(key, elem, 0, 0, "theta")
+  )
+  expect_s3_class(test, "titleGrob")
+  expect_equal(attr(test, "size"), 0.364, tolerance = 1e-3)
+
+})
+
+test_that("label angles works", {
+
+  grid <- expand.grid(angle = seq(0, 360, by = 45), position = .trbl)
+  result <- Map(
+    angle_labels,
+    angle = grid$angle, position = grid$position,
+    MoreArgs = list(element = theme_gray()$text)
+  )
+
+  grid$hjust <- vapply(result, `[[`, i = "hjust", numeric(1))
+  grid$vjust <- vapply(result, `[[`, i = "vjust", numeric(1))
+  expect_snapshot(grid)
+})

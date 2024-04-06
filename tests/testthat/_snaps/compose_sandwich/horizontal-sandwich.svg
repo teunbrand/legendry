@@ -302,6 +302,7 @@
 <text x='683.53' y='437.70' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>7</text>
 <text x='373.66' y='449.84' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='22.62px' lengthAdjust='spacingAndGlyphs'>displ</text>
 <text transform='translate(13.05,224.75) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='19.57px' lengthAdjust='spacingAndGlyphs'>hwy</text>
+<text x='312.47' y='520.58' style='font-size: 11.00px; font-family: sans;' textLength='14.06px' lengthAdjust='spacingAndGlyphs'>cty</text>
 <rect x='332.01' y='506.62' width='102.84' height='41.60' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <image width='86.40' height='17.28' x='342.97' y='512.10' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAABCAYAAABkOJMpAAAAz0lEQVQ4jYVSyxXDMAiTnNU6QvcfpeoBGzAmyYFnRRLmE/PDrzAIkMAA6HjG5J1j0mk8Ny74Pk5Nrzmma2E8aMe9y589SEFoYaBoSL2FR3f5jS6fCxAqn3RULp2IOp0WXHjU9GJldMwYc4fGbRe638/tfSq+s0b0p8YHqOVV9hI+0Z7qRVnAnvZFYUAYtO/AwgAwKNA9cMzp5/Rz5tgvW/jkOfmRMPmkNfhJS3jN63PD5ruKZtx+rnnXnozL+wpfzfEdbvVin4fX/W98h3+O/wX2kQrGpaQGAAAAAElFTkSuQmCC'/>
 <polyline points='346.42,525.92 346.42,529.38 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
@@ -339,7 +340,6 @@
 <text x='396.14' y='563.21' text-anchor='middle' style='font-size: 8.80px; fill: #FF6347; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>25</text>
 <text x='412.75' y='563.21' text-anchor='middle' style='font-size: 8.80px; fill: #FF6347; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>30</text>
 <text x='429.37' y='563.21' text-anchor='middle' style='font-size: 8.80px; fill: #FF6347; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>35</text>
-<text x='312.47' y='520.58' style='font-size: 11.00px; font-family: sans;' textLength='14.06px' lengthAdjust='spacingAndGlyphs'>cty</text>
 <text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='115.95px' lengthAdjust='spacingAndGlyphs'>horizontal sandwich</text>
 </g>
 </svg>

@@ -30,3 +30,42 @@ test_that("compose_stack works as axis line", {
   vdiffr::expect_doppelganger("compose_stack radial", p)
 
 })
+
+test_that("get_side_titles throws appropriate warning", {
+  expect_error(
+    get_side_titles("", list()),
+    "Must have a number"
+  )
+})
+
+test_that("theta_side_titles does not error", {
+
+  elements <- list(
+    side_titles = theme_gray()$text,
+    side_position = "left"
+  )
+
+  test <- withr::with_pdf(
+    tempfile(fileext = '.pdf'),
+    theta_side_titles(
+      label = c("A", "B"),
+      elements,
+      ranges = list(c(0, 0.4), c(0, 0.4)),
+      params = list(
+        position = "theta",
+        sides = data.frame(
+          theta = c(5.5, 0.8),
+          r     = c(0.4, 0.4),
+          position = c("left", "left"),
+          group = 1:2,
+          x = c(0.2, 0.6),
+          y = c(0.9, 0.75),
+          side = c("left", "left")
+        )
+      )
+    )
+
+  )
+
+  expect_s3_class(test, "titleGrob")
+})

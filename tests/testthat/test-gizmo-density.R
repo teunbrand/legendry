@@ -64,3 +64,27 @@ test_that("gizmo_density can handle sequential and bin keys", {
   expect_equal(key$max, c(10, 15, 20, 25, 30, Inf))
 
 })
+
+test_that("check_density throws appropriate errors", {
+
+  expect_silent(
+    check_density(density(mtcars$mpg))
+  )
+
+  expect_error(
+    check_density(arg = "x"),
+    "cannot be missing"
+  )
+  expect_error(
+    check_density(list(foo = 1, bar = 2)),
+    "must have named"
+  )
+  expect_error(
+    check_density(list(x = 1, y = 1)),
+    "at least length 2"
+  )
+  expect_error(
+    check_density(list(x = 1:3, y = 1:2)),
+    "must be of equal length"
+  )
+})

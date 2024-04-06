@@ -8,7 +8,7 @@ test_that("gizmo_stepcap trains correctly with even.steps = FALSE", {
     scale
   }
 
-  guide <- gizmo_stepcap(key = key_bins(even.steps = FALSE))
+  guide <- gizmo_stepcap(key = key_bins(even.steps = FALSE, show.limits = TRUE))
 
   scale  <- make_scale(train = c(10, 30))
   params <- guide$train(guide$params, scale, "colour")

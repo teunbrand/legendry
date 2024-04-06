@@ -52,3 +52,36 @@ test_that("primitive_title works as legend", {
   vdiffr::expect_doppelganger("primitive_title legend", p)
 
 })
+
+test_that("draw_theta_title works", {
+
+  elements <- list(
+    title = theme_gray()$text,
+    offset = 0
+  )
+
+  params <- list(
+    position = "theta",
+    donut = c(0.2, 0.4),
+    arc = c(0, 1),
+    bbox = list(x = c(0, 1), y = c(0, 1)),
+    angle = 0
+  )
+
+  test <- withr::with_pdf(
+    tempfile(fileext = ".pdf"),
+    draw_theta_title("Foobar", elements, params)
+  )
+
+  expect_equal(test$children[[1]]$rot, 331, tolerance = 1)
+
+  params$position <- "theta.sec"
+  params$angle <- NULL
+
+  test <- withr::with_pdf(
+    tempfile(fileext = ".pdf"),
+    draw_theta_title("Foobar", elements, params)
+  )
+
+  expect_equal(test$children[[1]]$rot, 0, tolerance = 1)
+})

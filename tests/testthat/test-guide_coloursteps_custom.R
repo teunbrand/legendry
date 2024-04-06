@@ -1,5 +1,6 @@
 test_that("guide_colourbar_custom works in all positions", {
 
+  key <- key_bins(show.limits = TRUE)
   base <- ggplot(mtcars, aes(disp, mpg, colour = cyl)) +
     geom_point(shape = 21) +
     scale_colour_viridis_c(

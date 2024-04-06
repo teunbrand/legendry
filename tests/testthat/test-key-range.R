@@ -58,3 +58,76 @@ test_that("key_range_map works as intended", {
     "column is required"
   )
 })
+
+test_that("key_range_rle works as intended", {
+
+  test <- key_range_rle(rep(LETTERS[1:5], 5:1))
+  expect_s3_class(test, "key_range")
+
+  expect_equal(test$start, c(0, 5, 9, 12, 14) + 0.5)
+  expect_equal(test$end, c(5, 9, 12, 14, 15) + 0.5)
+  expect_equal(test$.label, LETTERS[1:5])
+})
+
+test_that("range_extract_key can censor oob values", {
+
+  scale <- scale_x_continuous(
+    limits = c(0, 10)
+  )
+
+  key <- key_range_manual(
+    start = c(-1, 2, 9),
+    end   = c(1, 8, 11),
+    name  = c("A", "B", "C")
+  )
+
+  test <- range_extract_key(scale, "x", key, oob = "censor")
+  expect_equal(nrow(test), 1L)
+  expect_equal(test$.label, 'B')
+})
+
+test_that("range_from_label can extract ranges", {
+
+  values <- c("A 1", "B 1", "C 2")
+  scale <- scale_x_discrete(limits = values)
+
+  test <- range_from_label(scale, "x")
+  expect_snapshot(test)
+
+  exprs <- as.expression(values)
+  scale <- scale_x_discrete(limits = values, labels = exprs)
+
+  expect_error(
+    range_from_label(scale, "x"),
+    "Cannot split"
+  )
+
+})
+
+test_that("setup_range_params sets up ranges correctly", {
+
+  params <- list(
+    aesthetics = "colour",
+    position = "right",
+    direction = "horizontal",
+    limits = c(0, 10),
+    key = data.frame(
+      start = c(0, 4),
+      end   = c(3, 9)
+    ),
+    decor = data.frame(colour = 5)
+  )
+
+  test <- setup_range_params(params)
+  expect_equal(test$key$x, c(0, 0.4))
+  expect_equal(test$key$y, c(0, 0))
+  expect_equal(test$key$xend, c(0.3, 0.9))
+  expect_equal(test$decor$x, 0.5)
+
+  params$direction <- "vertical"
+  test <- setup_range_params(params)
+  expect_equal(test$key$y, c(0, 0.4))
+  expect_equal(test$key$x, c(0, 0))
+  expect_equal(test$key$yend, c(0.3, 0.9))
+  expect_equal(test$decor$y, 0.5)
+})

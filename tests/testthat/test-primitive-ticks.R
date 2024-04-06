@@ -51,3 +51,15 @@ test_that("primitive_ticks works as legend", {
   vdiffr::expect_doppelganger("primitive_ticks legend", p)
 
 })
+
+test_that("draw_ticks works with theta position", {
+
+  ticks <- draw_ticks(
+    key = data.frame(x = 1, y = 0, theta = 0, r = 0),
+    theme_gray()$line,
+    list(),
+    "theta",
+    1
+  )
+  expect_s3_class(ticks, "polyline")
+})

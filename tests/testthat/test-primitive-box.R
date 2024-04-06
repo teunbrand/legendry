@@ -72,3 +72,13 @@ test_that("primitive_box works as legend", {
   vdiffr::expect_doppelganger("primitive_box legend", p)
 
 })
+
+test_that("draw_box can draw theta boxes", {
+  box <- draw_box(
+    data.frame(x = c(0, 1), y = c(0, 1), group = 1, theta = 0),
+    element = theme_gray()$rect,
+    position = "theta",
+    size = 0.1, offset = 1
+  )
+  expect_s3_class(box, "polygon")
+})

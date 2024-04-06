@@ -103,3 +103,39 @@ test_that("check_argmatch throws appropriate errors", {
   )
 
 })
+
+test_that("check_grob throws appropriate errors", {
+
+  expect_silent(check_grob(pointsGrob()))
+  expect_silent(check_grob(NULL, allow_null = TRUE))
+  expect_error(
+    check_grob("A"),
+    "must be a"
+  )
+
+})
+
+test_that("check_exclusive throws appropriate errors", {
+
+  expect_silent(check_exclusive(NULL, NULL))
+  expect_error(
+    check_exclusive(NULL, NULL, required = TRUE),
+    "argument is required"
+  )
+
+  expect_silent(check_exclusive(1, NULL))
+  expect_silent(check_exclusive(NULL, 1))
+  expect_error(
+    check_exclusive(1, 1),
+    "arguments are mutually exclusive"
+  )
+
+})
+
+test_that("check_unique throws appropriate errors", {
+  expect_silent(check_unique(LETTERS[1:3]))
+  expect_error(
+    check_unique(c("A", "A", "B")),
+    "Example duplicate"
+  )
+})

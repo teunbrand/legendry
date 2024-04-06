@@ -68,3 +68,60 @@ test_that("key_log works as intended", {
 
 })
 
+test_that("validate_key_types throws appropriate warning", {
+
+  expect_silent(
+    test <- validate_key_types(data.frame(.type = "major"))
+  )
+  expect_equal(dim(test), c(1, 1))
+  expect_warning(
+    test <- validate_key_types(data.frame(.type = "foobar")),
+    "Unknown types are dropped"
+  )
+  expect_equal(dim(test), c(0, 1))
+})
+
+test_that("resolve_key throws appropriate error", {
+
+  expect_silent(resolve_key("auto"))
+  expect_error(
+    resolve_key(mtcars),
+    "Unknown key specification"
+  )
+
+})
+
+test_that("log10_keys returns sensible results", {
+
+  scale <- scale_x_discrete()
+  expect_error(
+    log10_keys(scale, "x"),
+    "Cannot calculate logarithmic ticks for discrete scales"
+  )
+
+  scale <- scale_x_log10()
+  scale$train(c(0, 2))
+
+  expect_warning(
+    test <- log10_keys(scale, "x", 10, negative_small = 0.1, expanded = FALSE),
+    "argument will override"
+  )
+  expect_equal(unique(test$.type), c("major", "minor", "mini"))
+
+  scale <- scale_x_continuous(transform = "asinh")
+  scale$train(c(-5, 5))
+
+  test <- log10_keys(scale, "x", NULL, 0.1, expanded = FALSE)
+
+
+})
+
+
+df <- data.frame(x = rcauchy(100), y = rnorm(100))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  scale_x_continuous(
+    trans = "asinh",
+    guide = guide_axis_custom("log")
+  )
