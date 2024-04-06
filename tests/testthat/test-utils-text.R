@@ -3,11 +3,14 @@ test_that("get_text_dim_cm works", {
 
   style <- theme_gray()$text
 
-  withr::local_pdf()
-
-  width  <- get_text_dim_cm("foobar", style, "width")
-  height <- get_text_dim_cm("foobar", style, "height")
-  both   <- get_text_dim_cm("foobar", style, "both")
+  withr::with_pdf(
+    tempfile(fileext = ".pdf"),
+    {
+      width  <- get_text_dim_cm("foobar", style, "width")
+      height <- get_text_dim_cm("foobar", style, "height")
+      both   <- get_text_dim_cm("foobar", style, "both")
+    }
+  )
 
   expect_equal(both$width, width)
   expect_equal(both$height, height)
