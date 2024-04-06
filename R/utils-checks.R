@@ -26,6 +26,22 @@ check_list_names <- function(data, names, call = caller_env(),
   ), call = call)
 }
 
+check_grob <- function(x, allow_null = FALSE, call = caller_env(),
+                       arg = caller_arg(x)) {
+  if (!missing(x)) {
+    if (is.grob(x)) {
+      return(invisible(NULL))
+    }
+    if (allow_null && is_null(x)) {
+      return(invisible(NULL))
+    }
+  }
+  stop_input_type(
+    x, as_cli("a {.cls grob} object"),
+    allow_null = allow_null, arg = arg, call = call
+  )
+}
+
 check_unit <- function(x, allow_null = FALSE, call = caller_env(),
                        arg = caller_arg(x)) {
   if (!missing(x)) {
@@ -171,6 +187,29 @@ check_position <- new_function(
   body(check_argmatch),
   fn_env(check_argmatch)
 )
+
+check_unique <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (!vec_duplicate_any(x)) {
+    return(invisible())
+  }
+  dups <- unique(x[vec_duplicate_detect(x)])
+  more <- if (length(dups) > 5) " and more." else "."
+  dups <- dups[1:pmin(5, length(dups))]
+  n <- length(dups)
+  cli::cli_abort(c(
+    "{.arg {arg}} must only have unique values.",
+    i = paste0("Example {cli::qty(n)}duplicate{?s}: {.and {.val {dups}}}", more)
+  ))
+}
+
+# if (vec_duplicate_any(members)) {
+#   dups <- unique(members[vec_duplicate_detect(members)])
+#   dups <- dups[1:pmin(5, length(dups))]
+#   cli::cli_abort(c(
+#     "Cannot create a lookup table with duplicate {.arg members}.",
+#     i = "Example duplicate{?s}: {.and {dups}}."
+#   ))
+# }
 
 check_exclusive <- function(
   x, y, required = FALSE,

@@ -187,6 +187,13 @@ filter_finite <- function(x) {
   x[is.finite(x)]
 }
 
+match_list <- function(x, list) {
+  findInterval(
+    match(x, unlist(list, FALSE, FALSE)),
+    cumsum(lengths(list)), left.open = TRUE
+  ) + 1
+}
+
 insert_before <- function(x, i, value) {
   new <- vec_init(x, length(x) + length(i))
   i <- i + seq_along(i) - 1
