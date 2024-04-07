@@ -17,10 +17,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-# gguidance
+# gguidance <a href="https://teunbrand.github.io/gguidance/"><img src="man/figures/logo.png" align="right" height="138" alt="gguidance website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/gguidance)](https://CRAN.R-project.org/package=gguidance)
+[![codecov](https://codecov.io/gh/teunbrand/gguidance/graph/badge.svg)](https://codecov.io/gh/teunbrand/gguidance)
 <!-- badges: end -->
 
 The goal of gguidance is to provide additional guide functionality to the ggplot2 ecosystem.
