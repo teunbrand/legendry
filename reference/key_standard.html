@@ -95,7 +95,7 @@ in log10 space.</p></li>
 <span>  prescale_base <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  negative_small <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  expanded <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  labeller <span class="op">=</span> <span class="fu">label_log</span><span class="op">(</span><span class="op">)</span></span>
+<span>  labeller <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -134,15 +134,32 @@ evaluated in the <code>data</code> argument. These must contain <code>aesthetic<
 <dd><p>A <a href="https://rlang.r-lib.org/reference/topic-error-call.html" class="external-link">call</a> to display in messages.</p></dd>
 
 
+<dt>prescale_base</dt>
+<dd><p>A <code>&lt;numeric[1]&gt;</code> giving the base of logarithm to
+transform data manually. The default, <code>NULL</code>, will use the scale
+transformation to calculate positions. It is only advisable to set the
+<code>prescale_base</code> argument when the data have already been log-transformed.
+When using a log-transform in the scale or in <code><a href="https://ggplot2.tidyverse.org/reference/coord_trans.html" class="external-link">coord_trans()</a></code>, the
+default <code>NULL</code> is recommended.</p></dd>
+
+
+<dt>negative_small</dt>
+<dd><p>A <code>&lt;numeric[1]&gt;</code> setting the smallest absolute value
+that is marked with a tick in case the scale limits include 0 or negative
+numbers.</p></dd>
+
+
 <dt>expanded</dt>
-<dd><p>Whether the ticks should cover the range after scale
-expansion (<code>TRUE</code>, default), or be restricted to the scale limits
-(<code>FALSE</code>).</p></dd>
+<dd><p>A <code>&lt;logical[1]&gt;</code> determining whether the ticks should cover
+the entire range after scale expansion (<code>TRUE</code>, default), or be restricted
+to the scale limits (<code>FALSE</code>).</p></dd>
 
 
 <dt>labeller</dt>
 <dd><p>A <code>&lt;function&gt;</code> that receives major breaks and returns
-formatted labels.</p></dd>
+formatted labels. For <code>key_log()</code>, <code>NULL</code> will default to
+<code><a href="https://scales.r-lib.org/reference/label_log.html" class="external-link">scales::label_log()</a></code> for strictly positive numbers and a custom labeller
+when negative numbers are included.</p></dd>
 
 </dl></div>
     <div class="section level2">

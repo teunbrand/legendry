@@ -215,10 +215,10 @@ graphics device that can render these. This can be checked by using
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Colour bar with minor breaks</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  minor_breaks <span class="op">=</span> <span class="fu">breaks_width</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  minor_breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html" class="external-link">breaks_width</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="fu">guide_colourbar_custom</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"minor"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in breaks_width(1):</span> could not find function "breaks_width"</span>
+<span class="r-plt img"><img src="guide_colourbar_custom-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Using log ticks on a colourbar</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">msleep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sleep_total</span>, <span class="va">sleep_rem</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
@@ -227,7 +227,7 @@ graphics device that can render these. This can be checked by using
 <span class="r-in"><span>    transform <span class="op">=</span> <span class="st">"log10"</span>,</span></span>
 <span class="r-in"><span>    guide <span class="op">=</span> <span class="fu">guide_colourbar_custom</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-plt img"><img src="guide_colourbar_custom-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="guide_colourbar_custom-6.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
