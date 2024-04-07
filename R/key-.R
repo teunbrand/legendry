@@ -30,10 +30,23 @@
 #' @param ... [`<data-masking>`][rlang::topic-data-mask] A set of mappings
 #'   similar to those provided to [`aes()`][ggplot2::aes], which will be
 #'   evaluated in the `data` argument. These must contain `aesthetic` mapping.
-#' @param .call A [call][rlang::topic-error-call] to display in messages.
-#' @inheritParams ggplot2::guide_axis_logticks
 #' @param labeller A `<function>` that receives major breaks and returns
-#'   formatted labels.
+#'   formatted labels. For `key_log()`, `NULL` will default to
+#'   [`scales::label_log()`] for strictly positive numbers and a custom labeller
+#'   when negative numbers are included.
+#' @param prescale_base A `<numeric[1]>` giving the base of logarithm to
+#'   transform data manually. The default, `NULL`, will use the scale
+#'   transformation to calculate positions. It is only advisable to set the
+#'   `prescale_base` argument when the data have already been log-transformed.
+#'   When using a log-transform in the scale or in [`coord_trans()`], the
+#'   default `NULL` is recommended.
+#' @param negative_small A `<numeric[1]>` setting the smallest absolute value
+#'   that is marked with a tick in case the scale limits include 0 or negative
+#'   numbers.
+#' @param expanded A `<logical[1]>` determining whether the ticks should cover
+#'   the entire range after scale expansion (`TRUE`, default), or be restricted
+#'   to the scale limits (`FALSE`).
+#' @param .call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @name key_standard
 #' @family keys
@@ -124,7 +137,7 @@ key_minor <- function() {
 #' @export
 key_log <- function(
   prescale_base = NULL, negative_small = 0.1, expanded = TRUE,
-  labeller = label_log()
+  labeller = NULL
 ) {
   check_number_decimal(
     negative_small, min = 1e-100,
@@ -133,7 +146,7 @@ key_log <- function(
   )
   check_bool(expanded)
   check_number_decimal(prescale_base, allow_infinite = FALSE, allow_null = TRUE)
-  check_function(labeller)
+  check_function(labeller, allow_null = TRUE)
   force(prescale_base)
   force(negative_small)
   force(expanded)
@@ -181,9 +194,9 @@ resolve_key <- function(x) {
 }
 
 log10_keys <- function(scale, aesthetic,
-                       prescale_base = prescale_base,
-                       negative_small = negative_small,
-                       expanded = expanded,
+                       prescale_base = NULL,
+                       negative_small = 0.1,
+                       expanded = TRUE,
                        labeller = NULL,
                        call = caller_env()) {
   aesthetic <- aesthetic %||% scale$aesthetics[1]

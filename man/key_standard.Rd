@@ -26,7 +26,7 @@ key_log(
   prescale_base = NULL,
   negative_small = 0.1,
   expanded = TRUE,
-  labeller = label_log()
+  labeller = NULL
 )
 }
 \arguments{
@@ -51,12 +51,25 @@ evaluated in the \code{data} argument. These must contain \code{aesthetic} mappi
 
 \item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 
-\item{expanded}{Whether the ticks should cover the range after scale
-expansion (\code{TRUE}, default), or be restricted to the scale limits
-(\code{FALSE}).}
+\item{prescale_base}{A \verb{<numeric[1]>} giving the base of logarithm to
+transform data manually. The default, \code{NULL}, will use the scale
+transformation to calculate positions. It is only advisable to set the
+\code{prescale_base} argument when the data have already been log-transformed.
+When using a log-transform in the scale or in \code{\link[=coord_trans]{coord_trans()}}, the
+default \code{NULL} is recommended.}
+
+\item{negative_small}{A \verb{<numeric[1]>} setting the smallest absolute value
+that is marked with a tick in case the scale limits include 0 or negative
+numbers.}
+
+\item{expanded}{A \verb{<logical[1]>} determining whether the ticks should cover
+the entire range after scale expansion (\code{TRUE}, default), or be restricted
+to the scale limits (\code{FALSE}).}
 
 \item{labeller}{A \verb{<function>} that receives major breaks and returns
-formatted labels.}
+formatted labels. For \code{key_log()}, \code{NULL} will default to
+\code{\link[scales:label_log]{scales::label_log()}} for strictly positive numbers and a custom labeller
+when negative numbers are included.}
 }
 \value{
 For \code{key_auto()}, \code{key_minor()} and \code{key_log()} a function. For

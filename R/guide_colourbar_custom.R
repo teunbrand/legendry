@@ -61,7 +61,7 @@
 #'
 #' # Colour bar with minor breaks
 #' p + scale_colour_viridis_c(
-#'   minor_breaks = breaks_width(1),
+#'   minor_breaks = scales::breaks_width(1),
 #'   guide = guide_colourbar_custom(key = "minor")
 #' )
 #'

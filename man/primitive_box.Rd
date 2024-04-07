@@ -40,7 +40,8 @@ of \code{"squish"}, \code{"censor"} or \code{"none"}.}
 extended when given as a discrete variable. This is applied after
 the \code{drop_zero} setting.}
 
-\item{min_size}{}
+\item{min_size}{A [\verb{<grid::unit[1]>}][grid::unit] setting the minimal size
+of a box.}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the

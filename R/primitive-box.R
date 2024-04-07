@@ -5,7 +5,8 @@
 #' This function constructs a boxes [guide primitive][guide-primitives].
 #'
 #' @inheritParams primitive_bracket
-#' @param min_size
+#' @param min_size A [`<grid::unit[1]>`][grid::unit] setting the minimal size
+#'   of a box.
 #'
 #' @return A `<PrimitiveBox>` primitive guide that can be used inside other
 #'   guides.
