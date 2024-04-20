@@ -11,7 +11,8 @@ setup_legend_text <- function(theme, direction = "vertical") {
       top    = element_text(hjust = 0.5, vjust = 0.0, margin = margin),
       bottom = element_text(hjust = 0.5, vjust = 1.0, margin = margin),
       left   = element_text(hjust = 1.0, vjust = 0.5, margin = margin),
-      right  = element_text(hjust = 0.0, vjust = 0.5, margin = margin)
+      right  = element_text(hjust = 0.0, vjust = 0.5, margin = margin),
+      element_text(hjust = 0.5, vjust = 0.5, margin = margin)
     )
   )
   calc_element("legend.text", theme + text)
