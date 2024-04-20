@@ -157,6 +157,13 @@ suffix_position <- function(value, position) {
   value
 }
 
+is_theta <- function(x) {
+  if (is_missing(x) || !is.character(x)) {
+    return(FALSE)
+  }
+  x %in% c("theta", "theta.sec")
+}
+
 # Based on example in ?vctrs::vec_chop
 # It's faster than stats::ave
 vec_ave <- function(x, group, fun, ...) {

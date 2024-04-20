@@ -136,7 +136,7 @@ transform_bracket <- function(bracket, position, coord, panel_params) {
 
   bbox  <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
 
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     bbox  <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
     range <- panel_params$r.range
     if (position == "theta") {
@@ -152,7 +152,7 @@ transform_bracket <- function(bracket, position, coord, panel_params) {
   bracket$y <- bracket$y %||% other
   bracket   <- coord_munch(coord, bracket, panel_params)
 
-  if (!position %in% c("theta", "theta.sec")) {
+  if (!is_theta(position)) {
     return(bracket)
   }
   donut <- panel_params$inner_radius

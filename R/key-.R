@@ -304,7 +304,7 @@ transform_key <- function(key, position, coord, panel_params) {
   key <- replace_null(key, x = other, y = other)
   transformed <- coord$transform(key, panel_params)
 
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     add <- if (position == "theta.sec") pi else 0
     transformed$theta <- transformed$theta + add
   }
@@ -321,7 +321,7 @@ transform_key <- function(key, position, coord, panel_params) {
     key <- rename(key, c("y", "yend"), rev)
   }
   key <- coord$transform(key, panel_params)
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     transformed$thetaend <- key$theta + add
   } else {
     if (ends[1]) {

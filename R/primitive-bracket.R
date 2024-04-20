@@ -177,7 +177,7 @@ PrimitiveBracket <- ggproto(
     if (!is_blank(elements$text)) {
       hjust <- elements$text$hjust
       vjust <- elements$text$vjust
-      if (params$position %in% c("theta", "theta.sec")) {
+      if (is_theta(params$position)) {
         add <- if (params$position == "theta.sec") pi else 0
         key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
         key <- polar_xy(key, key$r, key$theta + add, params$bbox)
@@ -273,7 +273,7 @@ draw_bracket <- function(decor, elements, position, offset) {
   x <- unit(decor$x, "npc")
   y <- unit(decor$y, "npc")
 
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     offset <- (1 - decor$offset) * elements$size + offset
     x <- x + unit(sin(decor$theta) * offset, "cm")
     y <- y + unit(cos(decor$theta) * offset, "cm")
