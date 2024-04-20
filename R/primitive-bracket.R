@@ -171,7 +171,6 @@ PrimitiveBracket <- ggproto(
   },
 
   build_bracket = function(key, decor, elements, params) {
-
     levels <- unique(c(key$.level, decor$.level))
 
     if (!is_blank(elements$text)) {
@@ -213,7 +212,7 @@ PrimitiveBracket <- ggproto(
         vec_slice(key, key$.level == i),
         elements$text, angle = angle, offset = offset, params$position
       )
-      offset <- offset + attr(text, "size") %||% 0
+      offset <- offset + get_size_attr(text)
       labels <- c(labels, list(text))
     }
     if (params$position %in% c("top", "left")) {
@@ -229,7 +228,7 @@ PrimitiveBracket <- ggproto(
       params$position,
       top  = , bottom = height_cm(grobs$labels),
       left = , right  =  width_cm(grobs$labels),
-      vapply(grobs$labels, attr, which = "size", numeric(1))
+      vapply(grobs$labels, get_size_attr, numeric(1))
     )
     is_bracket <- as.numeric(!is_each(grobs$brackets, is.zero))
     bracket <- is_bracket * elements$size

@@ -70,6 +70,9 @@ eval_aes <- function(
   x
 }
 
+get_size_attr <- function(x) {
+  attr(x, "size", exact = TRUE) %||% 0
+}
 
 pad <- function(x, length, fill = NA, where = "end") {
   padding <- rep(fill, length - length(x))
