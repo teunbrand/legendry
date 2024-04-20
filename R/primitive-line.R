@@ -95,6 +95,7 @@ PrimitiveLine <- ggproto(
     }
     cap[cap == -Inf] <- limits[1]
     cap[cap == Inf]  <- limits[2]
+
     decor <- data_frame(!!aesthetic := cap)
     if (aesthetic %in% c("x", "y")) {
       opposite <- setdiff(c("x", "y"), aesthetic)
@@ -103,9 +104,14 @@ PrimitiveLine <- ggproto(
       value <- if (position %in% c("top", "right")) -Inf else Inf
       decor[[opposite]] <- value
     } else {
-      decor[[aesthetic]] <-
-        scale$rescale(scale$oob(decor[[aesthetic]], range = limits), limits)
+      value <- scale$oob(decor[[aesthetic]], range = limits)
+      if (is_theta(position)) {
+        decor[[aesthetic]] <- value
+      } else {
+        decor[[aesthetic]] <- scale$rescale(value, limits)
+      }
     }
+
     group <- seq_len(ceiling(nrow(decor) / 2))
     decor$group <- rep(group, each = 2, length.out = nrow(decor))
     decor

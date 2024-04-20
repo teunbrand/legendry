@@ -107,7 +107,7 @@ PrimitiveTitle <- ggproto(
       params$position,
       top = , bottom = height_cm(grobs),
       left = , right = width_cm(grobs),
-      attr(grobs, "offset")
+      attr(grobs, "offset") %||% 0
     )
   },
 
@@ -143,6 +143,9 @@ PrimitiveTitle <- ggproto(
 # Helpers -----------------------------------------------------------------
 
 draw_theta_title <- function(label, elements, params) {
+  if (is.null(label)) {
+    return(zeroGrob())
+  }
 
   title <- elements$title
   position <- params$position

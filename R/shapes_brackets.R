@@ -158,6 +158,10 @@ transform_bracket <- function(bracket, position, coord, panel_params) {
   donut <- panel_params$inner_radius
   r <- donut[as.numeric(position == "theta") + 1]
   bracket <- polar_xy(bracket, r, bracket$theta, bbox)
+
+  if (abs(diff(donut)) < 1e-2) {
+    return(bracket)
+  }
   if (position == "theta") {
     bracket$offset <- (rescale(bracket$r, to = c(0, 1), from = donut) - 1) * 10
   } else {
