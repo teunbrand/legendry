@@ -154,14 +154,23 @@ ComposeStack <- ggproto(
 
     guide_index <- seq_len(n_guides)
     grobs  <- vector("list", n_guides)
+    draw_label <- !isFALSE(params$draw_label %||% TRUE)
+
+    keep <- rep(TRUE, n_guides)
+    if (!draw_label && length(params$drop) > 0) {
+      drop <- intersect(params$drop %||% guide_index[-1], guide_index)
+      keep[drop] <- FALSE
+    }
 
     if (is_theta(position)) {
       stack_offset <- unit(cm(params$stack_offset %||% 0), "cm")
       offset <- stack_offset
       offset_ranges <- vector("list", n_guides)
+      guide_index <- guide_index[keep]
 
       for (i in guide_index) {
         pars <- params$guide_params[[i]]
+        pars$draw_label <- params$draw_label
         pars$stack_offset <- offset
         grob <- params$guides[[i]]$draw(
           theme = theme, position = position, direction = direction,
@@ -187,13 +196,6 @@ ComposeStack <- ggproto(
     }
 
     side_titles <- self$build_title(params$side_titles, elems, params)
-
-    keep <- rep(TRUE, n_guides)
-    draw_label <- !isFALSE(params$draw_label %||% TRUE)
-    if (!draw_label && length(params$drop) > 0) {
-      drop <- intersect(params$drop %||% guide_index[-1], guide_index)
-      keep[drop] <- FALSE
-    }
 
     for (i in guide_index) {
       pars <- params$guide_params[[i]]

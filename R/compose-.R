@@ -86,7 +86,8 @@ Compose <- ggproto(
       } else {
         guide_title <- waiver()
       }
-      guide_params[[i]]$position <- position
+      guide_params[[i]]$position <-
+        (guide_params[[i]]$position %|W|% NULL) %||% position
       guide_params[[i]]$angle <- guide_params[[i]]$angle %|W|% params$angle
       guide_params[[i]]["key"] <- list(guide_params[[i]]$key %||% key)
       guide_params[[i]] <- params$guides[[i]]$train(
