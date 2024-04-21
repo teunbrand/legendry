@@ -72,7 +72,7 @@ Compose <- ggproto(
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     check_position(position, allow_null = TRUE)
 
-    key <- params$key
+    key <- resolve_key(params$key, allow_null = TRUE)
     if (is.function(key)) {
       key <- key(scale, aesthetic %||% scale$aesthetics[1])
     }

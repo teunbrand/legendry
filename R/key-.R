@@ -176,7 +176,10 @@ validate_key_types <- function(key, call = caller_env()) {
   key
 }
 
-resolve_key <- function(x) {
+resolve_key <- function(x, allow_null = FALSE) {
+  if (allow_null && is.null(x)) {
+    return(NULL)
+  }
   if (is.character(x)) {
     fun <- find_global(paste0("key_", x), env = global_env(),
                        mode = "function")
