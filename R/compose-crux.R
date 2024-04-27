@@ -203,7 +203,9 @@ ComposeCrux <- ggproto(
         position = elems$title_position,
         with(elems$title, rotate_just(angle, hjust, vjust))
       )
-      gt <- gtable_add_padding(gt, elems$margin)
+      if (!is.null(elems$margin)) {
+        gt <- gtable_add_padding(gt, elems$margin)
+      }
     }
     gt
   }
