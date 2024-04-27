@@ -64,6 +64,7 @@ to display caps at the end of the bar, depending on out-of-bounds values.</p>
 <span>  oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">oob_keep</a></span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  vanilla <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  available_aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colour"</span>, <span class="st">"fill"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -150,6 +151,12 @@ guide overrides and is combined with the plot's theme.</p></dd>
 <code>"bottom"</code>, <code>"left"</code> or <code>"right"</code>.</p></dd>
 
 
+<dt>vanilla</dt>
+<dd><p>A <code>&lt;logical[1]&gt;</code> whether to have the default style match
+the vanilla <code><a href="https://ggplot2.tidyverse.org/reference/guide_colourbar.html" class="external-link">guide_colourbar()</a></code> (<code>TRUE</code>) or take the theme
+verbatim (<code>FALSE</code>).</p></dd>
+
+
 <dt>available_aes</dt>
 <dd><p>A <code>&lt;character&gt;</code> vector listing the aesthetics for which this guide can
 be build.</p></dd>
@@ -186,35 +193,35 @@ graphics device that can render clipped paths. This can be checked by using
 <span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="st">"coloursteps_custom"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(key):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-plt img"><img src="guide_coloursteps_custom-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># It also shows how oob values are handled</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>, oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">oob_censor</a></span>,</span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="st">"coloursteps_custom"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(key):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-plt img"><img src="guide_coloursteps_custom-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Adjusting the type of cap</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="fu">guide_coloursteps_custom</span><span class="op">(</span>shape <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(key):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-plt img"><img src="guide_coloursteps_custom-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The default is to use the breaks as-is</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="st">"coloursteps_custom"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(key):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-plt img"><img src="guide_coloursteps_custom-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># But the display can be set to use evenly spaced steps</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="fu">guide_coloursteps_custom</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="key_specialty.html">key_bins</a></span><span class="op">(</span>even.steps <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(key):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-plt img"><img src="guide_coloursteps_custom-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Using tick marks by swapping side guides</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span></span></span>
@@ -223,7 +230,7 @@ graphics device that can render clipped paths. This can be checked by using
 <span class="r-in"><span>    second_guide <span class="op">=</span> <span class="st">"axis_custom"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(key):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-plt img"><img src="guide_coloursteps_custom-6.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

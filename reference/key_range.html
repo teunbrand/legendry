@@ -149,19 +149,43 @@ algorithm similar to <code>IRanges::disjointBins()</code> to avoid overlaps.</p>
 <span class="r-in"><span><span class="co"># By default, splits on all non-alphanumeric characters</span></span></span>
 <span class="r-in"><span><span class="va">auto</span> <span class="op">&lt;-</span> <span class="fu">key_range_auto</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">auto</span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(x):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   start end .label .level</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1   1      A      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     2   2      B      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     3   3      C      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     4   4      D      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     5   5      E      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     1   3      1      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     4   5      2      1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Only split on a specific character</span></span></span>
 <span class="r-in"><span><span class="va">auto</span> <span class="op">&lt;-</span> <span class="fu">key_range_auto</span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"&amp;"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">auto</span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Not all <span style="color: #00BB00;">labels</span> in `key_range_auto()` can be split into equal lengths.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Is "&amp;" the correct `sep` argument?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(x):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   start end .label .level</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1   1    A 1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     2   2    B 1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     3   3      C      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     4   4      D      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     5   5      E      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     3   3      1      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     4   5      2      1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Treating the letters as outer labels and numbers as inner labels</span></span></span>
 <span class="r-in"><span><span class="va">auto</span> <span class="op">&lt;-</span> <span class="fu">key_range_auto</span><span class="op">(</span>reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">auto</span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(x):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    start end .label .level</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      1   1      1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      2   2      1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      3   3      1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      4   4      2      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      5   5      2      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      1   1      A      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      2   2      B      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      3   3      C      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      4   4      D      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10     5   5      E      1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Providing custom values</span></span></span>
 <span class="r-in"><span><span class="fu">key_range_manual</span><span class="op">(</span></span></span>
@@ -170,11 +194,26 @@ algorithm similar to <code>IRanges::disjointBins()</code> to avoid overlaps.</p>
 <span class="r-in"><span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  name  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(x):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   start end .label .level</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1   4      A      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     5  15      B      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    10  11      C      1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Values from a &lt;data.frame&gt;</span></span></span>
 <span class="r-in"><span><span class="fu">key_range_map</span><span class="op">(</span><span class="va">presidential</span>, start <span class="op">=</span> <span class="va">start</span>, end <span class="op">=</span> <span class="va">end</span>, name <span class="op">=</span> <span class="va">name</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in derive_pubkey(x):</span> RAW() can only be applied to a 'raw', not a 'list'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         start        end     .label</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1953-01-20 1961-01-20 Eisenhower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1961-01-20 1963-11-22    Kennedy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  1963-11-22 1969-01-20    Johnson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  1969-01-20 1974-08-09      Nixon</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  1974-08-09 1977-01-20       Ford</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  1977-01-20 1981-01-20     Carter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  1981-01-20 1989-01-20     Reagan</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  1989-01-20 1993-01-20       Bush</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  1993-01-20 2001-01-20    Clinton</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 2001-01-20 2009-01-20       Bush</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 2009-01-20 2017-01-20      Obama</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 2017-01-20 2021-01-20      Trump</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
