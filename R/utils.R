@@ -108,6 +108,11 @@ is_oob <- function(x, limits) {
   x < limits[1] | x > limits[2]
 }
 
+in_range <- function(x, range) {
+  range <- sort(range)
+  x >= range[1] & x <= range[2]
+}
+
 polar_xy <- function(data, r, theta, bbox) {
   data$x <- rescale(r * sin(theta) + 0.5, from = bbox$x)
   data$y <- rescale(r * cos(theta) + 0.5, from = bbox$y)
