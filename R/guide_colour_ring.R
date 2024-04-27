@@ -291,7 +291,10 @@ GuideColourRing <- ggproto(
     margin <- ring_margin(params$arc, outer$offset, elems$width + cm(inner$offset))
     title  <- self$build_title(params$title, elems)
     gt <- gtable_add_padding(gt, margin) |>
-      self$add_title(title, elems$title_position, elems$title$hjust) |>
+      self$add_title(
+        title, elems$title_position,
+        with(elems$title, rotate_just(angle, hjust, vjust))
+      ) |>
       gtable_add_padding(elems$margin)
 
     if (!is.zero(elems$background)) {
