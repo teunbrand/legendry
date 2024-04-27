@@ -221,7 +221,7 @@ GuideColourRing <- ggproto(
     x <- unit(x, "npc") - unit(sin(theta) * r, "cm")
     y <- unit(y, "npc") - unit(cos(theta) * r, "cm")
 
-    colour <- params$key$colour
+    colour <- params$key[[params$aesthetic]]
     ring <- polygonGrob(
       x = x, y = y, id.lengths = rep(4, nrow(params$key)),
       gp = gpar(fill = colour, col = colour, lwd = 1),
