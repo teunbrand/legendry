@@ -208,3 +208,16 @@ match_list <- function(x, list) {
     cumsum(lengths(list)), left.open = TRUE
   ) + 1
 }
+
+apply_theme_defaults <- function(theme, defaults = NULL) {
+  if (is.null(defaults)) {
+    return(theme)
+  }
+  theme    <- replace_null(theme, !!!defaults)
+  relative <- names(defaults)[vapply(defaults, is.rel, logical(1))]
+  relative <- intersect(relative, names(theme))
+  for (i in relative) {
+    theme[[i]] <- theme[[i]] * unclass(defaults[[i]])
+  }
+  theme
+}

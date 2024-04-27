@@ -19,6 +19,9 @@
 #' mechanism, no labels will be drawn for that guide.
 #' @param nbin A positive `<integer[1]>` determining how many colours to use
 #'   for the colour gradient.
+#' @param vanilla A `<logical[1]>` whether to have the default style match
+#'   the vanilla `guide_colourbar()` (`TRUE`) or take the theme
+#'   verbatim (`FALSE`).
 #' @inheritParams gizmo_barcap
 #' @inheritParams compose_sandwich
 #'
@@ -85,6 +88,7 @@ guide_colourbar_custom <- function(
   reverse = FALSE,
   oob = scales::oob_keep,
   theme = NULL,
+  vanilla = TRUE,
   position = waiver(),
   available_aes = c("colour", "fill")
 ) {
@@ -95,6 +99,8 @@ guide_colourbar_custom <- function(
     oob = oob
   )
 
+  defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
+
   compose_sandwich(
     key = key,
     middle = bar,
@@ -104,15 +110,18 @@ guide_colourbar_custom <- function(
     complete = TRUE,
     title = title,
     theme = theme,
-    theme_defaults = .theme_defaults_colourbar,
+    theme_defaults = defaults,
     position = position,
     available_aes = available_aes
   )
 }
 
-.theme_defaults_colourbar <- theme(
-  legend.axis.line = element_blank(),
-  legend.ticks = element_line(colour = "white", linewidth = 0.5 / .pt),
-  legend.ticks.length = rel(-1),
-  legend.frame = element_blank()
-)
+vanilla_colourbar_theme <- function(...) {
+  theme(
+    legend.axis.line = element_blank(),
+    legend.ticks = element_line(colour = "white", linewidth = 0.5 / .pt),
+    legend.ticks.length = rel(-1),
+    legend.frame = element_blank(),
+    ...
+  )
+}

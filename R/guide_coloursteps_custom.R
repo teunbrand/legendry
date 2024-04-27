@@ -20,6 +20,9 @@
 #'
 #' @inheritParams gizmo_stepcap
 #' @inheritParams compose_sandwich
+#' @param vanilla A `<logical[1]>` whether to have the default style match
+#'   the vanilla `guide_colourbar()` (`TRUE`) or take the theme
+#'   verbatim (`FALSE`).
 #'
 #' @details
 #' As steps are rendered as clipped rectangles, it is important to use a
@@ -84,6 +87,7 @@ guide_coloursteps_custom <- function(
   oob = scales::oob_keep,
   theme = NULL,
   position = waiver(),
+  vanilla = TRUE,
   available_aes = c("colour", "fill")
 ) {
 
@@ -91,6 +95,8 @@ guide_coloursteps_custom <- function(
     key = NULL, shape = shape, size = size, show = show, alpha = alpha,
     oob = oob
   )
+
+  defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
 
   compose_sandwich(
     key = key,
@@ -100,7 +106,7 @@ guide_coloursteps_custom <- function(
     complete = TRUE,
     title = title,
     theme = theme,
-    theme_defaults = .theme_defaults_colourbar,
+    theme_defaults = defaults,
     position = position,
     available_aes = available_aes
   )

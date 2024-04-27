@@ -17,6 +17,7 @@ guide_colourbar_custom(
   reverse = FALSE,
   oob = scales::oob_keep,
   theme = NULL,
+  vanilla = TRUE,
   position = waiver(),
   available_aes = c("colour", "fill")
 )
@@ -86,6 +87,10 @@ such as \code{"keep"}.
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the
 guide overrides and is combined with the plot's theme.}
+
+\item{vanilla}{A \verb{<logical[1]>} whether to have the default style match
+the vanilla \code{guide_colourbar()} (\code{TRUE}) or take the theme
+verbatim (\code{FALSE}).}
 
 \item{position}{A \verb{<character[1]>} giving the location of the guide. Can be one of \code{"top"},
 \code{"bottom"}, \code{"left"} or \code{"right"}.}

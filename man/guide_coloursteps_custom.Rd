@@ -17,6 +17,7 @@ guide_coloursteps_custom(
   oob = scales::oob_keep,
   theme = NULL,
   position = waiver(),
+  vanilla = TRUE,
   available_aes = c("colour", "fill")
 )
 }
@@ -86,6 +87,10 @@ guide overrides and is combined with the plot's theme.}
 
 \item{position}{A \verb{<character[1]>} giving the location of the guide. Can be one of \code{"top"},
 \code{"bottom"}, \code{"left"} or \code{"right"}.}
+
+\item{vanilla}{A \verb{<logical[1]>} whether to have the default style match
+the vanilla \code{guide_colourbar()} (\code{TRUE}) or take the theme
+verbatim (\code{FALSE}).}
 
 \item{available_aes}{A \verb{<character>} vector listing the aesthetics for which this guide can
 be build.}

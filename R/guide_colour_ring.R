@@ -26,6 +26,9 @@
 #'   should be shown. Can be one of `"outer"` (default), `"inner"`, `"both"` or
 #'   `"none"`. Note that labels can only be omitted if the related guide
 #'   has a label suppression mechanism.
+#' @param vanilla A `<logical[1]>` whether to have the default style match
+#'   the vanilla `guide_colourbar()` (`TRUE`) or take the theme
+#'   verbatim (`FALSE`).
 #' @param ... Arguments forwarded to the `outer_guide` and `inner_guide` if
 #'   provided as functions or strings.
 #' @inheritParams common_parameters
@@ -69,6 +72,7 @@ guide_colour_ring <- function(
   reverse = FALSE,
   show_labels = "outer",
   theme = NULL,
+  vanilla = TRUE,
   position = waiver(),
   available_aes = c("colour", "fill"),
   ...
@@ -78,6 +82,8 @@ guide_colour_ring <- function(
     inner = show_labels %in% c("inner", "both"),
     outer = show_labels %in% c("outer", "both")
   )
+
+  defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
 
   coord <- coord_radial(
     start = start, end = end,
@@ -93,6 +99,7 @@ guide_colour_ring <- function(
     nbin = nbin,
     reverse = reverse,
     theme = theme,
+    theme_defaults = defaults,
     show_labels = show_labels,
     position = position,
     available_aes = available_aes,
@@ -113,7 +120,8 @@ GuideColourRing <- ggproto(
     guides = list(), guide_params = list(),
     key = NULL, angle = waiver(), coord = NULL,
     nbin = 300, alpha = NA, reverse = FALSE,
-    show_labels = list(inner = FALSE, outer = TRUE)
+    show_labels = list(inner = FALSE, outer = TRUE),
+    theme_defaults = NULL
   ),
 
   elements = list(
@@ -224,6 +232,7 @@ GuideColourRing <- ggproto(
 
   setup_elements = function(params, elements, theme) {
     elements$title <- setup_legend_title(theme, params$direction)
+    theme$legend.frame <- theme$legend.frame %||% element_blank()
     Guide$setup_elements(params, elements, theme)
   },
 
@@ -246,15 +255,10 @@ GuideColourRing <- ggproto(
     check_position(position, .trbl)
     check_argmatch(direction, c("horizontal", "vertical"))
 
-    defaults <- .theme_defaults_colourbar
     theme <- theme + params$theme
+    theme <- apply_theme_defaults(theme, params$theme_defaults)
     theme$legend.text.position <- "theta"
-    if (inherits(defaults$legend.ticks.length, "rel")) {
-      theme$legend.ticks.length <- theme$legend.ticks.length *
-        defaults$legend.ticks.length
-      defaults$legend.ticks.length <- NULL
-    }
-    theme <- replace_null(theme, !!!defaults)
+
     elems <- self$setup_elements(params, self$elements, theme)
     elems <- self$override_elements(params, elems, theme)
 
