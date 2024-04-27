@@ -262,8 +262,8 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
   singles <- lapply(labels, function(lab) {
     element_grob(
       element, label = lab,
-      margin = unit(rep(margin, length.out = 4), "cm"),
-      margin_x = TRUE, margin_y = TRUE
+      margin = margin(),
+      margin_x = FALSE, margin_y = FALSE
     )
   })
   widths  <- width_cm(singles)
@@ -279,7 +279,7 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
   y <- vec_interleave(ymin, ymax, ymax, ymin)
 
   angle <- rep(angle, each = 4)
-  max(x * sin(angle) + y * cos(angle), na.rm = TRUE)
+  max(x * sin(angle) + y * cos(angle), na.rm = TRUE) + max(cm(margin))
 }
 
 angle_labels <- function(element, angle, position) {
