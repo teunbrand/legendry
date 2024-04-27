@@ -14,8 +14,9 @@ Full guides are guides that you can just drop in the `guides()` function or as
 `guide` argument to scales.
 
 * `guide_axis_custom()` as an axis guide.
-* `guide_colourbar_custom()` as a colour/fill guide.
-* `guide_coloursteps_custom()` as a colour/fill guide.
+* `guide_colourbar_custom()` as a continuous colour/fill guide.
+* `guide_coloursteps_custom()` as a binned colour/fill guide.
+* `guide_colour_ring()` as a continuous colour/fill guide.
 * `guide_subtitle()` as a colour/fill guide.
 
 ## Gizmos
