@@ -116,6 +116,16 @@ GuideColourRing <- ggproto(
     show_labels = list(inner = FALSE, outer = TRUE)
   ),
 
+  elements = list(
+    frame = "legend.frame",
+    size  = "legend.key.size",
+    width = "legend.key.width",
+    background = "legend.background",
+    title = "legend.title",
+    title_position = "legend.title.position",
+    margin = "legend.margin"
+  ),
+
   train = function(self, params = self$params, scale, aesthetic = NULL,
                    title = waiver(), ...) {
     params$guide_params$inner$position <- "theta.sec"
@@ -155,9 +165,8 @@ GuideColourRing <- ggproto(
     params
   },
 
-  build_frame = function(params, theme, size) {
-    theme$legend.frame <- theme$legend.frame %||% element_blank()
-    frame <- calc_element("legend.frame", theme)
+  build_frame = function(params, elements) {
+    frame <- elements$frame
     if (is_blank(frame)) {
       frame <- list(colour = NA, linewidth = 0)
     }
@@ -166,8 +175,8 @@ GuideColourRing <- ggproto(
     x <- unit(decor$x, "npc")
     y <- unit(decor$y, "npc")
 
-    x <- unit.c(x, rev(x) - unit(sin(rev(decor$theta)) * size, "cm"))
-    y <- unit.c(y, rev(y) - unit(cos(rev(decor$theta)) * size, "cm"))
+    x <- unit.c(x, rev(x) - unit(sin(rev(decor$theta)) * elements$width, "cm"))
+    y <- unit.c(y, rev(y) - unit(cos(rev(decor$theta)) * elements$width, "cm"))
 
     if (abs(diff(params$coord$arc %% (2 * pi))) < 1e-2) {
       id <- nrow(decor)[c(1, 1)]
@@ -186,7 +195,7 @@ GuideColourRing <- ggproto(
     )
   },
 
-  build_arc = function(params, theme, size, frame) {
+  build_arc = function(params, elements, frame) {
     check_device("clippingPaths")
     arc <- params$coord$arc
     limits <- params$limits %||% range(params$key$.value)
@@ -196,7 +205,7 @@ GuideColourRing <- ggproto(
     end   <- c(theta[-length(theta)] + 0.5 * difftheta, arc[2])
 
     theta <- vec_interleave(start, start, end, end)
-    r <- rep(c(0, 1, 1, 0), length(start)) * size
+    r <- rep(c(0, 1, 1, 0), length(start)) * elements$width
 
     x <- rescale(0.5 * sin(theta) + 0.5, from = params$bbox$x)
     y <- rescale(0.5 * cos(theta) + 0.5, from = params$bbox$y)
@@ -213,8 +222,30 @@ GuideColourRing <- ggproto(
     gTree(children = gList(ring, frame))
   },
 
+  setup_elements = function(params, elements, theme) {
+    elements$title <- setup_legend_title(theme, params$direction)
+    Guide$setup_elements(params, elements, theme)
+  },
+
+  override_elements = function(params, elements, theme) {
+    elements$title_position <- elements$title_position %||%
+      switch(params$direction, horizontal = "left", vertical = "top")
+    check_position(elements$title_position, .trbl, arg = "legend.title.position")
+    elements$width <- cm(elements$width)
+    elements$size  <- cm(elements$size) * 5
+    elements$margin <- elements$margin %||% margin()
+    elements$background <- element_grob(elements$background)
+    elements
+  },
+
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
+
+    position  <- params$position  <- params$position  %||% position
+    direction <- params$direction <- params$direction %||% direction
+    check_position(position, .trbl)
+    check_argmatch(direction, c("horizontal", "vertical"))
+
     defaults <- .theme_defaults_colourbar
     theme <- theme + params$theme
     theme$legend.text.position <- "theta"
@@ -224,11 +255,12 @@ GuideColourRing <- ggproto(
       defaults$legend.ticks.length <- NULL
     }
     theme <- replace_null(theme, !!!defaults)
-    width <- cm(calc_element("legend.key.width", theme))
+    elems <- self$setup_elements(params, self$elements, theme)
+    elems <- self$override_elements(params, elems, theme)
 
     # Draw inner guide
     inner <- params$guide_params$inner
-    inner$stack_offset <- unit(width, "cm")
+    inner$stack_offset <- unit(elems$width, "cm")
     inner$draw_label <- isTRUE(params$show_labels$inner)
     inner <- params$guides$inner$draw(theme, position, direction, params = inner)
 
@@ -238,35 +270,29 @@ GuideColourRing <- ggproto(
     outer <- params$guides$outer$draw(theme, position, direction, params = outer)
 
     # Draw ring
-    frame <- self$build_frame(params, theme, width)
-    ring <- self$build_arc(params, theme, width, frame)
+    frame <- self$build_frame(params, elems)
+    ring  <- self$build_arc(params, elems, frame)
 
-    # Setup title
-    theme$legend.title <- setup_legend_title(theme)
-    title_elem <- list(title = calc_element("legend.title", theme))
-    title_grob <- self$build_title(params$title, title_elem, params)
-    title_pos  <- calc_element("legend.title.position", theme) %||% "top"
-
-    margin <- ring_margin(params$arc, outer$offset, width + cm(inner$offset))
-    background <- element_render(theme, "legend.background")
-
-    size <- 5 * cm(calc_element("legend.key.size", theme))
+    # Setup gtable
     asp <- with(params$bbox, diff(y) / diff(x))
     gt <- gtable(
-      widths  = unit(size * pmin(1 / asp, 1), "cm"),
-      heights = unit(size * pmin(asp, 1), "cm")
-    )
-    gt <- gtable_add_grob(gt, ring,  1, 1, name = "ring",  clip = "off")
-    gt <- gtable_add_grob(gt, inner, 1, 1, name = "inner", clip = "off")
-    gt <- gtable_add_grob(gt, outer, 1, 1, name = "outer", clip = "off")
-    gt <- gtable_add_padding(gt, margin)
-    gt <- self$add_title(gt, title_grob, title_pos, title_elem$title$hjust)
+      widths  = unit(elems$size * pmin(1 / asp, 1), "cm"),
+      heights = unit(elems$size * pmin(asp, 1), "cm")
+    ) |>
+      gtable_add_grob(ring,  1, 1, name = "ring",  clip = "off") |>
+      gtable_add_grob(inner, 1, 1, name = "inner", clip = "off") |>
+      gtable_add_grob(outer, 1, 1, name = "outer", clip = "off")
 
-    gt <- gtable_add_padding(gt, calc_element("legend.margin", theme) %||% margin())
+    # Add padding, title, margin and background
+    margin <- ring_margin(params$arc, outer$offset, elems$width + cm(inner$offset))
+    title  <- self$build_title(params$title, elems)
+    gt <- gtable_add_padding(gt, margin) |>
+      self$add_title(title, elems$title_position, elems$title$hjust) |>
+      gtable_add_padding(elems$margin)
 
-    if (!is.zero(background)) {
+    if (!is.zero(elems$background)) {
       gt <- gtable_add_grob(
-        gt, background,
+        gt, elems$background,
         name = "background", clip = "off",
         t = 1, r = -1, b = -1, l = 1, z = -Inf
       )
