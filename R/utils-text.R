@@ -27,6 +27,16 @@ setup_legend_title <- function(theme, direction = "vertical") {
   calc_element("legend.title", theme + title)
 }
 
+position_margin <- function(position, margin = margin(), gap = unit(0, "pt")) {
+  switch(
+    position,
+    top    = replace(margin, 3, margin[3] + gap),
+    bottom = replace(margin, 1, margin[1] + gap),
+    left   = replace(margin, 2, margin[2] + gap),
+    right  = replace(margin, 4, margin[4] + gap)
+  )
+}
+
 get_text_dim_cm <- function(label, style, type = "both") {
   if (inherits(style, "element_text")) {
     style <- get_text_gp(style)
