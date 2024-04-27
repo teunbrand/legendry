@@ -35,7 +35,7 @@ position_margin <- function(position, margin = margin(), gap = unit(0, "pt")) {
     bottom = replace(margin, 1, margin[1] + gap),
     left   = replace(margin, 2, margin[2] + gap),
     right  = replace(margin, 4, margin[4] + gap),
-    margin + (gap / 2)
+    margin + gap
   )
 }
 
