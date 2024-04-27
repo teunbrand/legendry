@@ -19,7 +19,7 @@ new_params <- function(...) {
 
 standard_extract_key <- function(scale, aesthetic, key, ...) {
   key <- resolve_key(key %||% "auto")
-  if (inherits(key, "key") && !inherits(key, "key_standard")) {
+  if (inherits(key, "key_guide") && !inherits(key, "key_standard")) {
     return(key) # probably not a standard key, no need to treat
   }
   if (is.function(key)) {

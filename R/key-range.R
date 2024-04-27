@@ -97,7 +97,7 @@ key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE) {
 key_range_manual <- function(start, end, name = NULL, level = NULL) {
   df <- data_frame0(start = start, end = end, .label = name, .level = level)
   check_columns(df, c("start", "end"))
-  class(df) <- c("key_range", "key", class(df))
+  class(df) <- c("key_range", "key_guide", class(df))
   df
 }
 
@@ -116,7 +116,7 @@ key_range_map <- function(data, ..., .call = caller_env()) {
   )
 
   df <- rename(df, c("name", "level"), c(".label", ".level"))
-  class(df) <- c("key_range", "key", class(df))
+  class(df) <- c("key_range", "key_guide", class(df))
   df
 }
 
@@ -274,7 +274,7 @@ range_from_label <- function(
   ranges$.level <- rep.int(seq_along(nrows), nrows)
   range <- vec_slice(ranges, !is.na(ranges$.label))
   df <- vec_rbind(key, range)
-  class(df) <- c("key_range", "key", class(df))
+  class(df) <- c("key_range", "key_guide", class(df))
   df
 }
 

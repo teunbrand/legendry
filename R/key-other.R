@@ -48,7 +48,7 @@ key_sequence <- function(n = 15) {
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- map_sequence(scale = scale, aesthetic = aesthetic, nbin = n)
-    class(df) <- c("key_sequence", "key", class(df))
+    class(df) <- c("key_sequence", "key_guide", class(df))
     df
   }
 }
@@ -64,7 +64,7 @@ key_bins <- function(even.steps = FALSE, show.limits = NULL) {
       scale = scale, aesthetic = aesthetic,
       even_steps = even.steps, show_limits = show.limits
     )
-    class(df) <- c("key_bins", "key", class(df))
+    class(df) <- c("key_bins", "key_guide", class(df))
     df
   }
 }

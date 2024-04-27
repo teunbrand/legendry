@@ -83,7 +83,7 @@ key_auto <- function() {
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- Guide$extract_key(scale, aesthetic)
-    class(df) <- c("key_standard", "key", class(df))
+    class(df) <- c("key_standard", "key_guide", class(df))
     df
   }
 }
@@ -95,7 +95,7 @@ key_manual <- function(aesthetic, value = aesthetic, label = as.character(value)
                     label = label, type = type)
   check_columns(df, c("aesthetic", "value", "label"))
   df <- rename(df, c("value", "label", "type"), c(".value", ".label", ".type"))
-  class(df) <- c("key_standard", "key", class(df))
+  class(df) <- c("key_standard", "key_guide", class(df))
   df
 }
 
@@ -117,7 +117,7 @@ key_map <- function(data, ..., .call = caller_env()) {
   check_columns(df, c("aesthetic", "value", "label"))
 
   df <- rename(df, c("value", "label"), c(".value", ".label"))
-  class(df) <- c("key_standard", "key", class(df))
+  class(df) <- c("key_standard", "key_guide", class(df))
   df
 }
 
@@ -128,7 +128,7 @@ key_minor <- function() {
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- GuideAxis$extract_key(scale, aesthetic, minor.ticks = TRUE)
-    class(df) <- c("key_standard", "key", class(df))
+    class(df) <- c("key_standard", "key_guide", class(df))
     df
   }
 }
@@ -190,7 +190,7 @@ resolve_key <- function(x, allow_null = FALSE) {
   if (is.function(x)) {
     return(x)
   }
-  if (inherits(x, "key")) {
+  if (inherits(x, "key_guide")) {
     return(x)
   }
   cli::cli_abort("Unknown key specification: {x}.")
@@ -272,7 +272,7 @@ log10_keys <- function(scale, aesthetic,
     range <- scale$get_limits()
   }
   key <- vec_slice(key, !is_oob(ticks, range))
-  class(key) <- c("key_standard", "key", class(key))
+  class(key) <- c("key_standard", "key_guide", class(key))
   key
 }
 
