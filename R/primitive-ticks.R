@@ -199,7 +199,7 @@ PrimitiveTicks <- ggproto(
 
 draw_ticks = function(key, element, params, position, length, offset = 0) {
   n_breaks <- nrow(key)
-  if (n_breaks < 1 || is_blank(element) || length == 0) {
+  if (n_breaks < 1 || is_blank(element) || all(length == 0)) {
     return(zeroGrob())
   }
   bidi <- c(1, -as.numeric(params$bidi %||% FALSE))
