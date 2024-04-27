@@ -104,9 +104,13 @@ PrimitiveBox <- ggproto(
     params <- primitive_extract_params(scale, params, ...)
 
     aesthetic <- params$aesthetic
+
     if (aesthetic %in% c("x", "y")) {
       params$key <-
         rename(params$key, c("start", "end"), paste0(aesthetic, c("", "end")))
+    } else if (is_theta(params$position)) {
+      params$key <-
+        rename(params$key, c("start", "end"), c("x", "xend"))
     }
     params
   },
@@ -150,7 +154,7 @@ PrimitiveBox <- ggproto(
     if (!is_blank(elements$text)) {
       hjust <- elements$text$hjust
       vjust <- elements$text$vjust
-      if (params$position %in% c("theta", "theta.sec")) {
+      if (is_theta(params$position)) {
         add <- if (params$position == "theta.sec") pi else 0
         key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
         key <- polar_xy(key, key$r, key$theta + add, params$bbox)
@@ -229,7 +233,7 @@ draw_box = function(decor, element, size, position, offset) {
   aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
 
   rle <- new_rle(decor$group)
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     rev <- vec_slice(decor, nrow(decor):1)
     x <- unit(c(decor$x, rev$x), "npc")
     y <- unit(c(decor$y, rev$y), "npc")

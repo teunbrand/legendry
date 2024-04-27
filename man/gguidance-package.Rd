@@ -6,6 +6,8 @@
 \alias{gguidance-package}
 \title{gguidance: Extended guide options for 'ggplot2'}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 A 'ggplot2' extension that focusses on expanding the plotter's arsenal of guides, such as axes, legends and colour bars.
 }
 \seealso{

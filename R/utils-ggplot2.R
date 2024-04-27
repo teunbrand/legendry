@@ -217,4 +217,43 @@ get_key_size <- function(keys, which = "width", n) {
   apply(size, 2, max)
 }
 
+polar_bbox <- function(arc, margin = c(0.05, 0.05, 0.05, 0.05),
+                       inner_radius = c(0, 0.4)) {
+  if (abs(diff(arc) >= 2 * pi)) {
+    return(list(x = c(0, 1), y = c(0, 1)))
+  }
+  xmax <- 0.5 * sin(arc) + 0.5
+  ymax <- 0.5 * cos(arc) + 0.5
+  xmin <- inner_radius[1] * sin(arc) + 0.5
+  ymin <- inner_radius[1] * cos(arc) + 0.5
+  margin <- rep(margin, length.out = 4)
+  margin <- c(
+    max(ymin) + margin[1],
+    max(xmin) + margin[2],
+    min(ymin) - margin[3],
+    min(xmin) - margin[4]
+  )
+  pos_theta <- c(0, 0.5, 1, 1.5) * pi
+  in_sector <- in_arc(pos_theta, arc)
+  bounds <- ifelse(
+    in_sector,
+    c(1, 1, 0, 0),
+    c(max(ymax, margin[1]), max(xmax, margin[2]),
+      min(ymax, margin[3]), min(xmax, margin[4]))
+  )
+  list(x = c(bounds[4], bounds[2]), y = c(bounds[3], bounds[1]))
+}
+
+in_arc <- function(theta, arc) {
+  if (abs(diff(arc)) > 2 * pi - sqrt(.Machine$double.eps)) {
+    return(rep(TRUE, length(theta)))
+  }
+  arc <- arc %% (2 * pi)
+  if (arc[1] < arc[2]) {
+    theta >= arc[1] & theta <= arc[2]
+  } else {
+    !(theta < arc[1] & theta > arc[2])
+  }
+}
+
 # nocov end

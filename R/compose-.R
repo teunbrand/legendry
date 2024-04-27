@@ -72,7 +72,7 @@ Compose <- ggproto(
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     check_position(position, allow_null = TRUE)
 
-    key <- params$key
+    key <- resolve_key(params$key, allow_null = TRUE)
     if (is.function(key)) {
       key <- key(scale, aesthetic %||% scale$aesthetics[1])
     }
@@ -86,7 +86,8 @@ Compose <- ggproto(
       } else {
         guide_title <- waiver()
       }
-      guide_params[[i]]$position <- position
+      guide_params[[i]]$position <-
+        (guide_params[[i]]$position %|W|% NULL) %||% position
       guide_params[[i]]$angle <- guide_params[[i]]$angle %|W|% params$angle
       guide_params[[i]]["key"] <- list(guide_params[[i]]$key %||% key)
       guide_params[[i]] <- params$guides[[i]]$train(

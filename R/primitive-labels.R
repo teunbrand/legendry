@@ -279,7 +279,7 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
   y <- vec_interleave(ymin, ymax, ymax, ymin)
 
   angle <- rep(angle, each = 4)
-  max(x * sin(angle) + y * cos(angle))
+  max(x * sin(angle) + y * cos(angle), na.rm = TRUE)
 }
 
 angle_labels <- function(element, angle, position) {

@@ -148,6 +148,7 @@ p + scale_colour_viridis_b(
 \seealso{
 Other standalone guides: 
 \code{\link{guide_axis_custom}()},
+\code{\link{guide_colour_ring}()},
 \code{\link{guide_colourbar_custom}()},
 \code{\link{guide_subtitle}()}
 }

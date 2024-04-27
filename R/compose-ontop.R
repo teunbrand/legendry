@@ -71,7 +71,7 @@ ComposeOntop <- ggproto(
     guide_index <- seq_len(n_guides)
     grobs <- vector("list", n_guides)
 
-    if (position %in% c("theta", "theta.sec")) {
+    if (is_theta(position)) {
       stack_offset <- unit(cm(params$stack_offset %||% 0), "cm")
       offset <- stack_offset
 

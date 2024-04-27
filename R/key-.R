@@ -176,7 +176,10 @@ validate_key_types <- function(key, call = caller_env()) {
   key
 }
 
-resolve_key <- function(x) {
+resolve_key <- function(x, allow_null = FALSE) {
+  if (allow_null && is.null(x)) {
+    return(NULL)
+  }
   if (is.character(x)) {
     fun <- find_global(paste0("key_", x), env = global_env(),
                        mode = "function")
@@ -304,7 +307,7 @@ transform_key <- function(key, position, coord, panel_params) {
   key <- replace_null(key, x = other, y = other)
   transformed <- coord$transform(key, panel_params)
 
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     add <- if (position == "theta.sec") pi else 0
     transformed$theta <- transformed$theta + add
   }
@@ -321,7 +324,7 @@ transform_key <- function(key, position, coord, panel_params) {
     key <- rename(key, c("y", "yend"), rev)
   }
   key <- coord$transform(key, panel_params)
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     transformed$thetaend <- key$theta + add
   } else {
     if (ends[1]) {

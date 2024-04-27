@@ -129,6 +129,9 @@ PrimitiveBracket <- ggproto(
     if (aesthetic %in% c("x", "y")) {
       params$key <-
         rename(params$key, c("start", "end"), paste0(aesthetic, c("", "end")))
+    } else if (is_theta(params$position)) {
+      params$key <-
+        rename(params$key, c("start", "end"), c("x", "xend"))
     }
     params
   },
@@ -171,13 +174,12 @@ PrimitiveBracket <- ggproto(
   },
 
   build_bracket = function(key, decor, elements, params) {
-
     levels <- unique(c(key$.level, decor$.level))
 
     if (!is_blank(elements$text)) {
       hjust <- elements$text$hjust
       vjust <- elements$text$vjust
-      if (params$position %in% c("theta", "theta.sec")) {
+      if (is_theta(params$position)) {
         add <- if (params$position == "theta.sec") pi else 0
         key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
         key <- polar_xy(key, key$r, key$theta + add, params$bbox)
@@ -213,7 +215,7 @@ PrimitiveBracket <- ggproto(
         vec_slice(key, key$.level == i),
         elements$text, angle = angle, offset = offset, params$position
       )
-      offset <- offset + attr(text, "size") %||% 0
+      offset <- offset + get_size_attr(text)
       labels <- c(labels, list(text))
     }
     if (params$position %in% c("top", "left")) {
@@ -229,7 +231,7 @@ PrimitiveBracket <- ggproto(
       params$position,
       top  = , bottom = height_cm(grobs$labels),
       left = , right  =  width_cm(grobs$labels),
-      vapply(grobs$labels, attr, which = "size", numeric(1))
+      vapply(grobs$labels, get_size_attr, numeric(1))
     )
     is_bracket <- as.numeric(!is_each(grobs$brackets, is.zero))
     bracket <- is_bracket * elements$size
@@ -273,7 +275,7 @@ draw_bracket <- function(decor, elements, position, offset) {
   x <- unit(decor$x, "npc")
   y <- unit(decor$y, "npc")
 
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     offset <- (1 - decor$offset) * elements$size + offset
     x <- x + unit(sin(decor$theta) * offset, "cm")
     y <- y + unit(cos(decor$theta) * offset, "cm")

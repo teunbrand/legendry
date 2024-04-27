@@ -88,7 +88,7 @@ PrimitiveTitle <- ggproto(
   },
 
   transform = function(self, params, coord, panel_params) {
-    if (params$position %in% c("theta", "theta.sec")) {
+    if (is_theta(params$position)) {
       params$bbox  <- panel_params$bbox  %||% list(c(x = c(0, 1), y = c(0, 1)))
       params$arc   <- panel_params$arc   %||% c(0, 2 * pi)
       params$donut <- panel_params$inner_radius %||% c(0, 0.4)
@@ -107,7 +107,7 @@ PrimitiveTitle <- ggproto(
       params$position,
       top = , bottom = height_cm(grobs),
       left = , right = width_cm(grobs),
-      attr(grobs, "offset")
+      attr(grobs, "offset") %||% 0
     )
   },
 
@@ -143,6 +143,9 @@ PrimitiveTitle <- ggproto(
 # Helpers -----------------------------------------------------------------
 
 draw_theta_title <- function(label, elements, params) {
+  if (is.null(label)) {
+    return(zeroGrob())
+  }
 
   title <- elements$title
   position <- params$position

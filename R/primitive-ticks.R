@@ -203,7 +203,7 @@ draw_ticks = function(key, element, params, position, length, offset = 0) {
     return(zeroGrob())
   }
   bidi <- c(1, -as.numeric(params$bidi %||% FALSE))
-  if (position %in% c("theta", "theta.sec")) {
+  if (is_theta(position)) {
     angle  <- rep(key$theta, each = 2)
     x      <- rep(key$x,     each = 2)
     y      <- rep(key$y,     each = 2)

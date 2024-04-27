@@ -70,6 +70,9 @@ eval_aes <- function(
   x
 }
 
+get_size_attr <- function(x) {
+  attr(x, "size", exact = TRUE) %||% 0
+}
 
 pad <- function(x, length, fill = NA, where = "end") {
   padding <- rep(fill, length - length(x))
@@ -103,6 +106,11 @@ is_discrete <- function(x) {
 is_oob <- function(x, limits) {
   limits <- sort(limits)
   x < limits[1] | x > limits[2]
+}
+
+in_range <- function(x, range) {
+  range <- sort(range)
+  x >= range[1] & x <= range[2]
 }
 
 polar_xy <- function(data, r, theta, bbox) {
@@ -155,6 +163,13 @@ suffix_position <- function(value, position) {
   char <- char & !is_each(value, inherits, what = "AsIs")
   value[char] <- lapply(value[char], paste0, suffix)
   value
+}
+
+is_theta <- function(x) {
+  if (is_missing(x) || !is.character(x)) {
+    return(FALSE)
+  }
+  x %in% c("theta", "theta.sec")
 }
 
 # Based on example in ?vctrs::vec_chop
