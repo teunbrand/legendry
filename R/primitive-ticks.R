@@ -84,7 +84,7 @@ PrimitiveTicks <- ggproto(
 
   params = new_params(key = NULL, bidi = FALSE),
 
-  hashables = exprs(key),
+  hashables = exprs(key$.value),
 
   elements = list(
     position = list(
