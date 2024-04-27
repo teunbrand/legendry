@@ -101,7 +101,7 @@ Compose <- ggproto(
       params$title <- title
     }
     params$guide_params <- guide_params
-    params$hash <- hash(guide_params)
+    params$hash <- hash(lapply(guide_params, get_hash))
     params
   },
 
@@ -218,3 +218,5 @@ set_limits <- function(params, limits) {
   params$limits <- limits
   params
 }
+
+get_hash <- function(x) x$hash

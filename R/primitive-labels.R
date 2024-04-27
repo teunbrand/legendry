@@ -348,14 +348,3 @@ label_priority_between <- function(min, max) {
   mid <- min - 1 + (n + 1) %/% 2
   c(mid, label_priority_between(min, mid), label_priority_between(mid, max))
 }
-
-position_margin <- function(position, margin = margin(), gap = unit(0, "pt")) {
-  switch(
-    position,
-    top    = replace(margin, 3, margin[3] + gap),
-    bottom = replace(margin, 1, margin[1] + gap),
-    left   = replace(margin, 2, margin[2] + gap),
-    right  = replace(margin, 4, margin[4] + gap),
-    margin + (gap / 2)
-  )
-}
