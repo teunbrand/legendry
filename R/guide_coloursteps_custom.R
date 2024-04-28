@@ -77,8 +77,8 @@
 guide_coloursteps_custom <- function(
   title = waiver(),
   key = "bins",
-  first_guide = "labels",
-  second_guide = "none",
+  first_guide = "axis_custom",
+  second_guide = "axis_custom",
   shape = "triangle",
   size = NULL,
   show = NA,
@@ -96,7 +96,7 @@ guide_coloursteps_custom <- function(
     oob = oob
   )
 
-  defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
+  defaults <- if (isTRUE(vanilla)) vanilla_coloursteps_theme() else NULL
 
   compose_sandwich(
     key = key,
@@ -109,5 +109,15 @@ guide_coloursteps_custom <- function(
     theme_defaults = defaults,
     position = position,
     available_aes = available_aes
+  )
+}
+
+vanilla_coloursteps_theme <- function(...) {
+  theme(
+    legend.axis.line = element_blank(),
+    legend.ticks = element_blank(),
+    legend.ticks.length = rel(-1),
+    legend.frame = element_blank(),
+    ...
   )
 }

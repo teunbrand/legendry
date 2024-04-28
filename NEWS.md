@@ -4,7 +4,7 @@ Restarted package from scratch, using a different approach.
 
 Thanks to the following people for catching and reporting early bugs:
 
-* @davidhodge931 (#7, #8, #9)
+* @davidhodge931 (#7, #8, #9, #12)
 
 ## Mechanism
 
