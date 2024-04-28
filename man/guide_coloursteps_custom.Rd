@@ -7,8 +7,8 @@
 guide_coloursteps_custom(
   title = waiver(),
   key = "bins",
-  first_guide = "labels",
-  second_guide = "none",
+  first_guide = "axis_custom",
+  second_guide = "axis_custom",
   shape = "triangle",
   size = NULL,
   show = NA,
