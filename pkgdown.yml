@@ -3,7 +3,7 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   tour: tour.html
-last_built: 2024-04-28T10:08Z
+last_built: 2024-04-28T10:15Z
 urls:
   reference: https://teunbrand.github.io/gguidance/reference
   article: https://teunbrand.github.io/gguidance/articles
