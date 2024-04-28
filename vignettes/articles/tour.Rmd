@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(gguidance)
+library(scales)
 ```
 
 This article walks through all full guide extensions to give a broad overview of the 'easy' way to make use of gguidance.
@@ -18,10 +19,11 @@ Rest assured, there are harder ways, but these will be covered in a separate art
 
 ## Axes
 
-### Where (not) to apply
-
 Axes truly are the bread and butter of guides.
 Naturally, axes shine brightest as guides for positions like `x` and `y` but can moonlight as auxiliary guides as well.
+
+### Where (not) to apply
+
 In gguidance, the staple axis is `guide_axis_custom()`.
 At a first glance, these axes are utterly unremarkable and very much mirror `ggplot2::guide_axis()` by design.
 
@@ -127,5 +129,180 @@ ggplot(mpg, aes(class, displ)) +
   ) +
   guides(x.sec = guide_axis_custom(key = key))
 ```
+
+### Novelty axes
+
+First have to implement some.
+
+## Colours
+
+The `colour` and `fill` aesthetics are wonderful to build guides for, as they can apply to pretty much anything.
+First, we'll take a gander at some variants of colour bars before we gander at rings.
+
+### Bars and steps
+
+Two variants for colour guides exist in {gguidance}:
+
+1. `guide_colourbar_custom()` that reflects `guide_colourbar()`
+2. `guide_coloursteps_custom()` that reflects `guide_coloursteps()`.
+
+When used in a standard fashion, they look very similar to their vanilla counterparts.
+
+```{r}
+#| fig-show: hold
+standard <- standard + 
+  aes(colour = cty) +
+  labs(colour = "City Miles\nper Gallon")
+
+standard +
+  scale_colour_viridis_c(guide = "colourbar_custom") +
+  labs(title = "Custom colour bar")
+
+standard +
+  scale_colour_viridis_b(guide = "coloursteps_custom") +
+  labs(title = "Custom colour steps")
+```
+
+Please not that the following paragraphs apply equally to `guide_coloursteps_custom()`, but we'll take `guide_colourbar_custom()` for examples.
+
+#### Caps
+
+The thing that sets these guides apart is that they have indicators for when the data goes out-of-bounds.
+The most common case where you have out-of-bounds data, is when you set the scale limits to be narrower than the data range.
+In the plot below, the `cty` variable has a few observation below the lower limit of 10, and a few above the upper limit of 30.
+Typically, these are displayed in the `na.value = "grey"` colour.
+The bars display that these data are out-of-bounds by the gray 'caps' at the two ends of the bar.
+
+```{r, dev = 'png', dev.args=list(type = 'cairo')}
+standard +
+  scale_colour_viridis_c(
+    limits = c(10, 30),
+    guide = "colourbar_custom"
+  )
+```
+
+You can change the out-of-bounds strategy, the `oob` argument of the scale, to have the caps reflect the colour that out-of-bounds data has acquired.
+
+```{r}
+standard +
+  scale_colour_viridis_c(
+    limits = c(10, 30), oob = oob_squish,
+    guide = "colourbar_custom"
+  )
+```
+
+You can also force the caps to appear, even when there are no out-of-bounds data, or force the cap colour to be consistent with the scale.
+
+```{r}
+standard +
+  scale_colour_viridis_c(
+    guide = guide_colourbar_custom(
+      show = c(FALSE, TRUE), 
+      oob = "squish"
+    )
+  )
+```
+
+The shape of the cap needn't be a triangle. You can set the shape to any of the built-in cap shapes.
+
+```{r}
+standard +
+  scale_colour_viridis_c(
+    guide = guide_colourbar_custom(
+      show = TRUE, oob = "squish",
+      shape = "arch"
+    )
+  )
+```
+
+The caps can be provided as a string naming a cap function, like `"arch"` that invokes `cap_arch()`.
+Below follows an overview of all the build-in cap shapes.
+
+```{r}
+caps <- list(
+  none = cap_none(),
+  triangle = cap_triangle(),
+  round = cap_round(),
+  arch = cap_arch(),
+  ogee = cap_ogee()
+)
+
+caps <- cbind(
+  as.data.frame(do.call(rbind, caps)),
+  shape = factor(rep(names(caps), lengths(caps) / 2), names(caps))
+)
+
+ggplot(caps, aes(x, y)) +
+  geom_path(arrow = arrow()) +
+  facet_wrap(~ shape) +
+  coord_equal()
+```
+
+It is most certainly possible to use shapes of your own imagination as well.
+To provide your own shape, use a numeric matrix that:
+
+* Has 2 columns corresponding to the x and y coordinates.
+* Has at least 2 rows.
+* Only has positive values for the 2nd column (y).
+* Start at the (0, 0) coordinate.
+* End at the (1, 0) coordinate.
+
+You can see in the shapes above that these requirements all hold for the built-in shapes.
+Such a matrix can be given to the `shape` argument of the guide.
+
+```{r}
+hourglass_cap <- cbind(
+  x = c(0, 1, 0, 1),
+  y = c(0, 1, 1, 0)
+)
+
+standard +
+  scale_colour_viridis_c(
+    guide = guide_colourbar_custom(
+      show = TRUE, oob = "squish",
+      shape = hourglass_cap
+    )
+  )
+```
+
+#### Side-guides
+
+The colour bars come with a small party trick: the two rows of tick marks are separate axes masquerading as parts of the colour bar.
+It becomes easier to see once you wash away their make-up with `vanilla = FALSE`.
+
+```{r}
+standard +
+  scale_colour_viridis_c(
+    guide = guide_colourbar_custom(vanilla = FALSE)
+  )
+```
+
+This trick allows you to tailor the colour bar to your liking on separate sides.
+You can use this to invoke any of the tricks described in the axis section, like setting minor ticks, or swap out axes for an annotation-primitive like `primitive_bracket()`.
+
+```{r}
+brackets <- 
+  key_range_manual(
+    start = c(9, 25),
+    end   = c(19, 30), 
+    name  = c("A", "B")
+  ) |>
+  primitive_bracket(bracket = "square")
+
+standard +
+  scale_colour_viridis_c(
+    minor_breaks = breaks_width(1),
+    guide = guide_colourbar_custom(
+      first_guide = guide_axis_custom("minor"),
+      second_guide = brackets
+    )
+  )
+```
+
+### Rings
+
+## Legends
+
+Well they'd have to be implemented first before there is something to tell.
 
 To be continued once I find more time writing about this.
