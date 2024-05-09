@@ -301,6 +301,77 @@ standard +
 
 ### Rings
 
+Aside from bars and steps, there is also an option to show the colour as a ring.
+To understand why this might convenient, it can help to understand the type of data this is suitable for.
+A prime example of cyclical data can be the month of the year.
+The time between December and January is just one month, but when encoded numerically, the difference is 11 months.
+This problem can show itself sometimes in periodic data, like housing sales below.
+
+```{r}
+housing <- 
+  ggplot(
+    subset(txhousing, city == "Houston"), 
+    aes(date, volume, colour = month)
+  ) +
+  geom_line() +
+  scale_y_continuous(
+    name = "Total volume of sales",
+    labels = dollar_format(scale = 1e-6, suffix = "M")
+  ) +
+  labs(
+    x = "Date",
+    colour = "Month"
+  )
+
+housing +
+  scale_colour_viridis_c(limits = c(0, 12))
+```
+
+Every year we get a sharp colour transition in the winter.
+The remedy for this problem is to use a cyclical palette.
+The {scico} package offers some suitable cyclical palettes, like 'romaO', 'vikO', 'bamO', 'corkO' or 'brocO'.
+
+```{r}
+# Colours from scico::scico(12, palette = "romaO")
+periodic_pal <- 
+  c("#723957", "#843D3A", "#97552B", "#B08033", "#CBB45D", "#D5DA99", 
+    "#B8DEC3", "#85C7CF", "#599FC4", "#4E73AB", "#5F4C81", "#723959")
+
+housing + 
+  scale_colour_gradientn(colours = periodic_pal, limits = c(0, 12))
+```
+
+This is already much better, but the guide itself does a poor job of displaying the cyclical nature of months.
+To have this better reflected in the guide, you can use `guide_colour_ring()`.
+
+```{r}
+housing + 
+  scale_colour_gradientn(
+    colours = periodic_pal, limits = c(1, 13),
+    breaks = 1:12,
+    guide = "colour_ring"
+  )
+```
+
+The 'thickness' of the donut can be controlled by the `legend.key.width` parameter, which by default is 1/5^th^ of the diameter. The outer diameter of the ring is controlled by the `legend.key.size` parameter, but multiplied by 5 for consistency with the colour bar multiplier.
+Like custom colour bars, it is possible to set custom guides, but these are hoarded under the `inner_guide` and `outer_guide` to distinguish that they aren't first or second.
+
+```{r}
+housing + 
+  scale_colour_gradientn(
+    colours = periodic_pal, limits = c(1, 13),
+    breaks = 1:12, minor_breaks = breaks_width(0.25),
+    guide = guide_colour_ring(
+      outer_guide = guide_axis_custom("minor"),
+      inner_guide = "none"
+    )
+  ) +
+  theme(
+    legend.key.width = rel(2.5), # fill to center
+    legend.key.size = unit(0.5, "cm") # actual size is 0.5 * 5 = 2.5 cm
+  )
+```
+
 ## Legends
 
 Well they'd have to be implemented first before there is something to tell.
