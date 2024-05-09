@@ -76,6 +76,7 @@ Compose <- ggproto(
     if (is.function(key)) {
       key <- key(scale, aesthetic %||% scale$aesthetics[1])
     }
+    params$key <- NULL
     any_title <- FALSE
 
     guide_params <- params$guide_params
