@@ -256,4 +256,35 @@ in_arc <- function(theta, arc) {
   }
 }
 
+set_key_size <- function(key, linewidth = NULL, size = NULL, default = NULL) {
+  if (!is.null(attr(key, "width")) && !is.null(attr(key, "height"))) {
+    return(key)
+  }
+  if (!is.null(size) || !is.null(linewidth)) {
+    size <- size %||% 0
+    lwd  <- linewidth %||% 0
+    size <- if (is.na(size)[1]) 0 else size[1]
+    lwd  <- if (is.na(lwd)[1]) 0 else linewidth[1]
+    size <- (size + lwd) / 10
+  } else {
+    size <- NULL
+  }
+  attr(key, "width")  <- attr(key, "width",  TRUE) %||% size %||% default[1]
+  attr(key, "height") <- attr(key, "height", TRUE) %||% size %||% default[2]
+  key
+}
+
+modify_list <- function(old, new) {
+  for (i in names(new)) old[[i]] <- new[[i]]
+  old
+}
+
+allow_lambda <- function(x) {
+  if (is_formula(x)) {
+    as_function(x)
+   } else {
+     x
+   }
+}
+
 # nocov end
