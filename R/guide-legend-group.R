@@ -39,6 +39,7 @@ guide_legend_group <- function(
     order = order,
     available_aes = "any",
     name = "legend_group",
+    direction = direction,
     super = GuideLegendGroup
   )
 }
@@ -89,7 +90,6 @@ GuideLegendGroup <- ggproto(
       params$direction, c("horizontal", "vertical"),
       arg = "direction"
     )
-    params$group_direction <- params$group_direction %||% params$direction
 
     params$n_breaks <- n_breaks <- nrow(params$key)
     params$n_key_layers <- length(params$decor) + 1
@@ -124,9 +124,12 @@ GuideLegendGroup <- ggproto(
       hjust = 0, vjust = 0.5,
       margin = position_margin(sub_position, margin, gap * 0.5)
     ))
-    elements$subtitle <- calc_element(elements$subtitle, theme + text)
-    theme$legend.key.spacing.y <- theme$legend.key.spacing.y %||% rel(1)
-
+    elements$subtitle  <- calc_element(elements$subtitle, theme + text)
+    elements$spacing_y <- calc_element(elements$spacing_y, theme)
+    theme <- replace_null(
+      theme,
+      legend.title.position = "top"
+    )
     GuideLegend$setup_elements(params, elements, theme)
   },
 
