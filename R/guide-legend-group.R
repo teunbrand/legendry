@@ -2,16 +2,58 @@
 
 #' Grouped legend
 #'
+#' A legend type guide similar to [`guide_legend()`][ggplot2::guide_legend()]
+#' that allows for the indication of groups.
+#'
 #' @param key
-#' @param override.aes
-#' @param nrow
-#' @param ncol
+#' @param override.aes A named `<list>` specifying aesthetic parameters of
+#'   legend keys to override the defaults. See the examples in
+#'   [`?guide_legend`][ggplot2::guide_legend()].
+#' @param nrow,ncol An `<integer[1]>` setting the desired number of rows and
+#'   columns of legend respectively, per group.
 #' @inheritParams common_parameters
 #'
-#' @return
+#' @return A `<GuideLegendGroup>` object.
+#' @family legends
 #' @export
 #'
 #' @examples
+#' # Standard plot for selection of `msleep`
+#' df <- msleep[c(9, 28, 11, 5, 34, 54, 64, 24, 53), ]
+#'
+#' p <- ggplot(df) +
+#'   aes(bodywt, awake, colour = paste(order, name)) +
+#'   geom_point()
+#'
+#' # By default, groups are inferred from the name
+#' p + guides(colour = "legend_group")
+#'
+#' # You can also use a look-up table for groups
+#' # The lookup table can be more expansive than just the data
+#' lut <- key_group_lut(msleep$name, msleep$order)
+#'
+#' p + aes(colour = name) +
+#'   guides(colour = guide_legend_group(key = lut))
+#'
+#' # `nrow` and `ncol` apply within groups
+#' p + guides(colour = guide_legend_group(nrow = 1))
+#'
+#' # Groups are arranged according to `direction`
+#' p + guides(colour = guide_legend_group(ncol = 1, direction = "horizontal"))
+#'
+#' # Customising the group titles
+#' p + guides(colour = "legend_group") +
+#'   theme(
+#'     gguidance.legend.subtitle.position = "left",
+#'     gguidance.legend.subtitle = element_text(
+#'       hjust = 1, vjust = 1, size = rel(0.9),
+#'       margin = margin(t = 5.5, r = 5.5)
+#'     )
+#'   )
+#'
+#' # Changing the spacing between groups
+#' p + guides(colour = "legend_group") +
+#'   theme(gguidance.legend.group.spacing = unit(1, "cm"))
 guide_legend_group <- function(
   key = key_group_auto(),
   title = waiver(),
