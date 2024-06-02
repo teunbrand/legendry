@@ -221,3 +221,19 @@ apply_theme_defaults <- function(theme, defaults = NULL) {
   }
   theme
 }
+
+insert_before <- function(x, i, value) {
+  new <- vec_init(x, length(x) + length(i))
+  i <- i + seq_along(i) - 1
+  new[i] <- value
+  new[-i] <- x
+  new
+}
+
+insert_after <- function(x, i, value) {
+  new <- vec_init(x, length(x) + length(i))
+  i <- i + seq_along(i)
+  new[i] <- value
+  new[-i] <- x
+  new
+}
