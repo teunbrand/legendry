@@ -160,22 +160,42 @@ such as <code>-Inf</code> and <code>Inf</code> are <a href="https://scales.r-lib
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Histogram from plot data</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">gizmo_histogram</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles` theme element is not defined in the element</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> hierarchy.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles.position` theme element is not defined in the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> element hierarchy.</span>
 <span class="r-plt img"><img src="gizmo_histogram-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Using bins instead of gradient</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">gizmo_histogram</span><span class="op">(</span><span class="st">"bins"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles` theme element is not defined in the element</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> hierarchy.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles.position` theme element is not defined in the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> element hierarchy.</span>
 <span class="r-plt img"><img src="gizmo_histogram-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Providing custom values to compute histogram</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">gizmo_histogram</span><span class="op">(</span>hist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1000</span>, min <span class="op">=</span> <span class="fl">5</span>, max <span class="op">=</span> <span class="fl">35</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles` theme element is not defined in the element</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> hierarchy.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles.position` theme element is not defined in the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> element hierarchy.</span>
 <span class="r-plt img"><img src="gizmo_histogram-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Providing precomputed histogram</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">gizmo_histogram</span><span class="op">(</span>hist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">$</span><span class="va">cty</span>, breaks <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles` theme element is not defined in the element</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> hierarchy.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles.position` theme element is not defined in the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> element hierarchy.</span>
 <span class="r-plt img"><img src="gizmo_histogram-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Alternatively, parameters may be passed through hist.args</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">gizmo_histogram</span><span class="op">(</span>hist.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles` theme element is not defined in the element</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> hierarchy.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `gguidance.side.titles.position` theme element is not defined in the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> element hierarchy.</span>
 <span class="r-plt img"><img src="gizmo_histogram-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
