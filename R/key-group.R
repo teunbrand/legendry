@@ -107,7 +107,7 @@ group_from_lut <- function(scale, aesthetic, lut, ungrouped = "Other") {
   key <- Guide$extract_key(scale, aesthetic)
   group <- lut$key[match_list(key$.value, lut$val)] %|NA|% ungrouped
   if (!is.factor(group)) {
-    group <- factor(group, unique(group))
+    group <- factor(group, c(setdiff(unique(group), ungrouped), ungrouped))
   }
   key$.group <- group
   vec_slice(key, order(group))
