@@ -29,8 +29,8 @@ register_gguidance_elements <- function() {
       gguidance.axis.mini.ticks = el_line("axis.ticks"),
       gguidance.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       gguidance.guide.spacing = el_unit("axis.ticks.length"),
-      gguidance.side.titles = el_def("element_text", "axis.text"),
-      gguidance.side.titles.position = el_def("character")
+      gguidance.axis.subtitle = el_def("element_text", "axis.text"),
+      gguidance.axis.subtitle.position = el_def("character")
     )
   )
 }

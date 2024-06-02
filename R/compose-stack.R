@@ -73,8 +73,8 @@ ComposeStack <- ggproto(
   ),
 
   elements = list(
-    side_titles   = "gguidance.side.titles",
-    side_position = "gguidance.side.titles.position",
+    side_titles   = "gguidance.axis.subtitle",
+    side_position = "gguidance.axis.subtitle.position",
     spacing       = "gguidance.guide.spacing"
   ),
 
