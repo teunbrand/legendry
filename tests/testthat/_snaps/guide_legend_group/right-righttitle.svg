@@ -57,6 +57,7 @@
 <text x='269.49' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='34.86px' lengthAdjust='spacingAndGlyphs'>bodywt</text>
 <text transform='translate(13.05,283.95) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='31.81px' lengthAdjust='spacingAndGlyphs'>awake</text>
 <rect x='517.14' y='213.90' width='197.38' height='140.09' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='517.14' y='222.62' style='font-size: 11.00px; font-family: sans;' textLength='39.13px' lengthAdjust='spacingAndGlyphs'>Animals</text>
 <rect x='517.14' y='229.24' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #E5E5E5;' />
 <circle cx='525.78' cy='237.88' r='1.95' style='stroke-width: 0.71; stroke: #F8766D; fill: #F8766D;' />
 <rect x='596.25' y='229.24' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #E5E5E5;' />
@@ -121,7 +122,6 @@
 <text x='650.13' y='348.76' style='font-size: 9.90px; font-family: sans;' textLength='39.07px' lengthAdjust='spacingAndGlyphs'>Primates</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='517.14' y='222.62' style='font-size: 11.00px; font-family: sans;' textLength='39.13px' lengthAdjust='spacingAndGlyphs'>Animals</text>
 <text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='76.29px' lengthAdjust='spacingAndGlyphs'>right-righttitle</text>
 </g>
 </svg>
