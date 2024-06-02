@@ -17,6 +17,9 @@ guide_legend_group(
 )
 }
 \arguments{
+\item{key}{A \link[=key_group]{group key} specification. Defaults to
+\code{\link[=key_group_auto]{key_group_auto()}} that attempts to parse groups from labels.}
+
 \item{title}{A \verb{<character[1]>} or \verb{<expression[1]>} indicating the title of
 the guide. If \code{NULL}, the title is not shown. The default,
 \code{\link[ggplot2:waiver]{waiver()}}, takes the name of the scale object or

@@ -5,7 +5,8 @@
 #' A legend type guide similar to [`guide_legend()`][ggplot2::guide_legend()]
 #' that allows for the indication of groups.
 #'
-#' @param key
+#' @param key A [group key][key_group] specification. Defaults to
+#'   [`key_group_auto()`] that attempts to parse groups from labels.
 #' @param override.aes A named `<list>` specifying aesthetic parameters of
 #'   legend keys to override the defaults. See the examples in
 #'   [`?guide_legend`][ggplot2::guide_legend()].
