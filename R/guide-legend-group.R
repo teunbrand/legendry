@@ -419,45 +419,4 @@ resolve_legend_shape <- function(nrow, ncol, n, direction) {
   list(nrow = nrow, ncol = ncol)
 }
 
-# indices <- c(9, 28, 11, 5, 34, 54, 64, 24, 53)
-# df <- msleep[indices, ]
-#
-#
-#
-# ggplot(df, aes(bodywt, awake)) +
-#   geom_point(aes(colour = name)) +
-#   guides(colour = guide_legend_group(key = key_group_lut(df$name, df$order))) +
-#   theme(gguidance.legend.subtitle.position = "top") +
-#   labs(x = "Body weight (kg)", y = "Time spent awake", colour = "Animals")
-#
-#
-#
-# ggplot(df, aes(bodywt, awake)) +
-#   geom_point(aes(colour = paste0(order, ".", name))) +
-#   guides(colour = guide_legend_group(ncol = 1)) +
-#   theme(
-#     gguidance.legend.subtitle.position = "top",
-#     gguidance.legend.subtitle = element_text(hjust = 1),
-#     legend.key.spacing.x = unit(0, "pt"),
-#     legend.position = "bottom"
-#   )
-#
-# ggplot(df, aes(bodywt, awake)) +
-#   geom_point(aes(colour = paste0(order, ".", name))) +
-#   guides(colour = guide_legend_group(ncol = 2, key = key_group_auto(sep = "\\."))) +
-#   theme(
-#     gguidance.legend.subtitle.position = "top",
-#     gguidance.legend.subtitle = element_text(hjust =0),
-#     legend.key.spacing.x = unit(5, "pt"),
-#     legend.position = "right"
-#   )
-#
-# ggplot(df, aes(bodywt, awake)) +
-#   geom_point(aes(colour = paste0(order, ".", name))) +
-#   guides(colour = guide_legend_group(ncol = 2, key = key_group_auto(sep = "\\."))) +
-#   theme(
-#     gguidance.legend.subtitle.position = "left",
-#     gguidance.legend.subtitle = element_text(angle = 90),
-#     legend.key.spacing.x = unit(5, "pt"),
-#     legend.position = "right"
-#   )
+
