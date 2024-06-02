@@ -115,11 +115,7 @@ a first glance, these axes are utterly unremarkable and very much mirror
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="st">"axis_custom"</span>,</span>
 <span>  y <span class="op">=</span> <span class="st">"axis_custom"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>In terms of novelty, the only ‘extra’ option these axes offer is to
 display bidirectional tick marks.</p>
@@ -127,11 +123,7 @@ display bidirectional tick marks.</p>
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">standard</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span><span class="va">p</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>However, <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> is more flexible than
 <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html" class="external-link">ggplot2::guide_axis()</a></code>. In ggplot2, you’d typically have to
@@ -140,11 +132,7 @@ for the <code>theta</code> coordinate of a polar plot. The custom axis
 knows how to fit into polar coordinates, so no such fuss is needed when
 switching to polar coordinates.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html" class="external-link">coord_radial</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fl">1.25</span> <span class="op">*</span> <span class="va">pi</span>, end <span class="op">=</span> <span class="fl">2.75</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html" class="external-link">coord_radial</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fl">1.25</span> <span class="op">*</span> <span class="va">pi</span>, end <span class="op">=</span> <span class="fl">2.75</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Argueably, the custom guide is a little bit too flexible. It has
 exactly no scruples in displaying arbitrary continuous aesthetics, like
@@ -154,11 +142,7 @@ Why this unadvised yet possible is a topic that resurfaces later in this
 article.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"axis_custom"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"axis_custom"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>In summary, <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> is a flexible guide that
 can be used in any and all position aesthetic, and can (but should not)
@@ -180,11 +164,7 @@ can use <code>key = "minor"</code>, which invokes the
 scale.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"minor"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"minor"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Likewise, there is no logarithmic variant of
 <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code>, as this is again a specialty
@@ -205,11 +185,7 @@ the <code>brainwt</code> variable.</p>
 <span>    name <span class="op">=</span> <span class="st">"Brain weight (kg)"</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="../reference/key_standard.html">key_log</a></span><span class="op">(</span>prescale_base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"mm"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"mm"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>Alternatively, you can construct a key yourself by using
 <code><a href="../reference/key_standard.html">key_manual()</a></code>, where you have to provide the value for the
@@ -242,11 +218,7 @@ itself.</p>
 <span>    x <span class="op">=</span> <span class="st">"Type of car"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Engine Displacement (Litres)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -285,19 +257,10 @@ vanilla counterparts.</p>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"colourbar_custom"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Custom colour bar"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span></span>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"coloursteps_custom"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Custom colour steps"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Custom colour steps"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-10-1.png" width="700"><img src="tour_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
 <p>Please not that the following paragraphs apply equally to
 <code><a href="../reference/guide_coloursteps_custom.html">guide_coloursteps_custom()</a></code>, but we’ll take
@@ -313,66 +276,50 @@ has a few observation below the lower limit of 10, and a few above the
 upper limit of 30. Typically, these are displayed in the
 <code>na.value = "grey"</code> colour. The bars display that these data
 are out-of-bounds by the gray ‘caps’ at the two ends of the bar.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colourbar_custom"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>You can change the out-of-bounds strategy, the <code>oob</code>
 argument of the scale, to have the caps reflect the colour that
 out-of-bounds data has acquired.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>, oob <span class="op">=</span> <span class="va">oob_squish</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colourbar_custom"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>You can also force the caps to appear, even when there are no
 out-of-bounds data, or force the cap colour to be consistent with the
 scale.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span></span>
 <span>      show <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>, </span>
 <span>      oob <span class="op">=</span> <span class="st">"squish"</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>The shape of the cap needn’t be a triangle. You can set the shape to
 any of the built-in cap shapes.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span></span>
 <span>      show <span class="op">=</span> <span class="cn">TRUE</span>, oob <span class="op">=</span> <span class="st">"squish"</span>,</span>
 <span>      shape <span class="op">=</span> <span class="st">"arch"</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>The caps can be provided as a string naming a cap function, like
 <code>"arch"</code> that invokes <code><a href="../reference/cap_options.html">cap_arch()</a></code>. Below follows
 an overview of all the build-in cap shapes.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">caps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  none <span class="op">=</span> <span class="fu"><a href="../reference/cap_options.html">cap_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  triangle <span class="op">=</span> <span class="fu"><a href="../reference/cap_options.html">cap_triangle</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -389,11 +336,7 @@ an overview of all the build-in cap shapes.</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">caps</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span>arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">shape</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>It is most certainly possible to use shapes of your own imagination
 as well. To provide your own shape, use a numeric matrix that:</p>
@@ -407,7 +350,7 @@ as well. To provide your own shape, use a numeric matrix that:</p>
 <p>You can see in the shapes above that these requirements all hold for
 the built-in shapes. Such a matrix can be given to the
 <code>shape</code> argument of the guide.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hourglass_cap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
@@ -419,11 +362,7 @@ the built-in shapes. Such a matrix can be given to the
 <span>      show <span class="op">=</span> <span class="cn">TRUE</span>, oob <span class="op">=</span> <span class="st">"squish"</span>,</span>
 <span>      shape <span class="op">=</span> <span class="va">hourglass_cap</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 <div class="section level4">
@@ -433,21 +372,17 @@ the built-in shapes. Such a matrix can be given to the
 marks are separate axes masquerading as parts of the colour bar. It
 becomes easier to see once you wash away their make-up with
 <code>vanilla = FALSE</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>This trick allows you to tailor the colour bar to your liking on
 separate sides. You can use this to invoke any of the tricks described
 in the axis section, like setting minor ticks, or swap out axes for an
 annotation-primitive like <code><a href="../reference/primitive_bracket.html">primitive_bracket()</a></code>.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brackets</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/key_range.html">key_range_manual</a></span><span class="op">(</span></span>
 <span>    start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">25</span><span class="op">)</span>,</span>
@@ -463,11 +398,7 @@ annotation-primitive like <code><a href="../reference/primitive_bracket.html">pr
 <span>      first_guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span><span class="st">"minor"</span><span class="op">)</span>,</span>
 <span>      second_guide <span class="op">=</span> <span class="va">brackets</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 </div>
@@ -481,7 +412,7 @@ cyclical data can be the month of the year. The time between December
 and January is just one month, but when encoded numerically, the
 difference is 11 months. This problem can show itself sometimes in
 periodic data, like housing sales below.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">housing</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">txhousing</span>, <span class="va">city</span> <span class="op">==</span> <span class="st">"Houston"</span><span class="op">)</span>, </span>
@@ -498,43 +429,31 @@ periodic data, like housing sales below.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">housing</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <p>Every year we get a sharp colour transition in the winter. The remedy
 for this problem is to use a cyclical palette. The {scico} package
 offers some suitable cyclical palettes, like ‘romaO’, ‘vikO’, ‘bamO’,
 ‘corkO’ or ‘brocO’.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Colours from scico::scico(12, palette = "romaO")</span></span>
 <span><span class="va">periodic_pal</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#723957"</span>, <span class="st">"#843D3A"</span>, <span class="st">"#97552B"</span>, <span class="st">"#B08033"</span>, <span class="st">"#CBB45D"</span>, <span class="st">"#D5DA99"</span>, </span>
 <span>    <span class="st">"#B8DEC3"</span>, <span class="st">"#85C7CF"</span>, <span class="st">"#599FC4"</span>, <span class="st">"#4E73AB"</span>, <span class="st">"#5F4C81"</span>, <span class="st">"#723959"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">housing</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>This is already much better, but the guide itself does a poor job of
 displaying the cyclical nature of months. To have this better reflected
 in the guide, you can use <code><a href="../reference/guide_colour_ring.html">guide_colour_ring()</a></code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">housing</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span></span>
 <span>    colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">13</span><span class="op">)</span>,</span>
 <span>    breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colour_ring"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <p>The ‘thickness’ of the donut can be controlled by the
 <code>legend.key.width</code> parameter, which by default is
@@ -544,7 +463,7 @@ by 5 for consistency with the colour bar multiplier. Like custom colour
 bars, it is possible to set custom guides, but these are hoarded under
 the <code>inner_guide</code> and <code>outer_guide</code> to distinguish
 that they aren’t first or second.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">housing</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span></span>
 <span>    colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">13</span><span class="op">)</span>,</span>
@@ -557,11 +476,7 @@ that they aren’t first or second.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
 <span>    legend.key.width <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">2.5</span><span class="op">)</span>, <span class="co"># fill to center</span></span>
 <span>    legend.key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span> <span class="co"># actual size is 0.5 * 5 = 2.5 cm</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles` theme element is not defined in the element</span></span>
-<span><span class="co">#&gt; hierarchy.</span></span>
-<span><span class="co">#&gt; Warning in plot_theme(plot): The `gguidance.side.titles.position` theme element is not defined in the</span></span>
-<span><span class="co">#&gt; element hierarchy.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 </div>
 </div>
