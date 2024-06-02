@@ -194,8 +194,8 @@ register_gguidance_elements <- function() {
     gguidance.axis.mini.ticks = element_line(),
     gguidance.axis.mini.ticks.length = rel(0.5),
     gguidance.guide.spacing = unit(2.25, "pt"),
-    gguidance.side.titles = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
-    gguidance.side.titles.position = c("left", "top"),
+    gguidance.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
+    gguidance.axis.subtitle.position = c("left", "top"),
     element_tree = list(
       gguidance.bracket.size = el_def("unit"),
       gguidance.bracket = el_line("line"),
