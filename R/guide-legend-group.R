@@ -375,7 +375,7 @@ GuideLegendGroup <- ggproto(
     list(layout = df, groups = groups, heights = heights, widths = widths)
   },
 
-  assemble_drawing = function(grobs, layout, sizes, params, elements) {
+  assemble_drawing = function(self, grobs, layout, sizes, params, elements) {
 
     subtitles <- grobs$title[-1]
     grobs$title <- grobs$title[[1]]
@@ -392,7 +392,10 @@ GuideLegendGroup <- ggproto(
       name = paste0("subtitle-", seq_len(nrow(groups)))
     )
 
-    gt <- legend_add_title(gt, grobs$title, elements$title_position, elements$title)
+    gt <- self$add_title(
+      gt, grobs$title, elements$title_position,
+      with(elements$title, rotate_just(angle, hjust, vjust))
+    )
     gt <- gtable_add_padding(gt, elements$margin)
     gt <- legend_add_background(gt, elements$background)
     gt
