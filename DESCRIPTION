@@ -1,0 +1,16 @@
+Package: legendry
+Title: Legends for 'ggplot2'
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Teun",
+           family = "van den Brand",
+           role = c("aut", "cre"),
+           email = "tahvdbrand@gmail.com",
+           comment = c(ORCID = "0000-0002-9335-7468"))
+Description: Provides legend guide extensions for ggplot2.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Depends: 
+    ggplot2 (>= 3.5.0)
