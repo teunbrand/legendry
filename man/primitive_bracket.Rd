@@ -11,6 +11,8 @@ primitive_bracket(
   oob = "squish",
   drop_zero = TRUE,
   pad_discrete = 0.4,
+  levels_brackets = NULL,
+  levels_text = NULL,
   theme = NULL,
   position = waiver()
 )
@@ -49,6 +51,12 @@ of \code{"squish"}, \code{"censor"} or \code{"none"}.}
 \item{pad_discrete}{A \verb{<numeric[1]>} giving the amount ranges should be
 extended when given as a discrete variable. This is applied after
 the \code{drop_zero} setting.}
+
+\item{levels_brackets}{A list of \verb{<element_line>} objects to customise how
+brackets appear at every level.}
+
+\item{levels_text}{A list of \verb{<element_text>} objects to customise how
+text appears at every level.}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the

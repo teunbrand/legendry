@@ -20,6 +20,10 @@
 #' @param pad_discrete A `<numeric[1]>` giving the amount ranges should be
 #'   extended when given as a discrete variable. This is applied after
 #'   the `drop_zero` setting.
+#' @param levels_brackets A list of `<element_line>` objects to customise how
+#'   brackets appear at every level.
+#' @param levels_text A list of `<element_text>` objects to customise how
+#'   text appears at every level.
 #' @inheritParams common_parameters
 #'
 #' @return A `<PrimitiveBracket>` primitive guide that can be used inside other
@@ -70,6 +74,8 @@ primitive_bracket <- function(
   oob = "squish",
   drop_zero = TRUE,
   pad_discrete = 0.4,
+  levels_brackets = NULL,
+  levels_text = NULL,
   theme = NULL,
   position = waiver()
 ) {
@@ -78,6 +84,16 @@ primitive_bracket <- function(
   oob <- arg_match0(oob, c("squish", "censor", "none"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
+  check_list_of(
+    levels_brackets,
+    c("element_line", "element_blank", "NULL"),
+    allow_null = TRUE
+  )
+  check_list_of(
+    levels_text,
+    c("element_text", "element_blank", "NULL"),
+    allow_null = TRUE
+  )
   bracket <- resolve_bracket(bracket)
 
   new_guide(
@@ -87,6 +103,8 @@ primitive_bracket <- function(
     drop_zero = drop_zero,
     pad_discrete = pad_discrete,
     bracket = bracket,
+    levels_brackets = levels_brackets,
+    levels_text = levels_text,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
@@ -105,7 +123,8 @@ PrimitiveBracket <- ggproto(
 
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,
-    pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0, 1), 0.5)
+    pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0, 1), 0.5),
+    levels_text = NULL, levels_brackets = NULL
   ),
 
   hashables = exprs(key, decor, bracket),
@@ -174,13 +193,30 @@ PrimitiveBracket <- ggproto(
   },
 
   build_bracket = function(key, decor, elements, params) {
-    levels <- unique(c(key$.level, decor$.level))
+    levels   <- unique(c(key$.level, decor$.level))
+    nlevels  <- length(levels)
+    position <- params$position
 
+    # Recycle custom elements per level to appropriate length
+    bracket_levels <- rep0(params$levels_brackets, length.out = nlevels)
+    text_levels    <- rep0(params$levels_text,     length.out = nlevels)
+
+    # Justify labels along their ranges
     if (!is_blank(elements$text)) {
+
       hjust <- elements$text$hjust
       vjust <- elements$text$vjust
-      if (is_theta(params$position)) {
-        add <- if (params$position == "theta.sec") pi else 0
+
+      # If we have custom elements, take justification from there
+      if (!is.null(text_levels)) {
+        hjust <- vapply(text_levels, function(x) x$hjust %||% hjust, numeric(1))
+        hjust <- hjust[match(key$.level, levels)]
+        vjust <- vapply(text_levels, function(x) x$vjust %||% vjust, numeric(1))
+        vjust <- vjust[match(key$.level, levels)]
+      }
+
+      if (is_theta(position)) {
+        add <- if (position == "theta.sec") pi else 0
         key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
         key <- polar_xy(key, key$r, key$theta + add, params$bbox)
       } else if ("xend" %in% names(key)) {
@@ -192,31 +228,39 @@ PrimitiveBracket <- ggproto(
 
     if (is_blank(elements$line) || is_empty(decor)) {
       decor <- vec_slice(decor, 0)
-    } else if (params$position %in% .trbl) {
-      offset <- decor$offset
-      offset <- if (params$position %in% .trbl[1:2]) 1 - offset else offset
-      decor$x <- switch(params$position, left = , right = offset, decor$x)
-      decor$y <- switch(params$position, top = , bottom = offset, decor$y)
+    } else if (position %in% .trbl) {
+      offset  <- decor$offset
+      offset  <- if (position %in% .trbl[1:2]) 1 - offset else offset
+      decor$x <- switch(position, left = , right = offset, decor$x)
+      decor$y <- switch(position, top = , bottom = offset, decor$y)
       decor$offset <- 0
     }
 
-    elements$text <- angle_labels(elements$text, params$angle, params$position)
-    brackets <- list()
-    labels <- list()
     offset <- elements$offset
     angle  <- params$angle %|W|% NULL
+    size   <- elements$size
+    text   <- angle_labels(elements$text, angle, params$position)
 
-    for (i in levels) {
-      dec <- vec_slice(decor, decor$.level == i)
-      bracket <- draw_bracket(dec, elements, params$position, offset)
-      offset <- offset + as.numeric(!is.zero(bracket)) * elements$size
-      brackets <- c(brackets, list(bracket))
-      text <- draw_labels(
-        vec_slice(key, key$.level == i),
-        elements$text, angle = angle, offset = offset, params$position
+    brackets <- vector("list", nlevels)
+    labels   <- vector("list", nlevels)
+
+    for (i in seq_len(nlevels)) {
+
+      # Render bracket
+      brackets[[i]] <- draw_bracket(
+        decor   = vec_slice(decor, decor$.level == levels[[i]]),
+        element = combine_elements(bracket_levels[[i]], elements$line),
+        size = size, offset = offset, position = position
       )
-      offset <- offset + get_size_attr(text)
-      labels <- c(labels, list(text))
+      offset <- offset + get_size_attr(brackets[[i]])
+
+      # Render text
+      labels[[i]] <- draw_labels(
+        key     = vec_slice(key, key$.level == levels[[i]]),
+        element = combine_elements(text_levels[[i]], text),
+        angle = angle, offset = offset, position = position
+      )
+      offset <- offset + get_size_attr(labels[[i]])
     }
     if (params$position %in% c("top", "left")) {
       brackets <- rev(brackets)
@@ -268,7 +312,7 @@ PrimitiveBracket <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-draw_bracket <- function(decor, elements, position, offset) {
+draw_bracket <- function(decor, element, size, offset, position) {
   if (nrow(decor) < 2) {
     return(zeroGrob())
   }
@@ -276,12 +320,16 @@ draw_bracket <- function(decor, elements, position, offset) {
   y <- unit(decor$y, "npc")
 
   if (is_theta(position)) {
-    offset <- (1 - decor$offset) * elements$size + offset
+    offset <- (1 - decor$offset) * size + offset
     x <- x + unit(sin(decor$theta) * offset, "cm")
     y <- y + unit(cos(decor$theta) * offset, "cm")
   }
 
   id <- vec_unrep(decor$group)$times
 
-  element_grob(elements$line, x = x, y = y, id.lengths = id)
+  grob <- element_grob(element, x = x, y = y, id.lengths = id)
+  if (!is_blank(element)) {
+    attr(grob, "size") <- size
+  }
+  grob
 }
