@@ -139,3 +139,19 @@ test_that("check_unique throws appropriate errors", {
     "Example duplicate"
   )
 })
+
+test_that("check_list_of throws appropriate errors", {
+
+  nums <- c("integer", "double", "numeric")
+  expect_silent(check_list_of(list(1, 2, 3), nums))
+  expect_silent(check_list_of(NULL, allow_null = TRUE))
+
+  expect_error(
+    check_list_of(list(1, "A", 3), nums),
+    "is the string \"A\""
+  )
+  expect_error(
+    check_list_of(12, nums),
+    "not the number 12"
+  )
+})

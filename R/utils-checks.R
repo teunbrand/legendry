@@ -26,6 +26,39 @@ check_list_names <- function(data, names, call = caller_env(),
   ), call = call)
 }
 
+check_list_of <- function(x, class, allow_null = FALSE,
+                          call = caller_env(), arg = caller_arg(x)) {
+  problems <- character()
+  if (!missing(x)) {
+    if (allow_null && is_null(x)) {
+      return(invisible(NULL))
+    }
+    if (is.list(x)) {
+      fail <- !is_each(x, inherits, what = class)
+      if (!any(fail)) {
+        return(invisible(NULL))
+      }
+      problems <- vapply(x[fail], obj_type_friendly, character(1))
+      problems <- paste0(arg, "[[", which(fail), "]] is ", problems)
+      names(problems) <- rep("x", length(problems))
+      if (length(problems) > 5) {
+        problems <- c(problems[1:5], "x" = "...and more mismatches.")
+      }
+    }
+  }
+
+  class <- vapply(class, function(x) as_cli("{.cls {x}}"), character(1))
+  end <- if (is.list(x)) "." else paste0(", not ", obj_type_friendly(x), ".")
+
+  message <- sprintf(
+    "`%s` must be %s%s",
+    arg, as_cli("a {.cls list} object with {.or {class}} elements"),
+    end
+  )
+  message <- c(message, problems)
+  abort(message, call = call, arg = arg)
+}
+
 check_grob <- function(x, allow_null = FALSE, call = caller_env(),
                        arg = caller_arg(x)) {
   if (!missing(x)) {
