@@ -50,7 +50,6 @@ key_bins()(template)
 }
 \seealso{
 Other keys: 
-\code{\link{key_group}},
 \code{\link{key_range}},
 \code{\link{key_standard}}
 }

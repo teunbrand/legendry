@@ -38,8 +38,6 @@
 #'   `gguidance.legend.mini.ticks.length`.
 #' @param spacing A [`<unit[1]>`][grid::unit()] setting the
 #'   `gguidance.guide.spacing` theme element.
-#' @param group.spacing A [`<unit[1]>`][grid::unit()] setting the
-#'   `gguidance.legend.group.spacing` element.
 #' @param key An [`<element_rect>`][ggplot2::element_rect] setting the
 #'   `legend.key` element.
 #' @param key.size,key.width,key.height A [`<unit>`][grid::unit()] setting the
@@ -95,7 +93,6 @@ theme_guide <- function(
     mini.ticks.length = NULL,
 
     spacing = NULL,
-    group.spacing = NULL,
 
     key = NULL,
     key.size = NULL,
@@ -158,7 +155,6 @@ theme_guide <- function(
     gguidance.legend.mini.ticks.length = mini.ticks.length,
 
     gguidance.guide.spacing = spacing,
-    gguidance.legend.group.spacing = group.spacing,
 
     legend.key = key,
     legend.key.spacing = key.spacing,
@@ -190,7 +186,6 @@ register_gguidance_elements <- function() {
     gguidance.legend.mini.ticks.length = rel(0.5),
     gguidance.legend.subtitle = element_text(size = rel(0.9)),
     gguidance.legend.subtitle.position = "top",
-    gguidance.legend.group.spacing = rel(2),
     gguidance.axis.mini.ticks = element_line(),
     gguidance.axis.mini.ticks.length = rel(0.5),
     gguidance.guide.spacing = unit(2.25, "pt"),
@@ -206,7 +201,6 @@ register_gguidance_elements <- function() {
       gguidance.legend.mini.ticks.length = el_unit("gguidance.legend.minor.ticks.length"),
       gguidance.legend.subtitle = el_def("element_text", "legend.title"),
       gguidance.legend.subtitle.position = el_def("character"),
-      gguidance.legend.group.spacing = el_unit("legend.key.spacing"),
       gguidance.axis.mini.ticks = el_line("axis.ticks"),
       gguidance.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       gguidance.guide.spacing = el_unit("axis.ticks.length"),

@@ -19,7 +19,6 @@ theme_guide(
   minor.ticks.length = NULL,
   mini.ticks.length = NULL,
   spacing = NULL,
-  group.spacing = NULL,
   key = NULL,
   key.size = NULL,
   key.width = NULL,
@@ -80,9 +79,6 @@ theme_guide(
 
 \item{spacing}{A [\verb{<unit[1]>}][grid::unit()] setting the
 \code{gguidance.guide.spacing} theme element.}
-
-\item{group.spacing}{A [\verb{<unit[1]>}][grid::unit()] setting the
-\code{gguidance.legend.group.spacing} element.}
 
 \item{key}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
 \code{legend.key} element.}

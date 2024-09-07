@@ -94,7 +94,6 @@ key_range_map(presidential, start = start, end = end, name = name)
 }
 \seealso{
 Other keys: 
-\code{\link{key_group}},
 \code{\link{key_specialty}},
 \code{\link{key_standard}}
 }
