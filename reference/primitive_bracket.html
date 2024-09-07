@@ -48,6 +48,8 @@
 <span>  oob <span class="op">=</span> <span class="st">"squish"</span>,</span>
 <span>  drop_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  pad_discrete <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  levels_brackets <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  levels_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -97,6 +99,16 @@ of <code>"squish"</code>, <code>"censor"</code> or <code>"none"</code>.</p></dd>
 <dd><p>A <code>&lt;numeric[1]&gt;</code> giving the amount ranges should be
 extended when given as a discrete variable. This is applied after
 the <code>drop_zero</code> setting.</p></dd>
+
+
+<dt id="arg-levels-brackets">levels_brackets<a class="anchor" aria-label="anchor" href="#arg-levels-brackets"></a></dt>
+<dd><p>A list of <code>&lt;element_line&gt;</code> objects to customise how
+brackets appear at every level.</p></dd>
+
+
+<dt id="arg-levels-text">levels_text<a class="anchor" aria-label="anchor" href="#arg-levels-text"></a></dt>
+<dd><p>A list of <code>&lt;element_text&gt;</code> objects to customise how
+text appears at every level.</p></dd>
 
 
 <dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>

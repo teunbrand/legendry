@@ -48,6 +48,8 @@
 <span>  drop_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  pad_discrete <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  min_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  levels_box <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  levels_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -92,6 +94,16 @@ the <code>drop_zero</code> setting.</p></dd>
 <dt id="arg-min-size">min_size<a class="anchor" aria-label="anchor" href="#arg-min-size"></a></dt>
 <dd><p>A [<code>&lt;grid::unit[1]&gt;</code>][grid::unit] setting the minimal size
 of a box.</p></dd>
+
+
+<dt id="arg-levels-box">levels_box<a class="anchor" aria-label="anchor" href="#arg-levels-box"></a></dt>
+<dd><p>A list of <code>&lt;element_rect&gt;</code> objects to customise how
+boxes appear at every level.</p></dd>
+
+
+<dt id="arg-levels-text">levels_text<a class="anchor" aria-label="anchor" href="#arg-levels-text"></a></dt>
+<dd><p>A list of <code>&lt;element_text&gt;</code> objects to customise how
+text appears at every level.</p></dd>
 
 
 <dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>

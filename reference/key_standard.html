@@ -74,24 +74,26 @@ in log10 space.</p></li>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">key_auto</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">key_auto</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">key_manual</span><span class="op">(</span></span>
 <span>  <span class="va">aesthetic</span>,</span>
 <span>  value <span class="op">=</span> <span class="va">aesthetic</span>,</span>
 <span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>,</span>
-<span>  type <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">key_map</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, .call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">key_minor</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">key_minor</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">key_log</span><span class="op">(</span></span>
 <span>  prescale_base <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  negative_small <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  expanded <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  labeller <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  labeller <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,7 +101,13 @@ in log10 space.</p></li>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-aesthetic-value">aesthetic, value<a class="anchor" aria-label="anchor" href="#arg-aesthetic-value"></a></dt>
+<dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p><code><a href="https://rlang.r-lib.org/reference/topic-data-mask.html" class="external-link">&lt;data-masking&gt;</a></code> A set of mappings
+similar to those provided to <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>, which will be
+evaluated in the <code>data</code> argument. These must contain <code>aesthetic</code> mapping.</p></dd>
+
+
+<dt id="arg-aesthetic-value">aesthetic, value<a class="anchor" aria-label="anchor" href="#arg-aesthetic-value"></a></dt>
 <dd><p>A vector of values for the guide to represent
 equivalent to the <code>breaks</code> argument in scales. The <code>aesthetic</code> will be
 mapped, whereas <code>value</code> will not. For most intents and purposes,
@@ -120,12 +128,6 @@ treated as major breaks.</p></dd>
 <dd><p>A <code>&lt;data.frame&gt;</code> or similar object coerced by
 <code><a href="https://ggplot2.tidyverse.org/reference/fortify.html" class="external-link">fortify()</a></code> to a <code>&lt;data.frame&gt;</code>, in which the <code>mapping</code>
 argument is evaluated.</p></dd>
-
-
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p><code><a href="https://rlang.r-lib.org/reference/topic-data-mask.html" class="external-link">&lt;data-masking&gt;</a></code> A set of mappings
-similar to those provided to <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>, which will be
-evaluated in the <code>data</code> argument. These must contain <code>aesthetic</code> mapping.</p></dd>
 
 
 <dt id="arg--call">.call<a class="anchor" aria-label="anchor" href="#arg--call"></a></dt>
@@ -201,26 +203,6 @@ class.</p>
 <span class="r-in"><span><span class="co"># So does the log key</span></span></span>
 <span class="r-in"><span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>transform <span class="op">=</span> <span class="st">"log10"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">key_log</span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              x      .value .label .type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  -1.00000000 -1.00000000  10^-1 major</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   0.00000000  0.00000000   10^0 major</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1.00000000  1.00000000   10^1 major</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  -0.30103000 -0.30103000   NULL minor</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   0.69897000  0.69897000   NULL minor</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  -0.69897000 -0.69897000   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  -0.52287875 -0.52287875   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  -0.39794001 -0.39794001   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  -0.22184875 -0.22184875   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 -0.15490196 -0.15490196   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 -0.09691001 -0.09691001   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 -0.04575749 -0.04575749   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  0.30103000  0.30103000   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  0.47712125  0.47712125   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  0.60205999  0.60205999   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  0.77815125  0.77815125   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  0.84509804  0.84509804   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  0.90308999  0.90308999   NULL  mini</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  0.95424251  0.95424251   NULL  mini</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Providing custom values</span></span></span>
 <span class="r-in"><span><span class="fu">key_manual</span><span class="op">(</span></span></span>
