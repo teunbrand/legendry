@@ -24,6 +24,7 @@ NULL
 #'   variations on axes, legends and colourbars.
 #'
 #' @seealso The documentation over at [`ggproto`][ggplot2::ggproto()].
+#' @keywords internal
 NULL
 
 #' @name common_parameters

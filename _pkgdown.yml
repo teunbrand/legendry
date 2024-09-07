@@ -2,3 +2,45 @@ url: https://teunbrand.github.io/gguidance/
 template:
   bootstrap: 5
 
+reference:
+- title: Guides to go
+  desc: >
+    These guides are complete and ready to use in your plots.
+  contents:
+  - starts_with("guide_")
+
+- title: Primitives
+  desc: >
+    These are incomplete guides used in composition.
+  contents:
+  - guide-primitives
+  - starts_with("primitive_")
+
+- title: Gizmos
+  desc: >
+    These are specialty gimmicks tailored to displaying specific aesthetics.
+  contents:
+  - guide-gizmos
+  - starts_with("gizmo_")
+
+- title: Composition
+  desc: >
+    These are not guides, but ways to combine guides, primitives and gizmos
+    together to become a more complete guide.
+  contents:
+  - guide-composition
+  - starts_with("compose_")
+
+- title: Keys
+  desc: >
+    Fantastic labels and where to display them.
+  contents:
+  - starts_with("key_")
+
+- title: Other functions
+  desc: >
+    Miscellaneous functions not directly concerned with guides
+  contents:
+  - bracket_options
+  - cap_options
+  - theme_guide

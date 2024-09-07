@@ -43,3 +43,4 @@ variations on axes, legends and colourbars.
 The documentation over at \code{\link[ggplot2:ggproto]{ggproto}}.
 }
 \keyword{datasets}
+\keyword{internal}
