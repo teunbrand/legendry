@@ -88,3 +88,24 @@ get_fontmetrics <- function(x) {
   info[i[1]:i[2]] <- lapply(info[i[1]:i[2]], function(x) .in2cm * x / res)
   info
 }
+
+.label_params <- setdiff(fn_fmls_names(element_text), c("margin", "debug", "inherit.blank"))
+
+label_args <- function(..., call = caller_env()) {
+  args <- list2(...)
+  if (length(args) == 0) {
+    return(NULL)
+  }
+
+  if (!is.null(args$color)) {
+    args$colour <- args$color
+    args$color <- NULL
+  }
+  extra <- setdiff(names(args), .label_params)
+  if (length(extra) > 0) {
+    cli::cli_warn("Ignoring unknown parameters: {.and {extra}}.", call = call)
+  }
+  args <- args[lengths(args) > 0]
+  names(args) <- paste0(".", names(args))
+  args
+}
