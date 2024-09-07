@@ -9,27 +9,33 @@
 \alias{key_log}
 \title{Standard keys}
 \usage{
-key_auto()
+key_auto(...)
 
 key_manual(
   aesthetic,
   value = aesthetic,
   label = as.character(value),
-  type = NULL
+  type = NULL,
+  ...
 )
 
 key_map(data, ..., .call = caller_env())
 
-key_minor()
+key_minor(...)
 
 key_log(
   prescale_base = NULL,
   negative_small = 0.1,
   expanded = TRUE,
-  labeller = NULL
+  labeller = NULL,
+  ...
 )
 }
 \arguments{
+\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
+similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
+evaluated in the \code{data} argument. These must contain \code{aesthetic} mapping.}
+
 \item{aesthetic, value}{A vector of values for the guide to represent
 equivalent to the \code{breaks} argument in scales. The \code{aesthetic} will be
 mapped, whereas \code{value} will not. For most intents and purposes,
@@ -44,10 +50,6 @@ treated as major breaks.}
 \item{data}{A \verb{<data.frame>} or similar object coerced by
 \code{\link[ggplot2:fortify]{fortify()}} to a \verb{<data.frame>}, in which the \code{mapping}
 argument is evaluated.}
-
-\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
-similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
-evaluated in the \code{data} argument. These must contain \code{aesthetic} mapping.}
 
 \item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 
