@@ -7,9 +7,9 @@
 \alias{key_range_map}
 \title{Range keys}
 \usage{
-key_range_auto(sep = "[^[:alnum:]]+", reverse = FALSE)
+key_range_auto(sep = "[^[:alnum:]]+", reverse = FALSE, ...)
 
-key_range_manual(start, end, name = NULL, level = NULL)
+key_range_manual(start, end, name = NULL, level = NULL, ...)
 
 key_range_map(data, ..., .call = caller_env())
 }
@@ -24,6 +24,13 @@ labels as the inner labels and the last labels as the outer labels.
 If \code{TRUE}, thee first labels are treated as the outer labels and the last
 labels are treated as the inner labels.}
 
+\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
+similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
+evaluated in the \code{data} argument.
+For \code{key_range_map()}, these \emph{must} contain \code{start} and \code{end} mappings.
+Can contain additional parameters for text styling, namely \code{colour},
+\code{family}, \code{face}, \code{size}, \code{hjust}, \code{vjust}, \code{angle} and \code{lineheight}.}
+
 \item{start, end}{A vector that can be interpreted by the scale, giving the
 start and end positions of each range respectively.}
 
@@ -36,11 +43,6 @@ drawn.}
 \item{data}{A \verb{<data.frame>} or similar object coerced by
 \code{\link[ggplot2:fortify]{fortify()}} to a \verb{<data.frame>}, in which the \code{mapping}
 argument is evaluated.}
-
-\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
-similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
-evaluated in the \code{data} argument. These must contain \code{start} and \code{end}
-mappings.}
 
 \item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 }

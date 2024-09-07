@@ -79,6 +79,13 @@ pad <- function(x, length, fill = NA, where = "end") {
   switch(where, start = c(padding, x), c(x, padding))
 }
 
+rep0 <- function(x, ...) {
+  if (is.null(x)) {
+    return(NULL)
+  }
+  rep(x, ...)
+}
+
 rename <- function(df, old, new) {
   if (is.function(new)) {
     new <- new(old)

@@ -11,6 +11,8 @@ primitive_box(
   drop_zero = TRUE,
   pad_discrete = 0.4,
   min_size = NULL,
+  levels_box = NULL,
+  levels_text = NULL,
   theme = NULL,
   position = waiver()
 )
@@ -42,6 +44,12 @@ the \code{drop_zero} setting.}
 
 \item{min_size}{A [\verb{<grid::unit[1]>}][grid::unit] setting the minimal size
 of a box.}
+
+\item{levels_box}{A list of \verb{<element_rect>} objects to customise how
+boxes appear at every level.}
+
+\item{levels_text}{A list of \verb{<element_text>} objects to customise how
+text appears at every level.}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the

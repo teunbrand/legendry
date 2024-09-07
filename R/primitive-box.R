@@ -7,6 +7,8 @@
 #' @inheritParams primitive_bracket
 #' @param min_size A [`<grid::unit[1]>`][grid::unit] setting the minimal size
 #'   of a box.
+#' @param levels_box A list of `<element_rect>` objects to customise how
+#'   boxes appear at every level.
 #'
 #' @return A `<PrimitiveBox>` primitive guide that can be used inside other
 #'   guides.
@@ -54,6 +56,8 @@ primitive_box <- function(
   drop_zero = TRUE,
   pad_discrete = 0.4,
   min_size = NULL,
+  levels_box = NULL,
+  levels_text = NULL,
   theme = NULL,
   position = waiver()
 ) {
@@ -62,6 +66,16 @@ primitive_box <- function(
   oob <- arg_match0(oob, c("squish", "censor", "none"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
+  check_list_of(
+    levels_box,
+    c("element_rect", "element_blank", "NULL"),
+    allow_null = TRUE
+  )
+  check_list_of(
+    levels_text,
+    c("element_text", "element_blank", "NULL"),
+    allow_null = TRUE
+  )
 
   new_guide(
     key = key,
@@ -70,6 +84,8 @@ primitive_box <- function(
     drop_zero = drop_zero,
     pad_discrete = pad_discrete,
     min_size = min_size,
+    levels_box = levels_box,
+    levels_text = levels_text,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
@@ -90,7 +106,8 @@ PrimitiveBox <- ggproto(
 
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,
-    pad_discrete = 0.4, angle = waiver(), min_size = NULL
+    pad_discrete = 0.4, angle = waiver(), min_size = NULL,
+    levels_text = NULL, levels_box = NULL
   ),
 
   elements = list(
@@ -149,13 +166,29 @@ PrimitiveBox <- ggproto(
 
   build_box = function(key, decor, elements, params) {
 
-    levels <- unique(c(key$.level, decor$.level))
+    levels   <- unique(c(key$.level, decor$.level))
+    nlevels  <- length(levels)
+    position <- params$position
 
+    # Recycle custom elements per level to appropriate length
+    box_levels  <- rep0(params$levels_box,  length.out = nlevels)
+    text_levels <- rep0(params$levels_text, length.out = nlevels)
+
+    # Justify labels along their ranges
     if (!is_blank(elements$text)) {
+
       hjust <- elements$text$hjust
       vjust <- elements$text$vjust
-      if (is_theta(params$position)) {
-        add <- if (params$position == "theta.sec") pi else 0
+
+      if (!is.null(text_levels)) {
+        hjust <- vapply(text_levels, function(x) x$hjust %||% hjust, numeric(1))
+        hjust <- hjust[match(key$.level, levels)]
+        vjust <- vapply(text_levels, function(x) x$vjust %||% vjust, numeric(1))
+        vjust <- vjust[match(key$.label, levels)]
+      }
+
+      if (is_theta(position)) {
+        add <- if (position == "theta.sec") pi else 0
         key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
         key <- polar_xy(key, key$r, key$theta + add, params$bbox)
       } else if ("xend" %in% names(key)) {
@@ -165,35 +198,42 @@ PrimitiveBox <- ggproto(
       }
     }
 
-    elements$text <- angle_labels(elements$text, params$angle, params$position)
-    grobs  <- list()
+    grobs  <- vector("list", nlevels)
     offset <- elements$offset
     angle  <- params$angle %|W|% NULL
     min_size <- cm(params$min_size %||% 0.2)
-    sizes <- numeric()
+    sizes <- numeric(nlevels)
+    text  <- angle_labels(elements$text, angle, position)
 
     measure <- switch(
-      params$position,
+      position,
       left = , right = width_cm,
       top = , bottom = height_cm,
-      function(x) attr(x, "size") %||% 0
+      get_size_attr
     )
 
-    for (i in levels) {
-      text <- draw_labels(
-        vec_slice(key, key$.level == i),
-        elements$text, angle = angle, offset = offset, params$position
+    for (i in seq_len(nlevels)) {
+
+      # Render text
+      labels <- draw_labels(
+        vec_slice(key, key$.level == levels[[i]]),
+        combine_elements(text_levels[[i]], text),
+        angle = angle, offset = offset, position = position
       )
-      size <- max(measure(text), min_size)
-      sizes <- c(sizes, size)
+      sizes[i] <- max(measure(labels), min_size)
+
+      # Render box
       box <- draw_box(
-        vec_slice(decor, decor$.level == i),
-        elements$box, size = size, params$position, offset = offset
+        vec_slice(decor, decor$.level == levels[[i]]),
+        combine_elements(box_levels[[i]], elements$box),
+        size = sizes[i], offset = offset, position = position
       )
-      offset <- offset + size
-      grobs <- c(grobs, list(grobTree(box, text)))
+
+      offset <- offset + sizes[i]
+      grobs[[i]] <- grobTree(box, labels)
     }
-    if (params$position %in% c("top", "left")) {
+
+    if (position %in% c("top", "left")) {
       grobs <- rev(grobs)
       sizes <- rev(sizes)
     }
@@ -226,7 +266,7 @@ PrimitiveBox <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-draw_box = function(decor, element, size, position, offset) {
+draw_box = function(decor, element, size, offset, position) {
   if (nrow(decor) < 2 || is_blank(element)) {
     return(zeroGrob())
   }

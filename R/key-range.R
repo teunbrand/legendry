@@ -31,8 +31,10 @@
 #'   argument is evaluated.
 #' @param ... [`<data-masking>`][rlang::topic-data-mask] A set of mappings
 #'   similar to those provided to [`aes()`][ggplot2::aes], which will be
-#'   evaluated in the `data` argument. These must contain `start` and `end`
-#'   mappings.
+#'   evaluated in the `data` argument.
+#'   For `key_range_map()`, these *must* contain `start` and `end` mappings.
+#'   Can contain additional parameters for text styling, namely `colour`,
+#'   `family`, `face`, `size`, `hjust`, `vjust`, `angle` and `lineheight`.
 #' @param .call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @details
@@ -77,16 +79,17 @@ NULL
 
 #' @rdname key_range
 #' @export
-key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE) {
+key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE, ...) {
   check_string(sep)
   check_bool(reverse)
   force(sep)
   force(reverse)
+  dots <- label_args(...)
   call <- current_call()
   function(scale, aesthetic = NULL) {
     range_from_label(
       scale = scale, aesthetic = aesthetic,
-      sep = sep, reverse = reverse,
+      sep = sep, reverse = reverse, extra_args = dots,
       call = call
     )
   }
@@ -94,8 +97,11 @@ key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE) {
 
 #' @rdname key_range
 #' @export
-key_range_manual <- function(start, end, name = NULL, level = NULL) {
-  df <- data_frame0(start = start, end = end, .label = name, .level = level)
+key_range_manual <- function(start, end, name = NULL, level = NULL, ...) {
+  df <- data_frame0(
+    start = start, end = end, .label = name, .level = level,
+    !!!label_args(...)
+  )
   check_columns(df, c("start", "end"))
   class(df) <- c("key_range", "key_guide", class(df))
   df
@@ -111,20 +117,25 @@ key_range_map <- function(data, ..., .call = caller_env()) {
   df <- eval_aes(
     data, mapping,
     required = c("start", "end"),
-    optional = c("name", "level"),
+    optional = c("name", "level", .label_params),
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
 
-  df <- rename(df, c("name", "level"), c(".label", ".level"))
+  df <- rename(
+    df, c("name", "level", .label_params),
+    c(".label", ".level", paste0(".", .label_params))
+  )
+  df$colour <- df$color
+  df$color <- NULL
   class(df) <- c("key_range", "key_guide", class(df))
   df
 }
 
-key_range_rle <- function(x) {
+key_range_rle <- function(x, ...) {
   rle <- vec_unrep(x)
   end <- cumsum(rle$times) + 0.5
   start <- end - rle$times
-  key_range_manual(start, end, name = rle$key, level = 1L)
+  key_range_manual(start, end, name = rle$key, level = 1L, ...)
 }
 
 # Extractor ---------------------------------------------------------------
@@ -213,7 +224,8 @@ range_censor <- function(ranges, limits) {
 ## Other helpers ----------------------------------------------------------
 
 range_from_label <- function(
-  scale, aesthetic = NULL, sep =  "[^[:alnum:]]+", reverse = FALSE, call = caller_env()
+  scale, aesthetic = NULL, sep =  "[^[:alnum:]]+", reverse = FALSE,
+  extra_args = list(), call = caller_env()
 ) {
   # Extract a standard key from the scale
   aesthetic <- aesthetic %||% scale$aesthetics[1]
@@ -258,7 +270,7 @@ range_from_label <- function(
     start = value, end = value, .label = key$.label, .level = 0
   )
   if (is_empty(labels)) {
-    return(key)
+    return(data_frame0(key, !!!extra_args))
   }
   ranges <- apply(labels, 2, function(labs) {
     rle   <- vec_unrep(labs)
@@ -274,6 +286,7 @@ range_from_label <- function(
   ranges$.level <- rep.int(seq_along(nrows), nrows)
   range <- vec_slice(ranges, !is.na(ranges$.label))
   df <- vec_rbind(key, range)
+  df <- data_frame0(df, !!!extra_args)
   class(df) <- c("key_range", "key_guide", class(df))
   df
 }
