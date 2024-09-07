@@ -1,6 +1,6 @@
 test_that("key_range_auto works as intended", {
 
-  fun <- key_range_auto()
+  fun <- key_range_auto(colour = "red")
   expect_type(fun, "closure")
 
   template <- scale_x_discrete(limits = c("1 A", "2 A", "1 B", "2 B", "3 A"))
@@ -12,6 +12,7 @@ test_that("key_range_auto works as intended", {
   expect_equal(unclass(test$end),    c(1:5, 2, 4, 5))
   expect_equal(test$.label, c(1:2, 1:3, "A", "B", "A"))
   expect_equal(test$.level, rep(c(0, 1), c(5, 3)))
+  expect_equal(test$.colour, rep("red", nrow(test)))
 
   template$limits[5] <- "3"
   expect_warning(fun(template), regexp = "can be split into equal lengths")
@@ -24,29 +25,32 @@ test_that("key_range_auto works as intended", {
   expect_equal(unclass(test$end),   1:5)
   expect_equal(test$.label, LETTERS[1:5])
   expect_equal(test$.level, rep(0, 5))
+  expect_equal(test$.colour, rep("red", nrow(test)))
 
 })
 
 test_that("key_range_manual works as intended", {
 
-  test <- key_range_manual(1:5, 4:8, LETTERS[1:5], c(1, 1, 2, 2, 1))
+  test <- key_range_manual(1:5, 4:8, LETTERS[1:5], c(1, 1, 2, 2, 1), colour = "blue")
   expect_s3_class(test, "key_range")
 
   expect_equal(test$start, 1:5)
   expect_equal(test$end,   4:8)
   expect_equal(test$.label, LETTERS[1:5])
   expect_equal(test$.level, c(1, 1, 2, 2, 1))
+  expect_equal(test$.colour, rep("blue", nrow(test)))
 
 })
 
 test_that("key_range_map works as intended", {
 
-  test <- key_range_map(presidential, start = start, end = end, name = name)
+  test <- key_range_map(presidential, start = start, end = end, name = name, colour = "green")
   expect_s3_class(test, "key_range")
 
-  expect_equal(test$start, presidential$start)
-  expect_equal(test$end,   presidential$end)
+  expect_equal(test$start,  presidential$start)
+  expect_equal(test$end,    presidential$end)
   expect_equal(test$.label, presidential$name)
+  expect_equal(test$.colour, rep("green", nrow(test)))
 
   expect_warning(expect_warning(
     key_range_map(presidential, foo = start),
@@ -61,12 +65,13 @@ test_that("key_range_map works as intended", {
 
 test_that("key_range_rle works as intended", {
 
-  test <- key_range_rle(rep(LETTERS[1:5], 5:1))
+  test <- key_range_rle(rep(LETTERS[1:5], 5:1), colour = "orange")
   expect_s3_class(test, "key_range")
 
   expect_equal(test$start, c(0, 5, 9, 12, 14) + 0.5)
   expect_equal(test$end, c(5, 9, 12, 14, 15) + 0.5)
   expect_equal(test$.label, LETTERS[1:5])
+  expect_equal(test$.colour, rep("orange", nrow(test)))
 })
 
 test_that("range_extract_key can censor oob values", {
