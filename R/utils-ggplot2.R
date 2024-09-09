@@ -67,7 +67,7 @@ width_cm <- function(x) {
   if (is.unit(x)) {
     convertWidth(x, "cm", valueOnly = TRUE)
   } else if (is.list(x)) {
-    vapply(x, width_cm, numeric(1))
+    map_dbl(x, width_cm)
   } else {
     cli::cli_abort("Don't know how to get width of {.cls {class(x)}} object.")
   }
@@ -78,7 +78,7 @@ height_cm <- function(x) {
   if (is.unit(x)) {
     convertHeight(x, "cm", TRUE)
   } else if (is.list(x)) {
-    vapply(x, height_cm, numeric(1))
+    map_dbl(x, height_cm)
   } else {
     cli::cli_abort("Don't know how to get height of {.cls {class(x)}} object.")
   }
@@ -250,7 +250,7 @@ in_arc <- function(theta, arc) {
   }
   arc <- arc %% (2 * pi)
   if (arc[1] < arc[2]) {
-    theta >= arc[1] & theta <= arc[2]
+    in_range(theta, arc)
   } else {
     !(theta < arc[1] & theta > arc[2])
   }

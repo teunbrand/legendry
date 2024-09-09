@@ -209,9 +209,9 @@ PrimitiveBracket <- ggproto(
 
       # If we have custom elements, take justification from there
       if (!is.null(text_levels)) {
-        hjust <- vapply(text_levels, function(x) x$hjust %||% hjust, numeric(1))
+        hjust <- map_dbl(text_levels, function(x) x$hjust %||% hjust)
         hjust <- hjust[match(key$.level, levels)]
-        vjust <- vapply(text_levels, function(x) x$vjust %||% vjust, numeric(1))
+        vjust <- map_dbl(text_levels, function(x) x$vjust %||% vjust)
         vjust <- vjust[match(key$.level, levels)]
       }
 
@@ -275,7 +275,7 @@ PrimitiveBracket <- ggproto(
       params$position,
       top  = , bottom = height_cm(grobs$labels),
       left = , right  =  width_cm(grobs$labels),
-      vapply(grobs$labels, get_size_attr, numeric(1))
+      map_dbl(grobs$labels, get_size_attr)
     )
     is_bracket <- as.numeric(!is_each(grobs$brackets, is.zero))
     bracket <- is_bracket * elements$size

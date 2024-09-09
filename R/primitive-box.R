@@ -181,9 +181,9 @@ PrimitiveBox <- ggproto(
       vjust <- elements$text$vjust
 
       if (!is.null(text_levels)) {
-        hjust <- vapply(text_levels, function(x) x$hjust %||% hjust, numeric(1))
+        hjust <- map_dbl(text_levels, function(x) x$hjust %||% hjust)
         hjust <- hjust[match(key$.level, levels)]
-        vjust <- vapply(text_levels, function(x) x$vjust %||% vjust, numeric(1))
+        vjust <- map_dbl(text_levels, function(x) x$vjust %||% vjust)
         vjust <- vjust[match(key$.label, levels)]
       }
 

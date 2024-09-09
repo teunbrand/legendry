@@ -38,7 +38,7 @@ check_list_of <- function(x, class, allow_null = FALSE,
       if (!any(fail)) {
         return(invisible(NULL))
       }
-      problems <- vapply(x[fail], obj_type_friendly, character(1))
+      problems <- map_chr(x[fail], obj_type_friendly)
       problems <- paste0(arg, "[[", which(fail), "]] is ", problems)
       names(problems) <- rep("x", length(problems))
       if (length(problems) > 5) {
@@ -47,7 +47,7 @@ check_list_of <- function(x, class, allow_null = FALSE,
     }
   }
 
-  class <- vapply(class, function(x) as_cli("{.cls {x}}"), character(1))
+  class <- map_chr(class, function(x) as_cli("{.cls {x}}"))
   end <- if (is.list(x)) "." else paste0(", not ", obj_type_friendly(x), ".")
 
   message <- sprintf(
@@ -136,7 +136,7 @@ check_length <- function(
     length <- length(x)
     if (!is.null(min %||% max)) {
       between <- c(min %||% 0, max %||% Inf)
-      if (length >= between[1] && length <= between[2]) {
+      if (in_range(length, between)) {
         return(invisible(NULL))
       }
     }

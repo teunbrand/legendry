@@ -102,7 +102,7 @@ test_that("label angles works", {
     MoreArgs = list(element = theme_gray()$text)
   )
 
-  grid$hjust <- vapply(result, `[[`, i = "hjust", numeric(1))
-  grid$vjust <- vapply(result, `[[`, i = "vjust", numeric(1))
+  grid$hjust <- map_dbl(result, `[[`, i = "hjust")
+  grid$vjust <- map_dbl(result, `[[`, i = "vjust")
   expect_snapshot(grid)
 })

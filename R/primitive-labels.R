@@ -267,7 +267,7 @@ draw_labels <- function(key, element, angle, offset,
 
 measure_textpath_labels <- function(grob) {
   labels <- grob$textpath$label
-  height <- vapply(labels, function(x) attr(x, "metrics")$height, numeric(1))
+  height <- map_dbl(labels, function(x) attr(x, "metrics")$height)
   max(height) * .in2cm
 }
 

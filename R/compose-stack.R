@@ -286,8 +286,8 @@ theta_side_titles <- function(label, elements, params, ranges) {
   }
 
   ranges <- lapply(lapply(ranges, cm), cumsum)
-  min <- vapply(ranges, min, numeric(1))
-  max <- vapply(ranges, max, numeric(1))
+  min <- map_dbl(ranges, min)
+  max <- map_dbl(ranges, max)
 
   element <- elements$side_titles
   just <- justify_range(min, max, element$vjust)

@@ -205,6 +205,14 @@ is_each <- function(x, fun, ...) {
   vapply(x, FUN = fun, FUN.VALUE = logical(1), ...)
 }
 
+map_dbl <- function(x, fun, ...) {
+  vapply(x, FUN = fun, FUN.VALUE = numeric(1), ...)
+}
+
+map_chr <- function(x, fun, ...) {
+  vapply(x, FUN = fun, FUN.VALUE = character(1), ...)
+}
+
 filter_finite <- function(x) {
   x[is.finite(x)]
 }
@@ -221,7 +229,7 @@ apply_theme_defaults <- function(theme, defaults = NULL) {
     return(theme)
   }
   theme    <- replace_null(theme, !!!defaults)
-  relative <- names(defaults)[vapply(defaults, is.rel, logical(1))]
+  relative <- names(defaults)[is_each(defaults, is.rel)]
   relative <- intersect(relative, names(theme))
   for (i in relative) {
     theme[[i]] <- theme[[i]] * unclass(defaults[[i]])
