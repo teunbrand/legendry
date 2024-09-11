@@ -110,6 +110,29 @@ Sometimes, keys have information about additional aesthetics, like the
 that gguidance exposes users to keys. At first, this can be an
 inconvenience, but it allows for a greater degree of customisation.</p>
 <div class="section level3">
+<h3 id="why-use-keys">Why use keys?<a class="anchor" aria-label="anchor" href="#why-use-keys"></a>
+</h3>
+<p>Before we dig into the different types of keys, it is worth noting
+exactly why keys have been exposed. Keys represent ‘rules’ about how to
+annotate a scale, whereas the guide is the display of that rule.</p>
+<p>For example, <code><a href="../reference/key_standard.html">key_log()</a></code> instructs to annotate every 10x
+change with large ticks, and in between changes with smaller ticks. It
+doesn’t really matter whether this rule is applied on an axis or a
+colour bar. Having the rule independent of the display makes it more
+modular.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">logkey</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_standard.html">key_log</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">msleep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sleep_total</span>, <span class="va">brainwt</span>, colour <span class="op">=</span> <span class="va">bodywt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">logkey</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
+<span>    trans <span class="op">=</span> <span class="st">"log10"</span>,</span>
+<span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">logkey</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="keys_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+</div>
+<div class="section level3">
 <h3 id="regular-keys">Regular keys<a class="anchor" aria-label="anchor" href="#regular-keys"></a>
 </h3>
 <p>The understand better how a typical key works, we can use
@@ -117,7 +140,7 @@ inconvenience, but it allows for a greater degree of customisation.</p>
 sufficient to just provide the <code>aesthetic</code> argument, as the
 <code>.value</code> and <code>.label</code> columns automatically derive
 from that.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/key_standard.html">key_manual</a></span><span class="op">(</span>aesthetic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   aesthetic .value .label</span></span>
 <span><span class="co">#&gt; 1         2      2      2</span></span>
@@ -127,24 +150,24 @@ from that.</p>
 argument. Most guides in gguidance accept a <code>key</code> argument,
 which will cause the guide to display the information in the key, rather
 than the information automatically derived from the scale.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_standard.html">key_manual</a></span><span class="op">(</span>aesthetic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two"</span>, <span class="st">"four"</span>, <span class="st">"six"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>In addition, you can provide some automatic keys as keywords. Setting
 <code>key = "minor"</code>, is the same as setting
 <code>key = key_minor()</code>. In the same fashion many other
 <code>key_*()</code> functions can be used as keyword by omitting the
 <code>key_</code>-prefix.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"minor"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Some keys don’t directly return data frames, but return instructions
 on how these keys should interact with scales. For example
 <code><a href="../reference/key_standard.html">key_auto()</a></code>, the default key for many guides in gguidance,
 needs to know the range in which to populate tickmarks.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_standard.html">key_auto</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">key</span><span class="op">)</span></span>
 <span><span class="co">#&gt; function (scale, aesthetic = NULL) </span></span>
@@ -155,11 +178,11 @@ needs to know the range in which to populate tickmarks.</p>
 <span><span class="co">#&gt;     class(df) &lt;- c("key_standard", "key_guide", class(df))</span></span>
 <span><span class="co">#&gt;     df</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x564156fbcaf0&gt;</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x564156fbba88&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;bytecode: 0x5653b4864b48&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x5653b4863ae0&gt;</span></span></code></pre></div>
 <p>We can preview what values they’d label by letting the key absorb a
 scale with known limits.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">key</span><span class="op">(</span><span class="va">template</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   y .value .label</span></span>
@@ -178,7 +201,7 @@ end-point to mark a range of the aesthetic. This can be convenient to
 annotate co-occurrances between the data you are plotting and other
 events. For example, we can annotate the airtimes of TV shows in
 timeseries data.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_manual</a></span><span class="op">(</span></span>
 <span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1985-09-14"</span>, <span class="st">"1993-09-16"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  end   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1992-05-09"</span>, <span class="st">"2004-05-13"</span><span class="op">)</span><span class="op">)</span>, </span>
@@ -196,14 +219,14 @@ columns. In these cases, we cannot indicate a single
 column. The <code>.level</code> column indicates how far we have to
 offset a range, so we’ll display “Frasier” farther away than “Golden
 Girls”.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">economics</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">unemploy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/primitive_bracket.html">primitive_bracket</a></span><span class="op">(</span><span class="va">ranges</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>There is also an ‘automatic’ ranged key, which attempts to find
 patterns in the key labels.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction</a></span><span class="op">(</span><span class="va">drv</span>, <span class="va">year</span><span class="op">)</span>, <span class="va">displ</span>, fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
@@ -212,19 +235,19 @@ patterns in the key labels.</p>
 <span>    fill <span class="op">=</span> <span class="st">"Drive train"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">plot</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>For example an obvious pattern in the x-axis labels of the plot above
 is that you first have 3 entries for the 3 drive trains in 1999,
 followed by 3 drive trains in 2008. By default,
 <code><a href="../reference/key_range.html">key_range_auto()</a></code> tries to split the label on any
 non-alphanumeric character, but you give explicit split instructions by
 using the <code>sep</code> argument.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Split on literal periods</span></span>
 <span><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_auto</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\\."</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/primitive_bracket.html">primitive_bracket</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -237,14 +260,14 @@ using the <code>sep</code> argument.</p>
 functions have equivalents that are easy to pipe. They are called
 <code><a href="../reference/key_standard.html">key_map()</a></code> and <code><a href="../reference/key_range.html">key_range_map()</a></code> respectively,
 and they can replace doing the following:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_manual</a></span><span class="op">(</span></span>
 <span>  start <span class="op">=</span> <span class="va">presidential</span><span class="op">$</span><span class="va">start</span>,</span>
 <span>  end   <span class="op">=</span> <span class="va">presidential</span><span class="op">$</span><span class="va">end</span>,</span>
 <span>  name  <span class="op">=</span> <span class="va">presidential</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>By the following, more pipe-friendly version:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">key</span> <span class="op">&lt;-</span> <span class="va">presidential</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/key_range.html">key_range_map</a></span><span class="op">(</span></span>
 <span>    start <span class="op">=</span> <span class="va">start</span>,</span>
@@ -252,11 +275,11 @@ and they can replace doing the following:</p>
 <span>    name  <span class="op">=</span> <span class="va">name</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Both of these keys would display as something like this:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">economics</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">unemploy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/primitive_bracket.html">primitive_bracket</a></span><span class="op">(</span><span class="va">key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="formatting-keys">Formatting keys<a class="anchor" aria-label="anchor" href="#formatting-keys"></a>
@@ -266,16 +289,16 @@ you also have control over common text formatting operations in keys.
 Most key options have an <code>...</code> argument that allows many
 arguments to <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code> to be passed on to the
 labels.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="../reference/key_standard.html">key_auto</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>In some cases where you know the label in advance, which is almost
 every time one uses <code><a href="../reference/key_standard.html">key_manual()</a></code>, <code><a href="../reference/key_standard.html">key_map()</a></code> or
 their ranged equivalents, you can even vectorise these formatting
 options.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">guide</span> <span class="op">&lt;-</span> <span class="va">presidential</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/key_range.html">key_range_map</a></span><span class="op">(</span></span>
 <span>    start <span class="op">=</span> <span class="va">start</span>,</span>
@@ -289,7 +312,7 @@ options.</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">economics</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">unemploy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="va">guide</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="forbidden-keys">Forbidden keys<a class="anchor" aria-label="anchor" href="#forbidden-keys"></a>
@@ -300,23 +323,23 @@ shouldn’t use in your code. These are <code><a href="../reference/key_specialt
 prevent experimenting and subsequent frustration with these keys. You
 can see that <code><a href="../reference/key_specialty.html">key_sequence()</a></code> does not produce an informative
 axis.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_sequence_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_specialty.html">key_sequence</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_sequence_key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>The reason for this is that this key was designed for colour
 gradients</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span>, colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_barcap.html">gizmo_barcap</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_sequence_key</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <p>Likewise, <code><a href="../reference/key_specialty.html">key_bins()</a></code> was not designed for regular
 guides, but is specific to colour steps.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_bins_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_specialty.html">key_bins</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span>, colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -324,7 +347,7 @@ guides, but is specific to colour steps.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_stepcap.html">gizmo_stepcap</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_bins_key</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="keys_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="keys_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

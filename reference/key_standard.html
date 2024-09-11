@@ -10,6 +10,7 @@ key_minor() is a function factory whose functions also extract minor
 break positions for minor tick marks.
 key_log() is a function factory whose functions place ticks at intervals
 in log10 space.
+key_none() makes an empty key with no entries.
 
 "><meta property="og:description" content="These functions are helper functions for working with tick marks as keys
 in guides. They all share the goal of creating a guide key, but have
@@ -22,6 +23,7 @@ key_minor() is a function factory whose functions also extract minor
 break positions for minor tick marks.
 key_log() is a function factory whose functions place ticks at intervals
 in log10 space.
+key_none() makes an empty key with no entries.
 
 "><meta property="og:image" content="https://teunbrand.github.io/gguidance/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -71,6 +73,7 @@ key from major breaks in a scale.</p></li>
 break positions for minor tick marks.</p></li>
 <li><p><code>key_log()</code> is a function factory whose functions place ticks at intervals
 in log10 space.</p></li>
+<li><p><code>key_none()</code> makes an empty key with no entries.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -95,7 +98,9 @@ in log10 space.</p></li>
 <span>  expanded <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  labeller <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">key_none</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -222,6 +227,11 @@ class.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   aesthetic .value .label</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        VC     VC     VC</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        OJ     OJ     OJ</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Empty key</span></span></span>
+<span class="r-in"><span><span class="fu">key_none</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] aesthetic .value    .label   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;0 rows&gt; (or 0-length row.names)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
