@@ -99,7 +99,7 @@ GizmoHistogram <- ggproto(
     hist
   },
 
-  get_layer_key = function(params, layers, data = NULL) {
+  get_layer_key = function(params, layers, data = NULL, ...) {
     hist <- params$decor %||% params$hist
     if (length(hist) == 0) {
       values <- filter_finite(vec_c(!!!lapply(data, .subset2, params$aesthetic)))

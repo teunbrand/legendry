@@ -151,10 +151,10 @@ GuideColourRing <- ggproto(
     data_frame(!!aesthetic := scale$get_limits(), group = 1L)
   },
 
-  get_layer_key = function(params, layers, data = NULL) {
+  get_layer_key = function(params, layers, data = NULL, ...) {
     params <- ring_xy(params, params$aesthetic)
 
-    params <- Compose$get_layer_key(params, layers, data)
+    params <- Compose$get_layer_key(params, layers, data, ...)
     if (isTRUE(params$reverse)) {
       params <- set_limits(params, rev(params$limits))
     }

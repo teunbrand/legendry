@@ -155,7 +155,7 @@ GizmoDensity <- ggproto(
     params
   },
 
-  get_layer_key = function(params, layers, data = NULL) {
+  get_layer_key = function(params, layers, data = NULL, ...) {
     density <- params$decor %||% params$density
     if (length(density) == 0) {
       values  <- filter_finite(vec_c(!!!lapply(data, .subset2, params$aesthetic)))

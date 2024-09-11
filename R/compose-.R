@@ -114,10 +114,10 @@ Compose <- ggproto(
     params
   },
 
-  get_layer_key = function(params, layers, data = NULL) {
+  get_layer_key = function(params, layers, data = NULL, ...) {
     params$guide_params <- loop_guides(
       params$guides, params$guide_params, "get_layer_key",
-      layers = layers, data = data
+      layers = layers, data = data, ...
     )
     # Collect limits
     limits <- get_limits(params)
