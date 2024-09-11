@@ -7,6 +7,7 @@
 \alias{key_map}
 \alias{key_minor}
 \alias{key_log}
+\alias{key_none}
 \title{Standard keys}
 \usage{
 key_auto(...)
@@ -30,6 +31,8 @@ key_log(
   labeller = NULL,
   ...
 )
+
+key_none()
 }
 \arguments{
 \item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
@@ -91,6 +94,7 @@ key from major breaks in a scale.
 break positions for minor tick marks.
 \item \code{key_log()} is a function factory whose functions place ticks at intervals
 in log10 space.
+\item \code{key_none()} makes an empty key with no entries.
 }
 }
 \examples{
@@ -113,6 +117,9 @@ key_manual(
 
 # Values from a `<data.frame>`
 key_map(ToothGrowth, aesthetic = unique(supp))
+
+# Empty key
+key_none()
 }
 \seealso{
 Other keys: 

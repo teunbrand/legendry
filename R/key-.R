@@ -15,6 +15,7 @@
 #'   break positions for minor tick marks.
 #' * `key_log()` is a function factory whose functions place ticks at intervals
 #'   in log10 space.
+#' * `key_none()` makes an empty key with no entries.
 #'
 #' @param aesthetic,value A vector of values for the guide to represent
 #'   equivalent to the `breaks` argument in scales. The `aesthetic` will be
@@ -75,6 +76,9 @@
 #'
 #' # Values from a `<data.frame>`
 #' key_map(ToothGrowth, aesthetic = unique(supp))
+#'
+#' # Empty key
+#' key_none()
 NULL
 
 #' @rdname key_standard
@@ -169,6 +173,15 @@ key_log <- function(
       expanded = expanded, extra_args = dots, call = call
     )
   }
+}
+
+#' @rdname key_standard
+#' @export
+key_none <- function() {
+  new_data_frame(
+    list(aesthetic = logical(), .value = logical(), .label = character()),
+    n = 0L, class = c("key_standard", "key_guide")
+  )
 }
 
 # Helpers -----------------------------------------------------------------
