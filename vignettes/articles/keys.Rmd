@@ -44,6 +44,25 @@ get_guide_data(standard, aesthetic = "x")
 The key difference between keys in gguidance and keys in ggplot2, is that gguidance exposes users to keys.
 At first, this can be an inconvenience, but it allows for a greater degree of customisation.
 
+### Why use keys?
+
+Before we dig into the different types of keys, it is worth noting exactly why keys have been exposed.
+Keys represent 'rules' about how to annotate a scale, whereas the guide is the display of that rule.
+For example, `key_log()` instructs to annotate every 10x change with large ticks, and in between changes with smaller ticks.
+It doesn't really matter whether this rule is applied on an axis or a colour bar.
+
+```{r}
+logkey <- key_log()
+
+ggplot(msleep, aes(sleep_total, brainwt, colour = bodywt)) +
+  geom_point(na.rm = TRUE) +
+  scale_y_log10(guide = guide_axis_custom(key = logkey)) +
+  scale_colour_viridis_c(
+    trans = "log10",
+    guide = guide_colourbar_custom(key = logkey)
+  )
+```
+
 ### Regular keys
 
 The understand better how a typical key works, we can use `key_manual()` to manually create a key.
