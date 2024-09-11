@@ -98,7 +98,10 @@ guide_axis_nested <- function(
   )
 
   if (identical(key, "range_auto")) {
-    labels <- guide_none
+    labels <- new_guide(
+      available_aes = c("any", "x", "y", "r", "theta"),
+      super = guide_none()
+    )
   } else {
     labels <- primitive_labels(angle = angle)
   }
