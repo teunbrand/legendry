@@ -132,9 +132,163 @@ can be used in any and all position aesthetic, and can (but should not)
 be used for other continuous aesthetics.</p>
 </div>
 <div class="section level3">
-<h3 id="novelty-axes">Novelty axes<a class="anchor" aria-label="anchor" href="#novelty-axes"></a>
+<h3 id="nested-axes">Nested axes<a class="anchor" aria-label="anchor" href="#nested-axes"></a>
 </h3>
-<p>First have to implement some.</p>
+<p>Currently, there is exactly 1 ‘novelty’ axis and that is
+<code><a href="../reference/guide_axis_nested.html">guide_axis_nested()</a></code>. Let’s suppose we have ‘nested’ data,
+which for our purposes just means that discrete variables have some kind
+of categories or interactions to them that can be laid out in a nested
+fashion. A category for categories, if you will.</p>
+<p>In the example below we have three super-categories ‘Drink’, ‘Fruit’
+and ‘Vehicle’ which will have more granular categories like ‘Coffee’ and
+‘Pear’ that belong to the super-categories. We can use the
+<code><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction()</a></code> function to paste together the name of the
+inner category with the name of the outer category.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Coffee"</span>, <span class="st">"Tea"</span>, <span class="st">"Apple"</span>, <span class="st">"Pear"</span>, <span class="st">"Car"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Drink"</span>, <span class="st">"Drink"</span>, <span class="st">"Fruit"</span>, <span class="st">"Fruit"</span>, <span class="st">"Vehicle"</span><span class="op">)</span>,</span>
+<span>  amount <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plain</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction</a></span><span class="op">(</span><span class="va">item</span>, <span class="va">type</span><span class="op">)</span>, <span class="va">amount</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"axis_nested"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>Instead of just relying on formatting the labels correctly for
+splitting, you can also manually annotate the outer categories. To do
+this, we can use the <code><a href="../reference/key_range.html">key_range_manual()</a></code> function to
+constructs the brackets as we see fit.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_manual</a></span><span class="op">(</span></span>
+<span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Coffee"</span>, <span class="st">"Apple"</span><span class="op">)</span>,</span>
+<span>  end   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tea"</span>, <span class="st">"Pear"</span><span class="op">)</span>,</span>
+<span>  name  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Drinks"</span>, <span class="st">"Fruits"</span><span class="op">)</span>, </span>
+<span>  level <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">item</span>, <span class="va">amount</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span></span>
+<span>    limits <span class="op">=</span> <span class="va">df</span><span class="op">$</span><span class="va">item</span>,</span>
+<span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span></span>
+<span>      regular_key <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span>      key <span class="op">=</span> <span class="va">my_key</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<div class="section level4">
+<h4 id="brackets">Brackets<a class="anchor" aria-label="anchor" href="#brackets"></a>
+</h4>
+<p>To change the style of the range indicators, you can choose a
+different <code>bracket</code> setting. The theme elements
+<code>gguidance.bracket</code> and <code>gguidance.bracket.size</code>
+control the styling and size of the line. These settings have a shortcut
+in <code><a href="../reference/theme_guide.html">theme_guide()</a></code>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>bracket <span class="op">=</span> <span class="st">"curvy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>    bracket <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span>
+<span>    bracket.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"mm"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p>The brackets can be provided as a string naming a bracket function,
+like <code>"curvy"</code> that invokes <code><a href="../reference/bracket_options.html">bracket_curvy()</a></code>.
+Below follows an overview of all the build-in bracket shapes.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">brackets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"atan"</span>    <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_atan</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="st">"chevron"</span> <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_chevron</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="st">"curvy"</span>   <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_curvy</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="st">"line"</span>    <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_line</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>  <span class="st">"round"</span>   <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_round</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="st">"sigmoid"</span> <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_sigmoid</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="st">"square"</span>  <span class="op">=</span> <span class="fu"><a href="../reference/bracket_options.html">bracket_square</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">brackets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">brackets</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">brackets</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">brackets</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">brackets</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">brackets</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">shape</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p>Quite possibly, there might be bracket shapes you want to use, but
+aren’t built into gguidance. Luckily, we can build custom brackets,
+using a numeric matrix that:</p>
+<ul>
+<li>Has 2 columns corresponding to the x and y coordinates.</li>
+<li>Has at least 2 rows.</li>
+<li>Only has values between 0 and 1.</li>
+</ul>
+<p>The x-coordinate will be stretched along the axis, whereas y will be
+squished to fit the <code>gguidance.bracket.size</code> theme setting. A
+custom bracket can just be provided to the <code>bracket</code>
+argument.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">zigzag</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>bracket <span class="op">=</span> <span class="va">zigzag</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="boxes">Boxes<a class="anchor" aria-label="anchor" href="#boxes"></a>
+</h4>
+<p>Alternatively, it is also possible to forego brackets altogether and
+use boxes instead.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"box"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="customising">Customising<a class="anchor" aria-label="anchor" href="#customising"></a>
+</h4>
+<p>You needn’t strictly use <code><a href="../reference/guide_axis_nested.html">guide_axis_nested()</a></code> with
+discrete data: you can use it with continuous data as well. However,
+you’d need to provide a manual ranged key, such as one created by
+<code><a href="../reference/key_range.html">key_range_manual()</a></code>/<code><a href="../reference/key_range.html">key_range_map()</a></code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">presidents</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_map</a></span><span class="op">(</span><span class="va">presidential</span>, start <span class="op">=</span> <span class="va">start</span>, end <span class="op">=</span> <span class="va">end</span>, name <span class="op">=</span> <span class="va">name</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">eco</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">economics</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">unemploy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Unemployment"</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">eco</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">presidents</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p>To customise the different depths of the bracketed text, you can give
+a list of text elements to the <code>levels_text</code> argument.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">presidents</span><span class="op">$</span><span class="va">.level</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">presidents</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">eco</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span></span>
+<span>  key <span class="op">=</span> <span class="va">presidents</span>,</span>
+<span>  levels_text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>    <span class="cn">NULL</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"italic"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p>Alternatively, you can tailor many of the usual text formatting
+options by encoding these in the key.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">presidents</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_map</a></span><span class="op">(</span></span>
+<span>  <span class="va">presidential</span>, </span>
+<span>  start <span class="op">=</span> <span class="va">start</span>, end <span class="op">=</span> <span class="va">end</span>, name <span class="op">=</span> <span class="va">name</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">presidential</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">party</span> <span class="op">==</span> <span class="st">"Republican"</span>, <span class="st">"tomato"</span>, <span class="st">"dodgerblue"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">eco</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">presidents</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tour_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -159,7 +313,7 @@ before we gander at rings.</p>
 </ol>
 <p>When used in a standard fashion, they look very similar to their
 vanilla counterparts.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">&lt;-</span> <span class="va">standard</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"City Miles\nper Gallon"</span><span class="op">)</span></span>
@@ -171,7 +325,7 @@ vanilla counterparts.</p>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"coloursteps_custom"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Custom colour steps"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-6-1.png" width="700"><img src="tour_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-15-1.png" width="700"><img src="tour_files/figure-html/unnamed-chunk-15-2.png" width="700"></p>
 <p>Please not that the following paragraphs apply equally to
 <code><a href="../reference/guide_coloursteps_custom.html">guide_coloursteps_custom()</a></code>, but we’ll take
 <code><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom()</a></code> for examples.</p>
@@ -186,27 +340,27 @@ has a few observation below the lower limit of 10, and a few above the
 upper limit of 30. Typically, these are displayed in the
 <code>na.value = "grey"</code> colour. The bars display that these data
 are out-of-bounds by the gray ‘caps’ at the two ends of the bar.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colourbar_custom"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>You can change the out-of-bounds strategy, the <code>oob</code>
 argument of the scale, to have the caps reflect the colour that
 out-of-bounds data has acquired.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>, oob <span class="op">=</span> <span class="va">oob_squish</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colourbar_custom"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>You can also force the caps to appear, even when there are no
 out-of-bounds data, or force the cap colour to be consistent with the
 scale.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span></span>
@@ -214,10 +368,10 @@ scale.</p>
 <span>      oob <span class="op">=</span> <span class="st">"squish"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>The shape of the cap needn’t be a triangle. You can set the shape to
 any of the built-in cap shapes.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span></span>
@@ -225,11 +379,11 @@ any of the built-in cap shapes.</p>
 <span>      shape <span class="op">=</span> <span class="st">"arch"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <p>The caps can be provided as a string naming a cap function, like
 <code>"arch"</code> that invokes <code><a href="../reference/cap_options.html">cap_arch()</a></code>. Below follows
 an overview of all the build-in cap shapes.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">caps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  none <span class="op">=</span> <span class="fu"><a href="../reference/cap_options.html">cap_none</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  triangle <span class="op">=</span> <span class="fu"><a href="../reference/cap_options.html">cap_triangle</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -247,7 +401,7 @@ an overview of all the build-in cap shapes.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span>arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">shape</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>It is most certainly possible to use shapes of your own imagination
 as well. To provide your own shape, use a numeric matrix that:</p>
 <ul>
@@ -260,7 +414,7 @@ as well. To provide your own shape, use a numeric matrix that:</p>
 <p>You can see in the shapes above that these requirements all hold for
 the built-in shapes. Such a matrix can be given to the
 <code>shape</code> argument of the guide.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hourglass_cap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
@@ -273,7 +427,7 @@ the built-in shapes. Such a matrix can be given to the
 <span>      shape <span class="op">=</span> <span class="va">hourglass_cap</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="side-guides">Side-guides<a class="anchor" aria-label="anchor" href="#side-guides"></a>
@@ -282,17 +436,17 @@ the built-in shapes. Such a matrix can be given to the
 marks are separate axes masquerading as parts of the colour bar. It
 becomes easier to see once you wash away their make-up with
 <code>vanilla = FALSE</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colourbar_custom.html">guide_colourbar_custom</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>This trick allows you to tailor the colour bar to your liking on
 separate sides. You can use this to invoke any of the tricks described
 in the axis section, like setting minor ticks, or swap out axes for an
 annotation-primitive like <code><a href="../reference/primitive_bracket.html">primitive_bracket()</a></code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brackets</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/key_range.html">key_range_manual</a></span><span class="op">(</span></span>
 <span>    start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">25</span><span class="op">)</span>,</span>
@@ -309,7 +463,7 @@ annotation-primitive like <code><a href="../reference/primitive_bracket.html">pr
 <span>      second_guide <span class="op">=</span> <span class="va">brackets</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level3">
@@ -322,7 +476,7 @@ cyclical data can be the month of the year. The time between December
 and January is just one month, but when encoded numerically, the
 difference is 11 months. This problem can show itself sometimes in
 periodic data, like housing sales below.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">housing</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">txhousing</span>, <span class="va">city</span> <span class="op">==</span> <span class="st">"Houston"</span><span class="op">)</span>, </span>
@@ -340,12 +494,12 @@ periodic data, like housing sales below.</p>
 <span></span>
 <span><span class="va">housing</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 <p>Every year we get a sharp colour transition in the winter. The remedy
 for this problem is to use a cyclical palette. The {scico} package
 offers some suitable cyclical palettes, like ‘romaO’, ‘vikO’, ‘bamO’,
 ‘corkO’ or ‘brocO’.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Colours from scico::scico(12, palette = "romaO")</span></span>
 <span><span class="va">periodic_pal</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#723957"</span>, <span class="st">"#843D3A"</span>, <span class="st">"#97552B"</span>, <span class="st">"#B08033"</span>, <span class="st">"#CBB45D"</span>, <span class="st">"#D5DA99"</span>, </span>
@@ -353,18 +507,18 @@ offers some suitable cyclical palettes, like ‘romaO’, ‘vikO’, ‘bamO’
 <span></span>
 <span><span class="va">housing</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <p>This is already much better, but the guide itself does a poor job of
 displaying the cyclical nature of months. To have this better reflected
 in the guide, you can use <code><a href="../reference/guide_colour_ring.html">guide_colour_ring()</a></code>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">housing</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span></span>
 <span>    colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">13</span><span class="op">)</span>,</span>
 <span>    breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colour_ring"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <p>The ‘thickness’ of the donut can be controlled by the
 <code>legend.key.width</code> parameter, which by default is
 1/5<sup>th</sup> of the diameter. The outer diameter of the ring is
@@ -373,7 +527,7 @@ by 5 for consistency with the colour bar multiplier. Like custom colour
 bars, it is possible to set custom guides, but these are hoarded under
 the <code>inner_guide</code> and <code>outer_guide</code> to distinguish
 that they aren’t first or second.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">housing</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span></span>
 <span>    colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">13</span><span class="op">)</span>,</span>
@@ -387,7 +541,7 @@ that they aren’t first or second.</p>
 <span>    legend.key.width <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">2.5</span><span class="op">)</span>, <span class="co"># fill to center</span></span>
 <span>    legend.key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span> <span class="co"># actual size is 0.5 * 5 = 2.5 cm</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
