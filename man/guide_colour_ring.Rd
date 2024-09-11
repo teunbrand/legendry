@@ -108,6 +108,7 @@ p + guides(colour = guide_colour_ring(angle = 0))
 \seealso{
 Other standalone guides: 
 \code{\link{guide_axis_custom}()},
+\code{\link{guide_axis_nested}()},
 \code{\link{guide_colourbar_custom}()},
 \code{\link{guide_coloursteps_custom}()},
 \code{\link{guide_subtitle}()}

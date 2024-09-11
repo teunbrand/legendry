@@ -123,6 +123,7 @@ ggplot(msleep, aes(bodywt, brainwt)) +
 }
 \seealso{
 Other standalone guides: 
+\code{\link{guide_axis_nested}()},
 \code{\link{guide_colour_ring}()},
 \code{\link{guide_colourbar_custom}()},
 \code{\link{guide_coloursteps_custom}()},
