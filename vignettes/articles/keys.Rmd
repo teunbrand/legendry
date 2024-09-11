@@ -48,8 +48,10 @@ At first, this can be an inconvenience, but it allows for a greater degree of cu
 
 Before we dig into the different types of keys, it is worth noting exactly why keys have been exposed.
 Keys represent 'rules' about how to annotate a scale, whereas the guide is the display of that rule.
+
 For example, `key_log()` instructs to annotate every 10x change with large ticks, and in between changes with smaller ticks.
 It doesn't really matter whether this rule is applied on an axis or a colour bar.
+Having the rule independent of the display makes it more modular.
 
 ```{r}
 logkey <- key_log()
