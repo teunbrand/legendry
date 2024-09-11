@@ -74,9 +74,157 @@ standard + aes(colour = cty) +
 
 In summary, `guide_axis_custom()` is a flexible guide that can be used in any and all position aesthetic, and can (but should not) be used for other continuous aesthetics.
 
-### Novelty axes
+### Nested axes
 
-First have to implement some.
+Currently, there is exactly 1 'novelty' axis and that is `guide_axis_nested()`.
+Let's suppose we have 'nested' data, which for our purposes just means that discrete variables have some kind of categories or interactions to them that can be laid out in a nested fashion. 
+A category for categories, if you will.
+
+In the example below we have three super-categories 'Drink', 'Fruit' and 'Vehicle' which will have more granular categories like 'Coffee' and 'Pear' that belong to the super-categories.
+We can use the `interaction()` function to paste together the name of the inner category with the name of the outer category.
+
+```{r}
+df <- data.frame(
+  item = c("Coffee", "Tea", "Apple", "Pear", "Car"),
+  type = c("Drink", "Drink", "Fruit", "Fruit", "Vehicle"),
+  amount = c(5, 1, 2, 3, 1)
+)
+
+plain <- ggplot(df, aes(interaction(item, type), amount)) +
+  geom_col()
+plain + guides(x = "axis_nested")
+```
+
+Instead of just relying on formatting the labels correctly for splitting, you can also manually annotate the outer categories. To do this, we can use the `key_range_manual()` function to constructs the brackets as we see fit.
+
+```{r}
+my_key <- key_range_manual(
+  start = c("Coffee", "Apple"),
+  end   = c("Tea", "Pear"),
+  name  = c("Drinks", "Fruits"), 
+  level = 1
+)
+
+ggplot(df, aes(item, amount)) +
+  geom_col() +
+  scale_x_discrete(
+    limits = df$item,
+    guide = guide_axis_nested(
+      regular_key = "auto",
+      key = my_key
+    )
+  )
+```
+
+#### Brackets
+
+To change the style of the range indicators, you can choose a different `bracket` setting.
+The theme elements `gguidance.bracket` and `gguidance.bracket.size` control the styling and size of the line.
+These settings have a shortcut in `theme_guide()`.
+
+```{r}
+plain + guides(x = guide_axis_nested(bracket = "curvy")) +
+  theme_guide(
+    bracket = element_line(colour = "blue"),
+    bracket.size = unit(3, "mm")
+  )
+```
+
+The brackets can be provided as a string naming a bracket function, like `"curvy"` that invokes `bracket_curvy()`.
+Below follows an overview of all the build-in bracket shapes.
+
+```{r}
+brackets <- list(
+  "atan"    = bracket_atan(),
+  "chevron" = bracket_chevron(),
+  "curvy"   = bracket_curvy(),
+  "line"    = bracket_line(), 
+  "round"   = bracket_round(),
+  "sigmoid" = bracket_sigmoid(),
+  "square"  = bracket_square()
+)
+
+brackets <- cbind(
+  as.data.frame(do.call(rbind, brackets)),
+  shape = factor(rep(names(brackets), lengths(brackets) / 2), names(brackets))
+)
+
+ggplot(brackets, aes(x, y)) +
+  geom_path() +
+  facet_wrap(~ shape) +
+  coord_equal()
+```
+
+Quite possibly, there might be bracket shapes you want to use, but aren't built into gguidance.
+Luckily, we can build custom brackets, using a numeric matrix that:
+
+* Has 2 columns corresponding to the x and y coordinates.
+* Has at least 2 rows.
+* Only has values between 0 and 1.
+
+The x-coordinate will be stretched along the axis, whereas y will be squished to fit the `gguidance.bracket.size` theme setting.
+A custom bracket can just be provided to the `bracket` argument.
+
+```{r}
+zigzag <- cbind(
+  x = seq(0, 1, length.out = 20),
+  y = rep(c(0, 1), length.out = 20)
+)
+
+plain + guides(x = guide_axis_nested(bracket = zigzag))
+```
+
+#### Boxes
+
+Alternatively, it is also possible to forego brackets altogether and use boxes instead.
+
+```{r}
+plain + guides(x = guide_axis_nested(type = "box"))
+```
+
+#### Customising
+
+You needn't strictly use `guide_axis_nested()` with discrete data: you can use it with continuous data as well.
+However, you'd need to provide a manual ranged key, such as one created by `key_range_manual()`/`key_range_map()`.
+
+```{r}
+presidents <- key_range_map(presidential, start = start, end = end, name = name)
+
+eco <- ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  labs(y = "Unemployment")
+  
+eco + guides(x = guide_axis_nested(key = presidents))
+```
+
+To customise the different depths of the bracketed text, you can give a list of text elements to the `levels_text` argument.
+
+```{r}
+presidents$.level <- rep(1:3, length.out = nrow(presidents))
+
+eco + guides(x = guide_axis_nested(
+  key = presidents,
+  levels_text = list(
+    element_text(face = "bold"),
+    NULL,
+    element_text(face = "italic")
+  )
+))
+```
+
+Alternatively, you can tailor many of the usual text formatting options by encoding these in the key.
+
+```{r}
+presidents <- key_range_map(
+  presidential, 
+  start = start, end = end, name = name,
+  level = rep(1:4, length.out = nrow(presidential)),
+  colour = ifelse(party == "Republican", "tomato", "dodgerblue")
+)
+
+eco + guides(x = guide_axis_nested(key = presidents))
+```
+
 
 ## Colours
 
