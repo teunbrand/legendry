@@ -126,7 +126,7 @@ PrimitiveFence <- ggproto(
     rail = "none"
   ),
 
-  hashables = exprs(key$.start, key$.end),
+  hashables = exprs(key, decor),
 
   elements = list(
     position = list(
@@ -166,9 +166,9 @@ PrimitiveFence <- ggproto(
 
     # We don't want fencepost of outer pieces poke through the railing of
     # the inner pieces.
-    for (lvl in levels) {
-      lower <- which(key$.level < lvl)
-      current <- which(decor$.level_end == lvl)
+    for (lvl in levels[-1L]) {
+      lower <- which(key$.level == lvl - 1L)
+      current <- which(decor$.level_end >= lvl)
       if (length(current) < 1 || length(lower) < 1) {
         next
       }
@@ -210,8 +210,9 @@ PrimitiveFence <- ggproto(
     key <- justify_ranges(key, levels, elements$text, text_levels)
 
     if (is_theta(position)) {
-      add <- if (position == "theta.sec") pi else 0
-      key <- polar_xy(key, key$r, key$theta + add, params$bbox)
+      add  <- if (position == "theta.sec") pi else 0
+      key  <- polar_xy(key, key$r,   key$theta  + add, params$bbox)
+      rail <- polar_xy(rail, rail$r, rail$theta + add, params$bbox)
     }
 
     decor$.level <- match(decor$.level, levels)
@@ -305,8 +306,9 @@ draw_fencerail <- function(rail, element, sizes, offset, position, side, bbox) {
     theta <- Map(seq, rail$theta, rail$thetaend, length.out = n)
     i     <- rep(seq_along(theta), lengths(theta))
 
+    add <- as.numeric(position == "theta.sec")
     xy <- data_frame0(
-      theta = unlist(theta),
+      theta = unlist(theta) + add * pi,
       r = rail$r[i],
       i = i
     )
@@ -325,6 +327,9 @@ draw_fencerail <- function(rail, element, sizes, offset, position, side, bbox) {
       xy$i <- c(1, xy$i[-1] != xy$i[-nrow(xy)])
       xy <- vec_c(xy, xy)
       xy$i <- cumsum(xy$i)
+    }
+    if (add == 1) {
+      r <- r * -1
     }
 
     rails <- element_grob(
@@ -370,10 +375,16 @@ draw_fencepost <- function(decor, element, sizes, offset, position) {
   levels <- vec_interleave(decor$.level, decor$.level_end + 1)
 
   if (is_theta(position)) {
-    angle <- rep(decor$theta, each = 2)
+    add <- as.numeric(position == "theta.sec")
+
+    angle <- rep(decor$theta, each = 2) + add * pi
     x     <- rep(decor$x,     each = 2)
     y     <- rep(decor$y,     each = 2)
-    length <- unit(offset - cumsum(sizes)[levels], "cm")
+    length <- cumsum(sizes)[levels] + offset - sum(sizes)
+    if (add == 1) {
+      length <- length * -1
+    }
+    length <- unit(length, "cm")
 
     ticks <- element_grob(
       element,
