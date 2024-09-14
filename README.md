@@ -49,9 +49,8 @@ guides’. These complete guides can just be drop-in replacement of
 regular guides, which you can specify using ggplot2’s `guides()`
 function or using the `guide` argument in scales. In the example below,
 we’re using two custom variants of vanilla guides, namely
-`guide_axis_custom()` and `guide_colourbar_custom()`. These custom
-variants have additional options that allow a greater degree of
-customisation:
+`guide_axis_custom()` and `guide_colbar()`. These custom variants have
+additional options that allow a greater degree of customisation:
 
 - The axis guide has an option for bidirectional ticks.
 - The colourbar automatically recognises out-of-bounds values and
@@ -61,7 +60,7 @@ customisation:
 base + 
   scale_colour_viridis_c(
     limits = c(NA, 30),
-    guide = "colourbar_custom"
+    guide = "colbar"
   ) +
   guides(
     x = guide_axis_custom(bidi = TRUE)

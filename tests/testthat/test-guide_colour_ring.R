@@ -1,4 +1,4 @@
-test_that("guide_colour_ring looks as it should", {
+test_that("guide_colring looks as it should", {
 
   # vdiffr's device doesn't support clipping paths yet, so we just ignore
   # warnings for now
@@ -17,7 +17,7 @@ test_that("guide_colour_ring looks as it should", {
     legend.axis.line = element_line(colour = "dodgerblue")
   )), theme = theme(gguidance.guide.spacing = unit(0, "cm")))
 
-  standard_ring <- guides(colour = guide_colour_ring(
+  standard_ring <- guides(colour = guide_colring(
     nbin = 15, outer_guide = outline, inner_guide = outline
   ))
 
@@ -27,7 +27,7 @@ test_that("guide_colour_ring looks as it should", {
     "standard ring", pring
   )
 
-  pring <- p + guides(colour = guide_colour_ring(
+  pring <- p + guides(colour = guide_colring(
     nbin = 15, outer_guide = outline, inner_guide = outline, show_labels = "inner"
   ))
 
@@ -50,7 +50,7 @@ test_that("guide_colour_ring looks as it should", {
     "conical", pring
   )
 
-  pring <- p + guides(colour = guide_colour_ring(
+  pring <- p + guides(colour = guide_colring(
     nbin = 15, outer_guide = outline, inner_guide = outline,
     start = 0.25 * pi, end = 1.75 * pi
   ))

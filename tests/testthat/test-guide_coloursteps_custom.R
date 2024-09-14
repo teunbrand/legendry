@@ -1,4 +1,4 @@
-test_that("guide_colourbar_custom works in all positions", {
+test_that("guide_colsteps works in all positions", {
 
   key <- key_bins(show.limits = TRUE)
   base <- ggplot(mtcars, aes(disp, mpg, colour = cyl)) +
@@ -6,10 +6,10 @@ test_that("guide_colourbar_custom works in all positions", {
     scale_colour_viridis_c(
       oob = oob_squish,
       guide = compose_stack(
-        guide_coloursteps_custom(show = c(FALSE, FALSE)),
-        guide_coloursteps_custom(show = c(TRUE,  FALSE)),
-        guide_coloursteps_custom(show = c(FALSE, TRUE)),
-        guide_coloursteps_custom(show = c(TRUE,  TRUE))
+        guide_colsteps(show = c(FALSE, FALSE)),
+        guide_colsteps(show = c(TRUE,  FALSE)),
+        guide_colsteps(show = c(FALSE, TRUE)),
+        guide_colsteps(show = c(TRUE,  TRUE))
       )
     ) +
     theme(

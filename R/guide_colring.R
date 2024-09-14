@@ -46,22 +46,22 @@
 #'   scale_colour_gradientn(colours = my_pal)
 #'
 #' # Standard colour ring
-#' p + guides(colour = "colour_ring")
+#' p + guides(colour = "colring")
 #'
 #' # As an arc
-#' p + guides(colour = guide_colour_ring(
+#' p + guides(colour = guide_colring(
 #'   start = 1.25 * pi, end = 2.75 * pi
 #' ))
 #'
 #' # Removing the inner tick marks
-#' p + guides(colour = guide_colour_ring(inner_guide = "none"))
+#' p + guides(colour = guide_colring(inner_guide = "none"))
 #'
 #' # Include labels on the inner axis
-#' p + guides(colour = guide_colour_ring(show_labels = "both"))
+#' p + guides(colour = guide_colring(show_labels = "both"))
 #'
 #' # Passing an argument to inner/outer guides
-#' p + guides(colour = guide_colour_ring(angle = 0))
-guide_colour_ring <- function(
+#' p + guides(colour = guide_colring(angle = 0))
+guide_colring <- function(
   title = waiver(),
   key = "auto",
   start = 0,
@@ -103,7 +103,7 @@ guide_colour_ring <- function(
     show_labels = show_labels,
     position = position,
     available_aes = available_aes,
-    super = GuideColourRing
+    super = GuideColring
   )
 }
 
@@ -113,8 +113,8 @@ guide_colour_ring <- function(
 #' @rdname gguidance_extensions
 #' @format NULL
 #' @usage NULL
-GuideColourRing <- ggproto(
-  "GuideColourRing", Compose,
+GuideColring <- ggproto(
+  "GuideColring", Compose,
 
   params = new_params(
     guides = list(), guide_params = list(),
