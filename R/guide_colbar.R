@@ -42,30 +42,30 @@
 #' # The colourbar shows caps when values are out-of-bounds (oob)
 #' p + scale_colour_viridis_c(
 #'   limits = c(10, NA),
-#'   guide = "colourbar_custom"
+#'   guide = "colbar"
 #' )
 #'
 #' # It also shows how oob values are handled
 #' p + scale_colour_viridis_c(
 #'   limits = c(10, NA), oob = scales::oob_squish,
-#'   guide = "colourbar_custom"
+#'   guide = "colbar"
 #' )
 #'
 #' # Adjusting the type of cap
 #' p + scale_colour_viridis_c(
 #'   limits = c(10, 30), oob = scales::oob_squish,
-#'   guide = guide_colourbar_custom(shape = "round")
+#'   guide = guide_colbar(shape = "round")
 #' )
 #'
 #' # One-sided ticks
 #' p + scale_colour_viridis_c(
-#'   guide = guide_colourbar_custom(second_guide = "none")
+#'   guide = guide_colbar(second_guide = "none")
 #' )
 #'
 #' # Colour bar with minor breaks
 #' p + scale_colour_viridis_c(
 #'   minor_breaks = scales::breaks_width(1),
-#'   guide = guide_colourbar_custom(key = "minor")
+#'   guide = guide_colbar(key = "minor")
 #' )
 #'
 #' # Using log ticks on a colourbar
@@ -73,9 +73,9 @@
 #'   geom_point(aes(colour = bodywt), na.rm = TRUE) +
 #'   scale_colour_viridis_c(
 #'     transform = "log10",
-#'     guide = guide_colourbar_custom(key = "log")
+#'     guide = guide_colbar(key = "log")
 #'   )
-guide_colourbar_custom <- function(
+guide_colbar <- function(
   title = waiver(),
   key = "auto",
   first_guide  = "axis_custom",

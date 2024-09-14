@@ -1,14 +1,14 @@
-test_that("guide_colourbar_custom works in all positions", {
+test_that("guide_colbar works in all positions", {
 
   base <- ggplot(mtcars, aes(disp, mpg, colour = cyl)) +
     geom_point(shape = 21) +
     scale_colour_viridis_c(
       oob = oob_squish,
       guide = compose_stack(
-        guide_colourbar_custom(show = c(FALSE, FALSE)),
-        guide_colourbar_custom(show = c(TRUE,  FALSE)),
-        guide_colourbar_custom(show = c(FALSE, TRUE)),
-        guide_colourbar_custom(show = c(TRUE,  TRUE))
+        guide_colbar(show = c(FALSE, FALSE)),
+        guide_colbar(show = c(TRUE,  FALSE)),
+        guide_colbar(show = c(FALSE, TRUE)),
+        guide_colbar(show = c(TRUE,  TRUE))
       )
     ) +
     theme(

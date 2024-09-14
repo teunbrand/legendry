@@ -235,8 +235,8 @@ First, we'll take a gander at some variants of colour bars before we gander at r
 
 Two variants for colour guides exist in {gguidance}:
 
-1. `guide_colourbar_custom()` that reflects `guide_colourbar()`
-2. `guide_coloursteps_custom()` that reflects `guide_coloursteps()`.
+1. `guide_colbar()` that reflects `guide_colourbar()`
+2. `guide_colsteps()` that reflects `guide_coloursteps()`.
 
 When used in a standard fashion, they look very similar to their vanilla counterparts.
 
@@ -247,15 +247,15 @@ standard <- standard +
   labs(colour = "City Miles\nper Gallon")
 
 standard +
-  scale_colour_viridis_c(guide = "colourbar_custom") +
+  scale_colour_viridis_c(guide = "colbar") +
   labs(title = "Custom colour bar")
 
 standard +
-  scale_colour_viridis_b(guide = "coloursteps_custom") +
+  scale_colour_viridis_b(guide = "colsteps") +
   labs(title = "Custom colour steps")
 ```
 
-Please not that the following paragraphs apply equally to `guide_coloursteps_custom()`, but we'll take `guide_colourbar_custom()` for examples.
+Please not that the following paragraphs apply equally to `guide_colsteps()`, but we'll take `guide_colbar()` for examples.
 
 #### Caps
 
@@ -269,7 +269,7 @@ The bars display that these data are out-of-bounds by the gray 'caps' at the two
 standard +
   scale_colour_viridis_c(
     limits = c(10, 30),
-    guide = "colourbar_custom"
+    guide = "colbar"
   )
 ```
 
@@ -279,7 +279,7 @@ You can change the out-of-bounds strategy, the `oob` argument of the scale, to h
 standard +
   scale_colour_viridis_c(
     limits = c(10, 30), oob = oob_squish,
-    guide = "colourbar_custom"
+    guide = "colbar"
   )
 ```
 
@@ -288,7 +288,7 @@ You can also force the caps to appear, even when there are no out-of-bounds data
 ```{r}
 standard +
   scale_colour_viridis_c(
-    guide = guide_colourbar_custom(
+    guide = guide_colbar(
       show = c(FALSE, TRUE), 
       oob = "squish"
     )
@@ -300,7 +300,7 @@ The shape of the cap needn't be a triangle. You can set the shape to any of the 
 ```{r}
 standard +
   scale_colour_viridis_c(
-    guide = guide_colourbar_custom(
+    guide = guide_colbar(
       show = TRUE, oob = "squish",
       shape = "arch"
     )
@@ -350,7 +350,7 @@ hourglass_cap <- cbind(
 
 standard +
   scale_colour_viridis_c(
-    guide = guide_colourbar_custom(
+    guide = guide_colbar(
       show = TRUE, oob = "squish",
       shape = hourglass_cap
     )
@@ -365,7 +365,7 @@ It becomes easier to see once you wash away their make-up with `vanilla = FALSE`
 ```{r}
 standard +
   scale_colour_viridis_c(
-    guide = guide_colourbar_custom(vanilla = FALSE)
+    guide = guide_colbar(vanilla = FALSE)
   )
 ```
 
@@ -384,7 +384,7 @@ brackets <-
 standard +
   scale_colour_viridis_c(
     minor_breaks = breaks_width(1),
-    guide = guide_colourbar_custom(
+    guide = guide_colbar(
       first_guide = guide_axis_custom("minor"),
       second_guide = brackets
     )
@@ -434,14 +434,14 @@ housing +
 ```
 
 This is already much better, but the guide itself does a poor job of displaying the cyclical nature of months.
-To have this better reflected in the guide, you can use `guide_colour_ring()`.
+To have this better reflected in the guide, you can use `guide_colring()`.
 
 ```{r}
 housing + 
   scale_colour_gradientn(
     colours = periodic_pal, limits = c(1, 13),
     breaks = 1:12,
-    guide = "colour_ring"
+    guide = "colring"
   )
 ```
 
@@ -453,7 +453,7 @@ housing +
   scale_colour_gradientn(
     colours = periodic_pal, limits = c(1, 13),
     breaks = 1:12, minor_breaks = breaks_width(0.25),
-    guide = guide_colour_ring(
+    guide = guide_colring(
       outer_guide = guide_axis_custom("minor"),
       inner_guide = "none"
     )
