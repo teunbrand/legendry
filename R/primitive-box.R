@@ -117,20 +117,7 @@ PrimitiveBox <- ggproto(
 
   extract_key = range_extract_key,
 
-  extract_params = function(scale, params, ...) {
-    params <- primitive_extract_params(scale, params, ...)
-
-    aesthetic <- params$aesthetic
-
-    if (aesthetic %in% c("x", "y")) {
-      params$key <-
-        rename(params$key, c("start", "end"), paste0(aesthetic, c("", "end")))
-    } else if (is_theta(params$position)) {
-      params$key <-
-        rename(params$key, c("start", "end"), c("x", "xend"))
-    }
-    params
-  },
+  extract_params = extract_range_params,
 
   extract_decor = function(scale, aesthetic, key, ...) {
 

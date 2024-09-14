@@ -337,6 +337,21 @@ disjoin_ranges <- function(ranges) {
   ranges
 }
 
+extract_range_params <- function(scale, params, ...) {
+  params$position <- params$position %|W|% NULL
+  params$limits   <- scale$get_limits()
+
+  new_names <- c("start", "end")
+  aesthetic <- params$aesthetic
+  if (aesthetic %in% c("x", "y")) {
+    new_names  <- paste0(aesthetic, c("", "end"))
+  } else if (is_theta(params$position)) {
+    new_names <- c("x", "xend")
+  }
+  params$key <- rename(params$key, c("start", "end"), new_names)
+  params
+}
+
 setup_range_params <- function(params) {
   if (params$aesthetic %in% c("x", "y")) {
     # parameters are already transformed
