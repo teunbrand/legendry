@@ -77,6 +77,7 @@ p + guides(
 Other primitives: 
 \code{\link{primitive_box}()},
 \code{\link{primitive_bracket}()},
+\code{\link{primitive_fence}()},
 \code{\link{primitive_labels}()},
 \code{\link{primitive_spacer}()},
 \code{\link{primitive_ticks}()},

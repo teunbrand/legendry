@@ -1,5 +1,63 @@
 # Constructor -------------------------------------------------------------
 
+#' Guide primitive: fence
+#'
+#' This function constructs a fence [guide primitive][guide-primitives]. The
+#' customisation options are easier to understand if we view fence 'post' as the
+#' vertical pieces of a real world fence, and the 'rail' as the horizontal
+#' pieces.
+#'
+#' @inheritParams primitive_bracket
+#' @param rail A `<character[1]>` giving an option for how to display fence
+#'   railing. Can be either `"none"` (default) to display no railings, `"inner"`
+#'   to draw one rail closer to the plot panel, `"outer"` to display one rail
+#'   farther from the plot panel, or `"both"` to sandwich the labels between
+#'   rails.
+#' @param levels_post,levels_rail A list of `<element_line>` objects to
+#'   customise how fence posts and rails are displayed at every level.
+#'
+#' @return A `<PrimitiveFence>` primitive guie that can be used inside other
+#'   guides.
+#' @family primitives
+#' @export
+#'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in an
+#' axis or legend context.
+#'
+#' Common to both types is the following:
+#'
+#' * `gguidance.fence.post` an [`<element_line>`][ggplot2::element_line] for the
+#'   line used to draw the pieces orthogonal to the direction of the scale.
+#' * `gguidance.fence.rail` an [`<element_line>`][ggplot2::element_line] for the
+#'   line used to draw the pieces parallel to the direction of the scale.
+#'
+#' ## As an axis guide
+#'
+#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
+#'   for the text displayed.
+#'
+#' ## As a legend guide
+#'
+#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
+#'   displayed.
+#'
+#'
+#' @examples
+#' # A standard plot
+#' p <- ggplot(mpg, aes(interaction(drv, year), displ)) +
+#'   geom_point()
+#'
+#' key <- key_range_manual(c(2, 4), c(5, 6), c("A", "B"))
+#'
+#' # Adding as secondary guides
+#' p + guides(
+#'   x.sec = primitive_fence(rail = "inner"),
+#'   y.sec = primitive_fence(key = key, rail = "outer")
+#' )
 primitive_fence <- function(
   key = "range_auto",
   rail = "none",
@@ -54,6 +112,10 @@ primitive_fence <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname gguidance_extensions
+#' @format NULL
+#' @usage NULL
 PrimitiveFence <- ggproto(
   "PrimitiveFence", Guide,
 
