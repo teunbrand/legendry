@@ -8,6 +8,8 @@ primitive_fence <- function(
   drop_zero = TRUE,
   pad_discrete = 0.5,
   levels_text = NULL,
+  levels_post = NULL,
+  levels_rail = NULL,
   theme = NULL,
   position = waiver()
 ) {
@@ -22,6 +24,16 @@ primitive_fence <- function(
     c("element_text", "element_blank", "NULL"),
     allow_null = TRUE
   )
+  check_list_of(
+    levels_post,
+    c("element_line",  "element_blank", "NULL"),
+    allow_null = TRUE
+  )
+  check_list_of(
+    levels_rail,
+    c("element_line",  "element_blank", "NULL"),
+    allow_null = TRUE
+  )
 
   new_guide(
     key = key,
@@ -31,6 +43,8 @@ primitive_fence <- function(
     drop_zero = drop_zero,
     pad_discrete = pad_discrete,
     levels_text = levels_text,
+    levels_post = levels_post,
+    levels_rail = levels_rail,
     theme = theme,
     position = position,
     available_aes = c("any", "x", "y", "r", "theta"),
@@ -45,21 +59,23 @@ PrimitiveFence <- ggproto(
 
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,
-    pad_discrete = 0.5, angle = waiver(), levels_text = NULL, rail = "none"
+    pad_discrete = 0.5, angle = waiver(),
+    levels_text = NULL, levels_post = NULL, levels_rail = NULL,
+    rail = "none"
   ),
 
   hashables = exprs(key$.start, key$.end),
 
   elements = list(
     position = list(
-      post = "axis.ticks",
       text = "axis.text",
-      rail = "axis.line"
+      post = I("gguidance.fence.post"),
+      rail = I("gguidance.fence.rail")
     ),
     legend = list(
-      post = "legend.ticks",
       text = "legend.text",
-      rail = "legend.axis.line"
+      post = I("gguidance.fence.post"),
+      rail = I("gguidance.fence.rail")
     )
   ),
 
@@ -125,6 +141,8 @@ PrimitiveFence <- ggproto(
     position <- params$position
 
     text_levels <- rep0(params$levels_text, length.out = nlevels)
+    post_levels <- rep0(params$levels_post, length.out = nlevels)
+    rail_levels <- rep0(params$levels_rail, length.out = nlevels)
 
     rail <- vec_slice(key, key$.draw)
     key <- justify_ranges(key, levels, elements$text, text_levels)
@@ -163,14 +181,16 @@ PrimitiveFence <- ggproto(
 
       fencepost <- draw_fencepost(
         vec_slice(decor, decor$.level_end == i),
-        combine_elements(NULL, elements$post),
-        sizes = sizes[1:(i + 1)], offset = offset, position = position
+        combine_elements(post_levels[[i]], elements$post),
+        sizes = sizes[1:(i + 1)],
+        offset = offset, position = position
       )
 
       fencerail <- draw_fencerail(
         vec_slice(rail, rail$.level == i),
-        combine_elements(NULL, elements$rail),
-        sizes = sizes[1:(i + 1)], offset = offset, position = position,
+        combine_elements(rail_levels[[i]], elements$rail),
+        sizes = sizes[1:(i + 1)],
+        offset = offset, position = position,
         side = params$rail, bbox = params$bbox
       )
 
