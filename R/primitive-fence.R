@@ -86,16 +86,19 @@ PrimitiveFence <- ggproto(
     )
     decor <- vec_slice(decor, order(decor$.level_end, decor[[aesthetic]]))
 
+    # We don't want fencepost of outer pieces poke through the railing of
+    # the inner pieces.
     for (lvl in levels) {
       lower <- which(key$.level < lvl)
       current <- which(decor$.level_end == lvl)
       if (length(current) < 1 || length(lower) < 1) {
         next
       }
-      value <- decor[[aesthetic]][current]
-      smaller <- outer(value, key$end[lower],   FUN = "<")
-      larger  <- outer(value, key$start[lower], FUN = ">")
-      trim <- rowSums(smaller & larger) > 0
+      trim <- in_ranges(
+        decor[[aesthetic]][current],
+        start = key$start[lower],
+        end   = key$end[lower]
+      )
       decor$.level[current[trim]] <- lvl
     }
     keep <- !duplicated(decor[c(aesthetic, ".level")], fromLast = TRUE)

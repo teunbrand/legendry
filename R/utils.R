@@ -120,6 +120,14 @@ in_range <- function(x, range) {
   x >= range[1] & x <= range[2]
 }
 
+in_ranges <- function(x, start, end) {
+  lower <- pmin(start, end)
+  upper <- pmax(start, end)
+  smaller <- outer(lower, x, FUN = "<")
+  larger  <- outer(upper, x, FUN = ">")
+  colSums(larger & smaller) > 0
+}
+
 polar_xy <- function(data, r, theta, bbox) {
   data$x <- rescale(r * sin(theta) + 0.5, from = bbox$x)
   data$y <- rescale(r * cos(theta) + 0.5, from = bbox$y)
