@@ -15,7 +15,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://teunbrand.github.io/gguidance/
+URL: https://teunbrand.github.io/gguidance/,
+    https://github.com/teunbrand/gguidance
 Depends: 
     ggplot2 (>= 3.5.0),
     R (>= 4.1.0)
