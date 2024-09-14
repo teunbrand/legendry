@@ -15,7 +15,7 @@ guide_axis_nested(
   bidi = FALSE,
   oob = "squish",
   drop_zero = TRUE,
-  pad_discrete = 0.4,
+  pad_discrete = NULL,
   levels_text = NULL,
   ...,
   order = 0,
@@ -87,8 +87,8 @@ the \code{drop_zero} setting.}
 \item{levels_text}{A list of \verb{<element_text>} objects to customise how
 text appears at every level.}
 
-\item{...}{Arguments passed on to \code{\link[=primitive_bracket]{primitive_bracket()}} or
-\code{\link[=primitive_box]{primitive_box()}}.}
+\item{...}{Arguments passed on to \code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_box]{primitive_box()}} or \code{\link[=primitive_fence]{primitive_fence()}}.}
 
 \item{order}{A positive \verb{<integer[1]>} that specifies the order of this guide among
 multiple guides. This controls in which order guides are merged if there
@@ -108,8 +108,8 @@ be used to infer nesting structure from labels or annotate ranges.
 \details{
 Under the hood, this guide is a \link[=compose_stack]{stack composition} of a
 \link[=primitive_line]{line}, \link[=primitive_ticks]{ticks}, optionally
-\link[=primitive_labels]{labels} and either \link[=primitive_bracket]{bracket} or
-\link[=primitive_box]{box} primitives.
+\link[=primitive_labels]{labels} and either \link[=primitive_bracket]{bracket},
+\link[=primitive_box]{box} or \link[=primitive_fence]{fence} primitives.
 
 By default, the \code{\link[=key_range]{key = "range_auto"}} will incorporate the 0th
 level labels inferred from the scale's labels. These labels will look like
@@ -142,6 +142,13 @@ p + guides(x = guide_axis_nested(bracket = "curvy"))
 # Use boxes instead of brackets + styling of boxes
 p + guides(x = guide_axis_nested(type = "box")) +
   theme_guide(box = element_rect("limegreen", "forestgreen"))
+
+# Using fences instead of brackets + styling of fences
+p + guides(x = guide_axis_nested(type = "fence", rail = "inner")) +
+  theme_guide(
+    fence.post = element_line("tomato"),
+    fence.rail = element_line("dodgerblue")
+  )
 
 # Use as annotation of a typical axis
 # `regular_key` controls display of typical axis

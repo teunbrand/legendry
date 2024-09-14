@@ -16,14 +16,14 @@
 #' @inheritParams primitive_line
 #' @inheritParams primitive_ticks
 #' @inheritParams primitive_bracket
-#' @param ... Arguments passed on to [`primitive_bracket()`] or
-#'   [`primitive_box()`].
+#' @param ... Arguments passed on to [`primitive_bracket()`],
+#'   [`primitive_box()`] or [`primitive_fence()`].
 #'
 #' @details
 #' Under the hood, this guide is a [stack composition][compose_stack] of a
 #' [line][primitive_line], [ticks][primitive_ticks], optionally
-#' [labels][primitive_labels] and either [bracket][primitive_bracket] or
-#' [box][primitive_box] primitives.
+#' [labels][primitive_labels] and either [bracket][primitive_bracket],
+#' [box][primitive_box] or [fence][primitive_fence] primitives.
 #'
 #' By default, the [`key = "range_auto"`][key_range] will incorporate the 0th
 #' level labels inferred from the scale's labels. These labels will look like
@@ -61,6 +61,13 @@
 #' p + guides(x = guide_axis_nested(type = "box")) +
 #'   theme_guide(box = element_rect("limegreen", "forestgreen"))
 #'
+#' # Using fences instead of brackets + styling of fences
+#' p + guides(x = guide_axis_nested(type = "fence", rail = "inner")) +
+#'   theme_guide(
+#'     fence.post = element_line("tomato"),
+#'     fence.rail = element_line("dodgerblue")
+#'   )
+#'
 #' # Use as annotation of a typical axis
 #' # `regular_key` controls display of typical axis
 #' ggplot(mpg, aes(displ, hwy)) +
@@ -70,21 +77,21 @@
 #'     regular_key = key_manual(c(2, 2.5, 3, 5, 7))
 #'   ))
 guide_axis_nested <- function(
-  key   = "range_auto",
-  regular_key = "auto",
-  type  = "bracket",
-  title = waiver(),
-  theme = NULL,
-  angle = waiver(),
-  cap   = "none",
-  bidi  = FALSE,
-  oob   = "squish",
-  drop_zero = TRUE,
-  pad_discrete = 0.4,
-  levels_text = NULL,
-  ...,
-  order = 0,
-  position = waiver()
+    key   = "range_auto",
+    regular_key = "auto",
+    type  = "bracket",
+    title = waiver(),
+    theme = NULL,
+    angle = waiver(),
+    cap   = "none",
+    bidi  = FALSE,
+    oob   = "squish",
+    drop_zero = TRUE,
+    pad_discrete = NULL,
+    levels_text = NULL,
+    ...,
+    order = 0,
+    position = waiver()
 ) {
 
   theme <- theme %||% theme()
@@ -92,10 +99,12 @@ guide_axis_nested <- function(
     theme$gguidance.guide.spacing %||% unit(0, "cm")
 
   nesting <- switch(
-    arg_match0(type, c("bracket", "box")),
+    arg_match0(type, c("bracket", "box", "fence")),
     bracket = primitive_bracket,
-    box = primitive_box
+    box = primitive_box,
+    fence = primitive_fence
   )
+  pad_discrete <- pad_discrete %||% switch(type, fence = 0.5, 0.4)
 
   if (identical(key, "range_auto")) {
     labels <- new_guide(
