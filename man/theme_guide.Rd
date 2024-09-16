@@ -32,7 +32,10 @@ theme_guide(
   margin = NULL,
   bracket = NULL,
   bracket.size = NULL,
-  box = NULL
+  box = NULL,
+  fence = NULL,
+  fence.post = NULL,
+  fence.rail = NULL
 )
 }
 \arguments{
@@ -110,6 +113,10 @@ element.}
 
 \item{box}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
 \code{gguidance.box} element.}
+
+\item{fence, fence.post, fence.rail}{An
+\code{\link[ggplot2:element]{<element_line>}} setting the \code{gguidance.fence},
+\code{gguidance.fence.post} and \code{gguidance.fence.rail} respectively.}
 }
 \value{
 A \verb{<theme>} object that can be provided to a guide.

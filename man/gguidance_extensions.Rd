@@ -4,8 +4,8 @@
 %   R/gguidance-package.R, R/gizmo-barcap.R, R/gizmo-density.R,
 %   R/gizmo-grob.R, R/gizmo-histogram.R, R/gizmo-stepcap.R, R/guide_colring.R,
 %   R/guide_subtitle.R, R/primitive-box.R, R/primitive-bracket.R,
-%   R/primitive-labels.R, R/primitive-line.R, R/primitive-spacer.R,
-%   R/primitive-ticks.R, R/primitive-title.R
+%   R/primitive-fence.R, R/primitive-labels.R, R/primitive-line.R,
+%   R/primitive-spacer.R, R/primitive-ticks.R, R/primitive-title.R
 \docType{data}
 \name{Compose}
 \alias{Compose}
@@ -23,6 +23,7 @@
 \alias{GuideSubtitle}
 \alias{PrimitiveBox}
 \alias{PrimitiveBracket}
+\alias{PrimitiveFence}
 \alias{PrimitiveLabels}
 \alias{PrimitiveLine}
 \alias{PrimitiveSpacer}

@@ -59,6 +59,9 @@
 #'   `gguidance.bracket.size` element.
 #' @param box An [`<element_rect>`][ggplot2::element_rect] setting the
 #'   `gguidance.box` element.
+#' @param fence,fence.post,fence.rail An
+#'   [`<element_line>`][ggplot2::element_line] setting the `gguidance.fence`,
+#'   `gguidance.fence.post` and `gguidance.fence.rail` respectively.
 #'
 #' @return A `<theme>` object that can be provided to a guide.
 #' @export
@@ -109,7 +112,10 @@ theme_guide <- function(
 
     bracket = NULL,
     bracket.size = NULL,
-    box = NULL
+    box = NULL,
+    fence = NULL,
+    fence.post = NULL,
+    fence.rail = NULL
 ) {
 
   theme <- list(
@@ -168,7 +174,10 @@ theme_guide <- function(
 
     gguidance.bracket = bracket,
     gguidance.bracket.size = bracket.size,
-    gguidance.box = box
+    gguidance.box = box,
+    gguidance.fence = fence,
+    gguidance.fence.post = fence.post,
+    gguidance.fence.rail = fence.rail
   )
   theme <- theme[lengths(theme) > 0]
   theme(!!!theme)
@@ -179,6 +188,9 @@ register_gguidance_elements <- function() {
   register_theme_elements(
     gguidance.bracket.size = unit(2, "mm"),
     gguidance.bracket = element_line(),
+    gguidance.fence = element_line(),
+    gguidance.fence.post = element_line(),
+    gguidance.fence.rail = element_line(),
     gguidance.box = element_rect(colour = "white"),
     gguidance.legend.minor.ticks = element_line(),
     gguidance.legend.minor.ticks.length = rel(0.75),
@@ -194,6 +206,9 @@ register_gguidance_elements <- function() {
     element_tree = list(
       gguidance.bracket.size = el_def("unit"),
       gguidance.bracket = el_line("line"),
+      gguidance.fence = el_line("line"),
+      gguidance.fence.post = el_line("gguidance.fence"),
+      gguidance.fence.rail = el_line("gguidance.fence"),
       gguidance.box = el_def("element_rect", "strip.background"),
       gguidance.legend.minor.ticks = el_line("legend.ticks"),
       gguidance.legend.minor.ticks.length = el_unit("legend.ticks.length"),
