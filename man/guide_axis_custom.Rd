@@ -126,7 +126,6 @@ Other standalone guides:
 \code{\link{guide_axis_nested}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colring}()},
-\code{\link{guide_colsteps}()},
-\code{\link{guide_subtitle}()}
+\code{\link{guide_colsteps}()}
 }
 \concept{standalone guides}
