@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   articles/keys: keys.html
   articles/tour: tour.html
-last_built: 2024-09-12T06:15Z
+last_built: 2024-09-16T22:04Z
 urls:
   reference: https://teunbrand.github.io/gguidance/reference
   article: https://teunbrand.github.io/gguidance/articles

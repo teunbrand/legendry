@@ -87,7 +87,7 @@
 <span>    col <span class="op">=</span> <span class="st">"City miles\nper gallon"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The gguidance package offers a selection of what it calls ‘complete guides’. These complete guides can just be drop-in replacement of regular guides, which you can specify using ggplot2’s <code><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides()</a></code> function or using the <code>guide</code> argument in scales. In the example below, we’re using two custom variants of vanilla guides, namely <code><a href="reference/guide_axis_custom.html">guide_axis_custom()</a></code> and <code><a href="reference/guide_colourbar_custom.html">guide_colourbar_custom()</a></code>. These custom variants have additional options that allow a greater degree of customisation:</p>
+<p>The gguidance package offers a selection of what it calls ‘complete guides’. These complete guides can just be drop-in replacement of regular guides, which you can specify using ggplot2’s <code><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides()</a></code> function or using the <code>guide</code> argument in scales. In the example below, we’re using two custom variants of vanilla guides, namely <code><a href="reference/guide_axis_custom.html">guide_axis_custom()</a></code> and <code><a href="reference/guide_colbar.html">guide_colbar()</a></code>. These custom variants have additional options that allow a greater degree of customisation:</p>
 <ul>
 <li>The axis guide has an option for bidirectional ticks.</li>
 <li>The colourbar automatically recognises out-of-bounds values and displays this with a cap.</li>
@@ -96,7 +96,7 @@
 <code class="sourceCode R"><span><span class="va">base</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">30</span><span class="op">)</span>,</span>
-<span>    guide <span class="op">=</span> <span class="st">"colourbar_custom"</span></span>
+<span>    guide <span class="op">=</span> <span class="st">"colbar"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

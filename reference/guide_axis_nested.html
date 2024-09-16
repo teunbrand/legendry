@@ -57,7 +57,7 @@ be used to infer nesting structure from labels or annotate ranges.</p>
 <span>  bidi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  oob <span class="op">=</span> <span class="st">"squish"</span>,</span>
 <span>  drop_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  pad_discrete <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  pad_discrete <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  levels_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  order <span class="op">=</span> <span class="fl">0</span>,</span>
@@ -152,8 +152,8 @@ text appears at every level.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Arguments passed on to <code><a href="primitive_bracket.html">primitive_bracket()</a></code> or
-<code><a href="primitive_box.html">primitive_box()</a></code>.</p></dd>
+<dd><p>Arguments passed on to <code><a href="primitive_bracket.html">primitive_bracket()</a></code>,
+<code><a href="primitive_box.html">primitive_box()</a></code> or <code><a href="primitive_fence.html">primitive_fence()</a></code>.</p></dd>
 
 
 <dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
@@ -176,8 +176,8 @@ determined by a hashing indicative settings of a guide.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Under the hood, this guide is a <a href="compose_stack.html">stack composition</a> of a
 <a href="primitive_line.html">line</a>, <a href="primitive_ticks.html">ticks</a>, optionally
-<a href="primitive_labels.html">labels</a> and either <a href="primitive_bracket.html">bracket</a> or
-<a href="primitive_box.html">box</a> primitives.</p>
+<a href="primitive_labels.html">labels</a> and either <a href="primitive_bracket.html">bracket</a>,
+<a href="primitive_box.html">box</a> or <a href="primitive_fence.html">fence</a> primitives.</p>
 <p>By default, the <code><a href="key_range.html">key = "range_auto"</a></code> will incorporate the 0th
 level labels inferred from the scale's labels. These labels will look like
 regular labels.</p>
@@ -189,9 +189,9 @@ separate key for display in between the ticks and ranges.</p>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other standalone guides:
 <code><a href="guide_axis_custom.html">guide_axis_custom</a>()</code>,
-<code><a href="guide_colour_ring.html">guide_colour_ring</a>()</code>,
-<code><a href="guide_colourbar_custom.html">guide_colourbar_custom</a>()</code>,
-<code><a href="guide_coloursteps_custom.html">guide_coloursteps_custom</a>()</code>,
+<code><a href="guide_colbar.html">guide_colbar</a>()</code>,
+<code><a href="guide_colring.html">guide_colring</a>()</code>,
+<code><a href="guide_colsteps.html">guide_colsteps</a>()</code>,
 <code><a href="guide_subtitle.html">guide_subtitle</a>()</code></p></div>
     </div>
 
@@ -226,6 +226,14 @@ separate key for display in between the ticks and ranges.</p>
 <span class="r-in"><span>  <span class="fu"><a href="theme_guide.html">theme_guide</a></span><span class="op">(</span>box <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span><span class="st">"limegreen"</span>, <span class="st">"forestgreen"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="guide_axis_nested-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using fences instead of brackets + styling of fences</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">guide_axis_nested</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"fence"</span>, rail <span class="op">=</span> <span class="st">"inner"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="theme_guide.html">theme_guide</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    fence.post <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="st">"tomato"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    fence.rail <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="st">"dodgerblue"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-plt img"><img src="guide_axis_nested-7.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use as annotation of a typical axis</span></span></span>
 <span class="r-in"><span><span class="co"># `regular_key` controls display of typical axis</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
@@ -234,7 +242,7 @@ separate key for display in between the ticks and ranges.</p>
 <span class="r-in"><span>    key <span class="op">=</span> <span class="fu"><a href="key_range.html">key_range_manual</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, end <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First"</span>, <span class="st">"Second"</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    regular_key <span class="op">=</span> <span class="fu"><a href="key_standard.html">key_manual</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2.5</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="guide_axis_nested-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="guide_axis_nested-8.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
