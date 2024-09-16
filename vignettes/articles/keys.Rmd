@@ -61,7 +61,7 @@ ggplot(msleep, aes(sleep_total, brainwt, colour = bodywt)) +
   scale_y_log10(guide = guide_axis_custom(key = logkey)) +
   scale_colour_viridis_c(
     trans = "log10",
-    guide = guide_colourbar_custom(key = logkey)
+    guide = guide_colbar(key = logkey)
   )
 ```
 

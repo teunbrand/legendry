@@ -81,6 +81,7 @@ p + guides(x.sec = primitive_ticks(), y.sec = primitive_ticks())
 Other primitives: 
 \code{\link{primitive_box}()},
 \code{\link{primitive_bracket}()},
+\code{\link{primitive_fence}()},
 \code{\link{primitive_labels}()},
 \code{\link{primitive_line}()},
 \code{\link{primitive_spacer}()},

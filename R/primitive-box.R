@@ -117,20 +117,7 @@ PrimitiveBox <- ggproto(
 
   extract_key = range_extract_key,
 
-  extract_params = function(scale, params, ...) {
-    params <- primitive_extract_params(scale, params, ...)
-
-    aesthetic <- params$aesthetic
-
-    if (aesthetic %in% c("x", "y")) {
-      params$key <-
-        rename(params$key, c("start", "end"), paste0(aesthetic, c("", "end")))
-    } else if (is_theta(params$position)) {
-      params$key <-
-        rename(params$key, c("start", "end"), c("x", "xend"))
-    }
-    params
-  },
+  extract_params = extract_range_params,
 
   extract_decor = function(scale, aesthetic, key, ...) {
 
@@ -175,27 +162,11 @@ PrimitiveBox <- ggproto(
     text_levels <- rep0(params$levels_text, length.out = nlevels)
 
     # Justify labels along their ranges
-    if (!is_blank(elements$text)) {
+    key <- justify_ranges(key, levels, elements$text, text_levels)
 
-      hjust <- elements$text$hjust
-      vjust <- elements$text$vjust
-
-      if (!is.null(text_levels)) {
-        hjust <- map_dbl(text_levels, function(x) x$hjust %||% hjust)
-        hjust <- hjust[match(key$.level, levels)]
-        vjust <- map_dbl(text_levels, function(x) x$vjust %||% vjust)
-        vjust <- vjust[match(key$.label, levels)]
-      }
-
-      if (is_theta(position)) {
-        add <- if (position == "theta.sec") pi else 0
-        key$theta <- justify_range(key$theta, key$thetaend, hjust, theta = TRUE)
-        key <- polar_xy(key, key$r, key$theta + add, params$bbox)
-      } else if ("xend" %in% names(key)) {
-        key$x <- justify_range(key$x, key$xend, hjust)
-      } else if ("yend" %in% names(key)) {
-        key$y <- justify_range(key$y, key$yend, vjust)
-      }
+    if (is_theta(position)) {
+      add <- if (position == "theta.sec") pi else 0
+      key <- polar_xy(key, key$r, key$theta + add, params$bbox)
     }
 
     grobs  <- vector("list", nlevels)

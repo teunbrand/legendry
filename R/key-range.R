@@ -291,6 +291,36 @@ range_from_label <- function(
   df
 }
 
+justify_ranges <- function(key, levels, element, level_elements) {
+
+  if (is_blank(element)) {
+    return(key)
+  }
+
+  ends <- intersect(c("thetaend", "xend", "yend"), names(key))
+  if (length(ends) < 1) {
+    return(key)
+  }
+  starts <- gsub("end$", "", ends[1])
+
+  just_name <- switch(ends[1], yend = "vjust", "hjust")
+  just <- element[[just_name]] %||% 0.5
+
+  if (!is.null(level_elements)) {
+    just <- map_dbl(level_elements, function(x) x[[just_name]] %||% just)
+    just <- just[match(key$.level, levels)]
+  }
+
+  key[[starts]] <- switch(
+    ends[1],
+    thetaend = justify_range(key$theta, key$thetaend, just, theta = TRUE),
+    xend     = justify_range(key$x, key$xend, just),
+    yend     = justify_range(key$y, key$yend, just)
+  )
+
+  key
+}
+
 justify_range <- function(start, end, just, theta = FALSE) {
   if (theta) {
     add <- end < start
@@ -335,6 +365,21 @@ disjoin_ranges <- function(ranges) {
 
   ranges$.level <- bin
   ranges
+}
+
+extract_range_params <- function(scale, params, ...) {
+  params$position <- params$position %|W|% NULL
+  params$limits   <- scale$get_limits()
+
+  new_names <- c("start", "end")
+  aesthetic <- params$aesthetic
+  if (aesthetic %in% c("x", "y")) {
+    new_names  <- paste0(aesthetic, c("", "end"))
+  } else if (is_theta(params$position)) {
+    new_names <- c("x", "xend")
+  }
+  params$key <- rename(params$key, c("start", "end"), new_names)
+  params
 }
 
 setup_range_params <- function(params) {

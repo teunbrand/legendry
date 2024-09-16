@@ -14,6 +14,7 @@ A 'ggplot2' extension that focusses on expanding the plotter's arsenal of guides
 Useful links:
 \itemize{
   \item \url{https://teunbrand.github.io/gguidance/}
+  \item \url{https://github.com/teunbrand/gguidance}
 }
 
 }
