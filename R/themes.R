@@ -179,7 +179,7 @@ theme_guide <- function(
     gguidance.fence.post = fence.post,
     gguidance.fence.rail = fence.rail
   )
-  theme <- theme[lengths(theme) > 0]
+  theme <- theme[!is_each(theme, is.null)]
   theme(!!!theme)
 }
 
