@@ -255,7 +255,7 @@ standard +
   labs(title = "Custom colour steps")
 ```
 
-Please not that the following paragraphs apply equally to `guide_colsteps()`, but we'll take `guide_colbar()` for examples.
+Please note that the following paragraphs apply equally to `guide_colsteps()`, but we'll take `guide_colbar()` for examples.
 
 #### Caps
 
