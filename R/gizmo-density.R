@@ -68,6 +68,7 @@ gizmo_density <- function(
     density_args = density.args,
     density_fun  = density.fun,
     just = just, oob = oob, alpha = alpha,
+    name = "density",
     theme = theme, position = position, direction = direction,
     super = GizmoDensity
   )

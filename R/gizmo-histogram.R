@@ -69,6 +69,7 @@ gizmo_histogram <- function(
     hist_fun  = hist.fun,
     just = just, oob  = oob, alpha = alpha,
     theme = theme, position = position, direction = direction,
+    name = "histogram",
     super = GizmoHistogram
   )
 }
