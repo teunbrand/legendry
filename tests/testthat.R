@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(gguidance)
+library(legendry)
 
-test_check("gguidance")
+test_check("legendry")

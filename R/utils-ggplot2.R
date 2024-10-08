@@ -90,7 +90,7 @@ find_global <- function(name, env, mode = "any") {
   if (exists(name, envir = env, mode = mode)) {
     return(get(name, envir = env, mode = mode))
   }
-  nsenv <- asNamespace("gguidance")
+  nsenv <- asNamespace("legendry")
   if (exists(name, envir = nsenv, mode = mode)) {
     return(get(name, envir = nsenv, mode = mode))
   }

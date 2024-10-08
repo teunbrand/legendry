@@ -10,11 +10,11 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(gguidance)
+library(legendry)
 library(scales)
 ```
 
-This article walks through all full guide extensions to give a broad overview of the 'easy' way to make use of gguidance.
+This article walks through all full guide extensions to give a broad overview of the 'easy' way to make use of legendry.
 Rest assured, there are harder ways, but these will be covered in a separate article.
 
 ## Axes
@@ -24,7 +24,7 @@ Naturally, axes shine brightest as guides for positions like `x` and `y` but can
 
 ### Where (not) to apply
 
-In gguidance, the staple axis is `guide_axis_base()`.
+In legendry, the staple axis is `guide_axis_base()`.
 At a first glance, these axes are utterly unremarkable and very much mirror `ggplot2::guide_axis()` by design.
 
 ```{r}
@@ -119,7 +119,7 @@ ggplot(df, aes(item, amount)) +
 #### Brackets
 
 To change the style of the range indicators, you can choose a different `bracket` setting.
-The theme elements `gguidance.bracket` and `gguidance.bracket.size` control the styling and size of the line.
+The theme elements `legendry.bracket` and `legendry.bracket.size` control the styling and size of the line.
 These settings have a shortcut in `theme_guide()`.
 
 ```{r}
@@ -155,14 +155,14 @@ ggplot(brackets, aes(x, y)) +
   coord_equal()
 ```
 
-Quite possibly, there might be bracket shapes you want to use, but aren't built into gguidance.
+Quite possibly, there might be bracket shapes you want to use, but aren't built into legendry.
 Luckily, we can build custom brackets, using a numeric matrix that:
 
 * Has 2 columns corresponding to the x and y coordinates.
 * Has at least 2 rows.
 * Only has values between 0 and 1.
 
-The x-coordinate will be stretched along the axis, whereas y will be squished to fit the `gguidance.bracket.size` theme setting.
+The x-coordinate will be stretched along the axis, whereas y will be squished to fit the `legendry.bracket.size` theme setting.
 A custom bracket can just be provided to the `bracket` argument.
 
 ```{r}
@@ -233,7 +233,7 @@ First, we'll take a gander at some variants of colour bars before we gander at r
 
 ### Bars and steps
 
-Two variants for colour guides exist in {gguidance}:
+Two variants for colour guides exist in {legendry}:
 
 1. `guide_colbar()` that reflects `guide_colourbar()`
 2. `guide_colsteps()` that reflects `guide_coloursteps()`.
