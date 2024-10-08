@@ -106,6 +106,6 @@
 <text x='233.55' y='75.93' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='13.70px' lengthAdjust='spacingAndGlyphs'>Bar</text>
 <text x='366.30' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='92.93px' lengthAdjust='spacingAndGlyphs'>interaction(cyl, drv)</text>
 <text transform='translate(47.79,290.36) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='19.57px' lengthAdjust='spacingAndGlyphs'>hwy</text>
-<text x='52.82' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='148.98px' lengthAdjust='spacingAndGlyphs'>guide_axis_custom radial</text>
+<text x='52.82' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='135.04px' lengthAdjust='spacingAndGlyphs'>guide_axis_base radial</text>
 </g>
 </svg>
