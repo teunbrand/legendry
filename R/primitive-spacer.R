@@ -41,7 +41,7 @@ primitive_spacer <- function(space = NULL, title = waiver(),
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 PrimitiveSpacer <- ggproto(

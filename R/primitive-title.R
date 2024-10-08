@@ -61,7 +61,7 @@ primitive_title = function(title = waiver(), angle = waiver(),
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 PrimitiveTitle <- ggproto(

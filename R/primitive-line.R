@@ -67,7 +67,7 @@ primitive_line <- function(key = NULL, cap = "none", theme = NULL,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 PrimitiveLine <- ggproto(

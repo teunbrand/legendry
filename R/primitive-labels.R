@@ -73,7 +73,7 @@ primitive_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 PrimitiveLabels <- ggproto(

@@ -52,7 +52,7 @@ new_compose <- function(guides, args = list(), ...,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 Compose <- ggproto(

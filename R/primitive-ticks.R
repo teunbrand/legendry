@@ -76,7 +76,7 @@ primitive_ticks <- function(key = NULL, bidi = FALSE, theme = NULL,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 PrimitiveTicks <- ggproto(

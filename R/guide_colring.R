@@ -110,7 +110,7 @@ guide_colring <- function(
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 GuideColring <- ggproto(

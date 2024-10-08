@@ -77,7 +77,7 @@ gizmo_density <- function(
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 GizmoDensity <- ggproto(
