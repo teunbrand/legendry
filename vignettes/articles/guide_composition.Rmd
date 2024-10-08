@@ -42,7 +42,7 @@ For your regular axis guides for the `x` and `y` aesthetics, it works the same w
 However, if the guides it stacks supports other aesthetics, like `colour`, it can also be used there.
 
 ```{r}
-staxis <- compose_stack("axis_custom", "axis_custom", "axis_custom")
+staxis <- compose_stack("axis_base", "axis_base", "axis_base")
 
 standard + 
   aes(colour = cty) +
@@ -55,20 +55,20 @@ standard +
 
 ## Primitives
 
-At this point, it might be wise to take a closer look at exactly what `guide_axis_custom()` is doing.
+At this point, it might be wise to take a closer look at exactly what `guide_axis_base()` is doing.
 Once we pull on the threads on what its class is, the mystery starts to unravel:
 
 ```{r}
-class(guide_axis_custom())
+class(guide_axis_base())
 ```
 
-Indeed, by using `compose_stack("axis_custom", "axis_custom", ...)` we have been stacking a stack!
-So when we peel back the layers and see what is inside `guide_axis_custom()`, will we find more stacks?
-No, all good things must come to an end and so too must guides have their building blocks.
+Indeed, by using `compose_stack("axis_base", "axis_base", ...)` we have been stacking a stack!
+So when we peel back the layers and see what is inside `guide_axis_base()`, will we find more stacks?
+No: all good things must come to an end and so too must guides have their building blocks.
 
 If the composition is the skeleton then these building blocks are the flesh providing function.
 These building blocks are called 'primitives' in gguidance. 
-For example, the `guide_axis_custom()` function is a stack of three primitives.
+For example, the `guide_axis_base()` function is a stack of three primitives.
 They respectively build the axis line, the ticks and the labels.
 In the complete guide, they don't have any spacing between them, but let's exaggerate the spacing for clarity.
 
@@ -96,7 +96,7 @@ range_key <- key_range_manual(
 )
 
 standard + guides(x = compose_stack(
-  "axis_custom",
+  "axis_base",
   primitive_bracket(range_key, "curvy"),
   primitive_spacer(unit(0.5, "cm")),
   primitive_box(range_key),
@@ -185,15 +185,15 @@ last_plot() + theme(legend.text.position = "left")
 ```
 
 It should also be noted that if the guide has a label-supression mechanism, the 'opposite' guide will be drawn with surpressed labels. 
-The mechanism is in place in guides like `guide_axis()`/`guide_axis_custom()` for display in for example `facet_grid(axis.labels = "margins")`.
+The mechanism is in place in guides like `guide_axis()`/`guide_axis_base()` for display in for example `facet_grid(axis.labels = "margins")`.
 
 ```{r, fig.keep = "last"}}
 standard +
   aes(colour = cty) +
   scale_colour_viridis_c(
     guide = compose_sandwich(
-      text     = "axis_custom", 
-      opposite = "axis_custom"
+      text     = "axis_base", 
+      opposite = "axis_base"
     )
   )
 
@@ -252,7 +252,7 @@ standard +
   aes(colour = cty) +
   guides(
     x = compose_stack("axis", my_gizmo),
-    colour = compose_sandwich(middle = my_gizmo, text = "axis_custom")
+    colour = compose_sandwich(middle = my_gizmo, text = "axis_base")
   )
 ```
 
@@ -285,14 +285,14 @@ standard +
     option = "C",
     guide = compose_sandwich(
       middle = gizmo_density(just = 1), 
-      text = "axis_custom"
+      text = "axis_base"
     )
   ) +
   scale_fill_viridis_c(
     option = "D",
     guide = compose_sandwich(
       middle = gizmo_histogram(just = 0.5),
-      text = "axis_custom"
+      text = "axis_base"
     )
   )
 ```
@@ -304,7 +304,7 @@ The `compose_ontop()` guide lets you render one guide over the other.
 We can see in the plots below that it allows us to touch the panel when composing on top of one another, but not when stacking.
 
 ```{r}
-top <- guide_axis_custom(
+top <- guide_axis_base(
   key = key_manual(32, label = "Here is 32"),
   theme = theme_guide(
     ticks.length = unit(1.5, "cm"),
@@ -337,7 +337,7 @@ standard +
   scale_colour_viridis_c(
     guide = compose_crux(
       centre = gizmo_barcap(), 
-      left = "axis_custom", right = "axis_custom",
+      left = "axis_base", right = "axis_base",
       top = ball, bottom = block
     )
   )

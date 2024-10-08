@@ -24,7 +24,7 @@ Naturally, axes shine brightest as guides for positions like `x` and `y` but can
 
 ### Where (not) to apply
 
-In gguidance, the staple axis is `guide_axis_custom()`.
+In gguidance, the staple axis is `guide_axis_base()`.
 At a first glance, these axes are utterly unremarkable and very much mirror `ggplot2::guide_axis()` by design.
 
 ```{r}
@@ -40,8 +40,8 @@ standard <- ggplot(mpg, aes(displ, hwy)) +
   )
 
 standard + guides(
-  x = "axis_custom",
-  y = "axis_custom"
+  x = "axis_base",
+  y = "axis_base"
 )
 ```
 
@@ -49,12 +49,12 @@ In terms of novelty, the only 'extra' option these axes offer is to display bidi
 
 ```{r}
 p <- standard + 
-  scale_x_continuous(guide = guide_axis_custom(bidi = TRUE)) +
-  scale_y_continuous(guide = guide_axis_custom(bidi = TRUE))
+  scale_x_continuous(guide = guide_axis_base(bidi = TRUE)) +
+  scale_y_continuous(guide = guide_axis_base(bidi = TRUE))
 p
 ```
 
-However, `guide_axis_custom()` is more flexible than `ggplot2::guide_axis()`.
+However, `guide_axis_base()` is more flexible than `ggplot2::guide_axis()`.
 In ggplot2, you'd typically have to switch to `ggplot2::guide_axis_theta()` to display an axis for the `theta` coordinate of a polar plot.
 The custom axis knows how to fit into polar coordinates, so no such fuss is needed when switching to polar coordinates.
 
@@ -69,10 +69,10 @@ Why this unadvised yet possible is a topic that resurfaces later in this article
 
 ```{r}
 standard + aes(colour = cty) +
-  guides(colour = "axis_custom")
+  guides(colour = "axis_base")
 ```
 
-In summary, `guide_axis_custom()` is a flexible guide that can be used in any and all position aesthetic, and can (but should not) be used for other continuous aesthetics.
+In summary, `guide_axis_base()` is a flexible guide that can be used in any and all position aesthetic, and can (but should not) be used for other continuous aesthetics.
 
 ### Nested axes
 
@@ -385,7 +385,7 @@ standard +
   scale_colour_viridis_c(
     minor_breaks = breaks_width(1),
     guide = guide_colbar(
-      first_guide = guide_axis_custom("minor"),
+      first_guide = guide_axis_base("minor"),
       second_guide = brackets
     )
   )
@@ -454,7 +454,7 @@ housing +
     colours = periodic_pal, limits = c(1, 13),
     breaks = 1:12, minor_breaks = breaks_width(0.25),
     guide = guide_colring(
-      outer_guide = guide_axis_custom("minor"),
+      outer_guide = guide_axis_base("minor"),
       inner_guide = "none"
     )
   ) +

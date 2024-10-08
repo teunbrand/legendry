@@ -58,7 +58,7 @@ logkey <- key_log()
 
 ggplot(msleep, aes(sleep_total, brainwt, colour = bodywt)) +
   geom_point(na.rm = TRUE) +
-  scale_y_log10(guide = guide_axis_custom(key = logkey)) +
+  scale_y_log10(guide = guide_axis_base(key = logkey)) +
   scale_colour_viridis_c(
     trans = "log10",
     guide = guide_colbar(key = logkey)
@@ -80,7 +80,7 @@ Most guides in gguidance accept a `key` argument, which will cause the guide to 
 ```{r}
 my_key <- key_manual(aesthetic = c(2, 4, 6), label = c("two", "four", "six"))
 
-standard + guides(x = guide_axis_custom(key = my_key))
+standard + guides(x = guide_axis_base(key = my_key))
 ```
 
 In addition, you can provide some automatic keys as keywords.
@@ -88,7 +88,7 @@ Setting `key = "minor"`, is the same as setting `key = key_minor()`.
 In the same fashion many other `key_*()` functions can be used as keyword by omitting the `key_`-prefix.
 
 ```{r}
-standard + guides(x = guide_axis_custom(key = "minor"))
+standard + guides(x = guide_axis_base(key = "minor"))
 ```
 
 Some keys don't directly return data frames, but return instructions on how these keys should interact with scales.
@@ -198,7 +198,7 @@ Most key options have an `...` argument that allows many arguments to `element_t
 ```{r}
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
-  guides(x = guide_axis_custom(key = key_auto(colour = "red", face = "bold")))
+  guides(x = guide_axis_base(key = key_auto(colour = "red", face = "bold")))
 ```
 
 In some cases where you know the label in advance, which is almost every time one uses `key_manual()`, `key_map()` or their ranged equivalents, you can even vectorise these formatting options.
@@ -229,7 +229,7 @@ You can see that `key_sequence()` does not produce an informative axis.
 ```{r}
 my_sequence_key <- key_sequence(n = 20)
 standard +
-  guides(x = guide_axis_custom(key = my_sequence_key))
+  guides(x = guide_axis_base(key = my_sequence_key))
 ```
 
 The reason for this is that this key was designed for colour gradients
