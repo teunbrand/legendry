@@ -18,7 +18,7 @@ test_that("compose_crux can compose a legend", {
       legend.title = element_text(colour = col)
     )
     compose_stack(
-      guide_axis_custom,
+      guide_axis_base,
       primitive_title(title = col),
       theme = theme
     )

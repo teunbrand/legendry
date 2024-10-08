@@ -13,7 +13,7 @@ test_that("guide_colring looks as it should", {
       legend.background = element_rect(colour = "limegreen")
     )
 
-  outline <- compose_stack("axis_custom", primitive_line(theme = theme(
+  outline <- compose_stack("axis_base", primitive_line(theme = theme(
     legend.axis.line = element_line(colour = "dodgerblue")
   )), theme = theme(gguidance.guide.spacing = unit(0, "cm")))
 
