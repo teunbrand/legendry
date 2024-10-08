@@ -9,8 +9,8 @@ guide_colring(
   key = "auto",
   start = 0,
   end = NULL,
-  outer_guide = "axis_custom",
-  inner_guide = "axis_custom",
+  outer_guide = "axis_base",
+  inner_guide = "axis_base",
   nbin = 300,
   reverse = FALSE,
   show_labels = "outer",
@@ -107,7 +107,7 @@ p + guides(colour = guide_colring(angle = 0))
 }
 \seealso{
 Other standalone guides: 
-\code{\link{guide_axis_custom}()},
+\code{\link{guide_axis_base}()},
 \code{\link{guide_axis_nested}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colsteps}()}

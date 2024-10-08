@@ -17,9 +17,9 @@ are represented.
 Full guides are guides that you can just drop in the `guides()` function or as
 `guide` argument to scales.
 
-* `guide_axis_custom()` as an axis guide.
-* `guide_colbar_custom()` as a continuous colour/fill guide.
-* `guide_colsteps_custom()` as a binned colour/fill guide.
+* `guide_axis_base()` as an axis guide.
+* `guide_colbar()` as a continuous colour/fill guide.
+* `guide_colsteps()` as a binned colour/fill guide.
 * `guide_colring()` as a continuous colour/fill guide.
 * `guide_subtitle()` as a colour/fill guide.
 

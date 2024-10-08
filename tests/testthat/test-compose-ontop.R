@@ -14,7 +14,7 @@ test_that("compose_ontop works as axis line", {
 
   top <- compose_stack(
     primitive_spacer(unit(0.25, "cm")),
-    guide_axis_custom(
+    guide_axis_base(
       key_manual(c(2.5, 3.5, 4.5, 5.5, 6.5, 15, 25, 35)),
       theme = theme(
         axis.ticks = element_line(colour = "tomato"),
@@ -26,7 +26,7 @@ test_that("compose_ontop works as axis line", {
   )
 
   ontop <- compose_ontop(
-    guide_axis_custom(), top
+    guide_axis_base(), top
   )
 
   p <- base +

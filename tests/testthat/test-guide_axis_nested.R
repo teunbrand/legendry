@@ -19,7 +19,7 @@ test_that("guide_axis_nested logic works", {
 
 })
 
-test_that("guide_axis_custom looks good as axis", {
+test_that("guide_axis_nested looks good as axis", {
 
   base <- ggplot(mpg, aes(interaction(cyl, drv), hwy)) +
     theme_test() +
@@ -42,7 +42,7 @@ test_that("guide_axis_custom looks good as axis", {
     x.sec = guide_axis_nested(type = "box")
   )
 
-  vdiffr::expect_doppelganger("guide_axis_nested cartesian", p)
+  vdiffr::expect_doppelganger("guide_axis_base cartesian", p)
 
   p <- base +
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
@@ -59,5 +59,5 @@ test_that("guide_axis_custom looks good as axis", {
       theta.sec = guide_axis_nested(type = "box")
   )
 
-  vdiffr::expect_doppelganger("guide_axis_custom radial", p)
+  vdiffr::expect_doppelganger("guide_axis_base radial", p)
 })

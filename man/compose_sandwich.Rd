@@ -88,7 +88,7 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = cty)) +
   guides(colour = compose_sandwich(
     middle = "colourbar",
-    text = "axis_custom",
+    text = "axis_base",
     opposite = primitive_bracket(key = key_range_manual(
       start = c(10, 20), end = c(25, 30), name = c("A", "B")
     ))

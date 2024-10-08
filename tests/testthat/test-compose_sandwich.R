@@ -2,7 +2,7 @@ test_that("compose_sandwich can compose a legend", {
 
   sandwich <- compose_sandwich(
     middle = guide_colourbar(theme = theme(text = element_text(colour = "limegreen"))),
-    text   = guide_axis_custom(theme = theme(text = element_text(colour = "tomato"))),
+    text   = guide_axis_base(theme = theme(text = element_text(colour = "tomato"))),
     opposite = primitive_bracket(key = key_range_manual(
       c(10, 20), c(25, 30), c("A", "B")
     ), theme = theme(text = element_text(colour = "dodgerblue")))

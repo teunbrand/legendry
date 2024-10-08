@@ -142,6 +142,6 @@
 <text x='690.82' y='551.53' style='font-size: 6.16px; fill: #4D4D4D; font-family: sans;' textLength='3.43px' lengthAdjust='spacingAndGlyphs'>4</text>
 <text x='365.57' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='34.86px' lengthAdjust='spacingAndGlyphs'>bodywt</text>
 <text transform='translate(13.05,288.98) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='31.81px' lengthAdjust='spacingAndGlyphs'>awake</text>
-<text x='30.64' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='170.26px' lengthAdjust='spacingAndGlyphs'>guide_axis_custom cartesian</text>
+<text x='30.64' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='156.33px' lengthAdjust='spacingAndGlyphs'>guide_axis_base cartesian</text>
 </g>
 </svg>

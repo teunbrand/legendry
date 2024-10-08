@@ -35,10 +35,10 @@
 #' p <- ggplot(mpg, aes(displ, hwy)) +
 #'   geom_point() +
 #'   scale_x_continuous(
-#'     guide = guide_axis_custom(key = key_minor())
+#'     guide = guide_axis_base(key = key_minor())
 #'   ) +
 #'   scale_y_continuous(
-#'     guide = guide_axis_custom(key = key_manual(c(20, 25, 30, 40)))
+#'     guide = guide_axis_base(key = key_manual(c(20, 25, 30, 40)))
 #'   )
 #' p
 #'
@@ -50,9 +50,9 @@
 #'   geom_point(na.rm = TRUE) +
 #'   scale_x_continuous(
 #'     transform = "log10",
-#'     guide = guide_axis_custom("log")
+#'     guide = guide_axis_base("log")
 #'   )
-guide_axis_custom <- function(
+guide_axis_base <- function(
   key = NULL, title = waiver(), theme = NULL,
   n.dodge = 1, check.overlap = FALSE, angle = waiver(),
   cap = "none", bidi = FALSE, order = 0, position = waiver()
