@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Extended guide options for ggplot2 • gguidance</title>
+<title>Extended guide options for ggplot2 • legendry</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extended guide options for ggplot2">
 <meta name="description" content="A ggplot2 extension that focusses on expanding the plotter's arsenal of guides, such as axes, legends and colour bars.">
 <meta property="og:description" content="A ggplot2 extension that focusses on expanding the plotter's arsenal of guides, such as axes, legends and colour bars.">
-<meta property="og:image" content="https://teunbrand.github.io/gguidance/logo.png">
+<meta property="og:image" content="https://teunbrand.github.io/legendry/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -21,7 +21,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">gguidance</a>
+    <a class="navbar-brand me-2" href="index.html">legendry</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
@@ -47,7 +47,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/teunbrand/gguidance/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/teunbrand/legendry/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -57,27 +57,27 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="gguidance-">gguidance 
-<a class="anchor" aria-label="anchor" href="#gguidance-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="legendry-">legendry 
+<a class="anchor" aria-label="anchor" href="#legendry-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 
-<p>The goal of gguidance is to provide additional guide functionality to the ggplot2 ecosystem.</p>
+<p>The goal of legendry is to provide additional guide functionality to the ggplot2 ecosystem.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of gguidance from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of legendry from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"teunbrand/gguidance"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"teunbrand/legendry"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>Let’s first set up a basic plot to experiment with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://teunbrand.github.io/gguidance/">gguidance</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://teunbrand.github.io/legendry/">legendry</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: ggplot2</span></span>
 <span></span>
 <span><span class="va">base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span>, colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -88,7 +88,7 @@
 <span>    col <span class="op">=</span> <span class="st">"City miles\nper gallon"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The gguidance package offers a selection of what it calls ‘complete guides’. These complete guides can just be drop-in replacement of regular guides, which you can specify using ggplot2’s <code><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides()</a></code> function or using the <code>guide</code> argument in scales. In the example below, we’re using two custom variants of vanilla guides, namely <code><a href="reference/guide_axis_base.html">guide_axis_base()</a></code> and <code><a href="reference/guide_colbar.html">guide_colbar()</a></code>. These custom variants have additional options that allow a greater degree of customisation:</p>
+<p>The legendry package offers a selection of what it calls ‘complete guides’. These complete guides can just be drop-in replacement of regular guides, which you can specify using ggplot2’s <code><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides()</a></code> function or using the <code>guide</code> argument in scales. In the example below, we’re using two custom variants of vanilla guides, namely <code><a href="reference/guide_axis_base.html">guide_axis_base()</a></code> and <code><a href="reference/guide_colbar.html">guide_colbar()</a></code>. These custom variants have additional options that allow a greater degree of customisation:</p>
 <ul>
 <li>The axis guide has an option for bidirectional ticks.</li>
 <li>The colourbar automatically recognises out-of-bounds values and displays this with a cap.</li>
@@ -103,7 +103,7 @@
 <span>    x <span class="op">=</span> <span class="fu"><a href="reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-full_guides-1.svg" width="80%" style="display: block; margin: auto;"></p>
-<p>Besides complete guides, gguidance also has incomplete guides that can be composed. The <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">ggplot2::guide_axis_stack()</a></code> is an axis composition function that can be used to display multiple guides. Here, we use a ‘primitive’ guide (incomplete building block) to display a range on the axis. By stacking it with a regular axis the primitive guide is completed.</p>
+<p>Besides complete guides, legendry also has incomplete guides that can be composed. The <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">ggplot2::guide_axis_stack()</a></code> is an axis composition function that can be used to display multiple guides. Here, we use a ‘primitive’ guide (incomplete building block) to display a range on the axis. By stacking it with a regular axis the primitive guide is completed.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A partial guide to display a bracket</span></span>
 <span><span class="va">efficient_bracket</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/primitive_bracket.html">primitive_bracket</a></span><span class="op">(</span></span>
@@ -119,7 +119,7 @@
 <span></span>
 <span><span class="va">base</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">guide_axis_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">efficient_bracket</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-primitives-1.svg" width="80%" style="display: block; margin: auto;"></p>
-<p>The gguidance package extends this guide composition concept beyond the axes for other types of guides. In the example below we compose a ‘sandwich’: a central guide flanked by two others. Because our bracket is a primitive, it does not matter what aesthetic it displays and we can re-use it for the sandwich. I’ve yet to write the vignette on composition.</p>
+<p>The legendry package extends this guide composition concept beyond the axes for other types of guides. In the example below we compose a ‘sandwich’: a central guide flanked by two others. Because our bracket is a primitive, it does not matter what aesthetic it displays and we can re-use it for the sandwich. I’ve yet to write the vignette on composition.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">base</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
@@ -135,7 +135,7 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/teunbrand/gguidance/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/teunbrand/legendry/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
 
@@ -151,7 +151,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing gguidance</a></li>
+<li><a href="authors.html#citation">Citing legendry</a></li>
 </ul>
 </div>
 
@@ -165,10 +165,10 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/teunbrand/legendry/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/teunbrand/legendry/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://CRAN.R-project.org/package=gguidance" class="external-link"><img src="https://www.r-pkg.org/badges/version/gguidance" alt="CRAN status"></a></li>
-<li><a href="https://codecov.io/gh/teunbrand/gguidance" class="external-link"><img src="https://codecov.io/gh/teunbrand/gguidance/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://CRAN.R-project.org/package=legendry" class="external-link"><img src="https://www.r-pkg.org/badges/version/legendry" alt="CRAN status"></a></li>
+<li><a href="https://codecov.io/gh/teunbrand/legendry" class="external-link"><img src="https://codecov.io/gh/teunbrand/legendry/graph/badge.svg" alt="codecov"></a></li>
 </ul>
 </div>
 
