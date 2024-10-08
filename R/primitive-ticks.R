@@ -28,14 +28,14 @@
 #'   for major tick lines.
 #' * `axis.minor.ticks.{x/y}.{position}` an
 #'   [`<element_line>`][ggplot2::element_line] for minor tick lines.
-#' * `gguidance.axis.mini.ticks` an [`<element_line>`][ggplot2::element_line]
+#' * `legendry.axis.mini.ticks` an [`<element_line>`][ggplot2::element_line]
 #'   internally inheriting from the minor ticks for the smallest ticks in e.g.
 #'   log axes.
 #' * `axis.ticks.length.{x/y}.{position}` a [`<unit>`][grid::unit] for the major
 #'   ticks length.
 #' * `axis.minor.ticks.length.{x/y}.{position}` a [`<unit>`][grid::unit] for the
 #'   minor ticks length.
-#' * `gguidance.axis.mini.ticks.length` a [`<unit>`][grid::unit] internally
+#' * `legendry.axis.mini.ticks.length` a [`<unit>`][grid::unit] internally
 #'   inheriting from the minor tick length for the smallest ticks in e.g.
 #'   log axes.
 #'
@@ -43,14 +43,14 @@
 #'
 #' * `legend.ticks` an [`<element_line>`][ggplot2::element_line] for major tick
 #'   lines.
-#' * `gguidance.legend.minor.ticks` an [`<element_line>`][ggplot2::element_line]
+#' * `legendry.legend.minor.ticks` an [`<element_line>`][ggplot2::element_line]
 #'   for minor tick lines.
-#' * `gguidance.legend.mini.ticks` an [`<element_line>`][ggplot2::element_line]
+#' * `legendry.legend.mini.ticks` an [`<element_line>`][ggplot2::element_line]
 #'   for the smallest ticks in e.g. log axes.
 #' * `legend.ticks.length` a [`<unit>`][grid::unit] for the major ticks length.
-#' * `gguidance.legend.minor.ticks.length` a [`<unit>`][grid::unit] for the
+#' * `legendry.legend.minor.ticks.length` a [`<unit>`][grid::unit] for the
 #'   minor ticks length.
-#' * `gguidance.legend.mini.ticks.length` a [`<unit>`][grid::unit] for the
+#' * `legendry.legend.mini.ticks.length` a [`<unit>`][grid::unit] for the
 #'   smallest ticks in e.g. log axes.
 #'
 #' @examples
@@ -76,7 +76,7 @@ primitive_ticks <- function(key = NULL, bidi = FALSE, theme = NULL,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 PrimitiveTicks <- ggproto(
@@ -94,11 +94,11 @@ PrimitiveTicks <- ggproto(
     legend = list(
       ticks        = "legend.ticks",
       ticks_length = "legend.ticks.length",
-      minor        = "gguidance.legend.minor.ticks",
-      minor_length = "gguidance.legend.minor.ticks.length",
+      minor        = "legendry.legend.minor.ticks",
+      minor_length = "legendry.legend.minor.ticks.length",
       # Mini ticks for legends don't have complicated inheritance
-      mini         = "gguidance.legend.mini.ticks",
-      mini_length  = "gguidance.legend.mini.ticks.length"
+      mini         = "legendry.legend.mini.ticks",
+      mini_length  = "legendry.legend.mini.ticks.length"
     )
   ),
 
@@ -128,11 +128,11 @@ PrimitiveTicks <- ggproto(
     # mirrored for every aesthetic/position combination.
     if (n_mini > 0 && params$aesthetic %in% c("x", "y")) {
       elements$mini <- combine_elements(
-        theme$gguidance.axis.mini.ticks,
+        theme$legendry.axis.mini.ticks,
         elements$minor
       )
       elements$mini_length <- combine_elements(
-        theme$gguidance.axis.mini.ticks.length,
+        theme$legendry.axis.mini.ticks.length,
         elements$minor_length
       )
     }

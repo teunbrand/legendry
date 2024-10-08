@@ -61,7 +61,7 @@ compose_stack <- function(
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 ComposeStack <- ggproto(
@@ -73,9 +73,9 @@ ComposeStack <- ggproto(
   ),
 
   elements = list(
-    side_titles   = "gguidance.axis.subtitle",
-    side_position = "gguidance.axis.subtitle.position",
-    spacing       = "gguidance.guide.spacing"
+    side_titles   = "legendry.axis.subtitle",
+    side_position = "legendry.axis.subtitle.position",
+    spacing       = "legendry.guide.spacing"
   ),
 
   train = function(self, params = self$params, scale, aesthetic = NULL, ...) {

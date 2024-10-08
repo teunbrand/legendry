@@ -11,10 +11,10 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(gguidance)
+library(legendry)
 ```
 
-The expert's eye may have noticed that not all exported functionality are full blown [guides](https://teunbrand.github.io/gguidance/articles/tour.html) or [key constructors](https://teunbrand.github.io/gguidance/articles/keys.html).
+The expert's eye may have noticed that not all exported functionality are full blown [guides](https://teunbrand.github.io/legendry/articles/tour.html) or [key constructors](https://teunbrand.github.io/legendry/articles/keys.html).
 Besides aforementioned important components, let's talk a bit about the innards of guides.
 
 ## Stacking
@@ -37,7 +37,7 @@ standard <- ggplot(mpg, aes(displ, hwy)) +
 standard + guides(x = guide_axis_stack("axis", "axis", "axis"))
 ```
 
-In gguidance, we have the same composition operation: `compose_stack()`.
+In legendry, we have the same composition operation: `compose_stack()`.
 For your regular axis guides for the `x` and `y` aesthetics, it works the same way as `guide_axis_stack()`.
 However, if the guides it stacks supports other aesthetics, like `colour`, it can also be used there.
 
@@ -67,7 +67,7 @@ So when we peel back the layers and see what is inside `guide_axis_base()`, will
 No: all good things must come to an end and so too must guides have their building blocks.
 
 If the composition is the skeleton then these building blocks are the flesh providing function.
-These building blocks are called 'primitives' in gguidance. 
+These building blocks are called 'primitives' in legendry. 
 For example, the `guide_axis_base()` function is a stack of three primitives.
 They respectively build the axis line, the ticks and the labels.
 In the complete guide, they don't have any spacing between them, but let's exaggerate the spacing for clarity.
@@ -87,7 +87,7 @@ standard +
 We've already met the more 'famous' primitives (lines, ticks, labels), so let's round out our acquaintances.
 There is a spacer primitive that you can use to increase the spacing between the different pancakes in the stack, as it were.
 Then there is also the 'ranged' triplet: brackets, boxes and fences.
-These require a more niche [range key](https://teunbrand.github.io/gguidance/articles/keys.html#ranged-keys) and power the display of [nested axes](https://teunbrand.github.io/gguidance/articles/tour.html#nested-axes).
+These require a more niche [range key](https://teunbrand.github.io/legendry/articles/keys.html#ranged-keys) and power the display of [nested axes](https://teunbrand.github.io/legendry/articles/tour.html#nested-axes).
 
 ```{r}
 range_key <- key_range_manual(

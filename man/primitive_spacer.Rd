@@ -38,7 +38,7 @@ This function constructs a spacer \link[=guide-primitives]{guide primitive}.
 this guide. This guide does not have option dependent on its role as axis or
 legend.
 \itemize{
-\item \code{gguidance.guide.spacing} A \code{\link[grid:unit]{<unit>}} setting the amount of
+\item \code{legendry.guide.spacing} A \code{\link[grid:unit]{<unit>}} setting the amount of
 spacing when the \code{space} argument is \code{NULL}.
 }
 }

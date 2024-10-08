@@ -15,7 +15,7 @@ test_that("compose_stack works as axis line", {
   stack <- compose_stack(
     "line", "ticks", "labels", spacer, "ticks", "line",
     side.titles = c("", "A", "", "", "B", ""),
-    theme = theme(gguidance.guide.spacing = unit(0, "pt"))
+    theme = theme(legendry.guide.spacing = unit(0, "pt"))
   )
 
   p <- base +

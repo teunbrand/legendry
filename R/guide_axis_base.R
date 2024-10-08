@@ -58,8 +58,8 @@ guide_axis_base <- function(
   cap = "none", bidi = FALSE, order = 0, position = waiver()
 ) {
   theme <- theme %||% theme()
-  theme$gguidance.guide.spacing <-
-    theme$gguidance.guide.spacing %||% unit(0, "cm")
+  theme$legendry.guide.spacing <-
+    theme$legendry.guide.spacing %||% unit(0, "cm")
 
   compose_stack(
     primitive_line(cap = cap, position = position),

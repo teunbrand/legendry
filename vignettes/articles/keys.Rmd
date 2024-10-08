@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(gguidance)
+library(legendry)
 ```
 
 Rather than information that is key, this article will discuss information about keys.
@@ -39,9 +39,9 @@ standard <- ggplot(mpg, aes(displ, hwy)) +
 get_guide_data(standard, aesthetic = "x")
 ```
 
-## Keys in gguidance
+## Keys in legendry
 
-The key difference between keys in gguidance and keys in ggplot2, is that gguidance exposes users to keys.
+The key difference between keys in legendry and keys in ggplot2, is that legendry exposes users to keys.
 At first, this can be an inconvenience, but it allows for a greater degree of customisation.
 
 ### Why use keys?
@@ -75,7 +75,7 @@ key_manual(aesthetic = c(2, 4, 6))
 ```
 
 If you want custom labels, you can set the `label` argument.
-Most guides in gguidance accept a `key` argument, which will cause the guide to display the information in the key, rather than the information automatically derived from the scale.
+Most guides in legendry accept a `key` argument, which will cause the guide to display the information in the key, rather than the information automatically derived from the scale.
 
 ```{r}
 my_key <- key_manual(aesthetic = c(2, 4, 6), label = c("two", "four", "six"))
@@ -92,7 +92,7 @@ standard + guides(x = guide_axis_base(key = "minor"))
 ```
 
 Some keys don't directly return data frames, but return instructions on how these keys should interact with scales.
-For example `key_auto()`, the default key for many guides in gguidance, needs to know the range in which to populate tickmarks.
+For example `key_auto()`, the default key for many guides in legendry, needs to know the range in which to populate tickmarks.
 
 ```{r}
 key <- key_auto()
@@ -108,7 +108,7 @@ key(template, "y")
 
 ### Ranged keys
 
-A special type of guide you may find in gguidance are so called 'ranged' guides.
+A special type of guide you may find in legendry are so called 'ranged' guides.
 The only difference with regular guides is that they do not mark a single point for an aesthetic, but rather use a start- and end-point to mark a range of the aesthetic.
 This can be convenient to annotate co-occurrances between the data you are plotting and other events.
 For example, we can annotate the airtimes of TV shows in timeseries data.

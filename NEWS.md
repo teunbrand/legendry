@@ -1,4 +1,6 @@
-# gguidance 0.0.0.9001
+# legendry 0.0.0.9001
+
+Renamed {gguidance} to {legendry}.
 
 Restarted package from scratch, using a different approach.
 
@@ -8,7 +10,7 @@ Thanks to the following people for catching and reporting early bugs:
 
 ## Mechanism
 
-The crux in gguidance is that you combine a 'key', that contains instructions
+The crux in legendry is that you combine a 'key', that contains instructions
 on which values are represented, with a 'guide' that controls how these values
 are represented.
 

@@ -1,29 +1,29 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# gguidance <a href="https://teunbrand.github.io/gguidance/"><img src="man/figures/logo.png" align="right" height="138" alt="gguidance website" /></a>
+# legendry <a href="https://teunbrand.github.io/legendry/"><img src="man/figures/logo.png" align="right" height="138" alt="legendry website" /></a>
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/teunbrand/gguidance/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/teunbrand/legendry/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/teunbrand/legendry/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/gguidance)](https://CRAN.R-project.org/package=gguidance)
-[![codecov](https://codecov.io/gh/teunbrand/gguidance/graph/badge.svg)](https://codecov.io/gh/teunbrand/gguidance)
+status](https://www.r-pkg.org/badges/version/legendry)](https://CRAN.R-project.org/package=legendry)
+[![codecov](https://codecov.io/gh/teunbrand/legendry/graph/badge.svg)](https://codecov.io/gh/teunbrand/legendry)
 <!-- badges: end -->
 
-The goal of gguidance is to provide additional guide functionality to
-the ggplot2 ecosystem.
+The goal of legendry is to provide additional guide functionality to the
+ggplot2 ecosystem.
 
 ## Installation
 
-You can install the development version of gguidance from
+You can install the development version of legendry from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("teunbrand/gguidance")
+devtools::install_github("teunbrand/legendry")
 ```
 
 ## Example
@@ -31,7 +31,7 @@ devtools::install_github("teunbrand/gguidance")
 Let’s first set up a basic plot to experiment with:
 
 ``` r
-library(gguidance)
+library(legendry)
 #> Loading required package: ggplot2
 
 base <- ggplot(mpg, aes(displ, hwy, colour = cty)) +
@@ -44,7 +44,7 @@ base <- ggplot(mpg, aes(displ, hwy, colour = cty)) +
   theme(axis.line = element_line())
 ```
 
-The gguidance package offers a selection of what it calls ‘complete
+The legendry package offers a selection of what it calls ‘complete
 guides’. These complete guides can just be drop-in replacement of
 regular guides, which you can specify using ggplot2’s `guides()`
 function or using the `guide` argument in scales. In the example below,
@@ -69,8 +69,8 @@ base +
 
 <img src="man/figures/README-full_guides-1.svg" width="80%" style="display: block; margin: auto;" />
 
-Besides complete guides, gguidance also has incomplete guides that can
-be composed. The `ggplot2::guide_axis_stack()` is an axis composition
+Besides complete guides, legendry also has incomplete guides that can be
+composed. The `ggplot2::guide_axis_stack()` is an axis composition
 function that can be used to display multiple guides. Here, we use a
 ‘primitive’ guide (incomplete building block) to display a range on the
 axis. By stacking it with a regular axis the primitive guide is
@@ -94,7 +94,7 @@ base + guides(y = guide_axis_stack("axis", efficient_bracket))
 
 <img src="man/figures/README-primitives-1.svg" width="80%" style="display: block; margin: auto;" />
 
-The gguidance package extends this guide composition concept beyond the
+The legendry package extends this guide composition concept beyond the
 axes for other types of guides. In the example below we compose a
 ‘sandwich’: a central guide flanked by two others. Because our bracket
 is a primitive, it does not matter what aesthetic it displays and we can

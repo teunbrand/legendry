@@ -52,7 +52,7 @@ new_compose <- function(guides, args = list(), ...,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 Compose <- ggproto(
@@ -63,7 +63,7 @@ Compose <- ggproto(
     key = NULL, angle = waiver()
   ),
 
-  elements = list(spacing = "gguidance.guide.spacing"),
+  elements = list(spacing = "legendry.guide.spacing"),
 
   train = function(self, params = self$params, scale, aesthetic = NULL,
                    title = waiver(), ...) {

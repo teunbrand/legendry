@@ -15,7 +15,7 @@ test_that("guide_colring looks as it should", {
 
   outline <- compose_stack("axis_base", primitive_line(theme = theme(
     legend.axis.line = element_line(colour = "dodgerblue")
-  )), theme = theme(gguidance.guide.spacing = unit(0, "cm")))
+  )), theme = theme(legendry.guide.spacing = unit(0, "cm")))
 
   standard_ring <- guides(colour = guide_colring(
     nbin = 15, outer_guide = outline, inner_guide = outline

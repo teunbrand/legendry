@@ -104,7 +104,7 @@ gizmo_barcap <- function(key = "sequence", shape = "triangle", size = NULL,
 # Class -------------------------------------------------------------------
 
 #' @export
-#' @rdname gguidance_extensions
+#' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
 GizmoBarcap <- ggproto(
