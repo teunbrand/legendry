@@ -161,7 +161,7 @@ ggplot(mpg, aes(displ, hwy)) +
 }
 \seealso{
 Other standalone guides: 
-\code{\link{guide_axis_custom}()},
+\code{\link{guide_axis_base}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colring}()},
 \code{\link{guide_colsteps}()}
