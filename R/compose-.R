@@ -2,6 +2,9 @@
 
 #' Guide composition
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Guide composition is a meta-guide orchestrating an ensemble of other guides.
 #' On their own, a 'composing' guide is not very useful as a visual reflection
 #' of a scale.

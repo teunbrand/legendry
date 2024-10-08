@@ -2,6 +2,9 @@
 
 #' Compose guides in a cross
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This guide composition has a central guide optionally surrounded by other
 #' guides on all four sides.
 #'

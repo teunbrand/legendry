@@ -76,6 +76,8 @@ be build.}
 A \verb{<ComposeSandwich>} guide object.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This guide composition has a middle guide flanked by two parallel guides.
 }
 \details{

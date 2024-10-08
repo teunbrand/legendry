@@ -4,10 +4,11 @@
 ## usethis namespace: start
 #' @import ggplot2
 #' @import grid
-#' @import rlang
-#' @import vctrs
 #' @import gtable
+#' @import rlang
 #' @import scales
+#' @import vctrs
+#' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL
 

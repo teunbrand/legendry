@@ -1,5 +1,8 @@
 #' Compose guides as a sandwich
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This guide composition has a middle guide flanked by two parallel guides.
 #'
 #' @param key A [standard key][key_standard] specification. The key is shared

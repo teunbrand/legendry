@@ -75,6 +75,8 @@ be build.}
 A \verb{<ComposeCrux>} guide object.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This guide composition has a central guide optionally surrounded by other
 guides on all four sides.
 }
