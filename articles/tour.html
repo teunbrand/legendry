@@ -82,8 +82,8 @@ but can moonlight as auxiliary guides as well.</p>
 <div class="section level3">
 <h3 id="where-not-to-apply">Where (not) to apply<a class="anchor" aria-label="anchor" href="#where-not-to-apply"></a>
 </h3>
-<p>In gguidance, the staple axis is <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code>. At
-a first glance, these axes are utterly unremarkable and very much mirror
+<p>In gguidance, the staple axis is <code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code>. At a
+first glance, these axes are utterly unremarkable and very much mirror
 <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html" class="external-link">ggplot2::guide_axis()</a></code> by design.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Turn on axis lines</span></span>
@@ -98,19 +98,19 @@ a first glance, these axes are utterly unremarkable and very much mirror
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="st">"axis_custom"</span>,</span>
-<span>  y <span class="op">=</span> <span class="st">"axis_custom"</span></span>
+<span>  x <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
+<span>  y <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>In terms of novelty, the only ‘extra’ option these axes offer is to
 display bidirectional tick marks.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">standard</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">p</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p>However, <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> is more flexible than
+<p>However, <code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> is more flexible than
 <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html" class="external-link">ggplot2::guide_axis()</a></code>. In ggplot2, you’d typically have to
 switch to <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis_theta.html" class="external-link">ggplot2::guide_axis_theta()</a></code> to display an axis
 for the <code>theta</code> coordinate of a polar plot. The custom axis
@@ -127,9 +127,9 @@ Why this unadvised yet possible is a topic that resurfaces later in this
 article.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"axis_custom"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"axis_base"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tour_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>In summary, <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> is a flexible guide that
+<p>In summary, <code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> is a flexible guide that
 can be used in any and all position aesthetic, and can (but should not)
 be used for other continuous aesthetics.</p>
 </div>
@@ -461,7 +461,7 @@ annotation-primitive like <code><a href="../reference/primitive_bracket.html">pr
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    minor_breaks <span class="op">=</span> <span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html" class="external-link">breaks_width</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span></span>
-<span>      first_guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span><span class="st">"minor"</span><span class="op">)</span>,</span>
+<span>      first_guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span><span class="st">"minor"</span><span class="op">)</span>,</span>
 <span>      second_guide <span class="op">=</span> <span class="va">brackets</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
@@ -535,7 +535,7 @@ that they aren’t first or second.</p>
 <span>    colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">13</span><span class="op">)</span>,</span>
 <span>    breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, minor_breaks <span class="op">=</span> <span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html" class="external-link">breaks_width</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colring.html">guide_colring</a></span><span class="op">(</span></span>
-<span>      outer_guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span><span class="st">"minor"</span><span class="op">)</span>,</span>
+<span>      outer_guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span><span class="st">"minor"</span><span class="op">)</span>,</span>
 <span>      inner_guide <span class="op">=</span> <span class="st">"none"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>

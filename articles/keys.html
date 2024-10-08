@@ -127,7 +127,7 @@ modular.</p>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">msleep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sleep_total</span>, <span class="va">brainwt</span>, colour <span class="op">=</span> <span class="va">bodywt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">logkey</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">logkey</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    trans <span class="op">=</span> <span class="st">"log10"</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">logkey</span><span class="op">)</span></span>
@@ -155,7 +155,7 @@ than the information automatically derived from the scale.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_standard.html">key_manual</a></span><span class="op">(</span>aesthetic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two"</span>, <span class="st">"four"</span>, <span class="st">"six"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="keys_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>In addition, you can provide some automatic keys as keywords. Setting
 <code>key = "minor"</code>, is the same as setting
@@ -163,7 +163,7 @@ than the information automatically derived from the scale.</p>
 <code>key_*()</code> functions can be used as keyword by omitting the
 <code>key_</code>-prefix.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"minor"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"minor"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="keys_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Some keys don’t directly return data frames, but return instructions
 on how these keys should interact with scales. For example
@@ -180,8 +180,8 @@ needs to know the range in which to populate tickmarks.</p>
 <span><span class="co">#&gt;     class(df) &lt;- c("key_standard", "key_guide", class(df))</span></span>
 <span><span class="co">#&gt;     df</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x559572529da0&gt;</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x55957252cb68&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;bytecode: 0x55b42287c4b8&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x55b42287f280&gt;</span></span></code></pre></div>
 <p>We can preview what values they’d label by letting the key absorb a
 scale with known limits.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -294,7 +294,7 @@ labels.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="../reference/key_standard.html">key_auto</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="../reference/key_standard.html">key_auto</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="keys_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>In some cases where you know the label in advance, which is almost
 every time one uses <code><a href="../reference/key_standard.html">key_manual()</a></code>, <code><a href="../reference/key_standard.html">key_map()</a></code> or
@@ -328,7 +328,7 @@ axis.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_sequence_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_specialty.html">key_sequence</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="va">standard</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_sequence_key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">my_sequence_key</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="keys_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>The reason for this is that this key was designed for colour
 gradients</p>

@@ -53,8 +53,8 @@ to display caps at the end of the bar, depending on out-of-bounds values.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">guide_colsteps</span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  key <span class="op">=</span> <span class="st">"bins"</span>,</span>
-<span>  first_guide <span class="op">=</span> <span class="st">"axis_custom"</span>,</span>
-<span>  second_guide <span class="op">=</span> <span class="st">"axis_custom"</span>,</span>
+<span>  first_guide <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
+<span>  second_guide <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
 <span>  shape <span class="op">=</span> <span class="st">"triangle"</span>,</span>
 <span>  size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  show <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -176,7 +176,7 @@ graphics device that can render clipped paths. This can be checked by using
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other standalone guides:
-<code><a href="guide_axis_custom.html">guide_axis_custom</a>()</code>,
+<code><a href="guide_axis_base.html">guide_axis_base</a>()</code>,
 <code><a href="guide_axis_nested.html">guide_axis_nested</a>()</code>,
 <code><a href="guide_colbar.html">guide_colbar</a>()</code>,
 <code><a href="guide_colring.html">guide_colring</a>()</code></p></div>
@@ -225,8 +225,8 @@ graphics device that can render clipped paths. This can be checked by using
 <span class="r-in"><span><span class="co"># Using tick marks by swapping side guides</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  guide <span class="op">=</span> <span class="fu">guide_colsteps</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    first_guide  <span class="op">=</span> <span class="st">"axis_custom"</span>,</span></span>
-<span class="r-in"><span>    second_guide <span class="op">=</span> <span class="st">"axis_custom"</span></span></span>
+<span class="r-in"><span>    first_guide  <span class="op">=</span> <span class="st">"axis_base"</span>,</span></span>
+<span class="r-in"><span>    second_guide <span class="op">=</span> <span class="st">"axis_base"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="guide_colsteps-6.png" alt="" width="700" height="433"></span>

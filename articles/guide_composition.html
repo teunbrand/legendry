@@ -103,7 +103,7 @@ one another.</p>
 supports other aesthetics, like <code>colour</code>, it can also be used
 there.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">staxis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis_custom"</span>, <span class="st">"axis_custom"</span>, <span class="st">"axis_custom"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">staxis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis_base"</span>, <span class="st">"axis_base"</span>, <span class="st">"axis_base"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">standard</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
@@ -118,20 +118,20 @@ there.</p>
 <h2 id="primitives">Primitives<a class="anchor" aria-label="anchor" href="#primitives"></a>
 </h2>
 <p>At this point, it might be wise to take a closer look at exactly what
-<code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> is doing. Once we pull on the threads
-on what its class is, the mystery starts to unravel:</p>
+<code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> is doing. Once we pull on the threads on
+what its class is, the mystery starts to unravel:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "ComposeStack" "Compose"      "Guide"        "ggproto"      "gg"</span></span></code></pre></div>
 <p>Indeed, by using
-<code>compose_stack("axis_custom", "axis_custom", ...)</code> we have
-been stacking a stack! So when we peel back the layers and see what is
-inside <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code>, will we find more stacks? No,
-all good things must come to an end and so too must guides have their
-building blocks.</p>
+<code>compose_stack("axis_base", "axis_base", ...)</code> we have been
+stacking a stack! So when we peel back the layers and see what is inside
+<code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code>, will we find more stacks? No: all good
+things must come to an end and so too must guides have their building
+blocks.</p>
 <p>If the composition is the skeleton then these building blocks are the
 flesh providing function. These building blocks are called ‘primitives’
-in gguidance. For example, the <code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> function
+in gguidance. For example, the <code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> function
 is a stack of three primitives. They respectively build the axis line,
 the ticks and the labels. In the complete guide, they don’t have any
 spacing between them, but let’s exaggerate the spacing for clarity.</p>
@@ -161,7 +161,7 @@ axes</a>.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span></span>
-<span>  <span class="st">"axis_custom"</span>,</span>
+<span>  <span class="st">"axis_base"</span>,</span>
 <span>  <span class="fu"><a href="../reference/primitive_bracket.html">primitive_bracket</a></span><span class="op">(</span><span class="va">range_key</span>, <span class="st">"curvy"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/primitive_spacer.html">primitive_spacer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/primitive_box.html">primitive_box</a></span><span class="op">(</span><span class="va">range_key</span><span class="op">)</span>,</span>
@@ -231,8 +231,8 @@ of primitives. Analogous to two pieces of bread on the outside with the
 good bits on the inside, a sandwich composition of guides often sees a
 centrepiece flanked by two other guides.</p>
 <p>Similar to how we naively believed <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">guide_axis_stack()</a></code> to
-its own little snowflake of a guide, so too is
-<code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> in fact a composition</p>
+be its own little snowflake of a guide, so too is
+<code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> in fact a composition:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "ComposeSandwich" "Compose"         "Guide"           "ggproto"        </span></span>
@@ -261,30 +261,29 @@ element.</p>
 <p>It should also be noted that if the guide has a label-supression
 mechanism, the ‘opposite’ guide will be drawn with surpressed labels.
 The mechanism is in place in guides like
-<code><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html" class="external-link">guide_axis()</a></code>/<code><a href="../reference/guide_axis_custom.html">guide_axis_custom()</a></code> for display
-in for example <code>facet_grid(axis.labels = "margins")</code>.</p>
+<code><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html" class="external-link">guide_axis()</a></code>/<code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> for display in
+for example <code>facet_grid(axis.labels = "margins")</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span></span>
-<span>      text     <span class="op">=</span> <span class="st">"axis_custom"</span>, </span>
-<span>      opposite <span class="op">=</span> <span class="st">"axis_custom"</span></span>
+<span>      text     <span class="op">=</span> <span class="st">"axis_base"</span>, </span>
+<span>      opposite <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
 <span><span class="co"># The same plot</span></span>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-14-2.png" width="700"></p>
-<p>The only thing that <code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> does that
-<code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code> does not is to adjust the theme settings
-to match <code><a href="https://ggplot2.tidyverse.org/reference/guide_colourbar.html" class="external-link">ggplot2::guide_colourbar()</a></code> more closely.</p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p>The only thing that <code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> does, that
+<code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code> does not, is to adjust the theme
+settings to match <code><a href="https://ggplot2.tidyverse.org/reference/guide_colourbar.html" class="external-link">ggplot2::guide_colourbar()</a></code> more
+closely.</p>
 <p>Alright, fine, I get the ‘bread’ part of the sandwich! What about the
 inside? I’m glad you asked.</p>
 </div>
@@ -293,19 +292,18 @@ inside? I’m glad you asked.</p>
 </h2>
 <p>The insides of the <code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> is a so called
 ‘gizmo’. A gizmo differs from a primitive in that a gizmo is not a
-general building block, but rather a very specialised display of a
-particular aesthetic. Also, it is not a complete guide as it does not
-allow you to complete the crucial task of translating the graphic
-display into an interpretation of data. It is called a ‘gizmo’ because
-it is sort of a gadget that I don’t have a more appropriate name for.
-Hence: gizmo.</p>
+general building block, but rather a specialised display of a particular
+aesthetic. Also, it is not a complete guide as it does not allow you to
+complete the crucial task of translating the graphic display into an
+interpretation of data. It is called a ‘gizmo’ because it is sort of a
+gadget that I don’t have a more appropriate name for. Hence: gizmo.</p>
 <div class="section level3">
 <h3 id="my-first-gizmo">My first gizmo<a class="anchor" aria-label="anchor" href="#my-first-gizmo"></a>
 </h3>
 <p>We can display only the gizmo from <code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> —the
 sandwich spread, if you will— as <code><a href="../reference/gizmo_barcap.html">gizmo_barcap()</a></code>. It is also
 immediately clear why we need the bread in this case.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
@@ -325,7 +323,7 @@ in a guide. For example, we can stack it with an axis, or use it as the
 non-bread part of a sandwich. Please note that this is <em>not</em> a
 good representation of the plot’s colour aesthetic. I hope this wouldn’t
 have been necessary but: don’t make your plot like this!</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_grob</span> <span class="op">&lt;-</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.grob.html" class="external-link">grobTree</a></span><span class="op">(</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="st">"Grob\nGizmo"</span><span class="op">)</span></span>
@@ -336,7 +334,7 @@ have been necessary but: don’t make your plot like this!</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">my_gizmo</span><span class="op">)</span>,</span>
-<span>    colour <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span>middle <span class="op">=</span> <span class="va">my_gizmo</span>, text <span class="op">=</span> <span class="st">"axis_custom"</span><span class="op">)</span></span>
+<span>    colour <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span>middle <span class="op">=</span> <span class="va">my_gizmo</span>, text <span class="op">=</span> <span class="st">"axis_base"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="guide_composition_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>Perhaps some gizmo’s that are inherently more useful are
@@ -348,7 +346,7 @@ arguments to these functions with the <code>density.args</code> and
 gizmos, not full guides. Also: please ignore that we’re guiding both
 <code>colour</code> and <code>fill</code> while only <code>colour</code>
 is visible.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span>, fill <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
@@ -363,21 +361,21 @@ is visible.</p>
 <p>However, you can easily promote these gizmos to full guide by adding
 an axis. The <code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code> can do a reasonable job for
 this.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span>, fill <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    option <span class="op">=</span> <span class="st">"C"</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span></span>
 <span>      middle <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_density.html">gizmo_density</a></span><span class="op">(</span>just <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
-<span>      text <span class="op">=</span> <span class="st">"axis_custom"</span></span>
+<span>      text <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span></span>
 <span>    option <span class="op">=</span> <span class="st">"D"</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span></span>
 <span>      middle <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_histogram.html">gizmo_histogram</a></span><span class="op">(</span>just <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>      text <span class="op">=</span> <span class="st">"axis_custom"</span></span>
+<span>      text <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="guide_composition_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
@@ -391,8 +389,8 @@ any ‘proper’ guide. The <code><a href="../reference/compose_ontop.html">comp
 render one guide over the other. We can see in the plots below that it
 allows us to touch the panel when composing on top of one another, but
 not when stacking.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">top</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/guide_axis_custom.html">guide_axis_custom</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span></span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="../reference/key_standard.html">key_manual</a></span><span class="op">(</span><span class="fl">32</span>, label <span class="op">=</span> <span class="st">"Here is 32"</span><span class="op">)</span>,</span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
 <span>    ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
@@ -404,7 +402,7 @@ not when stacking.</p>
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y.sec <span class="op">=</span> <span class="fu"><a href="../reference/compose_ontop.html">compose_ontop</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">top</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"compose_ontop"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="guide_composition_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y.sec <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">top</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"compose_stack"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="guide_composition_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
@@ -412,7 +410,7 @@ not when stacking.</p>
 parent composition of <code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code>. Instead only
 allowing bread on two sides, it can also put guides on the top and
 bottom. It isn’t currently in use by any complete guide though.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ball</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gizmo_grob.html">gizmo_grob</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.circle.html" class="external-link">circleGrob</a></span><span class="op">(</span></span>
 <span>  r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span>, gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"tomato"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
@@ -426,7 +424,7 @@ bottom. It isn’t currently in use by any complete guide though.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_crux.html">compose_crux</a></span><span class="op">(</span></span>
 <span>      centre <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_barcap.html">gizmo_barcap</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>      left <span class="op">=</span> <span class="st">"axis_custom"</span>, right <span class="op">=</span> <span class="st">"axis_custom"</span>,</span>
+<span>      left <span class="op">=</span> <span class="st">"axis_base"</span>, right <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
 <span>      top <span class="op">=</span> <span class="va">ball</span>, bottom <span class="op">=</span> <span class="va">block</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
