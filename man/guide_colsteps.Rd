@@ -7,8 +7,8 @@
 guide_colsteps(
   title = waiver(),
   key = "bins",
-  first_guide = "axis_custom",
-  second_guide = "axis_custom",
+  first_guide = "axis_base",
+  second_guide = "axis_base",
   shape = "triangle",
   size = NULL,
   show = NA,
@@ -145,8 +145,8 @@ p + scale_colour_viridis_b(
 # Using tick marks by swapping side guides
 p + scale_colour_viridis_b(
   guide = guide_colsteps(
-    first_guide  = "axis_custom",
-    second_guide = "axis_custom"
+    first_guide  = "axis_base",
+    second_guide = "axis_base"
   )
 )
 }

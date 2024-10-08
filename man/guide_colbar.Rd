@@ -7,7 +7,7 @@
 guide_colbar(
   title = waiver(),
   key = "auto",
-  first_guide = "axis_custom",
+  first_guide = "axis_base",
   second_guide = first_guide,
   shape = "triangle",
   size = NULL,

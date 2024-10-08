@@ -16,14 +16,14 @@
 #' ggplot(mpg, aes(displ, hwy)) +
 #'   geom_point() +
 #'   guides(x = compose_ontop(
-#'     guide_axis_custom(
+#'     guide_axis_base(
 #'       key_manual(c(2, 4, 6)),
 #'       theme = theme(
 #'         axis.ticks = element_line(colour = "limegreen"),
 #'         axis.ticks.length = unit(11, "pt")
 #'       )
 #'     ),
-#'     guide_axis_custom(
+#'     guide_axis_base(
 #'       key_manual(c(3, 5, 7)),
 #'       theme = theme(
 #'         axis.ticks = element_line(colour = "tomato"),
