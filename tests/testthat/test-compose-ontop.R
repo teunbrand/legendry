@@ -22,7 +22,7 @@ test_that("compose_ontop works as axis line", {
         axis.line = element_line(colour = "tomato")
       )
     ),
-    theme = theme(gguidance.guide.spacing = unit(0, "cm"))
+    theme = theme(legendry.guide.spacing = unit(0, "cm"))
   )
 
   ontop <- compose_ontop(

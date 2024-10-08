@@ -40,9 +40,9 @@
 #'
 #' Common to both types is the following:
 #'
-#' * `gguidance.bracket` an [`<element_line>`][ggplot2::element_line] for the
+#' * `legendry.bracket` an [`<element_line>`][ggplot2::element_line] for the
 #'   line used to draw the brackets.
-#' * `gguidance.backet.size` a [`<unit>`][grid::unit] setting the space afforded
+#' * `legendry.backet.size` a [`<unit>`][grid::unit] setting the space afforded
 #'   to a bracket.
 #'
 #' ## As an axis guide
@@ -131,12 +131,12 @@ PrimitiveBracket <- ggproto(
 
   elements = list(
     position = list(
-      text = "axis.text", line = I("gguidance.bracket"),
-      size = I("gguidance.bracket.size")
+      text = "axis.text", line = I("legendry.bracket"),
+      size = I("legendry.bracket.size")
     ),
     legend = list(
-      text = "legend.text", line = I("gguidance.bracket"),
-      size = I("gguidance.bracket.size")
+      text = "legend.text", line = I("legendry.bracket"),
+      size = I("legendry.bracket.size")
     )
   ),
 

@@ -13,31 +13,31 @@
 #' @param title An [`<element_text>`][ggplot2::element_text] setting both
 #'   `legend.title` and `axis.title` elements.
 #' @param subtitle An [`<element_text>`][ggplot2::element_text] setting both
-#'   `gguidance.legend.subtitle` and `gguidance.axis.subtitle` elements.
+#'   `legendry.legend.subtitle` and `legendry.axis.subtitle` elements.
 #' @param text.position,title.position,subtitle.position One of `"top"`,
 #'   `"right"`, `"bottom"` or `"right"` setting the following elements:
 #'
 #'   * `text.position`: sets only `legend.text.position`.
 #'   * `title.position`: sets only `legend.title.position`.
-#'   * `subtitle.position` sets both `gguidance.legend.subtitle.position` and
-#'   `gguidance.axis.subtitle.position`
+#'   * `subtitle.position` sets both `legendry.legend.subtitle.position` and
+#'   `legendry.axis.subtitle.position`
 #' @param ticks An [`<element_line>`][ggplot2::element_line] setting both
 #'   `axis.ticks` and `legend.ticks` elements.
 #' @param minor.ticks An [`<element_line>`][ggplot2::element_line] setting
-#'   `gguidance.legend.minor.ticks` and all 6 of the
+#'   `legendry.legend.minor.ticks` and all 6 of the
 #'   `axis.ticks.minor.{r/theta/x.top/x.bottom/y.left/y.right}` elements.
 #' @param mini.ticks An [`<element_line>`][ggplot2::element_line] setting both
-#'   `gguidance.legend.mini.ticks` and `gguidance.axis.mini.ticks` elements.
+#'   `legendry.legend.mini.ticks` and `legendry.axis.mini.ticks` elements.
 #' @param ticks.length,minor.ticks.length,mini.ticks.length A
 #'   [`<unit[1]>`][grid::unit()] setting the following elements:
 #'
 #'   * `ticks.length`: sets both `legend.ticks.length` and `axis.ticks.length`.
 #'   * `minor.ticks.length` sets both `axis.minor.ticks.length` and
-#'   `gguidance.legend.minor.ticks.length`.
-#'   * `mini.ticks.length` sets both `gguidance.axis.mini.ticks.length` and
-#'   `gguidance.legend.mini.ticks.length`.
+#'   `legendry.legend.minor.ticks.length`.
+#'   * `mini.ticks.length` sets both `legendry.axis.mini.ticks.length` and
+#'   `legendry.legend.mini.ticks.length`.
 #' @param spacing A [`<unit[1]>`][grid::unit()] setting the
-#'   `gguidance.guide.spacing` theme element.
+#'   `legendry.guide.spacing` theme element.
 #' @param key An [`<element_rect>`][ggplot2::element_rect] setting the
 #'   `legend.key` element.
 #' @param key.size,key.width,key.height A [`<unit>`][grid::unit()] setting the
@@ -54,14 +54,14 @@
 #' @param margin A [`<margin>`][ggplot2::margin] setting the `legend.margin`
 #'   element.
 #' @param bracket An [`<element_line>`][ggplot2::element_line] setting the
-#'   `gguidance.bracket` element.
+#'   `legendry.bracket` element.
 #' @param bracket.size A [`<unit[1]>`][grid::unit()] setting the
-#'   `gguidance.bracket.size` element.
+#'   `legendry.bracket.size` element.
 #' @param box An [`<element_rect>`][ggplot2::element_rect] setting the
-#'   `gguidance.box` element.
+#'   `legendry.box` element.
 #' @param fence,fence.post,fence.rail An
-#'   [`<element_line>`][ggplot2::element_line] setting the `gguidance.fence`,
-#'   `gguidance.fence.post` and `gguidance.fence.rail` respectively.
+#'   [`<element_line>`][ggplot2::element_line] setting the `legendry.fence`,
+#'   `legendry.fence.post` and `legendry.fence.rail` respectively.
 #'
 #' @return A `<theme>` object that can be provided to a guide.
 #' @export
@@ -128,14 +128,14 @@ theme_guide <- function(
     legend.title = title,
     axis.title = title,
 
-    gguidance.legend.subtitle = subtitle,
-    gguidance.axis.subtitle = subtitle,
+    legendry.legend.subtitle = subtitle,
+    legendry.axis.subtitle = subtitle,
 
     legend.title.position = title.position,
     legend.text.position = text.position,
 
-    gguidance.legend.subtitle.position = subtitle.position,
-    gguidance.axis.subtitle.position = subtitle.position,
+    legendry.legend.subtitle.position = subtitle.position,
+    legendry.axis.subtitle.position = subtitle.position,
 
     legend.ticks = ticks,
     axis.ticks = ticks,
@@ -143,7 +143,7 @@ theme_guide <- function(
     legend.ticks.length = ticks.length,
     axis.ticks.length = ticks.length,
 
-    gguidance.legend.minor.ticks = minor.ticks,
+    legendry.legend.minor.ticks = minor.ticks,
     axis.minor.ticks.r = minor.ticks,
     axis.minor.ticks.theta = minor.ticks,
     axis.minor.ticks.x.top = minor.ticks,
@@ -151,16 +151,16 @@ theme_guide <- function(
     axis.minor.ticks.y.left = minor.ticks,
     axis.minor.ticks.y.right = minor.ticks,
 
-    gguidance.legend.minor.ticks.lenth = minor.ticks.length,
+    legendry.legend.minor.ticks.lenth = minor.ticks.length,
     axis.minor.ticks.length = minor.ticks.length,
 
-    gguidance.axis.mini.ticks = mini.ticks,
-    gguidance.legend.mini.ticks = mini.ticks,
+    legendry.axis.mini.ticks = mini.ticks,
+    legendry.legend.mini.ticks = mini.ticks,
 
-    gguidance.axis.mini.ticks.length = mini.ticks.length,
-    gguidance.legend.mini.ticks.length = mini.ticks.length,
+    legendry.axis.mini.ticks.length = mini.ticks.length,
+    legendry.legend.mini.ticks.length = mini.ticks.length,
 
-    gguidance.guide.spacing = spacing,
+    legendry.guide.spacing = spacing,
 
     legend.key = key,
     legend.key.spacing = key.spacing,
@@ -172,60 +172,60 @@ theme_guide <- function(
     legend.background = background,
     legend.margin = margin,
 
-    gguidance.bracket = bracket,
-    gguidance.bracket.size = bracket.size,
-    gguidance.box = box,
-    gguidance.fence = fence,
-    gguidance.fence.post = fence.post,
-    gguidance.fence.rail = fence.rail
+    legendry.bracket = bracket,
+    legendry.bracket.size = bracket.size,
+    legendry.box = box,
+    legendry.fence = fence,
+    legendry.fence.post = fence.post,
+    legendry.fence.rail = fence.rail
   )
   theme <- theme[!is_each(theme, is.null)]
   theme(!!!theme)
 }
 
 
-register_gguidance_elements <- function() {
+register_legendry_elements <- function() {
   register_theme_elements(
-    gguidance.bracket.size = unit(2, "mm"),
-    gguidance.bracket = element_line(),
-    gguidance.fence = element_line(),
-    gguidance.fence.post = element_line(),
-    gguidance.fence.rail = element_line(),
-    gguidance.box = element_rect(colour = "white"),
-    gguidance.legend.minor.ticks = element_line(),
-    gguidance.legend.minor.ticks.length = rel(0.75),
-    gguidance.legend.mini.ticks = element_line(),
-    gguidance.legend.mini.ticks.length = rel(0.5),
-    gguidance.legend.subtitle = element_text(size = rel(0.9)),
-    gguidance.legend.subtitle.position = "top",
-    gguidance.axis.mini.ticks = element_line(),
-    gguidance.axis.mini.ticks.length = rel(0.5),
-    gguidance.guide.spacing = unit(2.25, "pt"),
-    gguidance.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
-    gguidance.axis.subtitle.position = c("left", "top"),
+    legendry.bracket.size = unit(2, "mm"),
+    legendry.bracket = element_line(),
+    legendry.fence = element_line(),
+    legendry.fence.post = element_line(),
+    legendry.fence.rail = element_line(),
+    legendry.box = element_rect(colour = "white"),
+    legendry.legend.minor.ticks = element_line(),
+    legendry.legend.minor.ticks.length = rel(0.75),
+    legendry.legend.mini.ticks = element_line(),
+    legendry.legend.mini.ticks.length = rel(0.5),
+    legendry.legend.subtitle = element_text(size = rel(0.9)),
+    legendry.legend.subtitle.position = "top",
+    legendry.axis.mini.ticks = element_line(),
+    legendry.axis.mini.ticks.length = rel(0.5),
+    legendry.guide.spacing = unit(2.25, "pt"),
+    legendry.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
+    legendry.axis.subtitle.position = c("left", "top"),
     element_tree = list(
-      gguidance.bracket.size = el_def("unit"),
-      gguidance.bracket = el_line("line"),
-      gguidance.fence = el_line("line"),
-      gguidance.fence.post = el_line("gguidance.fence"),
-      gguidance.fence.rail = el_line("gguidance.fence"),
-      gguidance.box = el_def("element_rect", "strip.background"),
-      gguidance.legend.minor.ticks = el_line("legend.ticks"),
-      gguidance.legend.minor.ticks.length = el_unit("legend.ticks.length"),
-      gguidance.legend.mini.ticks = el_line("gguidance.legend.minor.ticks"),
-      gguidance.legend.mini.ticks.length = el_unit("gguidance.legend.minor.ticks.length"),
-      gguidance.legend.subtitle = el_def("element_text", "legend.title"),
-      gguidance.legend.subtitle.position = el_def("character"),
-      gguidance.axis.mini.ticks = el_line("axis.ticks"),
-      gguidance.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
-      gguidance.guide.spacing = el_unit("axis.ticks.length"),
-      gguidance.axis.subtitle = el_def("element_text", "axis.text"),
-      gguidance.axis.subtitle.position = el_def("character")
+      legendry.bracket.size = el_def("unit"),
+      legendry.bracket = el_line("line"),
+      legendry.fence = el_line("line"),
+      legendry.fence.post = el_line("legendry.fence"),
+      legendry.fence.rail = el_line("legendry.fence"),
+      legendry.box = el_def("element_rect", "strip.background"),
+      legendry.legend.minor.ticks = el_line("legend.ticks"),
+      legendry.legend.minor.ticks.length = el_unit("legend.ticks.length"),
+      legendry.legend.mini.ticks = el_line("legendry.legend.minor.ticks"),
+      legendry.legend.mini.ticks.length = el_unit("legendry.legend.minor.ticks.length"),
+      legendry.legend.subtitle = el_def("element_text", "legend.title"),
+      legendry.legend.subtitle.position = el_def("character"),
+      legendry.axis.mini.ticks = el_line("axis.ticks"),
+      legendry.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
+      legendry.guide.spacing = el_unit("axis.ticks.length"),
+      legendry.axis.subtitle = el_def("element_text", "axis.text"),
+      legendry.axis.subtitle.position = el_def("character")
     )
   )
 }
 
-on_load(register_gguidance_elements())
+on_load(register_legendry_elements())
 
 el_unit <- function(...) el_def(c("unit", "rel"), ...)
 el_line <- function(...) el_def("element_line",   ...)

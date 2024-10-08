@@ -39,14 +39,14 @@ Common to both types is the following:
 for major tick lines.
 \item \verb{axis.minor.ticks.\{x/y\}.\{position\}} an
 \code{\link[ggplot2:element]{<element_line>}} for minor tick lines.
-\item \code{gguidance.axis.mini.ticks} an \code{\link[ggplot2:element]{<element_line>}}
+\item \code{legendry.axis.mini.ticks} an \code{\link[ggplot2:element]{<element_line>}}
 internally inheriting from the minor ticks for the smallest ticks in e.g.
 log axes.
 \item \verb{axis.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the major
 ticks length.
 \item \verb{axis.minor.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the
 minor ticks length.
-\item \code{gguidance.axis.mini.ticks.length} a \code{\link[grid:unit]{<unit>}} internally
+\item \code{legendry.axis.mini.ticks.length} a \code{\link[grid:unit]{<unit>}} internally
 inheriting from the minor tick length for the smallest ticks in e.g.
 log axes.
 }
@@ -56,14 +56,14 @@ log axes.
 \itemize{
 \item \code{legend.ticks} an \code{\link[ggplot2:element]{<element_line>}} for major tick
 lines.
-\item \code{gguidance.legend.minor.ticks} an \code{\link[ggplot2:element]{<element_line>}}
+\item \code{legendry.legend.minor.ticks} an \code{\link[ggplot2:element]{<element_line>}}
 for minor tick lines.
-\item \code{gguidance.legend.mini.ticks} an \code{\link[ggplot2:element]{<element_line>}}
+\item \code{legendry.legend.mini.ticks} an \code{\link[ggplot2:element]{<element_line>}}
 for the smallest ticks in e.g. log axes.
 \item \code{legend.ticks.length} a \code{\link[grid:unit]{<unit>}} for the major ticks length.
-\item \code{gguidance.legend.minor.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
+\item \code{legendry.legend.minor.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
 minor ticks length.
-\item \code{gguidance.legend.mini.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
+\item \code{legendry.legend.mini.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
 smallest ticks in e.g. log axes.
 }
 }

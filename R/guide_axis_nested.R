@@ -95,8 +95,8 @@ guide_axis_nested <- function(
 ) {
 
   theme <- theme %||% theme()
-  theme$gguidance.guide.spacing <-
-    theme$gguidance.guide.spacing %||% unit(0, "cm")
+  theme$legendry.guide.spacing <-
+    theme$legendry.guide.spacing %||% unit(0, "cm")
 
   nesting <- switch(
     arg_match0(type, c("bracket", "box", "fence")),

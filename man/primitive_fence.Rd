@@ -79,9 +79,9 @@ axis or legend context.
 
 Common to both types is the following:
 \itemize{
-\item \code{gguidance.fence.post} an \code{\link[ggplot2:element]{<element_line>}} for the
+\item \code{legendry.fence.post} an \code{\link[ggplot2:element]{<element_line>}} for the
 line used to draw the pieces orthogonal to the direction of the scale.
-\item \code{gguidance.fence.rail} an \code{\link[ggplot2:element]{<element_line>}} for the
+\item \code{legendry.fence.rail} an \code{\link[ggplot2:element]{<element_line>}} for the
 line used to draw the pieces parallel to the direction of the scale.
 }
 \subsection{As an axis guide}{

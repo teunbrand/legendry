@@ -79,9 +79,9 @@ axis or a legend context.
 
 Common to both types is the following:
 \itemize{
-\item \code{gguidance.bracket} an \code{\link[ggplot2:element]{<element_line>}} for the
+\item \code{legendry.bracket} an \code{\link[ggplot2:element]{<element_line>}} for the
 line used to draw the brackets.
-\item \code{gguidance.backet.size} a \code{\link[grid:unit]{<unit>}} setting the space afforded
+\item \code{legendry.backet.size} a \code{\link[grid:unit]{<unit>}} setting the space afforded
 to a bracket.
 }
 \subsection{As an axis guide}{

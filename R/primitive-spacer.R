@@ -19,7 +19,7 @@
 #' this guide. This guide does not have option dependent on its role as axis or
 #' legend.
 #'
-#' * `gguidance.guide.spacing` A [`<unit>`][grid::unit] setting the amount of
+#' * `legendry.guide.spacing` A [`<unit>`][grid::unit] setting the amount of
 #'   spacing when the `space` argument is `NULL`.
 #'
 #' @examples
@@ -63,7 +63,7 @@ PrimitiveSpacer <- ggproto(
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
     space <- params$space %||%
-      calc_element("gguidance.guide.spacing", theme + params$theme)
+      calc_element("legendry.guide.spacing", theme + params$theme)
     primitive_grob(
       zeroGrob(), sum(space), params$position %||% position, "spacer"
     )

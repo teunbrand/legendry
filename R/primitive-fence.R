@@ -30,9 +30,9 @@
 #'
 #' Common to both types is the following:
 #'
-#' * `gguidance.fence.post` an [`<element_line>`][ggplot2::element_line] for the
+#' * `legendry.fence.post` an [`<element_line>`][ggplot2::element_line] for the
 #'   line used to draw the pieces orthogonal to the direction of the scale.
-#' * `gguidance.fence.rail` an [`<element_line>`][ggplot2::element_line] for the
+#' * `legendry.fence.rail` an [`<element_line>`][ggplot2::element_line] for the
 #'   line used to draw the pieces parallel to the direction of the scale.
 #'
 #' ## As an axis guide
@@ -131,13 +131,13 @@ PrimitiveFence <- ggproto(
   elements = list(
     position = list(
       text = "axis.text",
-      post = I("gguidance.fence.post"),
-      rail = I("gguidance.fence.rail")
+      post = I("legendry.fence.post"),
+      rail = I("legendry.fence.rail")
     ),
     legend = list(
       text = "legend.text",
-      post = I("gguidance.fence.post"),
-      rail = I("gguidance.fence.rail")
+      post = I("legendry.fence.post"),
+      rail = I("legendry.fence.rail")
     )
   ),
 

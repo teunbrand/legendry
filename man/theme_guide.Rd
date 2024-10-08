@@ -49,39 +49,39 @@ theme_guide(
 \code{legend.title} and \code{axis.title} elements.}
 
 \item{subtitle}{An \code{\link[ggplot2:element]{<element_text>}} setting both
-\code{gguidance.legend.subtitle} and \code{gguidance.axis.subtitle} elements.}
+\code{legendry.legend.subtitle} and \code{legendry.axis.subtitle} elements.}
 
 \item{text.position, title.position, subtitle.position}{One of \code{"top"},
 \code{"right"}, \code{"bottom"} or \code{"right"} setting the following elements:
 \itemize{
 \item \code{text.position}: sets only \code{legend.text.position}.
 \item \code{title.position}: sets only \code{legend.title.position}.
-\item \code{subtitle.position} sets both \code{gguidance.legend.subtitle.position} and
-\code{gguidance.axis.subtitle.position}
+\item \code{subtitle.position} sets both \code{legendry.legend.subtitle.position} and
+\code{legendry.axis.subtitle.position}
 }}
 
 \item{ticks}{An \code{\link[ggplot2:element]{<element_line>}} setting both
 \code{axis.ticks} and \code{legend.ticks} elements.}
 
 \item{minor.ticks}{An \code{\link[ggplot2:element]{<element_line>}} setting
-\code{gguidance.legend.minor.ticks} and all 6 of the
+\code{legendry.legend.minor.ticks} and all 6 of the
 \verb{axis.ticks.minor.\{r/theta/x.top/x.bottom/y.left/y.right\}} elements.}
 
 \item{mini.ticks}{An \code{\link[ggplot2:element]{<element_line>}} setting both
-\code{gguidance.legend.mini.ticks} and \code{gguidance.axis.mini.ticks} elements.}
+\code{legendry.legend.mini.ticks} and \code{legendry.axis.mini.ticks} elements.}
 
 \item{ticks.length, minor.ticks.length, mini.ticks.length}{A
 [\verb{<unit[1]>}][grid::unit()] setting the following elements:
 \itemize{
 \item \code{ticks.length}: sets both \code{legend.ticks.length} and \code{axis.ticks.length}.
 \item \code{minor.ticks.length} sets both \code{axis.minor.ticks.length} and
-\code{gguidance.legend.minor.ticks.length}.
-\item \code{mini.ticks.length} sets both \code{gguidance.axis.mini.ticks.length} and
-\code{gguidance.legend.mini.ticks.length}.
+\code{legendry.legend.minor.ticks.length}.
+\item \code{mini.ticks.length} sets both \code{legendry.axis.mini.ticks.length} and
+\code{legendry.legend.mini.ticks.length}.
 }}
 
 \item{spacing}{A [\verb{<unit[1]>}][grid::unit()] setting the
-\code{gguidance.guide.spacing} theme element.}
+\code{legendry.guide.spacing} theme element.}
 
 \item{key}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
 \code{legend.key} element.}
@@ -106,17 +106,17 @@ setting the \code{legend.key.spacing}, \code{legend.key.spacing.x} and
 element.}
 
 \item{bracket}{An \code{\link[ggplot2:element]{<element_line>}} setting the
-\code{gguidance.bracket} element.}
+\code{legendry.bracket} element.}
 
 \item{bracket.size}{A [\verb{<unit[1]>}][grid::unit()] setting the
-\code{gguidance.bracket.size} element.}
+\code{legendry.bracket.size} element.}
 
 \item{box}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
-\code{gguidance.box} element.}
+\code{legendry.box} element.}
 
 \item{fence, fence.post, fence.rail}{An
-\code{\link[ggplot2:element]{<element_line>}} setting the \code{gguidance.fence},
-\code{gguidance.fence.post} and \code{gguidance.fence.rail} respectively.}
+\code{\link[ggplot2:element]{<element_line>}} setting the \code{legendry.fence},
+\code{legendry.fence.post} and \code{legendry.fence.rail} respectively.}
 }
 \value{
 A \verb{<theme>} object that can be provided to a guide.

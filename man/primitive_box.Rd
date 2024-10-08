@@ -72,7 +72,7 @@ an axis or in a legend context.
 
 Common to both types is the following:
 \itemize{
-\item \code{gguidance.box} an \code{\link[ggplot2:element]{<element_rect>}} for the boxes
+\item \code{legendry.box} an \code{\link[ggplot2:element]{<element_rect>}} for the boxes
 to draw.
 }
 \subsection{As an axis guide}{

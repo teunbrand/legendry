@@ -24,7 +24,7 @@
 #'
 #' Common to both types is the following:
 #'
-#' * `gguidance.box` an [`<element_rect>`][ggplot2::element_rect] for the boxes
+#' * `legendry.box` an [`<element_rect>`][ggplot2::element_rect] for the boxes
 #'   to draw.
 #'
 #' ## As an axis guide
@@ -111,8 +111,8 @@ PrimitiveBox <- ggproto(
   ),
 
   elements = list(
-    position = list(text = "axis.text",   box = I("gguidance.box")),
-    legend   = list(text = "legend.text", box = I("gguidance.box"))
+    position = list(text = "axis.text",   box = I("legendry.box")),
+    legend   = list(text = "legend.text", box = I("legendry.box"))
   ),
 
   extract_key = range_extract_key,
