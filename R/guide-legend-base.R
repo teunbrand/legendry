@@ -150,11 +150,22 @@ GuideLegendBase <- ggproto(
     params
   },
 
-  setup_elements = function(self, params, elements, theme) {
-    # `guide_legend()` defaults to *no* vertical gaps for historical reasons
-    # the following ensures theme hierarchy is observed.
-    theme$legend.key.spacing.y <- theme$legend.key.spacing.y %||% rel(1)
-    ggproto_parent(GuideLegend, self)$setup_elements(params, elements, theme)
+  setup_elements = function(params, elements, theme) {
+
+    theme <- theme + params$theme
+    params$theme <- NULL
+
+    text_position <- theme$legend.text.position  %||% "right"
+    elements$text <- setup_legend_text(theme, text_position)
+
+    title_position <- theme$legend.title.position %||%
+      switch(params$direction, vertical = "top", horizontal = "left")
+    elements$title <- setup_legend_title(theme, title_position)
+
+    elements <- Guide$setup_elements(params, elements, theme)
+    elements[c("text_position", "title_position")] <-
+      list(text_position, title_position)
+    elements
   },
 
   build_decor = function(decor, grobs, elements, params) {
