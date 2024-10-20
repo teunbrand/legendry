@@ -1,5 +1,65 @@
 # Constructor -------------------------------------------------------------
 
+#' Custom legend guide
+#'
+#' This legend closely mirrors `ggplot2::guide_legend()`, but has two
+#' adjustments. First, `guide_legend_base()` supports a `design` argument
+#' for a more flexible layout. Secondly, the `legend.spacing.y` theme element
+#' is observed verbatim instead of overruled.
+#'
+#' @param key A [standard key][key_standard] specification. Defaults to
+#'   [`key_auto()`]. See more information in the linked topic.
+#' @param design Specification of the legend layout. One of the following:
+#'   * `NULL` (default) to use the layout algorithm of
+#'     [`guide_legend()`][ggplot2::guide_legend()].
+#'   * A `<character[1]>` string representing a cell layout wherein `#` defines
+#'     an empty cell. See examples.
+#'   * A `<matrix[n, m]>` representing a cell layout wherein `NA` defines an
+#'     empty cell. See examples. Non-string atomic vectors will be treated with
+#'     `as.matrix()`.
+#' @param nrow,ncol A positive `<integer[1]>` setting the desired dimensions of
+#'   the legend layout. When `NULL` (default), the dimensions will be derived
+#'   from the `design` argument or fit to match the number of keys.
+#' @param reverse A `<logical[1]>` whether the order of keys should be inverted.
+#' @param override.aes A named `<list>` specifying aesthetic parameters of the
+#'   key glyphs. See details and examples in
+#'   [`guide_legend()`][ggplot2::guide_legend()].
+#' @inheritParams common_parameters
+#'
+#' @return A `<GuideLegend>` object.
+#' @export
+#' @family standalone guides
+#'
+#' @examples
+#' # A dummy plot
+#' p <- ggplot(data.frame(x = 1:3, type = c("tic", "tac", "toe"))) +
+#'   aes(x, x, shape = type) +
+#'   geom_point(na.rm = TRUE) +
+#'   scale_shape_manual(values = c(1, 4, NA))
+#'
+#' # A design string, each character giving a cell value.
+#' # Newlines separate rows, white space is ignored.
+#' design <- "
+#'   123
+#'   213
+#'   321
+#' "
+#'
+#' # Alternatively, the same can be specified using a matrix directly
+#' # design <- matrix(c(1, 2, 3, 2, 1, 3, 3, 2, 1), 3, 3, byrow = TRUE)
+#'
+#' p + guides(shape = guide_legend_base(design = design))
+#'
+#' # Empty cells can be created using `#`
+#' design <- "
+#'   #2#
+#'   1#3
+#' "
+#'
+#' # Alternatively:
+#' # design <- matrix(c(NA, 1, 2, NA, NA, 3), nrow = 2)
+#'
+#' p + guides(shape = guide_legend_base(design = design))
 guide_legend_base <- function(
   key = NULL,
   title = waiver(),
