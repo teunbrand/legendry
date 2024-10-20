@@ -133,7 +133,7 @@ PrimitiveLabels <- ggproto(
         vec_slice(key, index), elements$text, angle, offset,
         params$position, check_overlap = params$check_overlap
       )
-      offset <- offset + attr(grob, "size") %||% 0
+      offset <- offset + get_size_attr(grob)
       grobs[[i]] <- grob
     }
     if (params$position %in% c("top", "left")) grobs <- rev(grobs)

@@ -209,7 +209,7 @@ PrimitiveBox <- ggproto(
       sizes <- rev(sizes)
     }
 
-    attr(grobs, "sizes") <- sizes
+    attr(grobs, "size") <- sizes
     grobs
   },
 
@@ -227,7 +227,7 @@ PrimitiveBox <- ggproto(
 
     primitive_grob(
       grob = box,
-      size = unit(attr(box, "sizes"), "cm"),
+      size = unit(get_size_attr(box), "cm"),
       position = params$position,
       name = "box"
     )

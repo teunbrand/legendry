@@ -258,16 +258,16 @@ render_legend_glyphs <- function(index, decor, background, default_size) {
       set_key_size(key, data$linewidth, data$size, default_size / 10)
     })
     gTree(
-      width    = max(map_dbl(glyphs, attr, which = "width"),  0,  na.rm = TRUE),
-      height   = max(map_dbl(glyphs, attr, which = "height"), 0,  na.rm = TRUE),
+      width    = max(map_dbl(glyphs, get_width_attr),  0,  na.rm = TRUE),
+      height   = max(map_dbl(glyphs, get_height_attr), 0,  na.rm = TRUE),
       children = inject(gList(background, !!!glyphs))
     )
   })
 }
 
 set_key_size <- function(key, lwd = NULL, size = NULL, default = NULL) {
-  width  <- attr(key, "width")
-  height <- attr(key, "height")
+  width  <- get_width_attr(key, default = NULL)
+  height <- get_height_attr(key, default = NULL)
   if (!is.null(width) && !is.null(height)) {
     return(key)
   }

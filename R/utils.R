@@ -70,8 +70,20 @@ eval_aes <- function(
   x
 }
 
-get_size_attr <- function(x) {
-  attr(x, "size", exact = TRUE) %||% 0
+get_attr <- function(x, which, default = NULL) {
+  attr(x, which = which, exact = TRUE) %||% default
+}
+
+get_size_attr <- function(x, default = 0) {
+  get_attr(x, "size", default = default)
+}
+
+get_width_attr <- function(x, default = 0) {
+  get_attr(x, "width", default = default)
+}
+
+get_height_attr <- function(x, default = 0) {
+  get_attr(x, "height", default = default)
 }
 
 pad <- function(x, length, fill = NA, where = "end") {

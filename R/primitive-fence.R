@@ -266,7 +266,7 @@ PrimitiveFence <- ggproto(
       sizes <- rev(sizes)
     }
 
-    attr(grobs, "sizes") <- sizes
+    attr(grobs, "size") <- sizes
     grobs
   },
 
@@ -284,7 +284,7 @@ PrimitiveFence <- ggproto(
 
     primitive_grob(
       grob = fence,
-      size = unit(attr(fence, "sizes"), "cm"),
+      size = unit(get_size_attr(fence), "cm"),
       position = params$position,
       name = "fence"
     )
