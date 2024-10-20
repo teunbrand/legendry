@@ -2,10 +2,10 @@
 % Please edit documentation in R/compose-.R, R/compose-crux.R,
 %   R/compose-ontop.R, R/compose-sandwich.R, R/compose-stack.R,
 %   R/gizmo-barcap.R, R/gizmo-density.R, R/gizmo-grob.R, R/gizmo-histogram.R,
-%   R/gizmo-stepcap.R, R/guide_colring.R, R/legendry-package.R,
-%   R/primitive-box.R, R/primitive-bracket.R, R/primitive-fence.R,
-%   R/primitive-labels.R, R/primitive-line.R, R/primitive-spacer.R,
-%   R/primitive-ticks.R, R/primitive-title.R
+%   R/gizmo-stepcap.R, R/guide-legend-base.R, R/guide_colring.R,
+%   R/legendry-package.R, R/primitive-box.R, R/primitive-bracket.R,
+%   R/primitive-fence.R, R/primitive-labels.R, R/primitive-line.R,
+%   R/primitive-spacer.R, R/primitive-ticks.R, R/primitive-title.R
 \docType{data}
 \name{Compose}
 \alias{Compose}
@@ -18,6 +18,7 @@
 \alias{GizmoGrob}
 \alias{GizmoHistogram}
 \alias{GizmoStepcap}
+\alias{GuideLegendBase}
 \alias{GuideColring}
 \alias{legendry_extensions}
 \alias{PrimitiveBox}

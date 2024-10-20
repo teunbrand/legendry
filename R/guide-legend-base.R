@@ -114,6 +114,10 @@ guide_legend_base <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname legendry_extensions
+#' @format NULL
+#' @usage NULL
 GuideLegendBase <- ggproto(
   "GuideLegendBase", GuideLegend,
 
