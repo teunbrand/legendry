@@ -1,7 +1,8 @@
 
-setup_legend_text <- function(theme, direction = "vertical") {
-  position <- calc_element("legend.text.position", theme)
-  position <- position %||% switch(direction, horizontal = "bottom", vertical = "right")
+setup_legend_text <- function(theme, position = NULL, direction = "vertical") {
+  position <- position %||%
+    calc_element("legend.text.position", theme) %||%
+    switch(direction, horizontal = "bottom", vertical = "right")
   gap    <- calc_element("legend.key.spacing", theme) %||% unit(0, "pt")
   margin <- calc_element("text", theme)$margin %||% margin()
   margin <- position_margin(position, margin, gap)
@@ -18,9 +19,10 @@ setup_legend_text <- function(theme, direction = "vertical") {
   calc_element("legend.text", theme + text)
 }
 
-setup_legend_title <- function(theme, direction = "vertical") {
-  position <- calc_element("legend.title.position", theme)
-  position <- position %||% switch(direction, horizontal = "left", vertical = "top")
+setup_legend_title <- function(theme, position = NULL, direction = "vertical") {
+  position <- position %||%
+    calc_element("legend.title.position", theme) %||%
+    switch(direction, horizontal = "left", vertical = "top")
   gap <- calc_element("legend.key.spacing", theme) %||% unit(0, "pt")
   margin <- calc_element("text", theme)$margin %||% margin()
   margin <- position_margin(position, margin, gap)

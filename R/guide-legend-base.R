@@ -155,7 +155,7 @@ GuideLegendBase <- ggproto(
     theme <- theme + params$theme
     params$theme <- NULL
 
-    text_position <- theme$legend.text.position  %||% "right"
+    text_position <- theme$legend.text.position %||% "right"
     elements$text <- setup_legend_text(theme, text_position)
 
     title_position <- theme$legend.title.position %||%

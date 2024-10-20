@@ -105,7 +105,7 @@ ComposeCrux <- ggproto(
   ),
 
   setup_elements = function(params, elements, theme) {
-    elements$title <- setup_legend_title(theme, params$direction)
+    elements$title <- setup_legend_title(theme, direction = params$direction)
     theme <- theme + params$theme
     Guide$setup_elements(params, elements, theme)
   },

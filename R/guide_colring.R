@@ -231,7 +231,7 @@ GuideColring <- ggproto(
   },
 
   setup_elements = function(params, elements, theme) {
-    elements$title <- setup_legend_title(theme, params$direction)
+    elements$title <- setup_legend_title(theme, direction = params$direction)
     theme$legend.frame <- theme$legend.frame %||% element_blank()
     Guide$setup_elements(params, elements, theme)
   },
