@@ -3,7 +3,7 @@
 guide_legend_cross <- function(
   key = NULL,
   title = waiver(),
-  dim_order = c("row", "col"),
+  swap = FALSE,
   col_text = element_text(angle = 90, vjust = 0.5),
   override.aes = list(),
   reverse = FALSE,
@@ -15,14 +15,8 @@ guide_legend_cross <- function(
 
   check_position(position, allow_null = TRUE)
   check_argmatch(direction, c("horizontal", "vertical"), allow_null = TRUE)
-  check_character(dim_order)
-  if (!identical(dim_order, c("row", "col")) &&
-      !identical(dim_order, c("col", "row"))) {
-    cli::cli_abort(
-      "{.arg dim_order} must be either {.code c(\"row\", \"col\")} or \\
-      {.code c(\"col\", \"row\")}, not {.val {dim_order}}"
-    )
-  }
+  check_bool(swap)
+
   if (length(reverse) == 1L) {
     check_bool(reverse)
   } else {
@@ -30,6 +24,8 @@ guide_legend_cross <- function(
     check_bool(reverse[1])
     check_bool(reverse[2])
   }
+
+  dim_order <- if (swap) c("col", "row") else c("row", "col")
 
   new_guide(
     key = key,

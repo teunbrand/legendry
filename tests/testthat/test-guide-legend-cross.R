@@ -81,7 +81,7 @@ test_that("cross legend can be constructed from dual scales", {
   )
 
   guide <- guide_legend_cross(title = "cross legend", key = "auto",
-                              dim_order = c("col", "row"))
+                              swap = TRUE)
 
   p <- ggplot(df, aes(x, y, colour = v, shape = w)) +
     geom_point() +
@@ -91,10 +91,6 @@ test_that("cross legend can be constructed from dual scales", {
   vdiffr::expect_doppelganger(
     "legend cross two scales swapped order",
     p
-  )
-
-  expect_snapshot_error(
-    guide_legend_cross(dim_order = c("row", "row"))
   )
 })
 
