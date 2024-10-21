@@ -37,4 +37,36 @@ test_that("key_group_split works correctly", {
     test[c(".label", ".group")],
     data.frame(.label = c("B", "D", "F G"), .group = factor(c("A", "C", "E")))
   )
+
+  # Expression labels
+  scale <- scale_colour_discrete(labels = expression(A, B, C))
+  scale$train(c("A", "B", "C"))
+  expect_snapshot(
+    key_group_split(sep = ":")(scale, "colour"),
+    error = TRUE
+  )
+})
+
+test_that("key_group_lut works as intended", {
+
+  levels <- c("Coffee", "Tea", "Soda", "Water")
+  groups <- rep(c("Hot drinks", "Cold drinks"), each = 2)
+
+  sc <- scale_colour_discrete()
+  sc$train(levels)
+  sc$train("Car")
+
+  key <- key_group_lut(levels,  groups)
+  test <- key(sc, "colour")
+
+  expect_equal(test$.label, c(levels, "Car"))
+  expect_equal(test$.group, factor(c(groups, "Other"), unique(c(groups, "Other"))))
+
+  # Mismatched lengths
+  levels <- c("A", "B")
+  groups <- c("X", "X", "Y")
+  expect_error(
+    key_group_lut(levels, groups),
+    "must have the same length"
+  )
 })
