@@ -272,3 +272,11 @@ insert_after <- function(x, i, value) {
   new[-i] <- x
   new
 }
+
+get_just <- function(element) {
+  rotate_just(
+    element$angle %||% 0,
+    element$hjust %||% 0.5,
+    element$vjust %||% 0.5
+  )
+}

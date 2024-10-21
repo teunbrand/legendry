@@ -123,6 +123,7 @@ key_none()
 }
 \seealso{
 Other keys: 
+\code{\link{key_group}},
 \code{\link{key_range}},
 \code{\link{key_specialty}}
 }

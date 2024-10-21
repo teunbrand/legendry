@@ -1,4 +1,64 @@
+# Group keys --------------------------------------------------------------
 
+#' Group keys
+#'
+#' @description
+#' These functions are helper functions for working with grouped data as keys in
+#' guides. They all share the goal of creating a guide key, but have different
+#' methods.
+#'
+#' * `key_group_split()` is a function factory whose functions make an attempt
+#'   to infer groups from the scale's labels.
+#' * `key_group_lut()` is a function factory whose functions use a look up table
+#'   to sort out group membership.
+#'
+#' @param sep A `<character[1]>` giving a [regular expression][base::regex] to
+#'   use for splitting labels provided by the scale using the
+#'   [`strsplit()`][base::strsplit] function. By defaults, labels are splitted
+#'   on any non-alphanumeric character.
+#' @param reverse A `<logical[1]>` which if `FALSE` (default) treats the first
+#'   part of the split string as groups and later parts as members. If `TRUE`,
+#'   treats the last part as groups.
+#' @param members A vector including the scale's `breaks` values.
+#' @param group A vector parallel to `members` giving  the group of each member.
+#' @param ungrouped A `<character[1]>` giving a group label to assign to the
+#'   scale's `breaks` that match no values in the `members` argument.
+#'
+#' @name key_group
+#' @family keys
+#' @return
+#' A function to use as the `key` argument in a guide.
+#'
+#' @examples
+#' # Example scale
+#' values <- c("group A:value 1", "group A:value 2", "group B:value 1")
+#' template <- scale_colour_discrete(limits = values)
+#'
+#' # Treat the 'group X' part as groups
+#' key <- key_group_split(sep = ":")
+#' key(template)
+#'
+#' # Treat the 'value X' part as groups
+#' key <- key_group_split(sep = ":", reverse = TRUE)
+#' key(template)
+#'
+#' # Example scale
+#' template <- scale_colour_discrete(limits = msleep$name[c(1, 7, 9, 23, 24)])
+#'
+#' # A lookup table can have more entries than needed
+#' key <- key_group_lut(msleep$name, msleep$order)
+#' key(template)
+#'
+#' # Or less entries than needed
+#' key <- key_group_lut(
+#'   msleep$name[23:24], msleep$order[23:24],
+#'   ungrouped = "Other animals"
+#' )
+#' key(template)
+NULL
+
+#' @rdname key_group
+#' @export
 key_group_split <- function(sep = "[^[:alnum:]]+", reverse = FALSE) {
   check_string(sep)
   check_bool(reverse)
@@ -12,6 +72,8 @@ key_group_split <- function(sep = "[^[:alnum:]]+", reverse = FALSE) {
   }
 }
 
+#' @rdname key_group
+#' @export
 key_group_lut <- function(members, group, ungrouped = "Other") {
   check_string(ungrouped)
   check_unique(members)

@@ -293,7 +293,7 @@ GuideColring <- ggproto(
     gt <- gtable_add_padding(gt, margin) |>
       self$add_title(
         title, elems$title_position,
-        with(elems$title, rotate_just(angle, hjust, vjust))
+        get_just(elems$title)
       ) |>
       gtable_add_padding(elems$margin)
 
