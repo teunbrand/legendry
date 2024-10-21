@@ -21,14 +21,12 @@
 #'   the legend layout. When `NULL` (default), the dimensions will be derived
 #'   from the `design` argument or fit to match the number of keys.
 #' @param reverse A `<logical[1]>` whether the order of keys should be inverted.
-#' @param override.aes A named `<list>` specifying aesthetic parameters of the
-#'   key glyphs. See details and examples in
-#'   [`guide_legend()`][ggplot2::guide_legend()].
 #' @inheritParams common_parameters
 #'
 #' @return A `<GuideLegend>` object.
 #' @export
 #' @family standalone guides
+#' @family legend guides
 #'
 #' @examples
 #' # A dummy plot

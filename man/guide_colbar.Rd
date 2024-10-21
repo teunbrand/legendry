@@ -159,6 +159,7 @@ Other standalone guides:
 \code{\link{guide_axis_nested}()},
 \code{\link{guide_colring}()},
 \code{\link{guide_colsteps}()},
-\code{\link{guide_legend_base}()}
+\code{\link{guide_legend_base}()},
+\code{\link{guide_legend_cross}()}
 }
 \concept{standalone guides}

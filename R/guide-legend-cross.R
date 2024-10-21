@@ -1,5 +1,65 @@
 # Constructor -------------------------------------------------------------
 
+#' Cross legend guide
+#'
+#' This is a legend type similar to [`guide_legend()`][ggplot2::guide_legend()]
+#' that displays crosses, or: interactions, between two variables.
+#'
+#' @param key One of the following key specifications:
+#'   * A [group split][key_group_split] specification when using the legend to
+#'     display a compound variable like `paste(var1, var2)`.
+#'   * A [standard key][key_standard] specification, like [`key_auto()`], when
+#'     crossing two separate variables across two scales.
+#' @param swap A `<logical[1]>` which when `TRUE` exchanges the column and row
+#'   variables in the displayed legend.
+#' @param col_text An `<element_text>` object giving adjustments to text for
+#'   the column labels. Can be `NULL` to display column labels in equal fashion
+#'   to the row labels.
+#' @param reverse A `<logical[2]>` whether the order of the keys should be
+#'   inverted, where the first value controls the row order and second value
+#'   the column order. Input as `<logical[1]>` will be recycled.
+#' @inheritParams common_parameters
+#'
+#' @return A `<GuideLegend>` object.
+#' @export
+#' @family standalone guides
+#' @family legend guides
+#'
+#' @examples
+#' # Standard use for single aesthetic. The default is to split labels to
+#' # disentangle aesthetics that are already crossed (by e.g. `paste()`)
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = paste(year, drv))) +
+#'   guides(colour = "legend_cross")
+#'
+#' # If legends should be merged between identical aesthetics, both need the
+#' # same legend type.
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = paste(year, drv), shape = paste(year, drv))) +
+#'   guides(colour = "legend_cross", shape = "legend_cross")
+#'
+#' # Crossing two aesthetics requires a shared title and `key = "auto"`. The
+#' # easy way to achieve this is to predefine a shared guide.
+#' my_guide <- guide_legend_cross(key = "auto", title = "My title")
+#'
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = drv, shape = factor(year))) +
+#'   guides(colour = my_guide, shape  = my_guide)
+#'
+#' # You can cross more than 2 aesthetics but not more than 2 unique aesthetics.
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = drv, shape = factor(year), size = factor(drv))) +
+#'   scale_size_ordinal() +
+#'   guides(colour = my_guide, shape = my_guide, size = my_guide)
+#'
+#' # You can merge an aesthetic that is already crossed with an aesthetic that
+#' # contributes to only one side of the cross.
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = paste(year, drv), shape  = drv)) +
+#'   guides(
+#'     colour = guide_legend_cross(title = "My Title"),
+#'     shape  = guide_legend_cross(title = "My Title", key = "auto")
+#'   )
 guide_legend_cross <- function(
   key = NULL,
   title = waiver(),
