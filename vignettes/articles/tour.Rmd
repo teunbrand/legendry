@@ -2,14 +2,16 @@
 title: "A guided tour"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(legendry)
 library(scales)
 ```
@@ -265,7 +267,9 @@ In the plot below, the `cty` variable has a few observation below the lower limi
 Typically, these are displayed in the `na.value = "grey"` colour.
 The bars display that these data are out-of-bounds by the gray 'caps' at the two ends of the bar.
 
-```{r, dev = 'png', dev.args=list(type = 'cairo')}
+```{r}
+#| dev-args: !expr list(type = "cairo")
+#| fig-format: png
 standard +
   scale_colour_viridis_c(
     limits = c(10, 30),
