@@ -1,5 +1,60 @@
 # Constructor -------------------------------------------------------------
 
+#' Grouped legend
+#'
+#' This legend resembles `ggplot2::guide_legend()`, but has the ability to
+#' keep groups in blocks with their own titles.
+#'
+#' @param key A [group key][key_group] specification. Defaults to
+#'   `key_group_split()` to split labels to find groups.
+#' @param nrow,ncol A positive `<integer[1]>` setting the desired dimensions of
+#'   the legend layout. Either `nrow` or `ncol` can be set, but not both,
+#' @inheritParams common_parameters
+#'
+#' @return A `<GuideLegend>` object.
+#' @export
+#' @family standalone guides
+#' @family legend guides
+#'
+#' @examples
+#' # Standard plot for selection of `msleep`
+#' df <- msleep[c(9, 28, 11, 5, 34, 54, 64, 24, 53), ]
+#'
+#' p <- ggplot(df) +
+#'   aes(bodywt, awake, colour = paste(order, name)) +
+#'   geom_point()
+#'
+#' # By default, groups are inferred from the name
+#' p + guides(colour = "legend_group")
+#'
+#' # You can also use a look-up table for groups
+#' # The lookup table can be more expansive than just the data:
+#' # We're using the full 'msleep' data here instead of the subset
+#' lut <- key_group_lut(msleep$name, msleep$order)
+#'
+#' p + aes(colour = name) +
+#'   guides(colour = guide_legend_group(key = lut))
+#'
+#' # `nrow` and `ncol` apply within groups
+#' p + guides(colour = guide_legend_group(nrow = 1))
+#'
+#' # Groups are arranged according to `direction`
+#' p + guides(colour = guide_legend_group(ncol = 1, direction = "horizontal")) +
+#'   theme(legend.title.position = "top")
+#'
+#' # Customising the group titles
+#' p + guides(colour = "legend_group") +
+#'   theme(
+#'     legendry.legend.subtitle.position = "left",
+#'     legendry.legend.subtitle = element_text(
+#'       hjust = 1, vjust = 1, size = rel(0.9),
+#'       margin = margin(t = 5.5, r = 5.5)
+#'     )
+#'   )
+#'
+#' # Changing the spacing between groups
+#' p + guides(colour = "legend_group") +
+#'   theme(legendry.group.spacing = unit(0, "cm"))
 guide_legend_group <- function(
   key = "group_split",
   title = waiver(),
@@ -36,12 +91,16 @@ guide_legend_group <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname legendry_extensions
+#' @format NULL
+#' @usage NULL
 GuideLegendGroup <- ggproto(
   "GuideLegendGroup", GuideLegendBase,
 
   elements = list2(
     !!!GuideLegendBase$elements,
-    subtitle_spacing = "legend.spacing",
+    subtitle_spacing = "legendry.group.spacing",
     subtitle = "legendry.legend.subtitle",
     subtitle_position = "legendry.legend.subtitle.position"
   ),
