@@ -15,6 +15,7 @@ Useful links:
 \itemize{
   \item \url{https://teunbrand.github.io/legendry/}
   \item \url{https://github.com/teunbrand/legendry}
+  \item Report bugs at \url{https://github.com/teunbrand/legendry/issues}
 }
 
 }

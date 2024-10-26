@@ -9,7 +9,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/legendry)](https://CRAN.R-project.org/package=legendry)
+status](https://www.r-pkg.org/badges/version/legendry)](https://www.r-pkg.org/badges/version/legendry)
 [![Codecov test
 coverage](https://codecov.io/gh/teunbrand/legendry/graph/badge.svg)](https://app.codecov.io/gh/teunbrand/legendry)
 <!-- badges: end -->
