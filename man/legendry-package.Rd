@@ -4,11 +4,11 @@
 \name{legendry-package}
 \alias{legendry}
 \alias{legendry-package}
-\title{legendry: Extended guide options for 'ggplot2'}
+\title{legendry: Extended Legends and Axes for 'ggplot2'}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A 'ggplot2' extension that focusses on expanding the plotter's arsenal of guides, such as axes, legends and colour bars.
+A 'ggplot2' extension that focusses on expanding the plotter's arsenal of guides. Guides in 'ggplot2' include axes and legends. 'legendry' offers new axes and annotation options, as well as new legends and colour displays.
 }
 \seealso{
 Useful links:
@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Teun van den Brand \email{tahvdbrand@gmail.com} (\href{https://orcid.org/0000-0002-9335-7468}{ORCID})
+\strong{Maintainer}: Teun van den Brand \email{tahvdbrand@gmail.com} (\href{https://orcid.org/0000-0002-9335-7468}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
