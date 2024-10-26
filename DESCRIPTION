@@ -37,3 +37,4 @@ Suggests:
     testthat (>= 3.0.0),
     vdiffr,
     withr
+BugReports: https://github.com/teunbrand/legendry/issues
