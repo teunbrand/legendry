@@ -466,6 +466,47 @@ housing +
 
 ## Legends
 
-Well they'd have to be implemented first before there is something to tell.
+In addition to the full guides above, legendry also has three variants on the `guide_legend()` legend.
+The first is `guide_legend_base()`, which is very similar to `ggplot2::guide_legend()`, but offers a `design` argument that lets you put keys in arbitrary cells of a rectangular layout.
 
-To be continued once I find more time writing about this.
+```{r}
+design <- matrix(NA, 3, 3)
+diag(design) <- 1:3
+
+standard + 
+  aes(colour = drv) +
+  guides(colour = guide_legend_base(design = design))
+```
+
+Secondly, `guide_legend_cross()` will let you 'cross' two variables, that is; generate a legend key for every combination of the two variable levels. Because legends are only merged if they share the same title, it is wise to construct a common legend setting a key strategy and title.
+
+```{r}
+common <- guide_legend_cross(key = "auto", title = "Cross legend")
+
+standard +
+  aes(colour = drv, shape = factor(cyl)) +
+  guides(colour = common, shape = common)
+```
+
+Alternatively, you can also use the guide for a compound variable that already combines two variables.
+Note that missing combinations are correctly omitted in this case.
+
+```{r}
+standard +
+  aes(colour = paste(cyl, drv)) +
+  guides(colour = "legend_cross")
+```
+
+Lastly, there is also a legend that is suitable for displaying groups.
+The `guide_legend_group()` legend adds additional titles that separate groups.
+By default, it splits labels on the first non-alphanumeric character, but you can also use `key_group_lut()` to indicate groups.
+
+```{r}
+set.seed(42)
+i <- sample(nrow(msleep), 6)
+
+ggplot(msleep[i, ], aes(sleep_total, bodywt)) +
+  geom_point(aes(colour = paste0(vore, "vore.", name))) +
+  guides(colour = "legend_group")
+```
+
