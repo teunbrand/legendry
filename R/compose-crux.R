@@ -105,7 +105,7 @@ ComposeCrux <- ggproto(
   ),
 
   setup_elements = function(params, elements, theme) {
-    elements$title <- setup_legend_title(theme, params$direction)
+    elements$title <- setup_legend_title(theme, direction = params$direction)
     theme <- theme + params$theme
     Guide$setup_elements(params, elements, theme)
   },
@@ -204,7 +204,7 @@ ComposeCrux <- ggproto(
         gt,
         title = self$build_title(params$title, elems, params),
         position = elems$title_position,
-        with(elems$title, rotate_just(angle, hjust, vjust))
+        get_just(elems$title)
       )
       if (!is.null(elems$margin)) {
         gt <- gtable_add_padding(gt, elems$margin)

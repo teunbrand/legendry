@@ -231,7 +231,7 @@ GuideColring <- ggproto(
   },
 
   setup_elements = function(params, elements, theme) {
-    elements$title <- setup_legend_title(theme, params$direction)
+    elements$title <- setup_legend_title(theme, direction = params$direction)
     theme$legend.frame <- theme$legend.frame %||% element_blank()
     Guide$setup_elements(params, elements, theme)
   },
@@ -293,7 +293,7 @@ GuideColring <- ggproto(
     gt <- gtable_add_padding(gt, margin) |>
       self$add_title(
         title, elems$title_position,
-        with(elems$title, rotate_just(angle, hjust, vjust))
+        get_just(elems$title)
       ) |>
       gtable_add_padding(elems$margin)
 

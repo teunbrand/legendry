@@ -258,3 +258,27 @@ check_exclusive <- function(
     i = "Please use one, but not both."
   ), call = call)
 }
+
+check_matrix <- function(
+  x, allow_null = FALSE, zero_dim = FALSE,
+  arg = caller_arg(x), call = caller_env()
+) {
+  check_object(
+    x, is.matrix, "a {.cls matrix}", allow_null = allow_null,
+    arg = arg, call = call
+  )
+
+  # Test dimensions
+  dim <- dim(x)
+  valid_dim <- length(dim) == 2 && !anyNA(dim) &&
+    all(dim >= (0 + as.numeric(!zero_dim)))
+
+  if (valid_dim) {
+    return(invisible(NULL))
+  }
+
+  cli::cli_abort(
+    "The {.arg {arg}} argument has invalid dimensions: {.value {dim}}.",
+    call = call
+  )
+}

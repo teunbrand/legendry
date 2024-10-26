@@ -36,8 +36,8 @@
 #'   `legendry.legend.minor.ticks.length`.
 #'   * `mini.ticks.length` sets both `legendry.axis.mini.ticks.length` and
 #'   `legendry.legend.mini.ticks.length`.
-#' @param spacing A [`<unit[1]>`][grid::unit()] setting the
-#'   `legendry.guide.spacing` theme element.
+#' @param spacing,group.spacing A [`<unit[1]>`][grid::unit()] setting both the
+#'   `legendry.guide.spacing` and `legendry.group.spacing` theme elements.
 #' @param key An [`<element_rect>`][ggplot2::element_rect] setting the
 #'   `legend.key` element.
 #' @param key.size,key.width,key.height A [`<unit>`][grid::unit()] setting the
@@ -96,6 +96,7 @@ theme_guide <- function(
     mini.ticks.length = NULL,
 
     spacing = NULL,
+    group.spacing = NULL,
 
     key = NULL,
     key.size = NULL,
@@ -161,6 +162,7 @@ theme_guide <- function(
     legendry.legend.mini.ticks.length = mini.ticks.length,
 
     legendry.guide.spacing = spacing,
+    legendry.group.spacing = group.spacing,
 
     legend.key = key,
     legend.key.spacing = key.spacing,
@@ -201,6 +203,7 @@ register_legendry_elements <- function() {
     legendry.axis.mini.ticks = element_line(),
     legendry.axis.mini.ticks.length = rel(0.5),
     legendry.guide.spacing = unit(2.25, "pt"),
+    legendry.group.spacing = rel(2),
     legendry.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
     legendry.axis.subtitle.position = c("left", "top"),
     element_tree = list(
@@ -219,6 +222,7 @@ register_legendry_elements <- function() {
       legendry.axis.mini.ticks = el_line("axis.ticks"),
       legendry.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       legendry.guide.spacing = el_unit("axis.ticks.length"),
+      legendry.group.spacing = el_unit("legend.key.spacing"),
       legendry.axis.subtitle = el_def("element_text", "axis.text"),
       legendry.axis.subtitle.position = el_def("character")
     )

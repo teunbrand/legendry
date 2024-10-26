@@ -56,10 +56,10 @@ primitive_setup_elements <- function(params, elements, theme) {
   }
   theme <- theme + params$theme
   if (identical(elements$text, "legend.text")) {
-    elements$text <- setup_legend_text(theme, params$direction)
+    elements$text <- setup_legend_text(theme, direction = params$direction)
   }
   if (identical(elements$title, "legend.title")) {
-    elements$title <- setup_legend_title(theme, params$direction)
+    elements$title <- setup_legend_title(theme, direction = params$direction)
   }
   if (identical(elements$ticks_length, "legend.ticks.length")) {
     theme$legend.ticks.length <- theme$legend.ticks.length %||%

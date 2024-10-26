@@ -37,6 +37,10 @@ probably want. Can be one of the following:
 cases.
 \item A \verb{<numeric[1]>} between -360 and 360 for the text angle in degrees.
 }}
+
+\item{override.aes}{A named \verb{<list>} specifying aesthetic parameters of the
+key glyphs. See details and examples in
+\code{\link[ggplot2:guide_legend]{guide_legend()}}.}
 }
 \description{
 This is a collection of common parameters so they needn't be re-documented

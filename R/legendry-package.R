@@ -74,5 +74,9 @@ NULL
 #'   cases.
 #' * A `<numeric[1]>` between -360 and 360 for the text angle in degrees.
 #'
+#' @param override.aes A named `<list>` specifying aesthetic parameters of the
+#'   key glyphs. See details and examples in
+#'   [`guide_legend()`][ggplot2::guide_legend()].
+#'
 #' @keywords internal
 NULL

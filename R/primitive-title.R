@@ -107,7 +107,7 @@ PrimitiveTitle <- ggproto(
       params$position,
       top = , bottom = height_cm(grobs),
       left = , right = width_cm(grobs),
-      attr(grobs, "offset") %||% 0
+      get_attr(grobs, "offset", default = 0)
     )
   },
 
