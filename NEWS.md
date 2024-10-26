@@ -1,4 +1,4 @@
-# legendry 0.0.0.9001
+# legendry 0.1.0
 
 First release.
 
