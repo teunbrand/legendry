@@ -19,6 +19,7 @@ theme_guide(
   minor.ticks.length = NULL,
   mini.ticks.length = NULL,
   spacing = NULL,
+  group.spacing = NULL,
   key = NULL,
   key.size = NULL,
   key.width = NULL,
@@ -80,8 +81,8 @@ theme_guide(
 \code{legendry.legend.mini.ticks.length}.
 }}
 
-\item{spacing}{A [\verb{<unit[1]>}][grid::unit()] setting the
-\code{legendry.guide.spacing} theme element.}
+\item{spacing, group.spacing}{A [\verb{<unit[1]>}][grid::unit()] setting both the
+\code{legendry.guide.spacing} and \code{legendry.group.spacing} theme elements.}
 
 \item{key}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
 \code{legend.key} element.}
