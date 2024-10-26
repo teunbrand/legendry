@@ -4,7 +4,8 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -41,7 +42,8 @@ devtools::install_github("teunbrand/legendry")
 
 Let's first set up a basic plot to experiment with:
 
-```{r basic_plot}
+```{r}
+#| label: basic_plot
 library(legendry)
 
 base <- ggplot(mpg, aes(displ, hwy, colour = cty)) +
@@ -61,7 +63,8 @@ In the example below, we're using two custom variants of vanilla guides, namely 
 * The axis guide has an option for bidirectional ticks.
 * The colourbar automatically recognises out-of-bounds values and displays this with a cap.
 
-```{r full_guides}
+```{r}
+#| label: full_guides
 base + 
   scale_colour_viridis_c(
     limits = c(NA, 30),
@@ -77,7 +80,8 @@ The `ggplot2::guide_axis_stack()` is an axis composition function that can be us
 Here, we use a 'primitive' guide (incomplete building block) to display a range on the axis.
 By stacking it with a regular axis the primitive guide is completed.
 
-```{r primitives}
+```{r}
+#| label: primitives
 # A partial guide to display a bracket
 efficient_bracket <- primitive_bracket(
   # Keys determine what is displayed
@@ -98,7 +102,8 @@ In the example below we compose a 'sandwich': a central guide flanked by two oth
 Because our bracket is a primitive, it does not matter what aesthetic it displays and we can re-use it for the sandwich.
 I've yet to write the vignette on composition.
 
-```{r composition}
+```{r}
+#| label: composition
 base + 
   scale_colour_viridis_c(
     guide = compose_sandwich(
