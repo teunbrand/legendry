@@ -114,3 +114,10 @@ base +
 ```
 
 <img src="man/figures/README-composition-1.svg" width="80%" style="display: block; margin: auto;" />
+
+## Code of Conduct
+
+Please note that the legendry project is released with a [Contributor
+Code of
+Conduct](https://teunbrand.github.io/legendry/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.

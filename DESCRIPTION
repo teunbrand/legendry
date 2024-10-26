@@ -2,21 +2,14 @@ Package: legendry
 Title: Extended guide options for 'ggplot2'
 Version: 0.0.0.9001
 Authors@R: 
-    person(given = "Teun",
-           family = "van den Brand",
-           role = c("aut", "cre"),
-           email = "tahvdbrand@gmail.com",
+    person("Teun", "van den Brand", , "tahvdbrand@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9335-7468"))
-Description: A 'ggplot2' extension that focusses on expanding the plotter's 
-    arsenal of guides, such as axes, legends and colour bars.
+Description: A 'ggplot2' extension that focusses on expanding the
+    plotter's arsenal of guides, such as axes, legends and colour bars.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
-Config/testthat/edition: 3
-VignetteBuilder: knitr
 URL: https://teunbrand.github.io/legendry/,
     https://github.com/teunbrand/legendry
+BugReports: https://github.com/teunbrand/legendry/issues
 Depends: 
     ggplot2 (>= 3.5.0),
     R (>= 4.1.0)
@@ -31,9 +24,15 @@ Imports:
 Suggests: 
     knitr,
     ragg,
-    svglite,
     rmarkdown,
+    svglite,
     systemfonts,
     testthat (>= 3.0.0),
     vdiffr,
     withr
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

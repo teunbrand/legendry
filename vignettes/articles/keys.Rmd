@@ -2,7 +2,8 @@
 title: "Key information"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -10,7 +11,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(legendry)
 ```
 

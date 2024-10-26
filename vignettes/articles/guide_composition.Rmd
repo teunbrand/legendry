@@ -2,7 +2,8 @@
 title: "A guide to guide composition"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -10,7 +11,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(legendry)
 ```
 
@@ -135,14 +137,16 @@ last_plot() +
 By giving them the `primitive_`-prefix, we have made it impossible to use them by name inside function that don't expect them.
 This acts as a little bit of discouragement from using primitives as complete guides.
 
-```{r, error=TRUE}
+```{r}
+#| error: true
 standard + 
   guides(x.sec = "ticks")
 ```
 
 However, you *can* use primitives by name inside guide composition functions, *or* use their full constructor function.
 
-```{r, fig.keep = "last"}
+```{r}
+#| fig-keep: last
 standard +
   guides(x.sec = compose_stack("ticks"))
 
@@ -187,7 +191,8 @@ last_plot() + theme(legend.text.position = "left")
 It should also be noted that if the guide has a label-supression mechanism, the 'opposite' guide will be drawn with surpressed labels. 
 The mechanism is in place in guides like `guide_axis()`/`guide_axis_base()` for display in for example `facet_grid(axis.labels = "margins")`.
 
-```{r, fig.keep = "last"}
+```{r}
+#| fig-keep: last
 standard +
   aes(colour = cty) +
   scale_colour_viridis_c(
