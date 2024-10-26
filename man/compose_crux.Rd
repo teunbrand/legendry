@@ -81,7 +81,17 @@ This guide composition has a central guide optionally surrounded by other
 guides on all four sides.
 }
 \examples{
-NULL
+# Roughly recreating a colour bar with extra text on top and bottom
+crux <- compose_crux(
+  centre = gizmo_barcap(), left = "axis_base",
+  right = "axis_base",
+  top = primitive_title("A lot"),
+  bottom = primitive_title("A little")
+)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = cty)) +
+  guides(colour = crux)
 }
 \seealso{
 Other composition: 

@@ -40,7 +40,17 @@
 #' @family composition
 #'
 #' @examples
-#' NULL
+#' # Roughly recreating a colour bar with extra text on top and bottom
+#' crux <- compose_crux(
+#'   centre = gizmo_barcap(), left = "axis_base",
+#'   right = "axis_base",
+#'   top = primitive_title("A lot"),
+#'   bottom = primitive_title("A little")
+#' )
+#'
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point(aes(colour = cty)) +
+#'   guides(colour = crux)
 compose_crux <- function(
   key = NULL,
   centre = "none",

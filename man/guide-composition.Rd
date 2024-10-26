@@ -48,7 +48,11 @@ On their own, a 'composing' guide is not very useful as a visual reflection
 of a scale.
 }
 \examples{
-# new_compose() is not intended to be used directly
+# The `new_compose()` function is not intended to be used directly
+my_composition <- new_compose(list("axis", "axis"), super = ComposeStack)
+
+# Is the same as
+my_composition <- compose_stack("axis", "axis")
 }
 \seealso{
 Other composition: 

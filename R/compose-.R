@@ -30,7 +30,11 @@
 #' @family composition
 #'
 #' @examples
-#' # new_compose() is not intended to be used directly
+#' # The `new_compose()` function is not intended to be used directly
+#' my_composition <- new_compose(list("axis", "axis"), super = ComposeStack)
+#'
+#' # Is the same as
+#' my_composition <- compose_stack("axis", "axis")
 new_compose <- function(guides, args = list(), ...,
                         available_aes = c("any", "x", "y", "r", "theta"),
                         call = caller_env(), super = Compose) {
