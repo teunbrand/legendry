@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">legendry</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,76 +38,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.0.9001" id="legendry-0009001">legendry 0.0.0.9001<a class="anchor" aria-label="anchor" href="#legendry-0009001"></a></h2>
-<p>Renamed {gguidance} to {legendry}.</p>
-<p>Restarted package from scratch, using a different approach.</p>
-<p>Thanks to the following people for catching and reporting early bugs:</p>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="legendry-010">legendry 0.1.0<a class="anchor" aria-label="anchor" href="#legendry-010"></a></h2>
+<p>First release.</p>
+<p>Thanks to the following people for catching and reporting early bugs and mistakes:</p>
 <ul><li>@davidhodge931 (<a href="https://github.com/teunbrand/legendry/issues/7" class="external-link">#7</a>, <a href="https://github.com/teunbrand/legendry/issues/8" class="external-link">#8</a>, <a href="https://github.com/teunbrand/legendry/issues/9" class="external-link">#9</a>, <a href="https://github.com/teunbrand/legendry/issues/12" class="external-link">#12</a>)</li>
-</ul><div class="section level3">
-<h3 id="mechanism-0-0-0-9001">Mechanism<a class="anchor" aria-label="anchor" href="#mechanism-0-0-0-9001"></a></h3>
-<p>The crux in legendry is that you combine a ‘key’, that contains instructions on which values are represented, with a ‘guide’ that controls how these values are represented.</p>
-</div>
-<div class="section level3">
-<h3 id="full-guides-0-0-0-9001">Full guides<a class="anchor" aria-label="anchor" href="#full-guides-0-0-0-9001"></a></h3>
-<p>Full guides are guides that you can just drop in the <code><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides()</a></code> function or as <code>guide</code> argument to scales.</p>
-<ul><li>
-<code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> as an axis guide.</li>
-<li>
-<code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> as a continuous colour/fill guide.</li>
-<li>
-<code><a href="../reference/guide_colsteps.html">guide_colsteps()</a></code> as a binned colour/fill guide.</li>
-<li>
-<code><a href="../reference/guide_colring.html">guide_colring()</a></code> as a continuous colour/fill guide.</li>
-<li>
-<code>guide_subtitle()</code> as a colour/fill guide.</li>
+<li>@luisDVA (<a href="https://github.com/teunbrand/legendry/issues/18" class="external-link">#18</a>)</li>
+<li>@mthomas-ketchbrook (<a href="https://github.com/teunbrand/legendry/issues/21" class="external-link">#21</a>)</li>
 </ul></div>
-<div class="section level3">
-<h3 id="gizmos-0-0-0-9001">Gizmos<a class="anchor" aria-label="anchor" href="#gizmos-0-0-0-9001"></a></h3>
-<p>Gizmos are standalone specialised displays.</p>
-<ul><li>
-<code><a href="../reference/gizmo_barcap.html">gizmo_barcap()</a></code> for displaying colour gradients with capping options.</li>
-<li>
-<code><a href="../reference/gizmo_stepcap.html">gizmo_stepcap()</a></code> for displaying stepped gradients with capping options.</li>
-<li>
-<code><a href="../reference/gizmo_density.html">gizmo_density()</a></code> for displaying gradient-filled densities.</li>
-<li>
-<code><a href="../reference/gizmo_histogram.html">gizmo_histogram()</a></code> for displaying gradient-filled histograms.</li>
-<li>
-<code><a href="../reference/gizmo_grob.html">gizmo_grob()</a></code> for displaying custom grobs.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="compositions-0-0-0-9001">Compositions<a class="anchor" aria-label="anchor" href="#compositions-0-0-0-9001"></a></h3>
-<p>Compositions offer ways to combine guides.</p>
-<ul><li>
-<code><a href="../reference/compose_stack.html">compose_stack()</a></code> for stacking guides.</li>
-<li>
-<code><a href="../reference/compose_ontop.html">compose_ontop()</a></code> for overlaying guides.</li>
-<li>
-<code><a href="../reference/compose_crux.html">compose_crux()</a></code> for layout out guides in a cross.</li>
-<li>
-<code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code> for flanked guides.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="primitives-0-0-0-9001">Primitives<a class="anchor" aria-label="anchor" href="#primitives-0-0-0-9001"></a></h3>
-<p>Primitives are the most basic elements that guides use.</p>
-<ul><li>
-<code><a href="../reference/primitive_line.html">primitive_line()</a></code> for lines.</li>
-<li>
-<code><a href="../reference/primitive_ticks.html">primitive_ticks()</a></code> for tick marks.</li>
-<li>
-<code><a href="../reference/primitive_labels.html">primitive_labels()</a></code> for text labels.</li>
-<li>
-<code><a href="../reference/primitive_spacer.html">primitive_spacer()</a></code> for empty space.</li>
-<li>
-<code><a href="../reference/primitive_title.html">primitive_title()</a></code> for text titles.</li>
-<li>
-<code><a href="../reference/primitive_bracket.html">primitive_bracket()</a></code> for labelled brackets.</li>
-<li>
-<code><a href="../reference/primitive_box.html">primitive_box()</a></code> for rectangles.</li>
-</ul></div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">
