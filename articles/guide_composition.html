@@ -95,7 +95,7 @@ one another.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">guide_axis_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="st">"axis"</span>, <span class="st">"axis"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>In legendry, we have the same composition operation:
 <code><a href="../reference/compose_stack.html">compose_stack()</a></code>. For your regular axis guides for the
 <code>x</code> and <code>y</code> aesthetics, it works the same way as
@@ -112,7 +112,7 @@ there.</p>
 <span>    colour <span class="op">=</span> <span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span>first_guide <span class="op">=</span> <span class="va">staxis</span>, second_guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.axis.line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="primitives">Primitives<a class="anchor" aria-label="anchor" href="#primitives"></a>
@@ -143,7 +143,7 @@ between them, but let’s exaggerate the spacing for clarity.</p>
 <span>    <span class="fu"><a href="../reference/primitive_labels.html">primitive_labels</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span>spacing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"pt"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="section level3">
 <h3 id="introducing-the-rest-of-the-family">Introducing the rest of the family<a class="anchor" aria-label="anchor" href="#introducing-the-rest-of-the-family"></a>
 </h3>
@@ -168,7 +168,7 @@ axes</a>.</p>
 <span>  <span class="fu"><a href="../reference/primitive_spacer.html">primitive_spacer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/primitive_fence.html">primitive_fence</a></span><span class="op">(</span><span class="va">range_key</span>, rail <span class="op">=</span> <span class="st">"outer"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>The last member of the family is <code><a href="../reference/primitive_title.html">primitive_title()</a></code>.
 Aside from just displaying text, it does three things:</p>
 <ol style="list-style-type: decimal">
@@ -187,7 +187,7 @@ slightly easier to prevent unwanted double titles.</li>
 <span>  <span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/primitive_title.html">primitive_title</a></span><span class="op">(</span><span class="st">"Gollum explains engine displacement to you"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"A normal person explains engine displacement"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>As it is implemented as a guide, it cannot take the place of regular
 axis titles. This also means that the titles will repeat over
@@ -196,7 +196,7 @@ facets.</li>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="op">~</span> <span class="va">year</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="dont-use-primitives-directly">Don’t use primitives directly<a class="anchor" aria-label="anchor" href="#dont-use-primitives-directly"></a>
@@ -220,7 +220,7 @@ function.</p>
 <span><span class="co"># Looks identical to the above</span></span>
 <span><span class="va">standard</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/primitive_ticks.html">primitive_ticks</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -249,7 +249,7 @@ called ‘opposite’.</p>
 <span>      opposite <span class="op">=</span> <span class="fu"><a href="../reference/primitive_ticks.html">primitive_ticks</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>They are called ‘text’ and ‘opposite’ because the ‘text’-guide will
 take on the position indicated by the <code>legend.text.position</code>
 theme element. Perhaps unsurprisingly; the guide at the other end is
@@ -257,7 +257,7 @@ called the ‘opposite’ guide. You can expose this by swapping the theme
 element.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.text.position <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>It should also be noted that if the guide has a label-supression
 mechanism, the ‘opposite’ guide will be drawn with surpressed labels.
 The mechanism is in place in guides like
@@ -279,7 +279,7 @@ for example <code>facet_grid(axis.labels = "margins")</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>The only thing that <code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> does, that
 <code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code> does not, is to adjust the theme
 settings to match <code><a href="https://ggplot2.tidyverse.org/reference/guide_colourbar.html" class="external-link">ggplot2::guide_colourbar()</a></code> more
@@ -309,7 +309,7 @@ immediately clear why we need the bread in this case.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_barcap.html">gizmo_barcap</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>Similarly <code><a href="../reference/guide_colsteps.html">guide_colsteps()</a></code> has
 <code><a href="../reference/gizmo_stepcap.html">gizmo_stepcap()</a></code>, which might be the second gizmo you may
 already have encountered.</p>
@@ -336,7 +336,7 @@ have been necessary but: don’t make your plot like this!</p>
 <span>    x <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">my_gizmo</span><span class="op">)</span>,</span>
 <span>    colour <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span>middle <span class="op">=</span> <span class="va">my_gizmo</span>, text <span class="op">=</span> <span class="st">"axis_base"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>Perhaps some gizmo’s that are inherently more useful are
 <code><a href="../reference/gizmo_density.html">gizmo_density()</a></code> and <code><a href="../reference/gizmo_histogram.html">gizmo_histogram()</a></code>. By
 default, these wrap the <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">density()</a></code> and <code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist()</a></code>
@@ -357,7 +357,7 @@ is visible.</p>
 <span>    option <span class="op">=</span> <span class="st">"D"</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_histogram.html">gizmo_histogram</a></span><span class="op">(</span>hist.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>However, you can easily promote these gizmos to full guide by adding
 an axis. The <code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code> can do a reasonable job for
 this.</p>
@@ -378,7 +378,7 @@ this.</p>
 <span>      text <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -401,11 +401,11 @@ not when stacking.</p>
 <span></span>
 <span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y.sec <span class="op">=</span> <span class="fu"><a href="../reference/compose_ontop.html">compose_ontop</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">top</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"compose_ontop"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y.sec <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">top</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"compose_stack"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-20-2.png" width="700"></p>
 <p>There is also <code><a href="../reference/compose_crux.html">compose_crux()</a></code> (or ‘cross’) that is the
 parent composition of <code><a href="../reference/compose_sandwich.html">compose_sandwich()</a></code>. Instead only
 allowing bread on two sides, it can also put guides on the top and
@@ -428,7 +428,7 @@ bottom. It isn’t currently in use by any complete guide though.</p>
 <span>      top <span class="op">=</span> <span class="va">ball</span>, bottom <span class="op">=</span> <span class="va">block</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="guide_composition_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="guide_composition_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
