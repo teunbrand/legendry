@@ -75,8 +75,8 @@ guide_legend_base <- function(
   check_position(position, allow_null = TRUE)
   check_argmatch(direction, c("horizontal", "vertical"), allow_null = TRUE)
   check_bool(reverse)
-  check_number_whole(nrow, allow_null = TRUE)
-  check_number_whole(ncol, allow_null = TRUE)
+  check_number_whole(nrow, min = 1, allow_null = TRUE)
+  check_number_whole(ncol, min = 1, allow_null = TRUE)
 
   design <- validate_design(design, allow_null = TRUE)
   if (!is.null(design)) {
