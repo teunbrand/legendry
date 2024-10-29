@@ -111,7 +111,7 @@ key_manual <- function(aesthetic, value = aesthetic,
 key_map <- function(data, ..., .call = caller_env()) {
   mapping <- enquos(...)
   mapping <- Filter(Negate(quo_is_missing), mapping)
-  mapping <- new_aes(mapping)
+  mapping <- new_aes(mapping, env = .call)
 
   df <- eval_aes(
     data, mapping,

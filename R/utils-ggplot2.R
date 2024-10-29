@@ -137,7 +137,7 @@ rotate_just <- function(angle = NULL, hjust, vjust) {
   list(hjust = hnew, vjust = vnew)
 }
 
-new_aes <- function(x, env = globalenv()) {
+new_aes <- function(x, env = caller_env()) {
   if (!is.list(x)) {
     stop_input_type(x, as_cli("a {.cls list}"))
   }
@@ -145,7 +145,7 @@ new_aes <- function(x, env = globalenv()) {
   structure(x, class = "uneval")
 }
 
-new_aesthetic <- function(x, env = global_env()) {
+new_aesthetic <- function(x, env = caller_env()) {
   if (is_quosure(x)) {
     if (!quo_is_symbolic(x)) {
       x <- quo_get_expr(x)
