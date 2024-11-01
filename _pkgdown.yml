@@ -44,3 +44,8 @@ reference:
   - bracket_options
   - cap_options
   - theme_guide
+
+news:
+  releases:
+  - text: "Version 0.1.0: Moltres"
+    href: https://teunbrand.github.io/teunbrand_blog/posts/2024-11-01-legendry-0-1-0/
