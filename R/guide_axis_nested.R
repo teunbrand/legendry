@@ -106,12 +106,9 @@ guide_axis_nested <- function(
   )
   pad_discrete <- pad_discrete %||% switch(type, fence = 0.5, 0.4)
 
-    labels <- new_guide(
-      available_aes = c("any", "x", "y", "r", "theta"),
-      super = guide_none()
-    )
   if (identical(key, "range_auto") ||
       inherits(key, "key_range_auto_function")) {
+    labels <- guide_none()
   } else {
     labels <- primitive_labels(angle = angle)
   }
