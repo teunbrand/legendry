@@ -1,5 +1,8 @@
 # legendry (development version)
 
+* Fixed bug where `guide_axis_nested(key = key_range_auto(...))` produced 
+  duplicated labels (#31)
+
 # legendry 0.1.0
 
 First release.
