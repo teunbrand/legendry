@@ -86,13 +86,15 @@ key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE, ...) {
   force(reverse)
   dots <- label_args(...)
   call <- current_call()
-  function(scale, aesthetic = NULL) {
+  fun <- function(scale, aesthetic = NULL) {
     range_from_label(
       scale = scale, aesthetic = aesthetic,
       sep = sep, reverse = reverse, extra_args = dots,
       call = call
     )
   }
+  class(fun) <- union("key_range_auto_function", class(fun))
+  fun
 }
 
 #' @rdname key_range

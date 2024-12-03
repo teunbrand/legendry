@@ -19,6 +19,21 @@ test_that("guide_axis_nested logic works", {
 
 })
 
+test_that("guide_axis_nested recognised `key_range_auto()`", {
+
+  guide <- guide_axis_nested(key = "range_auto")
+  expect_s3_class(guide$params$guides[[3]], "GuideNone")
+
+  guide <- guide_axis_nested(key = key_range_auto(sep = "foobar"))
+  expect_s3_class(guide$params$guides[[3]], "GuideNone")
+
+  guide <- guide_axis_nested(key = key_range_manual(1, 2))
+  expect_s3_class(guide$params$guides[[3]], "PrimitiveLabels")
+
+})
+
+# Visual test -------------------------------------------------------------
+
 test_that("guide_axis_nested looks good as axis", {
 
   base <- ggplot(mpg, aes(interaction(cyl, drv), hwy)) +
