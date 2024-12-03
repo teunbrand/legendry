@@ -148,8 +148,10 @@ loop_guides <- function(guides, params, method, ...) {
 
 compatible_aes <- function(guides, available_aes, call = caller_env()) {
 
-  available <- lapply(guides, `[[`, name = "available_aes")
+  valid <- !is_each(guides, inherits, what = "GuideNone")
+  available <- lapply(guides[valid], `[[`, name = "available_aes")
   common <- Reduce(any_intersect, available)
+
   if (length(common) < 1) {
     cli::cli_abort(
       "The guides to combine have no shared {.field available aesthetics}.",
