@@ -87,7 +87,7 @@ key_auto <- function(...) {
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- Guide$extract_key(scale, aesthetic)
-    df <- data_frame0(df, !!!label_args(...))
+    df <- data_frame0(df, !!!extra_args(...))
     class(df) <- c("key_standard", "key_guide", class(df))
     df
   }
@@ -99,7 +99,7 @@ key_manual <- function(aesthetic, value = aesthetic,
                        label = as.character(value), type = NULL,
                        ...) {
   df <- data_frame0(aesthetic = aesthetic, value = value,
-                    label = label, type = type, !!!label_args(...))
+                    label = label, type = type, !!!extra_args(...))
   check_columns(df, c("aesthetic", "value", "label"))
   df <- rename(df, c("value", "label", "type"), c(".value", ".label", ".type"))
   class(df) <- c("key_standard", "key_guide", class(df))
@@ -136,7 +136,7 @@ key_map <- function(data, ..., .call = caller_env()) {
 #' @rdname key_standard
 #' @export
 key_minor <- function(...) {
-  dots <- label_args(...)
+  dots <- extra_args(...)
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1]
     df <- GuideAxis$extract_key(scale, aesthetic, minor.ticks = TRUE)
@@ -163,7 +163,7 @@ key_log <- function(
   force(prescale_base)
   force(negative_small)
   force(expanded)
-  dots <- label_args(...)
+  dots <- extra_args(...)
   call <- expr(key_log())
   function(scale, aesthetic = NULL) {
     key <- log10_keys(

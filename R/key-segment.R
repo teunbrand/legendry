@@ -55,7 +55,7 @@ key_segment_manual <- function(value, oppo, value_end = value,
   df <- data_frame0(
     value = value, oppo = oppo,
     value_end = value_end, oppo_end = oppo_end,
-    !!!label_args(...)
+    !!!extra_args(..., .valid_args = .line_params)
   )
   check_columns(df, c("value", "oppo"))
   class(df) <- c("key_segment", "key_guide", class(df))
@@ -70,18 +70,16 @@ key_segment_map <- function(data, ..., .call = caller_env()) {
   mapping <- Filter(Negate(quo_is_missing), mapping)
   mapping <- new_aes(mapping, env = .call)
 
-  params <- c("colour", "linewidth", "linetype")
-
   df <- eval_aes(
     data, mapping,
     required = c("value", "oppo"),
-    optional = c("value_end", "oppo_end", params),
+    optional = c("value_end", "oppo_end", .line_params),
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
 
-  df <- rename(df, params, paste0(".", params))
   df$colour <- df$color
   df$color <- NULL
+  df <- rename(df, .line_params, paste0(".", .line_params))
   class(df) <- c("key_segment", "key_guide", class(df))
   df
 

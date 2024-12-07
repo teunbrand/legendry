@@ -84,7 +84,7 @@ key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE, ...) {
   check_bool(reverse)
   force(sep)
   force(reverse)
-  dots <- label_args(...)
+  dots <- extra_args(...)
   call <- current_call()
   fun <- function(scale, aesthetic = NULL) {
     range_from_label(
@@ -102,7 +102,7 @@ key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE, ...) {
 key_range_manual <- function(start, end, name = NULL, level = NULL, ...) {
   df <- data_frame0(
     start = start, end = end, .label = name, .level = level,
-    !!!label_args(...)
+    !!!extra_args(...)
   )
   check_columns(df, c("start", "end"))
   class(df) <- c("key_range", "key_guide", class(df))
