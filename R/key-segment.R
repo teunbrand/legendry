@@ -1,5 +1,56 @@
-
-key_segments_manual <- function(value, oppo, value_end = value,
+#' Segment keys
+#'
+#' @description
+#' These functions are helper functions for working with segment data as keys
+#' in guides. They all share the goal of creating a guide key, but have
+#' different methods:
+#'
+#' * `key_segment_manual()` directly uses user-provided vectors to set segments.
+#' * `key_segment_map()` makes mappings from a `<data.frame>` to set segments.
+#' * `key_dendro()` is a specialty case for coercing dendrogram data to segments.
+#'   Be aware that setting the key alone cannot affect the scale limits, and
+#'   will give misleading results when used incorrectly!
+#'
+#' @param value,value_end A vector that is interpreted to be along the scale
+#'   that the guide codifies.
+#' @param oppo,oppo_end A vector that is interpreted to be orthogonal to the
+#'   `value` and `value_end` variables.
+#' @param data A `<data.frame>` or similar object coerced by
+#'   [`fortify()`][ggplot2::fortify] to a `<data.frame>`, in which the `mapping`
+#'   argument is evaluated.
+#' @param dendro A data structure that can be coerced to a dendrogram through
+#'   the [`as.dendrogram()`][stats::as.dendrogram()] function. When `NULL`
+#'   (default) an attempt is made to search for such data in the scale.
+#' @param type A string, either `"rectangle"` or `"triangle"`, indicating the
+#'   shape of edges between nodes of the dendrogram.
+#' @param ... [`<data-masking>`][rlang::topic-data-mask] A set of mappings
+#'   similar to those provided to [`aes()`][ggplot2::aes], which will be
+#'   evaluated in the `data` argument.
+#'   For `key_segments_map()`, these *must* contain `value` and `oppo` mappings.
+#' @param .call A [call][rlang::topic-error-call] to display in messages.
+#'
+#' @export
+#' @name key_segments
+#' @family keys
+#' @return
+#' For `key_segments_manual()` and `key_segments_map()`, a `<data.frame>` with
+#' the `<key_range>` class.
+#'
+#' @examples
+#' # Giving vectors directly
+#' key_segment_manual(
+#'   value = 0:1, value_end = 2:3,
+#'   oppo  = 1:0, oppo_end  = 3:2
+#' )
+#'
+#' # Taking columns of a data frame
+#' data <- data.frame(x = 0:1, y = 1:0, xend = 2:3, yend = 3:2)
+#' key_segment_map(data, value = x, oppo = y, value_end = xend, oppo_end = yend)
+#'
+#' # Using dendrogram data
+#' clust <- hclust(dist(USArrests), "ave")
+#' key_dendro(clust)(scale_x_discrete())
+key_segment_manual <- function(value, oppo, value_end = value,
                                 oppo_end = oppo, ...) {
   df <- data_frame0(
     value = value, oppo = oppo,
@@ -11,6 +62,8 @@ key_segments_manual <- function(value, oppo, value_end = value,
   df
 }
 
+#' @rdname key_segments
+#' @export
 key_segment_map <- function(data, ..., .call = caller_env()) {
 
   mapping <- enquos(...)
@@ -34,6 +87,8 @@ key_segment_map <- function(data, ..., .call = caller_env()) {
 
 }
 
+#' @rdname key_segments
+#' @export
 key_dendro <- function(dendro = NULL, type = "rectangle") {
   force(dendro)
   function(scale, aesthetic = NULL, ...) {
