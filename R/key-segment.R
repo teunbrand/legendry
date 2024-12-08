@@ -90,7 +90,7 @@ key_segment_map <- function(data, ..., .call = caller_env()) {
 key_dendro <- function(dendro = NULL, type = "rectangle") {
   force(dendro)
   function(scale, aesthetic = NULL, ...) {
-    extract_dendro(scale$hclust %||% dendro, type = type)
+    extract_dendro(scale$scale$clust %||% dendro, type = type)
   }
 }
 

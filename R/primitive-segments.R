@@ -1,5 +1,62 @@
 # Constructor -------------------------------------------------------------
 
+#' Guide primitives: segments
+#'
+#' This function constructs a [guide primitive][guide-primitives].
+#'
+#' @param key A [segment key][key_segments] specification. See more information
+#'   in the linked topic.
+#' @param space Either a [`<unit[1]>`][grid::unit] or [`<rel[1]>`][ggplot2::rel]
+#'   object determining the space allocated in the orthogonal direction. When
+#'   the `space` argument is of class `<rel>` (default) the base size is taken
+#'   from the tick length theme setting.
+#' @param vanish Only relevant when the guide is used in the secondary theta
+#'   position: a `<logical[1]>` on whether the continue to draw the segments
+#'   until they meed in the center (`TRUE`) or strictly observe the `space`
+#'   setting (`FALSE`).
+#' @inheritParams common_parameters
+#'
+#' @return A `<PrimitiveSegments>` primitive guide that can be used inside other
+#'   guides.
+#' @family primitives
+#' @export
+#'
+#' @details
+#' # Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the style of
+#' this guide, which may differ depending on whether the guide is used in an
+#' axis or in a legend context.
+#'
+#' ## As an axis guide
+#'
+#' * `axis.ticks.{x/y}.{position}` an [`<element_line>`][ggplot2::element_line]
+#'   for display of the segments.
+#' * `axis.ticks.length.{x/y}.{position}` a [`<unit>`][grid::unit] for the
+#'   base size of the segments in the orthogonal direction.
+#'
+#' ## As a legend guide
+#'
+#' * `legend.ticks` an [`<element_line>`][ggplot2::element_line] for display
+#'   of the segments.
+#' * `legend.ticks.length` a [`<unit>`][grid::unit] for the
+#'   base size of the segments in the orthogonal direction.
+#'
+#' @examples
+#' # Building a key
+#' key <- key_segment_manual(
+#'   value     = c(1.6, 1.6, 3.4, 5.2),
+#'   value_end = c(7.0, 7.0, 3.4, 5.2),
+#'   oppo      = c(1.0, 2.0, 0.0, 0.0),
+#'   oppo_end  = c(1.0, 2.0, 3.0, 3.0)
+#' )
+#'
+#' # Using the primitive in a plot
+#' ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point() +
+#'   scale_x_continuous(
+#'     guide = primitive_segments(key = key)
+#'   )
 primitive_segments <- function(key = NULL, space = rel(10), vanish = FALSE,
                                theme = NULL, position = waiver()) {
   check_unit(space, allow_rel = TRUE)
@@ -22,6 +79,11 @@ PrimitiveSegments <- ggproto(
   params = new_params(key = NULL, space = rel(10), vanish = FALSE),
 
   hashables = exprs(key$.value),
+
+  elements = list(
+    position = list(line = "axis.ticks",   size = "axis.ticks.length"),
+    legend   = list(line = "legend.ticks", size = "legend.ticks.length")
+  ),
 
   extract_key = function(scale, aesthetic, key, ...) {
     key <- standard_extract_key(scale, aesthetic, key, ...)
@@ -49,11 +111,6 @@ PrimitiveSegments <- ggproto(
     }
     new
   },
-
-  elements = list(
-    position = list(line = "axis.ticks",   size = "axis.ticks.length"),
-    legend   = list(line = "legend.ticks", size = "legend.ticks.length")
-  ),
 
   transform = function(self, params, coord, panel_params) {
     key <- params$key
@@ -104,7 +161,7 @@ PrimitiveSegments <- ggproto(
     )
 
     if (!is_theta(position)) {
-      return(vec_assign(params, "key", key))
+      return(vec_assign(params, "key", list(key)))
     }
 
     radius <- panel_params$inner_radius

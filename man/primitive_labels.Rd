@@ -85,6 +85,7 @@ Other primitives:
 \code{\link{primitive_bracket}()},
 \code{\link{primitive_fence}()},
 \code{\link{primitive_line}()},
+\code{\link{primitive_segments}()},
 \code{\link{primitive_spacer}()},
 \code{\link{primitive_ticks}()},
 \code{\link{primitive_title}()}
