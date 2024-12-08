@@ -14,7 +14,8 @@ primitive_segments(
 }
 \arguments{
 \item{key}{A \link[=key_segments]{segment key} specification. See more information
-in the linked topic.}
+in the linked topic. Alternatively, an object of class
+\code{\link[stats:hclust]{<hclust>}} that automatically invokes \code{key_dendro()}.}
 
 \item{space}{Either a \code{\link[grid:unit]{<unit>}} or \code{\link[ggplot2:element]{<rel>}}
 object of length 1 determining the space allocated in the orthogonal

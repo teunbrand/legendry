@@ -5,7 +5,8 @@
 #' This function constructs a [guide primitive][guide-primitives].
 #'
 #' @param key A [segment key][key_segments] specification. See more information
-#'   in the linked topic.
+#'   in the linked topic. Alternatively, an object of class
+#'   [`<hclust>`][stats::hclust] that automatically invokes `key_dendro()`.
 #' @param space Either a [`<unit>`][grid::unit()] or [`<rel>`][ggplot2::rel()]
 #'   object of length 1 determining the space allocated in the orthogonal
 #'   direction. When the `space` argument is of class `<rel>` (default) the
@@ -60,6 +61,11 @@
 primitive_segments <- function(key = NULL, space = rel(10), vanish = FALSE,
                                theme = NULL, position = waiver()) {
   check_unit(space, allow_rel = TRUE)
+
+  if (inherits(key, "hclust")) {
+    key <- key_dendro(key)
+  }
+
   new_guide(
     key = key,
     space = space,
