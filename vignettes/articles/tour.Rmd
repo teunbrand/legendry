@@ -227,6 +227,49 @@ presidents <- key_range_map(
 eco + guides(x = guide_axis_nested(key = presidents))
 ```
 
+### Dendrograms
+
+Dendrograms are a popular method of displaying the results of hierarchical clustering. 
+A very standard way of computing hierarchical clusters is to compute a distance metric of the data with `dist()` and forwarding the
+result to `hclust()`.
+The default plot method shows the dendrogram.
+
+```{r}
+clust <- hclust(dist(scale(mtcars)), method = "ave")
+plot(clust)
+```
+
+Other packages have many more options to display dendrograms, notably [ggdendro](https://andrie.github.io/ggdendro/) or [dendextend](https://talgalili.github.io/dendextend/). 
+The legendry package has no ambition to be the best dendrogram visualiser, but does find dendrograms to be use useful annotation.
+To use dendrograms, you can provide an object produced by `hclust` to `scale_(x/y)_dendro()`.
+This ensures that the scale follows the order of the clustering result and by default uses `guide_axis_dendro()` to display the dendrogram next to the labels.
+
+```{r}
+ggplot(mtcars, aes(mpg, rownames(mtcars))) +
+  geom_col() +
+  scale_y_dendro(clust)
+```
+
+The `guide_axis_dendro()` function can be decomposed into labels and the segments. 
+You can use `primitive_segments("dendro")` to not display labels, which may convenient if you rather place the labels at the opposite end of the panel.
+In the plot below we use the raw segments to draw a radial dendrogram.
+The `vanish = TRUE` option indicates that we should fit the dendrogram so that the root of the tree is in the middle, which is only ever relevant for secondary theta axes.
+
+```{r}
+ggplot(mtcars, aes(mpg, rownames(mtcars))) +
+  geom_col() +
+  scale_y_dendro(clust) +
+  coord_radial(theta = "y", inner.radius = 0.5) +
+  guides(
+    theta = guide_axis_base(angle = 90),
+    theta.sec = primitive_segments("dendro", vanish = TRUE),
+    r = "none"
+  ) +
+  theme(
+    axis.title = element_blank(),
+    plot.margin = margin(t = 50, b = 50)
+  )
+```
 
 ## Colours
 
