@@ -78,7 +78,7 @@ PrimitiveSegments <- ggproto(
 
   params = new_params(key = NULL, space = rel(10), vanish = FALSE),
 
-  hashables = exprs(key$.value),
+  hashables = exprs(key),
 
   elements = list(
     position = list(line = "axis.ticks",   size = "axis.ticks.length"),
@@ -108,9 +108,12 @@ PrimitiveSegments <- ggproto(
       new <- rename(new, c("value", "oppo"), c("y", "x"))
     } else {
       new <- rename(new, "value", aesthetic)
+      new$.value <- new[[aesthetic]]
     }
     new
   },
+
+  extract_params = primitive_extract_params,
 
   transform = function(self, params, coord, panel_params) {
     key <- params$key
@@ -166,7 +169,7 @@ PrimitiveSegments <- ggproto(
 
     radius <- panel_params$inner_radius
     if (position == "theta") {
-      key$adjust <- (key$r - radius[2]) * (mult / radius[2])
+      key$adjust <- (key$r - radius[2]) * (2 * mult / radius[2])
       key$r <- radius[2]
     } else {
       key$adjust <- (key$r - radius[1]) / diff(radius) * -mult
