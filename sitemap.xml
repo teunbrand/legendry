@@ -26,6 +26,7 @@
 <url><loc>https://teunbrand.github.io/legendry/reference/guide-gizmos.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/guide-primitives.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/guide_axis_base.html</loc></url>
+<url><loc>https://teunbrand.github.io/legendry/reference/guide_axis_dendro.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/guide_axis_nested.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/guide_colbar.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/guide_colring.html</loc></url>
@@ -36,6 +37,7 @@
 <url><loc>https://teunbrand.github.io/legendry/reference/index.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/key_group.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/key_range.html</loc></url>
+<url><loc>https://teunbrand.github.io/legendry/reference/key_segments.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/key_specialty.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/key_standard.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/legendry-package.html</loc></url>
@@ -45,9 +47,11 @@
 <url><loc>https://teunbrand.github.io/legendry/reference/primitive_fence.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/primitive_labels.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/primitive_line.html</loc></url>
+<url><loc>https://teunbrand.github.io/legendry/reference/primitive_segments.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/primitive_spacer.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/primitive_ticks.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/primitive_title.html</loc></url>
+<url><loc>https://teunbrand.github.io/legendry/reference/scale_x_dendro.html</loc></url>
 <url><loc>https://teunbrand.github.io/legendry/reference/theme_guide.html</loc></url>
 </urlset>
 

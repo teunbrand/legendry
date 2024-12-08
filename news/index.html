@@ -45,7 +45,14 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="legendry-development-version">legendry (development version)<a class="anchor" aria-label="anchor" href="#legendry-development-version"></a></h2>
-<ul><li>Fixed bug where <code>guide_axis_nested(key = key_range_auto(...))</code> produced duplicated labels (<a href="https://github.com/teunbrand/legendry/issues/31" class="external-link">#31</a>)</li>
+<ul><li>Added support for dendrograms (<a href="https://github.com/teunbrand/legendry/issues/33" class="external-link">#33</a>):
+<ul><li>New scale functions <code><a href="../reference/scale_x_dendro.html">scale_x_dendro()</a></code> and <code><a href="../reference/scale_x_dendro.html">scale_y_dendro()</a></code>.</li>
+<li>New full guide function: <code><a href="../reference/guide_axis_dendro.html">guide_axis_dendro()</a></code>.</li>
+<li>New primitive guide function: <code><a href="../reference/primitive_segments.html">primitive_segments()</a></code>
+</li>
+<li>New key functions: <code><a href="../reference/key_segments.html">key_segment_manual()</a></code>, <code><a href="../reference/key_segments.html">key_segment_map()</a></code> and <code><a href="../reference/key_segments.html">key_dendro()</a></code>.</li>
+</ul></li>
+<li>Fixed bug where <code>guide_axis_nested(key = key_range_auto(...))</code> produced duplicated labels (<a href="https://github.com/teunbrand/legendry/issues/31" class="external-link">#31</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="legendry-010">legendry 0.1.0<a class="anchor" aria-label="anchor" href="#legendry-010"></a></h2><p class="text-muted">CRAN release: 2024-11-01</p>
