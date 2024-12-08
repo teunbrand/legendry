@@ -85,16 +85,18 @@ primitive_setup_params <- function(params) {
   if (!is_empty(params$key)) {
     key   <- params$key
     value <- guide_rescale(key$.value, params$limits)
-    key$x <- key$x %||% switch(params$position, left = 1, right = 0, value)
-    key$y <- key$y %||% switch(params$position, bottom = 1, top = 0, value)
+    oppo  <- key$oppo %||% as.numeric(params$position %in% c("left", "bottom"))
+    key$x <- key$x %||% switch(params$position, left = , right = oppo, value)
+    key$y <- key$y %||% switch(params$position, bottom = , top = oppo, value)
     params$key <- key
   }
 
   decor <- params$decor
   if (!is_empty(params$decor)) {
     decor <- params$decor
-    decor$x <- decor$x %||% switch(params$position, left = 1, right = 0, 0.5)
-    decor$y <- decor$y %||% switch(params$position, bottom = 1, top = 0, 0.5)
+    oppo  <- decor$oppo %||% as.numeric(params$position %in% c("left", "bottom"))
+    decor$x <- decor$x %||% switch(params$position, left = , right = oppo, 0.5)
+    decor$y <- decor$y %||% switch(params$position, bottom = , top = oppo, 0.5)
     params$decor <- decor
   }
   params

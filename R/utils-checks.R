@@ -75,13 +75,13 @@ check_grob <- function(x, allow_null = FALSE, call = caller_env(),
   )
 }
 
-check_unit <- function(x, allow_null = FALSE, call = caller_env(),
-                       arg = caller_arg(x)) {
+check_unit <- function(x, allow_null = FALSE, allow_rel = FALSE,
+                       call = caller_env(), arg = caller_arg(x)) {
   if (!missing(x)) {
     if (is.unit(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && is_null(x) || allow_rel && is.rel(x)) {
       return(invisible(NULL))
     }
   }
