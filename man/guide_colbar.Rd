@@ -156,6 +156,7 @@ ggplot(msleep, aes(sleep_total, sleep_rem)) +
 \seealso{
 Other standalone guides: 
 \code{\link{guide_axis_base}()},
+\code{\link{guide_axis_dendro}()},
 \code{\link{guide_axis_nested}()},
 \code{\link{guide_colring}()},
 \code{\link{guide_colsteps}()},
