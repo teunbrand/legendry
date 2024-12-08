@@ -138,6 +138,9 @@ PrimitiveSegments <- ggproto(
       if (position == "left") {
         key[[opposite]] <- 1 - key[[opposite]]
       }
+      if (aesthetic == "x") {
+        key <- rename(key, c("x", "y"), c("y", "x"))
+      }
       params$key <- key
       return(params)
     }
