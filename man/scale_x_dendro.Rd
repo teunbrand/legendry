@@ -90,7 +90,7 @@ A \verb{<ScaleDiscretePosition>} object that can be added to a plot.
 \description{
 These are speciality scales for use with hierarchically clustered data. The
 scale automatically orders the limits according to the clustering result
-and comes with a \link[=guide_axis_dendrogram]{dendrogram axis}.
+and comes with a \link[=guide_axis_dendro]{dendrogram axis}.
 }
 \details{
 The scale limits are determined by the order and labels in the \code{clust}
@@ -141,5 +141,5 @@ p +
   )
 }
 \seealso{
-\code{\link[=guide_axis_dendrogram]{guide_axis_dendrogram()}}
+\code{\link[=guide_axis_dendro]{guide_axis_dendro()}}
 }

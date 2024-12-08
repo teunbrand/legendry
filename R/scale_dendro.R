@@ -4,7 +4,7 @@
 #'
 #' These are speciality scales for use with hierarchically clustered data. The
 #' scale automatically orders the limits according to the clustering result
-#' and comes with a [dendrogram axis][guide_axis_dendrogram()].
+#' and comes with a [dendrogram axis][guide_axis_dendro()].
 #'
 #' @param clust A data structure that can be coerced to an
 #'   [`<hclust>`][stats::hclust] object through
@@ -19,7 +19,7 @@
 #' can be used for formatting purposes.
 #'
 #' @return A `<ScaleDiscretePosition>` object that can be added to a plot.
-#' @seealso [guide_axis_dendrogram()]
+#' @seealso [guide_axis_dendro()]
 #' @export
 #'
 #' @examples
@@ -125,7 +125,7 @@ scale_y_dendro <- function(clust, ..., expand = waiver(), guide = "axis_dendro",
 
 validate_clust <- function(clust, .call = caller_env()) {
   try_fetch(
-    as.hclust(clust),
+    stats::as.hclust(clust),
     error = function(cnd) {
       cli::cli_abort(
         "The {.arg clust} argument should be convertable to an {.cls hclust}

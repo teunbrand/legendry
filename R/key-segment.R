@@ -102,7 +102,7 @@ extract_dendro <- function(tree, type = "rectangle") {
 
   # Check arguments
   whole_tree <- tree <- try_fetch(
-    as.dendrogram(tree),
+    stats::as.dendrogram(tree),
     error = function(cnd) {
       cli::cli_abort("Could not find or coerce {.arg dendro} argument.", parent = cnd)
     }
