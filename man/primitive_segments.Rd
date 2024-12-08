@@ -16,10 +16,10 @@ primitive_segments(
 \item{key}{A \link[=key_segments]{segment key} specification. See more information
 in the linked topic.}
 
-\item{space}{Either a [\verb{<unit[1]>}][grid::unit] or [\verb{<rel[1]>}][ggplot2::rel]
-object determining the space allocated in the orthogonal direction. When
-the \code{space} argument is of class \verb{<rel>} (default) the base size is taken
-from the tick length theme setting.}
+\item{space}{Either a \code{\link[grid:unit]{<unit>}} or \code{\link[ggplot2:element]{<rel>}}
+object of length 1 determining the space allocated in the orthogonal
+direction. When the \code{space} argument is of class \verb{<rel>} (default) the
+base size is taken from the tick length theme setting.}
 
 \item{vanish}{Only relevant when the guide is used in the secondary theta
 position: a \verb{<logical[1]>} on whether the continue to draw the segments

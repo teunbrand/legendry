@@ -6,10 +6,10 @@
 #'
 #' @param key A [segment key][key_segments] specification. See more information
 #'   in the linked topic.
-#' @param space Either a [`<unit[1]>`][grid::unit] or [`<rel[1]>`][ggplot2::rel]
-#'   object determining the space allocated in the orthogonal direction. When
-#'   the `space` argument is of class `<rel>` (default) the base size is taken
-#'   from the tick length theme setting.
+#' @param space Either a [`<unit>`][grid::unit()] or [`<rel>`][ggplot2::rel()]
+#'   object of length 1 determining the space allocated in the orthogonal
+#'   direction. When the `space` argument is of class `<rel>` (default) the
+#'   base size is taken from the tick length theme setting.
 #' @param vanish Only relevant when the guide is used in the secondary theta
 #'   position: a `<logical[1]>` on whether the continue to draw the segments
 #'   until they meed in the center (`TRUE`) or strictly observe the `space`
