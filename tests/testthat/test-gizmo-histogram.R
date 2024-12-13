@@ -2,7 +2,7 @@ test_that("gizmo_histogram can compute histograms in various ways", {
 
   values <- mtcars$mpg
   target <- hist(mtcars$mpg, breaks = 10, plot = FALSE)
-  scale  <- scale_colour_continuous(limits = range(values))
+  scale  <- scale_colour_gradient(limits = range(values))
   scale$train(values)
   fields <- c("breaks", "counts")
 

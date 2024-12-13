@@ -3,7 +3,7 @@ test_that("gizmo_density can compute density in various ways", {
 
   values <- mtcars$mpg
   target <- density(mtcars$mpg, n = 10)
-  scale  <- scale_colour_continuous(limits = range(values))
+  scale  <- scale_colour_gradient(limits = range(values))
   scale$train(values)
 
   guide <- gizmo_density(density = target)

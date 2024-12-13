@@ -29,6 +29,7 @@ test_that("scale_xy_dendro looks correct", {
   yclust <- test_clust(4)
 
   base <- ggplot() +
+    geom_point(aes(x = "2", y = "3"), shape = NA, na.rm = TRUE) +
     scale_x_dendro(xclust) +
     scale_y_dendro(yclust) +
     theme(

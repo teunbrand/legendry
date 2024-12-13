@@ -77,7 +77,7 @@ scale_x_dendro <- function(clust, ..., expand = waiver(), guide = "axis_dendro",
       "x", "xmin", "xmax", "xend", "xintercept",
       "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper", "x0"
     ),
-    palette = pal_identity(),
+    palette = seq_len,
     scale_name = missing_arg(),
     limits = limits,
     !!!args,

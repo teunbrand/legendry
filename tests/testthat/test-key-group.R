@@ -1,7 +1,7 @@
 
 test_that("key_group_split works correctly", {
 
-  scale <- scale_colour_discrete()
+  scale <- scale_colour_hue()
   scale$train(c("A:B", "C:D", "E:F"))
 
   # Standard case
@@ -19,7 +19,7 @@ test_that("key_group_split works correctly", {
   )
 
   # Missing label
-  scale <- scale_colour_discrete()
+  scale <- scale_colour_hue()
   scale$train(c("A", "C:D", "E:F"))
 
   test <- key_group_split(sep = ":")(scale, "colour")
@@ -29,7 +29,7 @@ test_that("key_group_split works correctly", {
   )
 
   # Too many labels
-  scale <- scale_colour_discrete()
+  scale <- scale_colour_hue()
   scale$train(c("A:B", "C:D", "E:F:G"))
 
   test <- key_group_split(sep = ":")(scale, "colour")
@@ -39,7 +39,7 @@ test_that("key_group_split works correctly", {
   )
 
   # Expression labels
-  scale <- scale_colour_discrete(labels = expression(A, B, C))
+  scale <- scale_colour_hue(labels = expression(A, B, C))
   scale$train(c("A", "B", "C"))
   expect_snapshot(
     key_group_split(sep = ":")(scale, "colour"),
@@ -52,7 +52,7 @@ test_that("key_group_lut works as intended", {
   levels <- c("Coffee", "Tea", "Soda", "Water")
   groups <- rep(c("Hot drinks", "Cold drinks"), each = 2)
 
-  sc <- scale_colour_discrete()
+  sc <- scale_colour_hue()
   sc$train(levels)
   sc$train("Car")
 
