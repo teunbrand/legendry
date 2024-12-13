@@ -1,5 +1,71 @@
 # Constructor -------------------------------------------------------------
 
+#' Circle size guide
+#'
+#' This guide displays the sizes of points as a series of circles. It is
+#' typically paired with [`geom_point()`][ggplot2::geom_point] with
+#' [`draw_key_point()`][ggplot2::draw_key_point] glyphs.
+#'
+#' @param key A [standard key][key_standard] specification. Defaults to
+#'   [`key_auto()`]. See more information in the linked topic.
+#' @param hjust,vjust A `<numeric[1]>` between 0 and 1 giving the horizontal
+#'   and vertical justification, respectively, of the central shapes. It is
+#'   recommended `hjust = 0.5` when text is placed on the left or right and
+#'   `vjust = 0.5` is recommended when text is placed on top or in the bottom.
+#' @param text_position A string, one of `"ontop"`, `"top"`, `"right"`,
+#'   `"bottom"`, or `"left"` do describe the placement of labels. The
+#'   default (`NULL`), will take the `legend.text.position` theme setting.
+#' @param clip_text A `<logical[1]>` whether to give text in the `"ontop"`
+#'   position a small rectangle of background colour.
+#' @inheritParams common_parameters
+#'
+#' @return A `<GuideCircles>` object.
+#' @export
+#' @family standalone guides
+#' @details
+#' This graph was designed with standard round [shapes][ggplot2::scale_shape]
+#' in mind, i.e. shapes 1, 16, 19 and 21. For that reason, `shape = 1` is the
+#' default `override.aes` argument. Other shapes will probably be drawn but the
+#' quality of their alignment and label placement may be unsatisfactory.
+#'
+#' @examples
+#' # A standard plot
+#' p <- ggplot(mtcars, aes(disp, mpg)) +
+#'   geom_point(aes(size = hp), alpha = 0.3)
+#'
+#' # By default, the sizes aren't large enough to make this guide clear
+#' p + scale_size_area(guide = "circles")
+#'
+#' # Update with a more approrpriate scale
+#' p <- p +
+#'   scale_size_area(
+#'     max_size = 30,
+#'     limits = c(0, NA),
+#'     breaks = c(0, 25, 100, 250)
+#'   )
+#' p + guides(size = "circles")
+#'
+#' # Horizontal orientation
+#' p + guides(size = guide_circles(
+#'   vjust = 0.5, hjust = 0, text_position = "bottom"
+#' ))
+#'
+#' # Alternative text placement
+#' p + guides(size = guide_circles(
+#'   text_position = "ontop",
+#'   clip_text = TRUE
+#' ))
+#'
+#' # More styling options
+#' p + guides(size = guide_circles(override.aes = aes(colour = "red")))+
+#'   theme(
+#'     # Key background
+#'     legend.key = element_rect(colour = "black", fill = 'white'),
+#'     # Padding around central shapes
+#'     legendry.legend.key.margin = margin(1, 1, 1, 1, "cm"),
+#'     legend.ticks = element_line(colour = "blue"),
+#'     legend.text.position = "left"
+#'   )
 guide_circles <- function(
   key = NULL,
   title = waiver(),
@@ -35,6 +101,10 @@ guide_circles <- function(
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname legendry_extensions
+#' @format NULL
+#' @usage NULL
 GuideCircles <- ggproto(
   "GuideCircles", Guide,
 
