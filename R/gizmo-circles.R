@@ -46,7 +46,7 @@ GuideCircles <- ggproto(
     margin     = "legend.margin",
     key        = "legend.key",
     text       = "legend.text",
-    padding    = "legend.key.spacing",
+    padding    = "legendry.legend.key.margin",
     ticks      = "legend.ticks",
     title      = "legend.title",
     title_position = "legend.title.position"
@@ -75,14 +75,16 @@ GuideCircles <- ggproto(
     y <- glyphs[[1]]$ypos
 
     key_bg <- element_grob(elements$key)
-    padding <- cm(elements$padding %||% 0) * 2
-    width  <- unit(width_cm(glyphs[[1]]$width)   + padding, "cm")
-    height <- unit(height_cm(glyphs[[1]]$height) + padding, "cm")
+    padding <- cm(elements$padding)
+    width <- width_cm(glyphs[[1]]$width)
+    height <- height_cm(glyphs[[1]]$height)
+    width  <- unit(c(padding[4], width,  padding[2]), "cm")
+    height <- unit(c(padding[1], height, padding[3]), "cm")
 
     position <- params$text_position %||% elements$text_position
     if (position == "ontop") {
       text <- Map(
-        element_grob, x = x, y = y, label = key$.label,
+        element_grob, label = key$.label, x = x, y = y,
         MoreArgs = list(element = elements$text)
       )
       if (isTRUE(params$clip_text)) {
@@ -91,9 +93,9 @@ GuideCircles <- ggproto(
           vjust = elements$text$vjust, colour = elements$key$fill
         )
       }
-      grob <- gTree(children = inject(gList(key_bg, !!!glyphs, !!!text)))
+      grob <- gTree(children = inject(gList(!!!glyphs, !!!text)))
     } else {
-      ticks <- draw_circle_ticks(elements$ticks, x, y, position)
+      ticks <- draw_circle_ticks(elements$ticks, x, y, padding, position)
 
       x <- switch(position, left = , right = NULL, x)
       y <- switch(position, top = , bottom = NULL, y)
@@ -103,11 +105,15 @@ GuideCircles <- ggproto(
         margin_x = position %in% c("left", "right"),
         margin_y = position %in% c("top", "bottom")
       )
-      grob <- gTree(children = inject(gList(key_bg, ticks, !!!glyphs)))
+      grob <- gTree(children = inject(gList(ticks, !!!glyphs)))
     }
 
     gt <- gtable(widths = width, heights = height)
-    gt <- gtable_add_grob(gt, grob, t = 1, l = 1, clip = "off", name = "circles")
+    gt <- gtable_add_grob(
+      gt, key_bg, clip = "off", name = "key-bg",
+      t = 1, l = 1, b = 3, r = 3
+    )
+    gt <- gtable_add_grob(gt, grob, t = 2, l = 2, clip = "off", name = "circles")
     if (position == "ontop") {
       return(gt)
     }
@@ -121,8 +127,8 @@ GuideCircles <- ggproto(
     )
     gt <- gtable_add_grob(
       gt, text, clip = "off", name = "labels",
-      t = 1 + as.numeric(position == "bottom"),
-      l = 1 + as.numeric(position == "right")
+      t = switch(position, top = 1, bottom = 4, 2),
+      l = switch(position, left = 1, right = 4, 2)
     )
     gt
   },
@@ -211,13 +217,24 @@ censor_text_background <- function(x, y, text, background,
   c(background, list(mask))
 }
 
-draw_circle_ticks <- function(element, x, y, position) {
+draw_circle_ticks <- function(element, x, y, padding, position) {
 
   n <- length(x)
-  f <- function(x) unit(rep(x, n), "npc")
+  f <- function(x, i) unit(rep(x, n), "npc")
 
-  xend <- switch(position, left   = f(0), right = f(1), x)
-  yend <- switch(position, bottom = f(0),   top = f(1), y)
+  xend <- switch(
+    position,
+    left  = unit(rep(0, n), "npc") - unit(padding[4], "cm"),
+    right = unit(rep(1, n), "npc") + unit(padding[2], "cm"),
+    x
+  )
+
+  yend <- switch(
+    position,
+    top    = unit(rep(1, n), "npc") + unit(padding[1], "cm"),
+    bottom = unit(rep(0, n), "npc") - unit(padding[3], "cm"),
+    y
+  )
 
   interleave <- vec_interleave(seq_len(n), seq_len(n) + n)
   x <- unit.c(x, xend)[interleave]

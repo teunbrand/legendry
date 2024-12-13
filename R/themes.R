@@ -46,6 +46,8 @@
 #' @param key.spacing,key.spacing.x,key.spacing.y A [`<unit[1]>`][grid::unit()]
 #'   setting the `legend.key.spacing`, `legend.key.spacing.x` and
 #'   `legend.key.spacing.y` elements respectively.
+#' @param key.margin A [`<margin>`][ggplot2::margin] setting the margin around
+#'   legend glyphs.
 #' @param frame An [`<element_rect>`][ggplot2::element_rect] setting the
 #'   `legend.frame` element.
 #' @param byrow A `<logical[1]>` setting the `legend.byrow` element.
@@ -105,6 +107,7 @@ theme_guide <- function(
     key.spacing = NULL,
     key.spacing.x = NULL,
     key.spacing.y = NULL,
+    key.margin = NULL,
 
     frame = NULL,
     byrow = NULL,
@@ -168,6 +171,7 @@ theme_guide <- function(
     legend.key.spacing = key.spacing,
     legend.key.spacing.x = key.spacing.x,
     legend.key.spacing.y = key.spacing.y,
+    legendry.legend.key.margin = key.margin,
 
     legend.frame = frame,
     legend.byrow = byrow,
@@ -200,6 +204,7 @@ register_legendry_elements <- function() {
     legendry.legend.mini.ticks.length = rel(0.5),
     legendry.legend.subtitle = element_text(size = rel(0.9)),
     legendry.legend.subtitle.position = "top",
+    legendry.legend.key.margin = NULL,
     legendry.axis.mini.ticks = element_line(),
     legendry.axis.mini.ticks.length = rel(0.5),
     legendry.guide.spacing = unit(2.25, "pt"),
@@ -219,6 +224,7 @@ register_legendry_elements <- function() {
       legendry.legend.mini.ticks.length = el_unit("legendry.legend.minor.ticks.length"),
       legendry.legend.subtitle = el_def("element_text", "legend.title"),
       legendry.legend.subtitle.position = el_def("character"),
+      legendry.legend.key.margin = el_def("margin", "legend.margin"),
       legendry.axis.mini.ticks = el_line("axis.ticks"),
       legendry.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       legendry.guide.spacing = el_unit("axis.ticks.length"),
