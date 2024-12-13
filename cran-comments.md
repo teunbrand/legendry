@@ -1,4 +1,3 @@
-This is a resubmission of a new release.
-I thank the volunteers for their time and comments.
-A concern about modifying .GlobalEnv has been addressed in R/utils-ggplot2.R.
-There are no references describing the methods in the package.
+This is a small feature release.
+No problems are expected, as the legendry package does not have reverse 
+dependencies I am aware of.
