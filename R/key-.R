@@ -219,6 +219,14 @@ resolve_key <- function(x, allow_null = FALSE) {
   cli::cli_abort("Unknown key specification: {x}.")
 }
 
+is_key_string <- function(x) {
+  if (!is_bare_string(x)) {
+    return(FALSE)
+  }
+  fun <- find_global(paste0("key_", x), env = global_env(), mode = "function")
+  is.function(fun)
+}
+
 log10_keys <- function(scale, aesthetic,
                        prescale_base = NULL,
                        negative_small = 0.1,

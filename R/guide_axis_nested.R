@@ -5,9 +5,12 @@
 #' This axis guide gives extra range annotations to position scales. It can
 #' be used to infer nesting structure from labels or annotate ranges.
 #'
-#' @param key A [range key][key_range] specification. If not
-#'   `key = "range_auto"`, additional labels will be inserted to represent
-#'   point values.
+#' @param key One of the following:
+#'   * A [range key][key_range] specification. If not `key = "range_auto"`,
+#'     additional labels will be inserted to represent point values.
+#'   * A `<character[1]>` passed to the [`key_range_auto(sep)`][key_range_auto]
+#'     argument. An exception is made when the string is a valid key
+#'     specification.
 #' @param regular_key A [standard key][key_standard] specification for the
 #'   appearance of regular tick marks.
 #' @param type Appearance of ranges, either `"box"` to put text in boxes or
@@ -106,6 +109,9 @@ guide_axis_nested <- function(
   )
   pad_discrete <- pad_discrete %||% switch(type, fence = 0.5, 0.4)
 
+  if (is_string(key) && !is_key_string(key)) {
+    key <- key_range_auto(sep = key)
+  }
   if (identical(key, "range_auto") ||
       inherits(key, "key_range_auto_function")) {
     labels <- guide_none()
