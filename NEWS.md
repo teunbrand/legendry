@@ -1,5 +1,7 @@
 # legendry (development version)
 
+This is a small feature release introducing dendrogram scales and a size guide.
+
 * Added support for dendrograms (#33):
     * New scale functions `scale_x_dendro()` and `scale_y_dendro()`.
     * New full guide function: `guide_axis_dendro()`.
