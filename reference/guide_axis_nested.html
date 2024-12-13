@@ -77,9 +77,12 @@ be used to infer nesting structure from labels or annotate ranges.</p>
 
 
 <dl><dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
-<dd><p>A <a href="key_range.html">range key</a> specification. If not
-<code>key = "range_auto"</code>, additional labels will be inserted to represent
-point values.</p></dd>
+<dd><p>One of the following:</p><ul><li><p>A <a href="key_range.html">range key</a> specification. If not <code>key = "range_auto"</code>,
+additional labels will be inserted to represent point values.</p></li>
+<li><p>A <code>&lt;character[1]&gt;</code> passed to the <code><a href="key_range.html">key_range_auto(sep)</a></code>
+argument. An exception is made when the string is a valid key
+specification.</p></li>
+</ul></dd>
 
 
 <dt id="arg-regular-key">regular_key<a class="anchor" aria-label="anchor" href="#arg-regular-key"></a></dt>
