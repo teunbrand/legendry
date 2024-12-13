@@ -23,9 +23,14 @@ guide_axis_nested(
 )
 }
 \arguments{
-\item{key}{A \link[=key_range]{range key} specification. If not
-\code{key = "range_auto"}, additional labels will be inserted to represent
-point values.}
+\item{key}{One of the following:
+\itemize{
+\item A \link[=key_range]{range key} specification. If not \code{key = "range_auto"},
+additional labels will be inserted to represent point values.
+\item A \verb{<character[1]>} passed to the \code{\link[=key_range_auto]{key_range_auto(sep)}}
+argument. An exception is made when the string is a valid key
+specification.
+}}
 
 \item{regular_key}{A \link[=key_standard]{standard key} specification for the
 appearance of regular tick marks.}
