@@ -27,6 +27,7 @@ theme_guide(
   key.spacing = NULL,
   key.spacing.x = NULL,
   key.spacing.y = NULL,
+  key.margin = NULL,
   frame = NULL,
   byrow = NULL,
   background = NULL,
@@ -94,6 +95,9 @@ respectively.}
 \item{key.spacing, key.spacing.x, key.spacing.y}{A [\verb{<unit[1]>}][grid::unit()]
 setting the \code{legend.key.spacing}, \code{legend.key.spacing.x} and
 \code{legend.key.spacing.y} elements respectively.}
+
+\item{key.margin}{A \code{\link[ggplot2:element]{<margin>}} setting the margin around
+legend glyphs.}
 
 \item{frame}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
 \code{legend.frame} element.}

@@ -110,6 +110,7 @@ Other standalone guides:
 \code{\link{guide_axis_base}()},
 \code{\link{guide_axis_dendro}()},
 \code{\link{guide_axis_nested}()},
+\code{\link{guide_circles}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colsteps}()},
 \code{\link{guide_legend_base}()},
