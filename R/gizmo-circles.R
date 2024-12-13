@@ -23,6 +23,10 @@
 #' @export
 #' @family standalone guides
 #' @details
+#' Please note that the default size scales scale to area, not radius, so
+#' equidistant breaks will appear at irregularly spaced positions due to
+#' labelling the diameter of a circle.
+#'
 #' This graph was designed with standard round [shapes][ggplot2::scale_shape]
 #' in mind, i.e. shapes 1, 16, 19 and 21. For that reason, `shape = 1` is the
 #' default `override.aes` argument. Other shapes will probably be drawn but the

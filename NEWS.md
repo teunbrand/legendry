@@ -6,9 +6,12 @@
     * New primitive guide function: `primitive_segments()`
     * New key functions: `key_segment_manual()`, `key_segment_map()` and 
       `key_dendro()`.
+      
+* Added new standalone guide `guide_circles()` (#14).
+    * New supporting theme element `legendry.legend.key.margin`.
 
 * Fixed bug where `guide_axis_nested(key = key_range_auto(...))` produced 
-  duplicated labels (#31)
+  duplicated labels (#31).
 
 # legendry 0.1.0
 
