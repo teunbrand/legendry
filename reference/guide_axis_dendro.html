@@ -46,7 +46,7 @@ misleading results when this step is skipped!"><meta property="og:image" content
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Dendrogram guide</h1>
-      <small class="dont-index">Source: <a href="https://github.com/teunbrand/legendry/blob/main/R/guide_axis_dendro.R" class="external-link"><code>R/guide_axis_dendro.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/teunbrand/legendry/blob/main/R/guide-axis-dendro.R" class="external-link"><code>R/guide-axis-dendro.R</code></a></small>
       <div class="d-none name"><code>guide_axis_dendro.Rd</code></div>
     </div>
 
@@ -63,6 +63,7 @@ misleading results when this step is skipped!</p>
 <span>  key <span class="op">=</span> <span class="st">"dendro"</span>,</span>
 <span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  space <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>,</span>
 <span>  vanish <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  n.dodge <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -96,6 +97,17 @@ the name specified in <code><a href="https://ggplot2.tidyverse.org/reference/lab
 <dd><p>A <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">&lt;theme&gt;</a></code> object to style the guide individually or
 differently from the plot's theme settings. The <code>theme</code> argument in the
 guide overrides and is combined with the plot's theme.</p></dd>
+
+
+<dt id="arg-labels-ticks-axis-line">labels, ticks, axis_line<a class="anchor" aria-label="anchor" href="#arg-labels-ticks-axis-line"></a></dt>
+<dd><p>Guides to use as labels, ticks or axis lines. Can be specified as one of
+the following:</p><ul><li><p>A <code>&lt;logical[1]&gt;</code> which when <code>FALSE</code> will set the guide to <code><a href="https://ggplot2.tidyverse.org/reference/guide_none.html" class="external-link">guide_none()</a></code>
+and if <code>TRUE</code>, will set guide to appropriate primitive.</p></li>
+<li><p>A <code>&lt;Guide&gt;</code> class object.</p></li>
+<li><p>A <code>&lt;function&gt;</code> that returns a <code>&lt;Guide&gt;</code> class object.</p></li>
+<li><p>A <code>&lt;character[1]&gt;</code> naming such a function, without the <code>guide_</code> or
+<code>primitive_</code> prefix.</p></li>
+</ul></dd>
 
 
 <dt id="arg-space">space<a class="anchor" aria-label="anchor" href="#arg-space"></a></dt>
@@ -132,15 +144,6 @@ cases.</p></li>
 <dd><p>A <code>&lt;logical[1]&gt;</code> indicating whether to check for and
 omit overlapping text. If <code>TRUE</code>, first, last and middle labels are
 recursively prioritised in that order. If <code>FALSE</code>, all labels are drawn.</p></dd>
-
-
-<dt id="arg-ticks-axis-line">ticks, axis_line<a class="anchor" aria-label="anchor" href="#arg-ticks-axis-line"></a></dt>
-<dd><p>Guides to use as ticks or axis lines. Defaults to
-drawing no ticks or axis lines. Can be specified as one of the following:</p><ul><li><p>A <code>&lt;Guide&gt;</code> class object.</p></li>
-<li><p>A <code>&lt;function&gt;</code> that returns a <code>&lt;Guide&gt;</code> class object.</p></li>
-<li><p>A <code>&lt;character[1]&gt;</code> naming such a function, without the <code>guide_</code> or
-<code>primitive_</code> prefix.</p></li>
-</ul></dd>
 
 
 <dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
@@ -197,8 +200,8 @@ determined by a hashing indicative settings of a guide.</p></dd>
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.ticks.y.left <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="guide_axis_dendro-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># If want just the dendrograme, use `primitive_segments()`</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="primitive_segments.html">primitive_segments</a></span><span class="op">(</span><span class="va">clust</span><span class="op">)</span>, y.sec <span class="op">=</span> <span class="st">"axis"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># If want just the dendrogram, use `labels = FALSE`</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu">guide_axis_dendro</span><span class="op">(</span><span class="va">clust</span>, labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, y.sec <span class="op">=</span> <span class="st">"axis"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="guide_axis_dendro-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
