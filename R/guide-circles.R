@@ -158,7 +158,7 @@ GuideCircles <- ggproto(
     position <- params$text_position %||% elements$text_position
     if (position == "ontop") {
       text <- Map(
-        element_grob, label = key$.label, x = x, y = y,
+        element_grob, label = key$.label[order(-key$size)], x = x, y = y,
         MoreArgs = list(element = elements$text)
       )
       if (isTRUE(params$clip_text)) {
@@ -175,7 +175,7 @@ GuideCircles <- ggproto(
       y <- switch(position, top = , bottom = NULL, y)
 
       text <- element_grob(
-        elements$text, x = x, y = y, label = key$.label,
+        elements$text, x = x, y = y, label = key$.label[order(-key$size)],
         margin_x = position %in% c("left", "right"),
         margin_y = position %in% c("top", "bottom")
       )
@@ -320,7 +320,8 @@ draw_circle_ticks <- function(element, x, y, padding, position) {
 draw_circles <- function(decor, vjust = 0, hjust = 0.5) {
 
   data <- vec_slice(decor$data, decor$data$.draw %||% TRUE)
-  glyph <- lapply(seq_len(nrow(data)), function(i) {
+  order <- order(-data$size)
+  glyph <- lapply(seq_len(nrow(data))[order], function(i) {
     decor$draw_key(vec_slice(data, i), decor$params, 0)
   })
   size  <- map_dbl(glyph, function(x) max(x$gp$fontsize %||% 0))
