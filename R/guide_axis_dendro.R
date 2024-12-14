@@ -10,12 +10,15 @@
 #' @inheritParams primitive_segments
 #' @inheritParams primitive_labels
 #' @inheritParams common_parameters
-#' @param ticks,axis_line Guides to use as ticks or axis lines. Defaults to
-#'   drawing no ticks or axis lines. Can be specified as one of the following:
-#'   * A `<Guide>` class object.
-#'   * A `<function>` that returns a `<Guide>` class object.
-#'   * A `<character[1]>` naming such a function, without the `guide_` or
-#'     `primitive_` prefix.
+#' @param labels,ticks,axis_line
+#' Guides to use as labels, ticks or axis lines. Can be specified as one of
+#' the following:
+#' * A `<logical[1]>` which when `FALSE` will set the guide to `guide_none()`
+#'   and if `TRUE`, will set guide to appropriate primitive.
+#' * A `<Guide>` class object.
+#' * A `<function>` that returns a `<Guide>` class object.
+#' * A `<character[1]>` naming such a function, without the `guide_` or
+#'   `primitive_` prefix.
 #' @return A `<Guide>` object.
 #' @export
 #' @family standalone guides
@@ -40,11 +43,11 @@
 #' p + guides(y = guide_axis_dendro(clust, space = unit(4, "cm"))) +
 #'   theme(axis.ticks.y.left = element_line("red"))
 #'
-#' # If want just the dendrograme, use `primitive_segments()`
-#' p + guides(y = primitive_segments(clust), y.sec = "axis")
+#' # If want just the dendrogram, use `labels = FALSE`
+#' p + guides(y = guide_axis_dendro(clust, labels = FALSE), y.sec = "axis")
 guide_axis_dendro <- function(
   key = "dendro", title = waiver(), theme = NULL,
-  space = rel(10), vanish = TRUE,
+  labels = TRUE, space = rel(10), vanish = TRUE,
   n.dodge = 1, angle = waiver(), check.overlap = FALSE,
   ticks = "none", axis_line = "none",
   order = 0, position = waiver()
@@ -55,11 +58,25 @@ guide_axis_dendro <- function(
     legendry.guide.spacing = unit(0, "cm")
   )
 
-  labels <- primitive_labels(
-    angle = angle,
-    n.dodge = n.dodge,
-    check.overlap = check.overlap
-  )
+  if (isTRUE(labels)) {
+    labels <- primitive_labels(
+      angle = angle,
+      n.dodge = n.dodge,
+      check.overlap = check.overlap
+    )
+  } else if (isFALSE(labels)) {
+    labels <- "none"
+  }
+  if (isTRUE(ticks)) {
+    ticks <- primitive_ticks()
+  } else if (isFALSE(ticks)) {
+    ticks <- "none"
+  }
+  if(isTRUE(axis_line)) {
+    axis_line <- primitive_line()
+  } else if (isFALSE(axis_line)) {
+    axis_line <- "none"
+  }
 
   dendro <- primitive_segments(
     key = key,

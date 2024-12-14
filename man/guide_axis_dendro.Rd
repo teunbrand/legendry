@@ -8,6 +8,7 @@ guide_axis_dendro(
   key = "dendro",
   title = waiver(),
   theme = NULL,
+  labels = TRUE,
   space = rel(10),
   vanish = TRUE,
   n.dodge = 1,
@@ -32,6 +33,17 @@ the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.}
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the
 guide overrides and is combined with the plot's theme.}
+
+\item{labels, ticks, axis_line}{Guides to use as labels, ticks or axis lines. Can be specified as one of
+the following:
+\itemize{
+\item A \verb{<logical[1]>} which when \code{FALSE} will set the guide to \code{guide_none()}
+and if \code{TRUE}, will set guide to appropriate primitive.
+\item A \verb{<Guide>} class object.
+\item A \verb{<function>} that returns a \verb{<Guide>} class object.
+\item A \verb{<character[1]>} naming such a function, without the \code{guide_} or
+\code{primitive_} prefix.
+}}
 
 \item{space}{Either a \code{\link[grid:unit]{<unit>}} or \code{\link[ggplot2:element]{<rel>}}
 object of length 1 determining the space allocated in the orthogonal
@@ -60,15 +72,6 @@ cases.
 \item{check.overlap}{A \verb{<logical[1]>} indicating whether to check for and
 omit overlapping text. If \code{TRUE}, first, last and middle labels are
 recursively prioritised in that order. If \code{FALSE}, all labels are drawn.}
-
-\item{ticks, axis_line}{Guides to use as ticks or axis lines. Defaults to
-drawing no ticks or axis lines. Can be specified as one of the following:
-\itemize{
-\item A \verb{<Guide>} class object.
-\item A \verb{<function>} that returns a \verb{<Guide>} class object.
-\item A \verb{<character[1]>} naming such a function, without the \code{guide_} or
-\code{primitive_} prefix.
-}}
 
 \item{order}{A positive \verb{<integer[1]>} that specifies the order of this guide among
 multiple guides. This controls in which order guides are merged if there
@@ -107,8 +110,8 @@ p + guides(y = guide_axis_dendro(clust, ticks = "ticks", axis_line = "line")) +
 p + guides(y = guide_axis_dendro(clust, space = unit(4, "cm"))) +
   theme(axis.ticks.y.left = element_line("red"))
 
-# If want just the dendrograme, use `primitive_segments()`
-p + guides(y = primitive_segments(clust), y.sec = "axis")
+# If want just the dendrogram, use `labels = FALSE`
+p + guides(y = guide_axis_dendro(clust, labels = FALSE), y.sec = "axis")
 }
 \seealso{
 Other standalone guides: 
