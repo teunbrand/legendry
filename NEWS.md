@@ -1,3 +1,5 @@
+# legendry (development version)
+
 # legendry 0.2.0
 
 This is a small feature release introducing dendrogram scales and a size guide.
