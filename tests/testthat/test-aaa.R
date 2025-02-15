@@ -14,4 +14,7 @@ test_that("standard_extract_key works as intended", {
   key <- standard_extract_key(scale, "x", key = "auto")
   expect_snapshot(key)
 
+  key <- standard_extract_key(scale, "x", key = key_manual(I(c(0.3, 0.7))))
+  expect_equal(key$x, I(c(0.3, 0.7)))
+
 })

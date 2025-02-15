@@ -46,3 +46,17 @@ test_that("key_dendro works as intended", {
   expect_vector(test, ptype, size = 4)
 
 })
+
+test_that("segment_extract_key works as intended", {
+
+  key <- key_segment_manual(value = 1, oppo = 0, value_end = I(0.9), oppo_end = 1)
+
+  sc <- scale_x_continuous(limits = c(0, 10))
+  test <- segment_extract_key(sc, "x", key)
+  expect_equal(test$x, c(1, 9))
+
+  sc <- scale_colour_gradient(limits = c(0, 10))
+  test <- segment_extract_key(sc, "colour", key)
+  expect_equal(test$.value, c(1, 9))
+
+})
