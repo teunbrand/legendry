@@ -1,6 +1,7 @@
 # legendry (development version)
 
 * Fixed bug hindering `position = "inside"` placement (#42)
+* Fixed bug in `theme_guide(key.size, key.height, key.width)` (#41)
 
 # legendry 0.2.0
 
