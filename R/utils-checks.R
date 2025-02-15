@@ -215,11 +215,34 @@ check_argmatch <- function(
   )
 }
 
-check_position <- new_function(
-  `[[<-`(fn_fmls(check_argmatch), "options", .trblt),
-  body(check_argmatch),
-  fn_env(check_argmatch)
-)
+check_position <- function(
+    x, options = .trbl, theta = TRUE, inside = FALSE,
+    ...,
+    allow_null = FALSE,
+    arg = caller_arg(x), call = caller_env()
+) {
+  if (!missing(x)) {
+    if (allow_null && is_null(x)) {
+      return(invisible(NULL))
+    }
+    if (is.character(x)) {
+      if (theta) {
+        options <- c(options, "theta", "theta.sec")
+      }
+      if (inside) {
+        options <- c(options, "inside")
+      }
+      arg_match0(x, options, arg_nm = arg, error_call = call)
+      return(invisible(NULL))
+    }
+  }
+
+  stop_input_type(
+    x, "a single string", ...,
+    allow_na = FALSE, allow_null = allow_null,
+    arg = arg, call = call
+  )
+}
 
 check_unique <- function(x, arg = caller_arg(x), call = caller_env()) {
   if (!vec_duplicate_any(x)) {

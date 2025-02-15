@@ -147,6 +147,7 @@ ComposeStack <- ggproto(
 
     theme <- theme + params$theme
     position <- params$position <- params$position  %||% position
+    position <- switch(position, inside = "right", position)
     check_position(position)
     params$guide_params <-
       set_list_element(params$guide_params, "position", position)

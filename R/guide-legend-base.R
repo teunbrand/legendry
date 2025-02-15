@@ -72,7 +72,7 @@ guide_legend_base <- function(
   order = 0
 ) {
 
-  check_position(position, allow_null = TRUE)
+  check_position(position, theta = FALSE, inside = TRUE, allow_null = TRUE)
   check_argmatch(direction, c("horizontal", "vertical"), allow_null = TRUE)
   check_bool(reverse)
   check_number_whole(nrow, min = 1, allow_null = TRUE)

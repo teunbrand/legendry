@@ -77,7 +77,7 @@ Compose <- ggproto(
     title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
     position  <- params$position  <- params$position %|W|% NULL
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
-    check_position(position, allow_null = TRUE)
+    check_position(position, inside = TRUE, allow_null = TRUE)
 
     key <- resolve_key(params$key, allow_null = TRUE)
     if (is.function(key)) {
