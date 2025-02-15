@@ -91,36 +91,7 @@ PrimitiveSegments <- ggproto(
     legend   = list(line = "legend.ticks", size = "legend.ticks.length")
   ),
 
-  extract_key = function(scale, aesthetic, key, ...) {
-    key <- standard_extract_key(scale, aesthetic, key, ...)
-    remove <- character()
-    range <- scale$continuous_range %||% scale$get_limits()
-    key$value     <- descale(key$value,     range)
-    key$value_end <- descale(key$value_end, range)
-    if (all(c("value", "value_end") %in% names(key))) {
-      value <- vec_interleave(key$value, key$value_end)
-      remove <- c(remove, c("value", "value_end"))
-    }
-    if (all(c("oppo", "oppo_end") %in% names(key))) {
-      oppo <- vec_interleave(key$oppo, key$oppo_end)
-      remove <- c(remove, c("oppo", "oppo_end"))
-    }
-    key[remove] <- NULL
-    new <- data_frame0(value = value, oppo = oppo)
-    i <- rep(vec_seq_along(key), each = 2)
-    new[names(key)] <- key[i, , drop = FALSE]
-    new$group <- new$group %||% i
-    new$oppo <- rescale(new$oppo, from = range(new$oppo, 0))
-    if (aesthetic == "x") {
-      new <- rename(new, c("value", "oppo"), c("x", "y"))
-    } else if (aesthetic == "y") {
-      new <- rename(new, c("value", "oppo"), c("y", "x"))
-    } else {
-      new <- rename(new, "value", aesthetic)
-      new$.value <- new[[aesthetic]]
-    }
-    new
-  },
+  extract_key = segment_extract_key,
 
   extract_params = primitive_extract_params,
 
