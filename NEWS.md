@@ -2,6 +2,8 @@
 
 * Fixed bug hindering `position = "inside"` placement (#42)
 * Fixed bug in `theme_guide(key.size, key.height, key.width)` (#41)
+* Complete guides based on a crux composition now render the `legend.background` 
+  element (#50)
 
 # legendry 0.2.0
 

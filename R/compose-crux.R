@@ -111,7 +111,8 @@ ComposeCrux <- ggproto(
     title_position = "legend.title.position",
     text_position = "legend.text.position",
     title = "legend.title",
-    margin = "legend.margin"
+    margin = "legend.margin",
+    background = "legend.background"
   ),
 
   setup_elements = function(params, elements, theme) {
@@ -219,6 +220,12 @@ ComposeCrux <- ggproto(
       )
       if (!is.null(elems$margin)) {
         gt <- gtable_add_padding(gt, elems$margin)
+      }
+      if (!is.zero(elems$background)) {
+        gt <- gtable_add_grob(
+          gt, element_grob(elems$background), name = "background",
+          clip = "off", t = 1, r = -1, b = -1, l = 1, z = -Inf
+        )
       }
     }
     gt
