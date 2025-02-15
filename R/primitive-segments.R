@@ -94,6 +94,9 @@ PrimitiveSegments <- ggproto(
   extract_key = function(scale, aesthetic, key, ...) {
     key <- standard_extract_key(scale, aesthetic, key, ...)
     remove <- character()
+    range <- scale$continuous_range %||% scale$get_limits()
+    key$value     <- descale(key$value,     range)
+    key$value_end <- descale(key$value_end, range)
     if (all(c("value", "value_end") %in% names(key))) {
       value <- vec_interleave(key$value, key$value_end)
       remove <- c(remove, c("value", "value_end"))
