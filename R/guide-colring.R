@@ -239,7 +239,7 @@ GuideColring <- ggproto(
   override_elements = function(params, elements, theme) {
     elements$title_position <- elements$title_position %||%
       switch(params$direction, horizontal = "left", vertical = "top")
-    check_position(elements$title_position, .trbl, arg = "legend.title.position")
+    check_position(elements$title_position, theta = FALSE, arg = "legend.title.position")
     elements$width <- cm(elements$width)
     elements$size  <- cm(elements$size) * 5
     elements$margin <- elements$margin %||% margin()
@@ -252,7 +252,8 @@ GuideColring <- ggproto(
 
     position  <- params$position  <- params$position  %||% position
     direction <- params$direction <- params$direction %||% direction
-    check_position(position, .trbl)
+    position  <- switch(position, inside = "right", position)
+    check_position(position, theta = FALSE)
     check_argmatch(direction, c("horizontal", "vertical"))
 
     theme <- theme + params$theme
