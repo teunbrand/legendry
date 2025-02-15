@@ -126,7 +126,7 @@ ComposeCrux <- ggproto(
     elements$text_position <- elements$text_position %||%
       switch(params$direction, horizontal = "bottom", vertical = "right")
 
-    check_position(elements$title_position, .trbl, arg = "legend.title.position")
+    check_position(elements$title_position, theta = FALSE, arg = "legend.title.position")
     elements
   },
 
