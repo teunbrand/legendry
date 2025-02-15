@@ -181,7 +181,8 @@ draw_labels <- function(key, element, angle, offset,
   margin_x <- switch(position, left = , right = TRUE, FALSE)
   margin_y <- switch(position, top = , bottom = TRUE, FALSE)
 
-  if (check_overlap %||% FALSE) {
+  check_overlap <- check_overlap %||% FALSE
+  if (check_overlap) {
     order <- label_priority(n_breaks)
     key <- vec_slice(key, order)
   }
@@ -214,7 +215,7 @@ draw_labels <- function(key, element, angle, offset,
       lineheight = key$.lineheight,
       margin_x = margin_x,
       margin_y = margin_y,
-      check.overlap = check_overlap %||% FALSE
+      check.overlap = check_overlap
     )
     return(grob)
   }
