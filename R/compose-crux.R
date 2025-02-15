@@ -139,9 +139,10 @@ ComposeCrux <- ggproto(
       return(zeroGrob())
     }
 
-    position  <- params$position  <- params$position  %||% position
     direction <- params$direction <- params$direction %||% direction
-    check_position(position, .trbl)
+    position  <- params$position  <- params$position  %||% position
+    position  <- switch(position, inside = "right", position)
+    check_position(position)
     check_argmatch(direction, c("horizontal", "vertical"))
 
     theme <- theme + params$theme

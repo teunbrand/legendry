@@ -252,7 +252,8 @@ GuideColring <- ggproto(
 
     position  <- params$position  <- params$position  %||% position
     direction <- params$direction <- params$direction %||% direction
-    check_position(position, .trbl)
+    position  <- switch(position, inside = "right", position)
+    check_position(position, theta = FALSE)
     check_argmatch(direction, c("horizontal", "vertical"))
 
     theme <- theme + params$theme
