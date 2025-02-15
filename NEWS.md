@@ -4,6 +4,7 @@
 * Fixed bug in `theme_guide(key.size, key.height, key.width)` (#41)
 * Complete guides based on a crux composition now render the `legend.background` 
   element (#50)
+* A better attempt to honour ggplot2's mechanism for `<AsIs>` variables (#45)
 
 # legendry 0.2.0
 
