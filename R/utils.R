@@ -302,3 +302,10 @@ extra_args <- function(..., .valid_args = .label_params, call = caller_env()) {
   names(args) <- paste0(".", names(args))
   args
 }
+
+descale <- function(x, to = c(0, 1), from = c(0, 1)) {
+  if (!is.numeric(x) | !inherits(x, "AsIs")) {
+    return(x)
+  }
+  rescale(as.numeric(x), to = to, from = from)
+}
