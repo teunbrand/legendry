@@ -152,6 +152,9 @@ scale_transform <- function(x, scale, map = FALSE, arg = caller_arg(x)) {
       "The key {.field {arg}} must be {.emph continuous}, not discrete."
     )
   }
+  if (inherits(x, "AsIs")) {
+    return(x)
+  }
   transform <- scale$get_transformation()
   if (is.null(transform)) {
     if (map) {
