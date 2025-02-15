@@ -162,6 +162,11 @@ range_extract_key <- function(
   key$start <- scale_transform(key$start, scale, map = map, "start")
   key$end   <- scale_transform(key$end,   scale, map = map, "end")
 
+  # Backtransform AsIs variables
+  limits <- scale$continuous_range %||% scale$get_limits()
+  key$start <- descale(key$start, to = limits)
+  key$end   <- descale(key$end,   to = limits)
+
   # Sort starts and ends
   key[c("start", "end")] <- list(
     start = pmin(key$start, key$end),
@@ -183,7 +188,6 @@ range_extract_key <- function(
   }
 
   # Apply out-of-bounds rules
-  limits <- scale$continuous_range %||% scale$get_limits()
   range_oob(key, oob, limits)
 }
 

@@ -91,6 +91,20 @@ test_that("range_extract_key can censor oob values", {
   expect_equal(test$.label, 'B')
 })
 
+test_that("range_extract_key backtransforms AsIs variables", {
+
+  scale <- scale_x_continuous(limits = c(0, 10))
+
+  key <- key_range_manual(
+    start = I(c(0.1, 0.3, 0.5)),
+    end   = c(1, 3, 5),
+    name  = c("A", "B", "C")
+  )
+
+  test <- range_extract_key(scale, "x", key)
+  expect_equal(test$start, test$end)
+})
+
 test_that("range_from_label can extract ranges", {
 
   values <- c("A 1", "B 1", "C 2")

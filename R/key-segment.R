@@ -94,6 +94,50 @@ key_dendro <- function(dendro = NULL, type = "rectangle") {
   }
 }
 
+# Extractor ---------------------------------------------------------------
+
+segment_extract_key <- function(scale, aesthetic, key, ...) {
+  key <- standard_extract_key(scale, aesthetic, key, ...)
+
+  # Backtransform AsIs variables
+  range <- scale$continuous_range %||% scale$get_limits()
+  key$value     <- descale(key$value, range)
+  key$value_end <- descale(key$value_end, range)
+
+  remove_vars <- character()
+
+  # Interleave values
+  value_vars <- c("value", "value_end")
+  if (all(value_vars %in% names(key))) {
+    value <- vec_interleave(key$value, key$value_end)
+    remove_vars <- c(remove_vars, value_vars)
+  }
+
+  # Interleave opposites
+  oppo_vars <- c("oppo", "oppo_end")
+  if (all(oppo_vars %in% names(key))) {
+    oppo <- vec_interleave(key$oppo, key$oppo_end)
+    remove_vars <- c(remove_vars, oppo_vars)
+  }
+
+  # Reconstruct key
+  key[remove_vars] <- NULL
+  new_key <- data_frame0(value = value, oppo = oppo)
+  i <- rep(vec_seq_along(key), each = 2L)
+  new_key[names(key)] <- vec_slice(key, i)
+  new_key$group <- new_key$group %||% i
+  new_key$oppo  <- rescale(new_key$oppo, from = range(new_key$oppo, 0))
+
+  # Normalise key column names
+  if (aesthetic %in% c("x", "y")) {
+    new_key <- rename(new_key, c("value", "oppo"), union(aesthetic, c("x", "y")))
+  } else {
+    new_key <- rename(new_key, "value", aesthetic)
+    new_key$.value <- new_key[[aesthetic]]
+  }
+  new_key
+}
+
 # Dendrogram utilities ----------------------------------------------------
 
 # Simplified version of `stats:::plotNode`.
