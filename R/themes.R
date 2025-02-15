@@ -171,6 +171,9 @@ theme_guide <- function(
     legend.key.spacing = key.spacing,
     legend.key.spacing.x = key.spacing.x,
     legend.key.spacing.y = key.spacing.y,
+    legend.key.size = key.size,
+    legend.key.width = key.width,
+    legend.key.height = key.height,
     legendry.legend.key.margin = key.margin,
 
     legend.frame = frame,
