@@ -32,7 +32,7 @@
 #' @examples
 #' # Example scale
 #' values <- c("group A:value 1", "group A:value 2", "group B:value 1")
-#' template <- scale_colour_discrete(limits = values)
+#' template <- scale_colour_hue(limits = values)
 #'
 #' # Treat the 'group X' part as groups
 #' key <- key_group_split(sep = ":")
@@ -43,7 +43,7 @@
 #' key(template)
 #'
 #' # Example scale
-#' template <- scale_colour_discrete(limits = msleep$name[c(1, 7, 9, 23, 24)])
+#' template <- scale_colour_hue(limits = msleep$name[c(1, 7, 9, 23, 24)])
 #'
 #' # A lookup table can have more entries than needed
 #' key <- key_group_lut(msleep$name, msleep$order)
