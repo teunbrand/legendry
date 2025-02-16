@@ -108,8 +108,6 @@ ComposeStack <- ggproto(
         left = , right = setdiff(elements$side_position, c("left", "right"))
       )
       check_argmatch(elements$side_position, .trbl)
-      i <- match(opposite_position(elements$side_position), .trbl)
-      elements$side_titles$margin[-i] <- unit(0, "pt")
     }
     elements
   },
@@ -123,12 +121,14 @@ ComposeStack <- ggproto(
     sides <- vec_slice(params$sides, params$sides$position == params$position)
     sides <- vec_slice(sides, sides$side == side)
 
-    x <- sides$x
-    y <- sides$y
-
     element <- elements$side_titles
-    hjust <- switch(side, left = 1, right = 0, elements$hjust)
-    vjust <- switch(side, top = 0, bottom = 1, elements$vjust)
+
+    x <- switch(side, left = , right = sides$x, element$hjust)
+    y <- switch(side, top = , bottom = sides$y, element$vjust)
+
+    hjust <- switch(side, left = 1, right = 0, element$hjust)
+    vjust <- switch(side, top = 0, bottom = 1, element$vjust)
+
     lapply(label, function(lab) {
       element_grob(
         element, lab, x = x, y = y,
