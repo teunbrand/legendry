@@ -5,6 +5,7 @@
 * Complete guides based on a crux composition now render the `legend.background` 
   element (#50)
 * A better attempt to honour ggplot2's mechanism for `<AsIs>` variables (#45)
+* Better alignment of `compose_stack(side.titles)` (#48)
 
 # legendry 0.2.0
 
