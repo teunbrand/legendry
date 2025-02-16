@@ -108,8 +108,6 @@ ComposeStack <- ggproto(
         left = , right = setdiff(elements$side_position, c("left", "right"))
       )
       check_argmatch(elements$side_position, .trbl)
-      i <- match(opposite_position(elements$side_position), .trbl)
-      elements$side_titles$margin[-i] <- unit(0, "pt")
     }
     elements
   },
