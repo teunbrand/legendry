@@ -133,7 +133,9 @@ GuideCircles <- ggproto(
     params
   },
 
-  get_layer_key = GuideLegend$get_layer_key,
+  process_layers = function(self, params, layers, data = NULL) {
+    GuideLegend$process_layers(params, layers, data)
+  },
 
   build_decor = function(decor, grobs, elements, params) {
 
