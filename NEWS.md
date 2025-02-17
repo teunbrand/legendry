@@ -1,5 +1,6 @@
 # legendry (development version)
 
+* Fixed bug in `guide_circles()` used for multiple layers (#58)
 * Fixed bug hindering `position = "inside"` placement (#42)
 * Fixed bug in `theme_guide(key.size, key.height, key.width)` (#41)
 * Complete guides based on a crux composition now render the `legend.background` 
