@@ -244,6 +244,19 @@ polar_bbox <- function(arc, margin = c(0.05, 0.05, 0.05, 0.05),
   list(x = c(bounds[4], bounds[2]), y = c(bounds[3], bounds[1]))
 }
 
+rename_aes <- function(x, arg = caller_arg(x)) {
+  force(arg)
+  names(x) <- standardise_aes_names(names(x))
+  dups <- names(x)[duplicated(names(x))]
+  if (length(dups) > 0L) {
+    cli::cli_warn(
+      "Duplicated aesthetics in {.arg {arg}} after name standardisations: \\
+      {.field {unique(dups)}}."
+    )
+  }
+  x
+}
+
 in_arc <- function(theta, arc) {
   if (abs(diff(arc)) > 2 * pi - sqrt(.Machine$double.eps)) {
     return(rep(TRUE, length(theta)))
