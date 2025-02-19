@@ -15,6 +15,8 @@
 #'   space, not original data space.
 #' @param hist.args A `<list>` with additional arguments to the `hist.fun`
 #'   argument. Only applies when `hist` is not provided as a `<list>` already.
+#'   Please note that these arguments are only used for binning and counting:
+#'   graphical arguments are ignored.
 #' @param hist.fun A `<function>` to use for computing histograms when the
 #'   `hist` argument is not provided as a list already.
 #' @param just A `<numeric[1]>` between 0 and 1. Use 0 for bottom- or

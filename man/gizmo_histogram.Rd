@@ -33,7 +33,9 @@ space, not original data space.
 }}
 
 \item{hist.args}{A \verb{<list>} with additional arguments to the \code{hist.fun}
-argument. Only applies when \code{hist} is not provided as a \verb{<list>} already.}
+argument. Only applies when \code{hist} is not provided as a \verb{<list>} already.
+Please note that these arguments are only used for binning and counting:
+graphical arguments are ignored.}
 
 \item{hist.fun}{A \verb{<function>} to use for computing histograms when the
 \code{hist} argument is not provided as a list already.}
