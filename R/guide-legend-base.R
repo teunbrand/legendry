@@ -100,7 +100,7 @@ guide_legend_base <- function(
     design = design,
     nrow = nrow,
     ncol = ncol,
-    override.aes = override.aes,
+    override.aes = rename_aes(override.aes),
     reverse = reverse,
     theme = theme,
     position = position,
