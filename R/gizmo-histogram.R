@@ -102,6 +102,15 @@ GizmoHistogram <- ggproto(
     hist
   },
 
+  extract_params = function(scale, params, ...) {
+    params <- GizmoDensity$extract_params(scale, params, ...)
+    if (is.null(params$hist) && inherits(params$key, "key_bins")) {
+      breaks <- sort(union(params$key$min, params$key$max))
+      params$hist_args$breaks <- params$hist_args$breaks %||% breaks
+    }
+    params
+  },
+
   get_layer_key = function(params, layers, data = NULL, ...) {
     hist <- params$decor %||% params$hist
     if (length(hist) == 0) {
