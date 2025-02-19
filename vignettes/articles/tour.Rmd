@@ -97,6 +97,14 @@ plain <- ggplot(df, aes(interaction(item, type), amount)) +
 plain + guides(x = "axis_nested")
 ```
 
+We can also nest the vertical axis if the x/y aesthetics are swapped.
+
+```{r}
+ggplot(df, aes(amount, interaction(item, type))) +
+  geom_col() + guides(y = "axis_nested")
+```
+
+
 Instead of just relying on formatting the labels correctly for splitting, you can also manually annotate the outer categories. To do this, we can use the `key_range_manual()` function to constructs the brackets as we see fit.
 
 ```{r}
