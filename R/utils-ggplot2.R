@@ -250,7 +250,7 @@ rename_aes <- function(x, arg = caller_arg(x)) {
   dups <- names(x)[duplicated(names(x))]
   if (length(dups) > 0L) {
     cli::cli_warn(
-      "Duplicated aesthetics in {.arg {arg}} after name standardisations: \\
+      "Duplicated aesthetics in {.arg {arg}} after name standardisation: \\
       {.field {unique(dups)}}."
     )
   }

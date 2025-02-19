@@ -64,3 +64,13 @@ test_that("label placement is ok regardless of hjust/vjust", {
     gt
   )
 })
+
+test_that("guide_circles handles override.aes properly", {
+  p <- guide_circles(override.aes = list(color = "blue", pch = 19))
+  expect_equal(p$params$override.aes, list(colour = "blue", shape = 19))
+
+  expect_snapshot_warning(
+    p <- guide_circles(override.aes = list(colour = "black", color = "red"))
+  )
+  expect_equal(p$params$override.aes, list(colour = "black", colour = "red"))
+})
