@@ -7,6 +7,7 @@
   element (#50)
 * A better attempt to honour ggplot2's mechanism for `<AsIs>` variables (#45)
 * Better alignment of `compose_stack(side.titles)` (#48)
+* Fixed aesthetic standardisation in `override.aes` arguments (#60)
 
 # legendry 0.2.0
 

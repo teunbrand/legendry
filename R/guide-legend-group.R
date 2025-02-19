@@ -77,7 +77,7 @@ guide_legend_group <- function(
     key = key,
     title = title,
     theme = theme,
-    override.aes = override.aes,
+    override.aes = rename_aes(override.aes),
     nrow = nrow,
     ncol = ncol,
     order = order,

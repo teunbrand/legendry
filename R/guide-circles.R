@@ -96,7 +96,7 @@ guide_circles <- function(
     vjust = vjust,
     text_position = text_position,
     clip_text = clip_text,
-    override.aes = override.aes,
+    override.aes = rename_aes(override.aes),
     position = position,
     direction = direction,
     super = GuideCircles

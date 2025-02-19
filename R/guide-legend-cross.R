@@ -91,7 +91,7 @@ guide_legend_cross <- function(
     key = key,
     title = title,
     dim_order = dim_order,
-    override.aes = override.aes,
+    override.aes = rename_aes(override.aes),
     col_text = col_text,
     reverse = reverse,
     theme = theme,
