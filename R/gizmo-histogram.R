@@ -53,7 +53,7 @@
 #' # Alternatively, parameters may be passed through hist.args
 #' p + guides(colour = gizmo_histogram(hist.arg = list(breaks = 10)))
 gizmo_histogram <- function(
-  key = "sequence",
+  key = waiver(),
   hist = NULL, hist.args = list(), hist.fun = graphics::hist,
   just = 1, oob = oob_keep, alpha = NA,
   # standard arguments
@@ -89,6 +89,16 @@ GizmoHistogram <- ggproto(
     hist = NULL, hist_args = list(), hist_fun = graphics::hist,
     just = 0.5, nbin = 15, oob = oob_keep, alpha = NA, key = "sequence"
   ),
+
+  extract_key = function(scale, aesthetic, key, ...) {
+    key <- key %|W|% if (inherits(scale, "ScaleBinned")) "bins" else "sequence"
+    key <-  resolve_key(key %||% "sequence")
+    if (is.function(key)) {
+      key <- disallow_even_steps(key)
+      key <- key(scale, aesthetic)
+    }
+    key
+  },
 
   extract_decor = function(scale, hist, hist_args, hist_fun, ...) {
     if (is.null(hist)) {
