@@ -5,7 +5,7 @@
 \title{Guide gizmo: kernel density estimate}
 \usage{
 gizmo_density(
-  key = "sequence",
+  key = waiver(),
   density = NULL,
   density.args = list(),
   density.fun = stats::density,
@@ -19,7 +19,8 @@ gizmo_density(
 }
 \arguments{
 \item{key}{A \link[=key_sequence]{sequence key} or \link[=key_bins]{binned key}
-specification.}
+specification. Internally defaults to a sequence key when the scale is
+continuous and a binned key when the scale is binned.}
 
 \item{density}{One of the following:
 \itemize{

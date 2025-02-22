@@ -5,7 +5,7 @@
 \title{Guide gizmo: histogram}
 \usage{
 gizmo_histogram(
-  key = "sequence",
+  key = waiver(),
   hist = NULL,
   hist.args = list(),
   hist.fun = graphics::hist,
@@ -19,7 +19,8 @@ gizmo_histogram(
 }
 \arguments{
 \item{key}{A \link[=key_sequence]{sequence key} or \link[=key_bins]{binned key}
-specification.}
+specification. Internally defaults to a sequence key when the scale is
+continuous and a binned key when the scale is binned.}
 
 \item{hist}{One of the following:
 \itemize{
@@ -33,7 +34,9 @@ space, not original data space.
 }}
 
 \item{hist.args}{A \verb{<list>} with additional arguments to the \code{hist.fun}
-argument. Only applies when \code{hist} is not provided as a \verb{<list>} already.}
+argument. Only applies when \code{hist} is not provided as a \verb{<list>} already.
+Please note that these arguments are only used for binning and counting:
+graphical arguments are ignored.}
 
 \item{hist.fun}{A \verb{<function>} to use for computing histograms when the
 \code{hist} argument is not provided as a list already.}

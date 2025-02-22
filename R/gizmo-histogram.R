@@ -15,6 +15,8 @@
 #'   space, not original data space.
 #' @param hist.args A `<list>` with additional arguments to the `hist.fun`
 #'   argument. Only applies when `hist` is not provided as a `<list>` already.
+#'   Please note that these arguments are only used for binning and counting:
+#'   graphical arguments are ignored.
 #' @param hist.fun A `<function>` to use for computing histograms when the
 #'   `hist` argument is not provided as a list already.
 #' @param just A `<numeric[1]>` between 0 and 1. Use 0 for bottom- or
@@ -51,7 +53,7 @@
 #' # Alternatively, parameters may be passed through hist.args
 #' p + guides(colour = gizmo_histogram(hist.arg = list(breaks = 10)))
 gizmo_histogram <- function(
-  key = "sequence",
+  key = waiver(),
   hist = NULL, hist.args = list(), hist.fun = graphics::hist,
   just = 1, oob = oob_keep, alpha = NA,
   # standard arguments
@@ -98,6 +100,15 @@ GizmoHistogram <- ggproto(
     }
     check_histogram(hist)
     hist
+  },
+
+  extract_params = function(scale, params, ...) {
+    params <- GizmoDensity$extract_params(scale, params, ...)
+    if (is.null(params$hist) && inherits(params$key, "key_bins")) {
+      breaks <- sort(union(params$key$min, params$key$max))
+      params$hist_args$breaks <- params$hist_args$breaks %||% breaks
+    }
+    params
   },
 
   get_layer_key = function(params, layers, data = NULL, ...) {
