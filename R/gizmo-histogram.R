@@ -90,16 +90,6 @@ GizmoHistogram <- ggproto(
     just = 0.5, nbin = 15, oob = oob_keep, alpha = NA, key = "sequence"
   ),
 
-  extract_key = function(scale, aesthetic, key, ...) {
-    key <- key %|W|% if (inherits(scale, "ScaleBinned")) "bins" else "sequence"
-    key <-  resolve_key(key %||% "sequence")
-    if (is.function(key)) {
-      key <- disallow_even_steps(key)
-      key <- key(scale, aesthetic)
-    }
-    key
-  },
-
   extract_decor = function(scale, hist, hist_args, hist_fun, ...) {
     if (is.null(hist)) {
       return(NULL) # extract data later
