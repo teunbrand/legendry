@@ -8,6 +8,11 @@
 * A better attempt to honour ggplot2's mechanism for `<AsIs>` variables (#45)
 * Better alignment of `compose_stack(side.titles)` (#48)
 * Fixed aesthetic standardisation in `override.aes` arguments (#60)
+* Improvements to density and histogram gizmos (#62):
+    * The default key now depends on the scale type: continuous scales invoke 
+    `key_sequence()` and binned scales invoke `key_bins()`.
+    * When using a binned key in `gizmo_histogram()`, the default `hist(breaks)`
+    argument is populated with the key's breaks.
 
 # legendry 0.2.0
 
