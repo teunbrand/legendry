@@ -6,7 +6,8 @@
 #' aesthetic is `colour` or `fill`, the shape will reflect this.
 #'
 #' @param key A [sequence key][key_sequence] or [binned key][key_bins]
-#'   specification.
+#'   specification. Internally defaults to a sequence key when the scale is
+#'   continuous and a binned key when the scale is binned.
 #' @param density One of the following:
 #'  * `NULL` for using kernel density estimation on the data values (default).
 #'  * a `<numeric>` vector to feed to the `density.fun` function.

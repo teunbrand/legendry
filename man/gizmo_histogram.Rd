@@ -5,7 +5,7 @@
 \title{Guide gizmo: histogram}
 \usage{
 gizmo_histogram(
-  key = "sequence",
+  key = waiver(),
   hist = NULL,
   hist.args = list(),
   hist.fun = graphics::hist,
@@ -19,7 +19,8 @@ gizmo_histogram(
 }
 \arguments{
 \item{key}{A \link[=key_sequence]{sequence key} or \link[=key_bins]{binned key}
-specification.}
+specification. Internally defaults to a sequence key when the scale is
+continuous and a binned key when the scale is binned.}
 
 \item{hist}{One of the following:
 \itemize{
