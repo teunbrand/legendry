@@ -1,3 +1,2 @@
-This is a small feature release.
-No problems are expected, as the legendry package does not have reverse 
-dependencies I am aware of.
+This is a small patch release.
+We checked the new version against the 2 dependencies and saw no problems.
