@@ -93,8 +93,6 @@ PrimitiveLine <- ggproto(
         cap <- cap(key[[aesthetic]], limits)
       }
     }
-    cap[cap == -Inf] <- limits[1]
-    cap[cap == Inf]  <- limits[2]
 
     decor <- data_frame(!!aesthetic := cap)
     if (aesthetic %in% c("x", "y")) {
