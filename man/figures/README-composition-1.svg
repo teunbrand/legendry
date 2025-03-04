@@ -307,6 +307,7 @@
 <text x='403.65' y='339.74' text-anchor='middle' style='font-size: 8.80px;fill: #4D4D4D; font-family: "Arial";'>7</text>
 <text x='227.22' y='352.20' text-anchor='middle' style='font-size: 11.00px; font-family: "Arial";'>Engine displacement</text>
 <text transform='translate(13.36,166.99) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: "Arial";'>Highway miles per gallon</text>
+<rect x='432.26' y='104.53' width='66.27' height='124.91' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <text x='437.73' y='119.05' style='font-size: 11.00px; font-family: "Arial";'>City miles</text>
 <text x='437.73' y='130.93' style='font-size: 11.00px; font-family: "Arial";'>per gallon</text>
 <rect x='457.03' y='137.57' width='17.28' height='86.40' style='stroke-width: 1.07; stroke: none; fill: #EBEBEB;' />
