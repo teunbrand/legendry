@@ -11,6 +11,7 @@ gizmo_histogram(
   hist.fun = graphics::hist,
   just = 1,
   oob = oob_keep,
+  metric = "counts",
   alpha = NA,
   theme = NULL,
   position = waiver(),
@@ -52,6 +53,11 @@ Can be one of the following:
 \item A \verb{<character[1]>} naming such a function without the '\code{oob}'-prefix,
 such as \code{"keep"}.
 }}
+
+\item{metric}{A \verb{<character[1]>} either \code{"counts"} or \code{"density"} stating
+which field of the \verb{<histogram>} class to display. The \code{"density"} metric
+might be more appropriate to display when the histogram breaks have
+non-constant intervals.}
 
 \item{alpha}{A \verb{<numeric[1]>} between 0 and 1 setting the colour transparency
 of the bar. Use \code{NA} to preserve the alpha encoded in the colour itself.}

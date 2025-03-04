@@ -22,6 +22,10 @@
 #' @param just A `<numeric[1]>` between 0 and 1. Use 0 for bottom- or
 #'   left-aligned histograms, use 1 for top- or right-aligned histograms and 0.5
 #'   for centred histograms.
+#' @param metric A `<character[1]>` either `"counts"` or `"density"` stating
+#'   which field of the `<histogram>` class to display. The `"density"` metric
+#'   might be more appropriate to display when the histogram breaks have
+#'   non-constant intervals.
 #' @inheritParams gizmo_density
 #'
 #' @details
@@ -55,7 +59,7 @@
 gizmo_histogram <- function(
   key = waiver(),
   hist = NULL, hist.args = list(), hist.fun = graphics::hist,
-  just = 1, oob = oob_keep, alpha = NA,
+  just = 1, oob = oob_keep, metric = "counts", alpha = NA,
   # standard arguments
   theme = NULL, position = waiver(), direction = NULL
 ) {
@@ -63,13 +67,14 @@ gizmo_histogram <- function(
   hist.args$plot <- hist.args$plot %||% FALSE
 
   check_number_decimal(just, min = 0, max = 1, allow_infinite = FALSE)
+  check_argmatch(metric, c("counts", "density"))
 
   new_guide(
     key = key,
     hist      = hist,
     hist_args = hist.args,
     hist_fun  = hist.fun,
-    just = just, oob  = oob, alpha = alpha,
+    just = just, oob  = oob, metric = metric, alpha = alpha,
     theme = theme, position = position, direction = direction,
     name = "histogram",
     super = GizmoHistogram
@@ -87,7 +92,8 @@ GizmoHistogram <- ggproto(
 
   params = new_params(
     hist = NULL, hist_args = list(), hist_fun = graphics::hist,
-    just = 0.5, nbin = 15, oob = oob_keep, alpha = NA, key = "sequence"
+    just = 0.5, nbin = 15, oob = oob_keep, metric = "counts",
+    alpha = NA, key = "sequence"
   ),
 
   extract_decor = function(scale, hist, hist_args, hist_fun, ...) {
@@ -116,9 +122,9 @@ GizmoHistogram <- ggproto(
     if (length(hist) == 0) {
       values <- filter_finite(vec_c(!!!lapply(data, .subset2, params$aesthetic)))
       hist   <- inject(params$hist_fun(values, !!!params$hist_args))
-      check_histogram(hist)
+      check_histogram(hist, params$metric)
     }
-    params$decor  <- normalise_histogram(hist)
+    params$decor  <- normalise_histogram(hist, params$metric)
     params$limits <- range(params$limits, params$decor$x)
     params
   }
@@ -126,9 +132,9 @@ GizmoHistogram <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-normalise_histogram <- function(hist) {
+normalise_histogram <- function(hist, metric = "counts") {
   x <- hist$breaks
-  y <- hist$counts
+  y <- hist[[metric]]
 
   xlim <- range(filter_finite(x), na.rm = TRUE)
   x    <- oob_squish_infinite(x, xlim)
@@ -142,7 +148,7 @@ normalise_histogram <- function(hist) {
   )
 }
 
-check_histogram <- function(x, arg = caller_arg(x), call = caller_env()) {
+check_histogram <- function(x, metric = "counts", arg = caller_arg(x), call = caller_env()) {
   if (is_missing(x)) {
     cli::cli_abort("{.arg {arg}} cannot be missing.", call = call)
   }
@@ -150,20 +156,20 @@ check_histogram <- function(x, arg = caller_arg(x), call = caller_env()) {
     # We'll trust this class
     return(x)
   }
-  check_list_names(x, c("breaks", "counts"), arg = arg, call = call)
+  check_list_names(x, c("breaks", metric), arg = arg, call = call)
 
-  if (length(x$breaks) != (length(x$counts) + 1L)) {
+  if (length(x$breaks) != (length(x[[metric]]) + 1L)) {
     cli::cli_abort(c(paste0(
       "In the {.arg {arg}} argument, the {.field breaks} element should be ",
-      "exactly 1 longer than the {.field counts} element."
+      "exactly 1 longer than the {.field {metric}} element."
     ),
     i = "{.code {arg}$breaks} has length {length(x$breaks)}.",
-    i = "{.code {arg}$counts} has length {length(x$counts)}."
+    i = "{.code {arg}${metric}} has length {length(x[[metric]])}."
     ), call = call)
   }
   check_length(x$breaks, min = 2, arg = as_cli("{arg}$breaks"), call = call)
   check_bare_numeric(x$breaks,    arg = as_cli("{arg}$breaks"), call = call)
-  check_bare_numeric(x$counts,    arg = as_cli("{arg}$counts"), call = call)
+  check_bare_numeric(x$counts,    arg = as_cli("{arg}${metric}"), call = call)
   invisible()
 }
 
