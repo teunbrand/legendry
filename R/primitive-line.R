@@ -105,11 +105,7 @@ PrimitiveLine <- ggproto(
       decor[[opposite]] <- value
     } else {
       value <- scale$oob(decor[[aesthetic]], range = limits)
-      if (is_theta(position)) {
-        decor[[aesthetic]] <- value
-      } else {
-        decor[[aesthetic]] <- scale$rescale(value, limits)
-      }
+      decor[[aesthetic]] <- value
     }
 
     group <- seq_len(ceiling(nrow(decor) / 2))
@@ -138,12 +134,13 @@ PrimitiveLine <- ggproto(
       y <- unit(decor$y, "npc") + unit(cos(theta) * offset, "cm")
     }
     if (!all(c("x", "y") %in% names(decor))) {
+      value <- guide_rescale(decor[[params$aesthetic]], params$limits)
       if (params$position %in% c("left", "right")) {
-        y <- unit(decor[[params$aesthetic]], "npc")
+        y <- unit(value, "npc")
         x <- as.numeric(params$position == "left") |>
           rep(length.out = length(y)) |> unit("npc")
       } else {
-        x <- unit(decor[[params$aesthetic]], "npc")
+        x <- unit(value, "npc")
         y <- as.numeric(params$position == "bottom") |>
           rep(length.out = length(x)) |> unit("npc")
       }
