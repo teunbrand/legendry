@@ -13,6 +13,7 @@
     `key_sequence()` and binned scales invoke `key_bins()`.
     * When using a binned key in `gizmo_histogram()`, the default `hist(breaks)`
     argument is populated with the key's breaks.
+* Fix capping issue with non-canonical rescalers in `primitive_line()` (#67)
 
 # legendry 0.2.0
 
