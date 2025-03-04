@@ -6,7 +6,8 @@
 #' aesthetic is `colour` or `fill`, the shape will reflect this.
 #'
 #' @param key A [sequence key][key_sequence] or [binned key][key_bins]
-#'   specification.
+#'   specification. Internally defaults to a sequence key when the scale is
+#'   continuous and a binned key when the scale is binned.
 #' @param density One of the following:
 #'  * `NULL` for using kernel density estimation on the data values (default).
 #'  * a `<numeric>` vector to feed to the `density.fun` function.
@@ -53,7 +54,7 @@
 #' # Alternatively, parameters may be passed through density.args
 #' p + guides(colour = gizmo_density(density.args = list(adjust = 0.5)))
 gizmo_density <- function(
-  key = "sequence",
+  key = waiver(),
   density = NULL, density.args = list(), density.fun = stats::density,
   just = 0.5, oob = "keep", alpha = NA,
   # standard arguments
@@ -96,6 +97,7 @@ GizmoDensity <- ggproto(
   ),
 
   extract_key = function(scale, aesthetic, key, ...) {
+    key <- key %|W|% if (inherits(scale, "ScaleBinned")) "bins" else "sequence"
     key <-  resolve_key(key %||% "sequence")
     if (is.function(key)) {
       key <- disallow_even_steps(key)
