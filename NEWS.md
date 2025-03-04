@@ -1,4 +1,4 @@
-# legendry (development version)
+# legendry 0.2.1
 
 This is a patch release with a few bug fixes and a tiny polish.
 
