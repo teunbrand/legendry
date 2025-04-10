@@ -166,8 +166,8 @@ combine_elements <- function(e1, e2) {
   if (is.null(e1)) {
     return(e2)
   }
-  if (is.rel(e1)) {
-    if (is.rel(e2)) {
+  if (is_rel(e1)) {
+    if (is_rel(e2)) {
       return(rel(unclass(e1) * unclass(e2)))
     }
     if (is.numeric(e2) || is.unit(e2)) {
@@ -185,10 +185,10 @@ combine_elements <- function(e1, e2) {
   n <- names(e1)[map_lgl(e1, is.null)]
   e1[n] <- e2[n]
 
-  if (is.rel(e1$size)) {
+  if (is_rel(e1$size)) {
     e1$size <- e2$size * unclass(e1$size)
   }
-  if (is.rel(e1$linewidth)) {
+  if (is_rel(e1$linewidth)) {
     e1$linewidth <- e2$linewidth * unclass(e1$linewidth)
   }
   if (is.subclass(e2, e1)) {
@@ -201,7 +201,7 @@ combine_elements <- function(e1, e2) {
 
 `%0%` <- function(e1, e2) if (length(e1) == 0) e2 else e1
 
-is.rel <- function(x) inherits(x, "rel")
+is_rel <- function(x) inherits(x, "rel")
 
 defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])
 

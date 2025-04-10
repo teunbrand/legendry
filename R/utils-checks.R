@@ -81,7 +81,7 @@ check_unit <- function(x, allow_null = FALSE, allow_rel = FALSE,
     if (is.unit(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x) || allow_rel && is.rel(x)) {
+    if (allow_null && is_null(x) || allow_rel && is_rel(x)) {
       return(invisible(NULL))
     }
   }

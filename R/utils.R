@@ -253,7 +253,7 @@ apply_theme_defaults <- function(theme, defaults = NULL) {
     return(theme)
   }
   theme    <- replace_null(theme, !!!defaults)
-  relative <- names(defaults)[map_lgl(defaults, is.rel)]
+  relative <- names(defaults)[map_lgl(defaults, is_rel)]
   relative <- intersect(relative, names(theme))
   for (i in relative) {
     theme[[i]] <- theme[[i]] * unclass(defaults[[i]])
