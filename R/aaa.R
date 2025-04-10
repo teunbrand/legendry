@@ -37,7 +37,7 @@ standard_extract_key <- function(scale, aesthetic, key, ...) {
   key <- rename(key, "aesthetic", aesthetic)
   key <- validate_key_types(key)
 
-  if (is.numeric(key$.value) && !inherits(key$.value, "AsIs")) {
+  if (is.numeric(key$.value) && !is_asis(key$.value)) {
     range <- scale$continuous_range %||% scale$get_limits()
     key <- vec_slice(key, is.finite(oob_censor_any(key$.value, range)))
   }

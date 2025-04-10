@@ -1,6 +1,8 @@
 
 is_blank <- function(x) is.null(x) || is_theme_element(x, "blank")
 
+is_asis <- function(x) inherits(x, "AsIs")
+
 .in2cm <- 2.54
 
 match_self <- function(x) {
@@ -152,7 +154,7 @@ scale_transform <- function(x, scale, map = FALSE, arg = caller_arg(x)) {
       "The key {.field {arg}} must be {.emph continuous}, not discrete."
     )
   }
-  if (inherits(x, "AsIs")) {
+  if (is_asis(x)) {
     return(x)
   }
   transform <- scale$get_transformation()
@@ -190,7 +192,7 @@ suffix_position <- function(value, position) {
   suffix <- paste0(".", aesthetic, ".", position)
 
   char <- is_each(value, is.character)
-  char <- char & !is_each(value, inherits, what = "AsIs")
+  char <- char & !is_each(value, is_asis)
   value[char] <- lapply(value[char], paste0, suffix)
   value
 }
@@ -307,7 +309,7 @@ extra_args <- function(..., .valid_args = .label_params, call = caller_env()) {
 }
 
 descale <- function(x, to = c(0, 1), from = c(0, 1)) {
-  if (!is.numeric(x) | !inherits(x, "AsIs")) {
+  if (!is.numeric(x) | !is_asis(x)) {
     return(x)
   }
   rescale(as.numeric(x), to = to, from = from)
