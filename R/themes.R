@@ -234,7 +234,7 @@ register_legendry_elements <- function() {
       legendry.legend.mini.ticks.length = el_unit("legendry.legend.minor.ticks.length"),
       legendry.legend.subtitle = el_def(text, "legend.title"),
       legendry.legend.subtitle.position = el_def("character"),
-      legendry.legend.key.margin = el_def("margin", "legend.margin"),
+      legendry.legend.key.margin = el_def(marg, "legend.margin"),
       legendry.axis.mini.ticks = el_def(line, "axis.ticks"),
       legendry.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       legendry.guide.spacing = el_unit("axis.ticks.length"),
