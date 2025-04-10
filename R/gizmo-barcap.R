@@ -180,9 +180,9 @@ GizmoBarcap <- ggproto(
   setup_elements = function(params, elements, theme) {
     theme$legend.frame <- theme$legend.frame %||% element_blank()
     if (params$direction == "horizontal") {
-      theme$legend.key.width <- theme$legend.key.width * 5
+      theme$legend.key.width <- rel(5)
     } else {
-      theme$legend.key.height <- theme$legend.key.height * 5
+      theme$legend.key.height <- rel(5)
     }
     Guide$setup_elements(params, elements, theme)
   },
