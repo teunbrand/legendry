@@ -159,6 +159,11 @@ new_aesthetic <- function(x, env = caller_env()) {
 }
 
 combine_elements <- function(e1, e2) {
+  if (inherits(e1, "S7_object") || inherits(e2, "S7_object")) {
+    # TODO: this is a dirty hack that should be resolved at some point
+    combine <- getFromNamespace("combine_elements", asNamespace("ggplot2"))
+    return(combine(e1, e2))
+  }
 
   if (is.null(e2) || is_blank(e2)) {
     return(e1)
