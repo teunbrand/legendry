@@ -188,7 +188,7 @@ theme_guide <- function(
     legendry.fence.post = fence.post,
     legendry.fence.rail = fence.rail
   )
-  theme <- theme[!is_each(theme, is.null)]
+  theme <- theme[!map_lgl(theme, is.null)]
   theme(!!!theme)
 }
 

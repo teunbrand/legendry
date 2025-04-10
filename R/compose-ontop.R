@@ -90,7 +90,7 @@ ComposeOntop <- ggproto(
         }
         grobs[[i]] <- grob
       }
-      keep <- !is_each(grobs, is_zero)
+      keep <- !map_lgl(grobs, is_zero)
       if (!any(keep)) {
         return(zeroGrob())
       }
@@ -109,7 +109,7 @@ ComposeOntop <- ggproto(
       )
     }
 
-    keep  <- !is_each(grobs, is_zero)
+    keep  <- !map_lgl(grobs, is_zero)
     grobs <- grobs[keep]
     if (length(grobs) == 0) {
       return(zeroGrob())

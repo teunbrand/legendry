@@ -34,7 +34,7 @@ check_list_of <- function(x, class, allow_null = FALSE,
       return(invisible(NULL))
     }
     if (is.list(x)) {
-      fail <- !is_each(x, inherits, what = class)
+      fail <- !map_lgl(x, inherits, what = class)
       if (!any(fail)) {
         return(invisible(NULL))
       }

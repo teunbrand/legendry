@@ -224,7 +224,7 @@ GuideCircles <- ggproto(
       elements$text <- setup_legend_text(theme, text_position, params$direction)
     }
 
-    is_char <- is_each(elements, is.character)
+    is_char <- map_lgl(elements, is.character)
     elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
     elements$title_position <- title_position
     elements$text_position  <- text_position

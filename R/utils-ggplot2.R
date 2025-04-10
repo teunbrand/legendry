@@ -44,7 +44,7 @@ is_zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
 replace_null <- function(obj, ..., env = caller_env()) {
   dots <- enexprs(...)
   nms  <- names(dots)
-  nms  <- nms[is_each(.subset(obj, nms), is.null)]
+  nms  <- nms[map_lgl(.subset(obj, nms), is.null)]
   obj[nms] <- inject(list(!!!dots[nms]), env = env)
   obj
 }
@@ -182,7 +182,7 @@ combine_elements <- function(e1, e2) {
     out <- if (e1$inherit.blank) e2 else e1
     return(out)
   }
-  n <- names(e1)[is_each(e1, is.null)]
+  n <- names(e1)[map_lgl(e1, is.null)]
   e1[n] <- e2[n]
 
   if (is.rel(e1$size)) {

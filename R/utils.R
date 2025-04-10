@@ -191,8 +191,7 @@ suffix_position <- function(value, position) {
   position  <- switch(position, theta = "bottom", theta.sec = "top", position)
   suffix <- paste0(".", aesthetic, ".", position)
 
-  char <- is_each(value, is.character)
-  char <- char & !is_each(value, is_asis)
+  char <- map_lgl(value, is.character) & !map_lgl(value, is_asis)
   value[char] <- lapply(value[char], paste0, suffix)
   value
 }
@@ -226,7 +225,7 @@ guide_rescale <- function(value, from = range(value), oob = oob_squish_infinite)
   rescale(oob(value, from), to = c(0, 1), from)
 }
 
-is_each <- function(x, fun, ...) {
+map_lgl <- function(x, fun, ...) {
   vapply(x, FUN = fun, FUN.VALUE = logical(1), ...)
 }
 
@@ -254,7 +253,7 @@ apply_theme_defaults <- function(theme, defaults = NULL) {
     return(theme)
   }
   theme    <- replace_null(theme, !!!defaults)
-  relative <- names(defaults)[is_each(defaults, is.rel)]
+  relative <- names(defaults)[map_lgl(defaults, is.rel)]
   relative <- intersect(relative, names(theme))
   for (i in relative) {
     theme[[i]] <- theme[[i]] * unclass(defaults[[i]])

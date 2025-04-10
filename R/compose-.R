@@ -148,7 +148,7 @@ loop_guides <- function(guides, params, method, ...) {
 
 compatible_aes <- function(guides, available_aes, call = caller_env()) {
 
-  valid <- !is_each(guides, inherits, what = "GuideNone")
+  valid <- !map_lgl(guides, inherits, what = "GuideNone")
   available <- lapply(guides[valid], `[[`, name = "available_aes")
   common <- Reduce(any_intersect, available)
 
