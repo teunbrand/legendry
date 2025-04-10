@@ -249,7 +249,7 @@ PrimitiveBracket <- ggproto(
       left = , right  =  width_cm(grobs$labels),
       map_dbl(grobs$labels, get_size_attr)
     )
-    is_bracket <- as.numeric(!is_each(grobs$brackets, is.zero))
+    is_bracket <- as.numeric(!is_each(grobs$brackets, is_zero))
     bracket <- is_bracket * elements$size
     list(brackets = bracket, labels = labels)
   },

@@ -180,13 +180,13 @@ ComposeStack <- ggproto(
           theme = theme, position = position, direction = direction,
           params = pars
         )
-        if (!is.null(grob$offset) && !is.zero(grob)) {
+        if (!is.null(grob$offset) && !is_zero(grob)) {
           offset_ranges[[i]] <- unit.c(offset, grob$offset)
           offset <- unit(cm(offset + elems$spacing + grob$offset), "cm")
         }
         grobs[[i]] <- grob
       }
-      keep <- !is_each(grobs, is.zero)
+      keep <- !is_each(grobs, is_zero)
       if (!any(keep)) {
         return(zeroGrob())
       }
@@ -209,7 +209,7 @@ ComposeStack <- ggproto(
       )
     }
 
-    keep <- keep & !is_each(grobs, is.zero)
+    keep <- keep & !is_each(grobs, is_zero)
     grobs <- grobs[keep]
     if (length(grobs) == 0) {
       return(zeroGrob())

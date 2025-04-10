@@ -39,7 +39,7 @@ is_empty <- function(df) {
   length(df) == 0 || nrow(df) == 0 || is_waive(df)
 }
 
-is.zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
+is_zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
 
 replace_null <- function(obj, ..., env = caller_env()) {
   dots <- enexprs(...)

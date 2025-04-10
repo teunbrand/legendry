@@ -181,7 +181,7 @@ ComposeCrux <- ggproto(
     gt <- grobs$centre
     align  <- try_alignment(params$guides$centre, gt)
 
-    if (!is.zero(grobs$top)) {
+    if (!is_zero(grobs$top)) {
       gt <- gtable_add_rows(gt, grobs$top$height, 0)
       gt <- gtable_add_grob(
         gt, grobs$top, t = 1, l = align$h[1], r = align$h[2],
@@ -189,7 +189,7 @@ ComposeCrux <- ggproto(
       )
       align$v[1] <- align$v[1] + 1
     }
-    if (!is.zero(grobs$bottom)) {
+    if (!is_zero(grobs$bottom)) {
       gt <- gtable_add_rows(gt, grobs$bottom$height, pos = -1)
       gt <- gtable_add_grob(
         gt, grobs$bottom, t = -1, l = align$h[1], r = align$h[2],
@@ -197,14 +197,14 @@ ComposeCrux <- ggproto(
       )
       align$v[2] <- align$v[2] - 1
     }
-    if (!is.zero(grobs$left)) {
+    if (!is_zero(grobs$left)) {
       gt <- gtable_add_cols(gt, grobs$left$width, pos = 0)
       gt <- gtable_add_grob(
         gt, grobs$left, t = align$v[1], b = align$v[2], l = 1,
         clip = "off", name = "left-guide"
       )
     }
-    if (!is.zero(grobs$right)) {
+    if (!is_zero(grobs$right)) {
       gt <- gtable_add_cols(gt, grobs$right$width, pos = -1)
       gt <- gtable_add_grob(
         gt, grobs$right, t = align$v[1], b = align$v[2], l = -1,
@@ -221,7 +221,7 @@ ComposeCrux <- ggproto(
       if (!is.null(elems$margin)) {
         gt <- gtable_add_padding(gt, elems$margin)
       }
-      if (!is.zero(elems$background)) {
+      if (!is_zero(elems$background)) {
         gt <- gtable_add_grob(
           gt, element_grob(elems$background), name = "background",
           clip = "off", t = 1, r = -1, b = -1, l = 1, z = -Inf

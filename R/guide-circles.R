@@ -262,7 +262,7 @@ GuideCircles <- ggproto(
 
     # Add background
     background <- element_grob(elements$background)
-    if (!is.zero(background)) {
+    if (!is_zero(background)) {
       gt <- gtable_add_grob(
         gt, background, name = "background", clip = "off",
         t = 1, r = -1, b = -1, l = 1, z = -Inf
