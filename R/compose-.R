@@ -193,7 +193,7 @@ validate_guide <- function(guide, args = list(), env = global_env(),
     args  <- args[intersect(names(args), fn_fmls_names(guide))]
     guide <- inject(guide(!!!args))
   }
-  if (inherits(guide, "Guide")) {
+  if (is_guide(guide)) {
     return(guide)
   }
   cli::cli_abort("Unknown guide: {input}.", call = call)

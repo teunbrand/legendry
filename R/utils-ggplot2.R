@@ -175,7 +175,7 @@ combine_elements <- function(e1, e2) {
     }
     return(e1)
   }
-  if (!inherits(e1, "element") && !inherits(e2, "element")) {
+  if (!is_theme_element(e1) && !is_theme_element(e2)) {
     return(e1)
   }
   if (is_blank(e2)) {

@@ -1,5 +1,5 @@
 
-is_blank <- function(x) inherits(x, c("element_blank", "NULL"))
+is_blank <- function(x) is.null(x) || is_theme_element(x, "blank")
 
 .in2cm <- 2.54
 
@@ -17,7 +17,7 @@ eval_aes <- function(
 ) {
   valid <- c(optional, required)
   call <- call %||% current_call()
-  if (!inherits(mapping, "uneval")) {
+  if (!is_mapping(mapping)) {
     cli::cli_abort(
       "{.arg {arg_mapping}} must be created by {.fn aes}.",
       call = call
