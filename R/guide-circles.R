@@ -133,8 +133,8 @@ GuideCircles <- ggproto(
     params
   },
 
-  process_layers = function(self, params, layers, data = NULL) {
-    GuideLegend$process_layers(params, layers, data)
+  process_layers = function(...) {
+    GuideLegend$process_layers(...)
   },
 
   build_decor = function(decor, grobs, elements, params) {
