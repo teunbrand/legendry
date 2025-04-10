@@ -283,10 +283,10 @@ GizmoDensity <- ggproto(
 
 normalise_density <- function(density) {
 
-  xlim <- range(filter_finite(density$x), na.rm = TRUE)
+  xlim <- range(density$x, na.rm = TRUE, finite = TRUE)
   density$x <- oob_squish_infinite(density$x, xlim)
 
-  ylim <- range(filter_finite(density$y), na.rm = TRUE)
+  ylim <- range(density$y, na.rm = TRUE, finite = TRUE)
   density$y <- oob_squish_infinite(density$y, ylim)
 
   density$y <- rescale_max(density$y, to = c(0, 0.9), from = ylim)
