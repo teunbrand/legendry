@@ -199,7 +199,7 @@ register_legendry_elements <- function() {
   line <- tree$line$class
   rect <- tree$rect$class
   text <- tree$text$class
-  marg <- tree$margins$class
+  marg <- tree$plot.margin$class
 
   register_theme_elements(
     legendry.bracket.size = unit(2, "mm"),
