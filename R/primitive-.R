@@ -65,7 +65,7 @@ primitive_setup_elements <- function(params, elements, theme) {
     theme$legend.ticks.length <- theme$legend.ticks.length %||%
       (calc_element("legend.key.size", theme) * 0.2)
   }
-  is_char <- is_each(elements, is.character)
+  is_char <- map_lgl(elements, is.character)
   elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
   elements$offset <- cm(params$stack_offset %||% 0)
   elements

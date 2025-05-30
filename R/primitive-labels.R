@@ -298,7 +298,7 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
 }
 
 angle_labels <- function(element, angle, position) {
-  if (!inherits(element, "element_text") || is_waive(angle) || is_null(angle)) {
+  if (!is_theme_element(element, "text") || is_waive(angle) || is_null(angle)) {
     return(element)
   }
 
@@ -340,7 +340,7 @@ validate_labels <- function(labels) {
   if (!is.list(labels)) {
     return(labels)
   }
-  if (any(is_each(labels, is.language))) {
+  if (any(map_lgl(labels, is.language))) {
     do.call(expression, labels)
   } else {
     unlist(labels)

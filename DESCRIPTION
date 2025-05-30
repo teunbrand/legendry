@@ -13,7 +13,7 @@ URL: https://teunbrand.github.io/legendry/,
     https://github.com/teunbrand/legendry
 BugReports: https://github.com/teunbrand/legendry/issues
 Depends: 
-    ggplot2 (>= 3.5.0),
+    ggplot2 (>= 3.5.2),
     R (>= 4.1.0)
 Imports: 
     cli,

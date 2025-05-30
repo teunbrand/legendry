@@ -85,12 +85,12 @@ ComposeOntop <- ggproto(
           theme = theme, position = position, direction = direction,
           params = pars
         )
-        if (!is.null(grob$offset) && !is.zero(grob)) {
+        if (!is.null(grob$offset) && !is_zero(grob)) {
           offset <- unit(cm(max(grob$offset, offset)), "cm")
         }
         grobs[[i]] <- grob
       }
-      keep <- !is_each(grobs, is.zero)
+      keep <- !map_lgl(grobs, is_zero)
       if (!any(keep)) {
         return(zeroGrob())
       }
@@ -109,7 +109,7 @@ ComposeOntop <- ggproto(
       )
     }
 
-    keep  <- !is_each(grobs, is.zero)
+    keep  <- !map_lgl(grobs, is_zero)
     grobs <- grobs[keep]
     if (length(grobs) == 0) {
       return(zeroGrob())
