@@ -277,14 +277,14 @@ GuideLegendGroup <- ggproto(
     layout <- layout$layout
     gt <- gtable(widths = widths, heights = heights)
 
-    if (!is.zero(grobs$decor)) {
+    if (!is_zero(grobs$decor)) {
       gt <- gtable_add_grob(
         gt, grobs$decor, name = names(grobs$decor),
         t = layout$key_row, l = layout$key_col,
         clip = "off"
       )
     }
-    if (!is.zero(grobs$labels)) {
+    if (!is_zero(grobs$labels)) {
       gt <- gtable_add_grob(
         gt, grobs$labels, name = names(grobs$labels) %||%
           paste("label", layout$label_row, layout$label_col, sep = "-"),
@@ -292,7 +292,7 @@ GuideLegendGroup <- ggproto(
         clip = "off"
       )
     }
-    if (!is.zero(grobs$title$subtitles)) {
+    if (!is_zero(grobs$title$subtitles)) {
       gt <- gtable_add_grob(
         gt, grobs$title$subtitles, name = names(grobs$title$subtitles) %||%
           paste0("subtitle-", seq_along(grobs$title$subtitles)),
@@ -302,7 +302,7 @@ GuideLegendGroup <- ggproto(
     gt <- self$add_title(gt, grobs$title$main, elements$title_position,
                          get_just(elements$title))
     gt <- gtable_add_padding(gt, unit(elements$padding, "cm"))
-    if (!is.zero(elements$background)) {
+    if (!is_zero(elements$background)) {
       gt <- gtable_add_grob(gt, elements$background, name = "background",
                             clip = "off", t = 1, r = -1, b = -1, l = 1, z = -Inf)
     }

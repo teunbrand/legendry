@@ -28,15 +28,25 @@ test_that("primitive_setup_elements sets up elements", {
   params <- list(position = "right", aesthetic = "y", direction = "vertical")
 
   test <- primitive_setup_elements(params, elements, theme)
-  expect_s3_class(test$title, "element_text")
-  expect_s3_class(test$text, "element_text")
+  if (inherits(element_text, "S7_class")) {
+    expect_s7_class(test$title, element_text)
+    expect_s7_class(test$text, element_text)
+  } else {
+    expect_s3_class(test$title, "element_text")
+    expect_s3_class(test$text, "element_text")
+  }
   expect_s3_class(test$ticks_length, "unit")
 
   params$aesthetic <- "colour"
 
   test <- primitive_setup_elements(params, elements, theme)
-  expect_s3_class(test$title, "element_text")
-  expect_s3_class(test$text, "element_text")
+  if (inherits(element_text, "S7_class")) {
+    expect_s7_class(test$title, element_text)
+    expect_s7_class(test$text, element_text)
+  } else {
+    expect_s3_class(test$title, "element_text")
+    expect_s3_class(test$text, "element_text")
+  }
   expect_s3_class(test$ticks_length, "unit")
 })
 

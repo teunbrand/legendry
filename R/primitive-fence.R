@@ -79,17 +79,17 @@ primitive_fence <- function(
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
   check_list_of(
     levels_text,
-    c("element_text", "element_blank", "NULL"),
+    c("element_text", "element_blank", "NULL", "ggplot2::element_text", "ggplot2::element_blank"),
     allow_null = TRUE
   )
   check_list_of(
     levels_post,
-    c("element_line",  "element_blank", "NULL"),
+    c("element_line",  "element_blank", "NULL", "ggplot2::element_line",  "ggplot2::element_blank"),
     allow_null = TRUE
   )
   check_list_of(
     levels_rail,
-    c("element_line",  "element_blank", "NULL"),
+    c("element_line",  "element_blank", "NULL", "ggplot2::element_line",  "ggplot2::element_blank"),
     allow_null = TRUE
   )
 

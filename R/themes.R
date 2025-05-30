@@ -188,12 +188,19 @@ theme_guide <- function(
     legendry.fence.post = fence.post,
     legendry.fence.rail = fence.rail
   )
-  theme <- theme[!is_each(theme, is.null)]
+  theme <- theme[lengths(theme) > 0]
   theme(!!!theme)
 }
 
 
 register_legendry_elements <- function() {
+
+  tree <- get_element_tree()
+  line <- tree$line$class
+  rect <- tree$rect$class
+  text <- tree$text$class
+  marg <- tree$plot.margin$class
+
   register_theme_elements(
     legendry.bracket.size = unit(2, "mm"),
     legendry.bracket = element_line(),
@@ -216,23 +223,23 @@ register_legendry_elements <- function() {
     legendry.axis.subtitle.position = c("left", "top"),
     element_tree = list(
       legendry.bracket.size = el_def("unit"),
-      legendry.bracket = el_line("line"),
-      legendry.fence = el_line("line"),
-      legendry.fence.post = el_line("legendry.fence"),
-      legendry.fence.rail = el_line("legendry.fence"),
-      legendry.box = el_def("element_rect", "strip.background"),
-      legendry.legend.minor.ticks = el_line("legend.ticks"),
+      legendry.bracket = el_def(line, "line"),
+      legendry.fence = el_def(line, "line"),
+      legendry.fence.post = el_def(line, "legendry.fence"),
+      legendry.fence.rail = el_def(line, "legendry.fence"),
+      legendry.box = el_def(rect, "strip.background"),
+      legendry.legend.minor.ticks = el_def(line, "legend.ticks"),
       legendry.legend.minor.ticks.length = el_unit("legend.ticks.length"),
-      legendry.legend.mini.ticks = el_line("legendry.legend.minor.ticks"),
+      legendry.legend.mini.ticks = el_def(line, "legendry.legend.minor.ticks"),
       legendry.legend.mini.ticks.length = el_unit("legendry.legend.minor.ticks.length"),
-      legendry.legend.subtitle = el_def("element_text", "legend.title"),
+      legendry.legend.subtitle = el_def(text, "legend.title"),
       legendry.legend.subtitle.position = el_def("character"),
-      legendry.legend.key.margin = el_def("margin", "legend.margin"),
-      legendry.axis.mini.ticks = el_line("axis.ticks"),
+      legendry.legend.key.margin = el_def(marg, "legend.margin"),
+      legendry.axis.mini.ticks = el_def(line, "axis.ticks"),
       legendry.axis.mini.ticks.length = el_unit("axis.minor.ticks.length"),
       legendry.guide.spacing = el_unit("axis.ticks.length"),
       legendry.group.spacing = el_unit("legend.key.spacing"),
-      legendry.axis.subtitle = el_def("element_text", "axis.text"),
+      legendry.axis.subtitle = el_def(text, "axis.text"),
       legendry.axis.subtitle.position = el_def("character")
     )
   )
@@ -241,4 +248,3 @@ register_legendry_elements <- function() {
 on_load(register_legendry_elements())
 
 el_unit <- function(...) el_def(c("unit", "rel"), ...)
-el_line <- function(...) el_def("element_line",   ...)

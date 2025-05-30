@@ -298,7 +298,7 @@ GuideColring <- ggproto(
       ) |>
       gtable_add_padding(elems$margin)
 
-    if (!is.zero(elems$background)) {
+    if (!is_zero(elems$background)) {
       gt <- gtable_add_grob(
         gt, elems$background,
         name = "background", clip = "off",

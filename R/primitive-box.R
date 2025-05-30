@@ -68,12 +68,12 @@ primitive_box <- function(
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
   check_list_of(
     levels_box,
-    c("element_rect", "element_blank", "NULL"),
+    c("element_rect", "element_blank", "NULL", "ggplot2::element_rect", "ggplot2::element_blank"),
     allow_null = TRUE
   )
   check_list_of(
     levels_text,
-    c("element_text", "element_blank", "NULL"),
+    c("element_text", "element_blank", "NULL", "ggplot2::element_rect", "ggplot2::element_blank"),
     allow_null = TRUE
   )
 

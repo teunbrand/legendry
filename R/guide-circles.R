@@ -133,8 +133,8 @@ GuideCircles <- ggproto(
     params
   },
 
-  process_layers = function(self, params, layers, data = NULL) {
-    GuideLegend$process_layers(params, layers, data)
+  process_layers = function(...) {
+    GuideLegend$process_layers(...)
   },
 
   build_decor = function(decor, grobs, elements, params) {
@@ -224,7 +224,7 @@ GuideCircles <- ggproto(
       elements$text <- setup_legend_text(theme, text_position, params$direction)
     }
 
-    is_char <- is_each(elements, is.character)
+    is_char <- map_lgl(elements, is.character)
     elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
     elements$title_position <- title_position
     elements$text_position  <- text_position
@@ -262,7 +262,7 @@ GuideCircles <- ggproto(
 
     # Add background
     background <- element_grob(elements$background)
-    if (!is.zero(background)) {
+    if (!is_zero(background)) {
       gt <- gtable_add_grob(
         gt, background, name = "background", clip = "off",
         t = 1, r = -1, b = -1, l = 1, z = -Inf

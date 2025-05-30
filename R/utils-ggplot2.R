@@ -39,12 +39,12 @@ is_empty <- function(df) {
   length(df) == 0 || nrow(df) == 0 || is_waive(df)
 }
 
-is.zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
+is_zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
 
 replace_null <- function(obj, ..., env = caller_env()) {
   dots <- enexprs(...)
   nms  <- names(dots)
-  nms  <- nms[is_each(.subset(obj, nms), is.null)]
+  nms  <- nms[map_lgl(.subset(obj, nms), is.null)]
   obj[nms] <- inject(list(!!!dots[nms]), env = env)
   obj
 }
@@ -159,6 +159,11 @@ new_aesthetic <- function(x, env = caller_env()) {
 }
 
 combine_elements <- function(e1, e2) {
+  if (inherits(e1, "S7_object") || inherits(e2, "S7_object")) {
+    # TODO: this is a dirty hack that should be resolved at some point
+    combine <- utils::getFromNamespace("combine_elements", asNamespace("ggplot2"))
+    return(combine(e1, e2))
+  }
 
   if (is.null(e2) || is_blank(e2)) {
     return(e1)
@@ -166,8 +171,8 @@ combine_elements <- function(e1, e2) {
   if (is.null(e1)) {
     return(e2)
   }
-  if (is.rel(e1)) {
-    if (is.rel(e2)) {
+  if (is_rel(e1)) {
+    if (is_rel(e2)) {
       return(rel(unclass(e1) * unclass(e2)))
     }
     if (is.numeric(e2) || is.unit(e2)) {
@@ -175,20 +180,20 @@ combine_elements <- function(e1, e2) {
     }
     return(e1)
   }
-  if (!inherits(e1, "element") && !inherits(e2, "element")) {
+  if (!is_theme_element(e1) && !is_theme_element(e2)) {
     return(e1)
   }
   if (is_blank(e2)) {
     out <- if (e1$inherit.blank) e2 else e1
     return(out)
   }
-  n <- names(e1)[is_each(e1, is.null)]
+  n <- names(e1)[map_lgl(e1, is.null)]
   e1[n] <- e2[n]
 
-  if (is.rel(e1$size)) {
+  if (is_rel(e1$size)) {
     e1$size <- e2$size * unclass(e1$size)
   }
-  if (is.rel(e1$linewidth)) {
+  if (is_rel(e1$linewidth)) {
     e1$linewidth <- e2$linewidth * unclass(e1$linewidth)
   }
   if (is.subclass(e2, e1)) {
@@ -201,7 +206,7 @@ combine_elements <- function(e1, e2) {
 
 `%0%` <- function(e1, e2) if (length(e1) == 0) e2 else e1
 
-is.rel <- function(x) inherits(x, "rel")
+is_rel <- function(x) inherits(x, "rel")
 
 defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])
 

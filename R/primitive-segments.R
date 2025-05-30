@@ -171,7 +171,7 @@ PrimitiveSegments <- ggproto(
   setup_elements = primitive_setup_elements,
   override_elements = function(params, elements, theme) {
     size <- params$space
-    if (is.rel(size)) {
+    if (is_rel(size)) {
       size <- unclass(size) * elements$size
     }
     elements$size <- convertUnit(size, "cm", valueOnly = TRUE)

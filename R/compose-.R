@@ -148,7 +148,7 @@ loop_guides <- function(guides, params, method, ...) {
 
 compatible_aes <- function(guides, available_aes, call = caller_env()) {
 
-  valid <- !is_each(guides, inherits, what = "GuideNone")
+  valid <- !map_lgl(guides, inherits, what = "GuideNone")
   available <- lapply(guides[valid], `[[`, name = "available_aes")
   common <- Reduce(any_intersect, available)
 
@@ -193,7 +193,7 @@ validate_guide <- function(guide, args = list(), env = global_env(),
     args  <- args[intersect(names(args), fn_fmls_names(guide))]
     guide <- inject(guide(!!!args))
   }
-  if (inherits(guide, "Guide")) {
+  if (is_guide(guide)) {
     return(guide)
   }
   cli::cli_abort("Unknown guide: {input}.", call = call)

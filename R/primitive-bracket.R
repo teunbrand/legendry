@@ -86,12 +86,12 @@ primitive_bracket <- function(
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
   check_list_of(
     levels_brackets,
-    c("element_line", "element_blank", "NULL"),
+    c("element_line", "element_blank", "NULL", "ggplot2::element_line", "ggplot2::element_blank"),
     allow_null = TRUE
   )
   check_list_of(
     levels_text,
-    c("element_text", "element_blank", "NULL"),
+    c("element_text", "element_blank", "NULL", "ggplot2::element_text", "ggplot2::element_blank"),
     allow_null = TRUE
   )
   bracket <- resolve_bracket(bracket)
@@ -249,7 +249,7 @@ PrimitiveBracket <- ggproto(
       left = , right  =  width_cm(grobs$labels),
       map_dbl(grobs$labels, get_size_attr)
     )
-    is_bracket <- as.numeric(!is_each(grobs$brackets, is.zero))
+    is_bracket <- as.numeric(!map_lgl(grobs$brackets, is_zero))
     bracket <- is_bracket * elements$size
     list(brackets = bracket, labels = labels)
   },

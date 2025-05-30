@@ -34,7 +34,7 @@ check_list_of <- function(x, class, allow_null = FALSE,
       return(invisible(NULL))
     }
     if (is.list(x)) {
-      fail <- !is_each(x, inherits, what = class)
+      fail <- !map_lgl(x, inherits, what = class)
       if (!any(fail)) {
         return(invisible(NULL))
       }
@@ -81,7 +81,7 @@ check_unit <- function(x, allow_null = FALSE, allow_rel = FALSE,
     if (is.unit(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x) || allow_rel && is.rel(x)) {
+    if (allow_null && is_null(x) || allow_rel && is_rel(x)) {
       return(invisible(NULL))
     }
   }

@@ -43,7 +43,7 @@ position_margin <- function(position, margin = margin(), gap = unit(0, "pt")) {
 }
 
 get_text_dim_cm <- function(label, style, type = "both") {
-  if (inherits(style, "element_text")) {
+  if (is_theme_element(style, "text")) {
     style <- get_text_gp(style)
   }
   check_inherits(style, "gpar", "a {.cls gpar} object")
@@ -61,7 +61,7 @@ get_text_dim_cm <- function(label, style, type = "both") {
 }
 
 get_text_gp <- function(x) {
-  if (!inherits(x, "element_text")) {
+  if (!is_theme_element(x, "text")) {
     return(NULL)
   }
   gpar(
@@ -73,7 +73,7 @@ get_text_gp <- function(x) {
 }
 
 get_fontmetrics <- function(x) {
-  if (inherits(x, "element_text")) {
+  if (is_theme_element(x, "text")) {
     x <- get_text_gp(x)
   }
   check_inherits(x, "gpar", "a {.cls gpar} object")

@@ -136,11 +136,11 @@ normalise_histogram <- function(hist, metric = "counts") {
   x <- hist$breaks
   y <- hist[[metric]]
 
-  xlim <- range(filter_finite(x), na.rm = TRUE)
+  xlim <- range(x, na.rm = TRUE, finite = TRUE)
   x    <- oob_squish_infinite(x, xlim)
 
-  ylim <- range(filter_finite(y), na.rm = TRUE)
-  y <- oob_squish_infinite(y, ylim)
+  ylim <- range(y, na.rm = TRUE, finite = TRUE)
+  y    <- oob_squish_infinite(y, ylim)
 
   list(
     x = rep(x, each = 2),
