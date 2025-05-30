@@ -111,7 +111,7 @@ first glance, these axes are utterly unremarkable and very much mirror
 <span>  x <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
 <span>  y <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>In terms of novelty, the only ‘extra’ option these axes offer is to
 display bidirectional tick marks.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -119,7 +119,7 @@ display bidirectional tick marks.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">p</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>However, <code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> is more flexible than
 <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html" class="external-link">ggplot2::guide_axis()</a></code>. In ggplot2, you’d typically have to
 switch to <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis_theta.html" class="external-link">ggplot2::guide_axis_theta()</a></code> to display an axis
@@ -128,7 +128,7 @@ knows how to fit into polar coordinates, so no such fuss is needed when
 switching to polar coordinates.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html" class="external-link">coord_radial</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fl">1.25</span> <span class="op">*</span> <span class="va">pi</span>, end <span class="op">=</span> <span class="fl">2.75</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Argueably, the custom guide is a little bit too flexible. It has
 exactly no scruples in displaying arbitrary continuous aesthetics, like
 <code>colour</code> in the plot below. As you can see, it is not
@@ -138,7 +138,7 @@ article.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"axis_base"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>In summary, <code><a href="../reference/guide_axis_base.html">guide_axis_base()</a></code> is a flexible guide that
 can be used in any and all position aesthetic, and can (but should not)
 be used for other continuous aesthetics.</p>
@@ -166,13 +166,13 @@ inner category with the name of the outer category.</p>
 <span><span class="va">plain</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction</a></span><span class="op">(</span><span class="va">item</span>, <span class="va">type</span><span class="op">)</span>, <span class="va">amount</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"axis_nested"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>We can also nest the vertical axis if the x/y aesthetics are
 swapped.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">amount</span>, <span class="fu"><a href="https://rdrr.io/r/base/interaction.html" class="external-link">interaction</a></span><span class="op">(</span><span class="va">item</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"axis_nested"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>Instead of just relying on formatting the labels correctly for
 splitting, you can also manually annotate the outer categories. To do
 this, we can use the <code><a href="../reference/key_range.html">key_range_manual()</a></code> function to
@@ -194,7 +194,7 @@ constructs the brackets as we see fit.</p>
 <span>      key <span class="op">=</span> <span class="va">my_key</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="section level4">
 <h4 id="brackets">Brackets<a class="anchor" aria-label="anchor" href="#brackets"></a>
 </h4>
@@ -209,7 +209,7 @@ in <code><a href="../reference/theme_guide.html">theme_guide()</a></code>.</p>
 <span>    bracket <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span>
 <span>    bracket.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"mm"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>The brackets can be provided as a string naming a bracket function,
 like <code>"curvy"</code> that invokes <code><a href="../reference/bracket_options.html">bracket_curvy()</a></code>.
 Below follows an overview of all the build-in bracket shapes.</p>
@@ -233,7 +233,7 @@ Below follows an overview of all the build-in bracket shapes.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">shape</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>Quite possibly, there might be bracket shapes you want to use, but
 aren’t built into legendry. Luckily, we can build custom brackets, using
 a numeric matrix that:</p>
@@ -253,7 +253,7 @@ argument.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>bracket <span class="op">=</span> <span class="va">zigzag</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="boxes">Boxes<a class="anchor" aria-label="anchor" href="#boxes"></a>
@@ -262,7 +262,7 @@ argument.</p>
 use boxes instead.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plain</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"box"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="customising">Customising<a class="anchor" aria-label="anchor" href="#customising"></a>
@@ -279,7 +279,7 @@ you’d need to provide a manual ranged key, such as one created by
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Unemployment"</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="va">eco</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">presidents</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>To customise the different depths of the bracketed text, you can give
 a list of text elements to the <code>levels_text</code> argument.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -293,7 +293,7 @@ a list of text elements to the <code>levels_text</code> argument.</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"italic"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>Alternatively, you can tailor many of the usual text formatting
 options by encoding these in the key.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -305,7 +305,7 @@ options by encoding these in the key.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">eco</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">presidents</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level3">
@@ -319,7 +319,7 @@ The default plot method shows the dendrogram.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"ave"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">clust</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>Other packages have many more options to display dendrograms, notably
 <a href="https://andrie.github.io/ggdendro/" class="external-link">ggdendro</a> or <a href="https://talgalili.github.io/dendextend/" class="external-link">dendextend</a>. The
 legendry package has no ambition to be the best dendrogram visualiser,
@@ -333,7 +333,7 @@ labels.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_x_dendro.html">scale_y_dendro</a></span><span class="op">(</span><span class="va">clust</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>The <code><a href="../reference/guide_axis_dendro.html">guide_axis_dendro()</a></code> function can be decomposed into
 labels and the segments. You can use
 <code>primitive_segments("dendro")</code> to not display labels, which
@@ -356,7 +356,7 @@ which is only ever relevant for secondary theta axes.</p>
 <span>    axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    plot.margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">50</span>, b <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -393,7 +393,7 @@ vanilla counterparts.</p>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_b</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"colsteps"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Custom colour steps"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-20-1.png" width="700"><img src="tour_files/figure-html/unnamed-chunk-20-2.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-19-1.png" width="700"><img src="tour_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
 <p>Please note that the following paragraphs apply equally to
 <code><a href="../reference/guide_colsteps.html">guide_colsteps()</a></code>, but we’ll take
 <code><a href="../reference/guide_colbar.html">guide_colbar()</a></code> for examples.</p>
@@ -414,7 +414,7 @@ are out-of-bounds by the gray ‘caps’ at the two ends of the bar.</p>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colbar"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>You can change the out-of-bounds strategy, the <code>oob</code>
 argument of the scale, to have the caps reflect the colour that
 out-of-bounds data has acquired.</p>
@@ -424,7 +424,7 @@ out-of-bounds data has acquired.</p>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>, oob <span class="op">=</span> <span class="va">oob_squish</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colbar"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <p>You can also force the caps to appear, even when there are no
 out-of-bounds data, or force the cap colour to be consistent with the
 scale.</p>
@@ -436,7 +436,7 @@ scale.</p>
 <span>      oob <span class="op">=</span> <span class="st">"squish"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>The shape of the cap needn’t be a triangle. You can set the shape to
 any of the built-in cap shapes.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -447,7 +447,7 @@ any of the built-in cap shapes.</p>
 <span>      shape <span class="op">=</span> <span class="st">"arch"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <p>The caps can be provided as a string naming a cap function, like
 <code>"arch"</code> that invokes <code><a href="../reference/cap_options.html">cap_arch()</a></code>. Below follows
 an overview of all the build-in cap shapes.</p>
@@ -469,7 +469,7 @@ an overview of all the build-in cap shapes.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span>arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">shape</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 <p>It is most certainly possible to use shapes of your own imagination
 as well. To provide your own shape, use a numeric matrix that:</p>
 <ul>
@@ -495,7 +495,7 @@ the built-in shapes. Such a matrix can be given to the
 <span>      shape <span class="op">=</span> <span class="va">hourglass_cap</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="side-guides">Side-guides<a class="anchor" aria-label="anchor" href="#side-guides"></a>
@@ -509,7 +509,7 @@ becomes easier to see once you wash away their make-up with
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/guide_colbar.html">guide_colbar</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <p>This trick allows you to tailor the colour bar to your liking on
 separate sides. You can use this to invoke any of the tricks described
 in the axis section, like setting minor ticks, or swap out axes for an
@@ -531,7 +531,7 @@ annotation-primitive like <code><a href="../reference/primitive_bracket.html">pr
 <span>      second_guide <span class="op">=</span> <span class="va">brackets</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level3">
@@ -562,7 +562,7 @@ periodic data, like housing sales below.</p>
 <span></span>
 <span><span class="va">housing</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <p>Every year we get a sharp colour transition in the winter. The remedy
 for this problem is to use a cyclical palette. The {scico} package
 offers some suitable cyclical palettes, like ‘romaO’, ‘vikO’, ‘bamO’,
@@ -575,7 +575,7 @@ offers some suitable cyclical palettes, like ‘romaO’, ‘vikO’, ‘bamO’
 <span></span>
 <span><span class="va">housing</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="va">periodic_pal</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
 <p>This is already much better, but the guide itself does a poor job of
 displaying the cyclical nature of months. To have this better reflected
 in the guide, you can use <code><a href="../reference/guide_colring.html">guide_colring()</a></code>.</p>
@@ -586,7 +586,7 @@ in the guide, you can use <code><a href="../reference/guide_colring.html">guide_
 <span>    breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>,</span>
 <span>    guide <span class="op">=</span> <span class="st">"colring"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 <p>The ‘thickness’ of the donut can be controlled by the
 <code>legend.key.width</code> parameter, which by default is
 1/5<sup>th</sup> of the diameter. The outer diameter of the ring is
@@ -609,7 +609,7 @@ that they aren’t first or second.</p>
 <span>    legend.key.width <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">2.5</span><span class="op">)</span>, <span class="co"># fill to center</span></span>
 <span>    legend.key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span> <span class="co"># actual size is 0.5 * 5 = 2.5 cm</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -628,7 +628,7 @@ layout.</p>
 <span><span class="va">standard</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">drv</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="../reference/guide_legend_base.html">guide_legend_base</a></span><span class="op">(</span>design <span class="op">=</span> <span class="va">design</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <p>Secondly, <code><a href="../reference/guide_legend_cross.html">guide_legend_cross()</a></code> will let you ‘cross’ two
 variables, that is; generate a legend key for every combination of the
 two variable levels. Because legends are only merged if they share the
@@ -640,7 +640,7 @@ strategy and title.</p>
 <span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">drv</span>, shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">common</span>, shape <span class="op">=</span> <span class="va">common</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>Alternatively, you can also use the guide for a compound variable
 that already combines two variables. Note that missing combinations are
 correctly omitted in this case.</p>
@@ -648,7 +648,7 @@ correctly omitted in this case.</p>
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">drv</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"legend_cross"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 <p>Lastly, there is also a legend that is suitable for displaying
 groups. The <code><a href="../reference/guide_legend_group.html">guide_legend_group()</a></code> legend adds additional
 titles that separate groups. By default, it splits labels on the first
@@ -661,7 +661,7 @@ non-alphanumeric character, but you can also use
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">msleep</span><span class="op">[</span><span class="va">i</span>, <span class="op">]</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sleep_total</span>, <span class="va">bodywt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">vore</span>, <span class="st">"vore."</span>, <span class="va">name</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"legend_group"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tour_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<p><img src="tour_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -674,7 +674,7 @@ non-alphanumeric character, but you can also use
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
