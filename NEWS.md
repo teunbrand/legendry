@@ -1,3 +1,5 @@
+# legendry (development version)
+
 # legendry 0.2.2
 
 This is a patch release without new features, improvements or bug fixes. 
