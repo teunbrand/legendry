@@ -96,7 +96,7 @@ guide_colbar <- function(
   bar <- gizmo_barcap(
     key = key_sequence(nbin),
     shape = shape, size = size, show = show, alpha = alpha,
-    oob = oob
+    oob = oob, theme = theme
   )
 
   defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
