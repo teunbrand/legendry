@@ -104,7 +104,12 @@ ComposeSandwich <- ggproto(
     theme <- apply_theme_defaults(theme, params$theme_defaults)
 
     opposite <- opposite_position(text_position)
-    params$guide_params$opposite$draw_label <- FALSE
+    if ("opposite" %in% params$suppress_labels) {
+      params$guide_params$opposite$draw_label <- FALSE
+    }
+    if ("text" %in% params$suppress_labels) {
+      params$guide_params$text$draw_label <- FALSE
+    }
 
     old <- c("middle", "text", "opposite")
     new <- c("centre", text_position, opposite)
