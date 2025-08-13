@@ -104,11 +104,15 @@ rename <- function(df, old, new) {
   if (is.function(new)) {
     new <- new(old)
   }
-  i <- match(old, names(df))
-  new <- new[!is.na(i)]
-  i <- i[!is.na(i)]
-  names(df)[i] <- new
+  names(df) <- recode(names(df), old, new)
   df
+}
+
+recode <- function(x, old, new) {
+  i <- match(x, old)
+  skip <- is.na(i)
+  x[!skip] <- new[i][!skip]
+  x
 }
 
 .flip_names <-

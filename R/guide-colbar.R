@@ -22,6 +22,9 @@
 #' @param vanilla A `<logical[1]>` whether to have the default style match
 #'   the vanilla `guide_colourbar()` (`TRUE`) or take the theme
 #'   verbatim (`FALSE`).
+#' @param suppress_labels A `<character>` vector giving any of `"first"` and
+#'   `"second"` for the parallel guides. The guide(s) listed here will not
+#'   draw labels if they support a label suppression mechanism.
 #' @inheritParams gizmo_barcap
 #' @inheritParams compose_sandwich
 #'
@@ -86,6 +89,7 @@ guide_colbar <- function(
   nbin = 15,
   alpha = NA,
   reverse = FALSE,
+  suppress_labels = "second",
   oob = scales::oob_keep,
   theme = NULL,
   vanilla = TRUE,
@@ -99,6 +103,12 @@ guide_colbar <- function(
     oob = oob, theme = theme
   )
 
+  suppress_labels <- recode(
+    suppress_labels,
+    old = c("first", "second"),
+    new = c("text", "opposite")
+  )
+
   defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
 
   compose_sandwich(
@@ -107,6 +117,7 @@ guide_colbar <- function(
     text = first_guide,
     opposite = second_guide,
     reverse = reverse,
+    suppress_labels = suppress_labels,
     complete = TRUE,
     title = title,
     theme = theme,

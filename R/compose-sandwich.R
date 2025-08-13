@@ -17,6 +17,9 @@
 #' @param text,opposite Guides to use at the `legend.text.position` location
 #'   and on the opposite side of the `middle` guide respectively. Guide
 #'   specification is the same as in the `middle` argument.
+#' @param suppress_labels A `<character>` vector giving any of `"text"` and
+#'   `"opposite"` for the parallel guides. The guide(s) listed here will not
+#'   draw labels if they support a label suppression mechanism.
 #' @inheritParams compose_crux
 #'
 #' @return A `<ComposeSandwich>` guide object.
@@ -44,6 +47,7 @@ compose_sandwich <- function(
   text = "none",
   opposite = "none",
   args = list(),
+  suppress_labels = "opposite",
   complete = TRUE,
   theme = NULL,
   theme_defaults = list(),
@@ -64,6 +68,7 @@ compose_sandwich <- function(
     args = args,
     complete = complete,
     reverse = reverse,
+    suppress_labels = suppress_labels,
     available_aes = available_aes,
     order = order,
     theme = theme,
@@ -84,7 +89,7 @@ ComposeSandwich <- ggproto(
   "ComposeSandwich", Compose,
 
   params = c(Compose$params, list(complete = FALSE, theme_defaults = list(),
-                                  reverse = FALSE)),
+                                  reverse = FALSE, suppress_labels = "opposite")),
 
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
@@ -102,7 +107,12 @@ ComposeSandwich <- ggproto(
     theme <- apply_theme_defaults(theme, params$theme_defaults)
 
     opposite <- opposite_position(text_position)
-    params$guide_params$opposite$draw_label <- FALSE
+    if ("opposite" %in% params$suppress_labels) {
+      params$guide_params$opposite$draw_label <- FALSE
+    }
+    if ("text" %in% params$suppress_labels) {
+      params$guide_params$text$draw_label <- FALSE
+    }
 
     old <- c("middle", "text", "opposite")
     new <- c("centre", text_position, opposite)
