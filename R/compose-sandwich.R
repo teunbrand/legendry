@@ -44,6 +44,7 @@ compose_sandwich <- function(
   text = "none",
   opposite = "none",
   args = list(),
+  suppress_labels = "opposite",
   complete = TRUE,
   theme = NULL,
   theme_defaults = list(),
@@ -64,6 +65,7 @@ compose_sandwich <- function(
     args = args,
     complete = complete,
     reverse = reverse,
+    suppress_labels = suppress_labels,
     available_aes = available_aes,
     order = order,
     theme = theme,
@@ -84,7 +86,7 @@ ComposeSandwich <- ggproto(
   "ComposeSandwich", Compose,
 
   params = c(Compose$params, list(complete = FALSE, theme_defaults = list(),
-                                  reverse = FALSE)),
+                                  reverse = FALSE, suppress_labels = "opposite")),
 
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
