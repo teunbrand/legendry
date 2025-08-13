@@ -86,6 +86,7 @@ guide_colbar <- function(
   nbin = 15,
   alpha = NA,
   reverse = FALSE,
+  suppress_labels = "second",
   oob = scales::oob_keep,
   theme = NULL,
   vanilla = TRUE,
@@ -99,6 +100,12 @@ guide_colbar <- function(
     oob = oob, theme = theme
   )
 
+  suppress_labels <- recode(
+    suppress_labels,
+    old = c("first", "second"),
+    new = c("text", "opposite")
+  )
+
   defaults <- if (isTRUE(vanilla)) vanilla_colourbar_theme() else NULL
 
   compose_sandwich(
@@ -107,6 +114,7 @@ guide_colbar <- function(
     text = first_guide,
     opposite = second_guide,
     reverse = reverse,
+    suppress_labels = suppress_labels,
     complete = TRUE,
     title = title,
     theme = theme,

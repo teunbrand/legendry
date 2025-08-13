@@ -84,6 +84,7 @@ guide_colsteps <- function(
   show = NA,
   alpha = NA,
   reverse = FALSE,
+  suppress_labels = "second",
   oob = scales::oob_keep,
   theme = NULL,
   position = waiver(),
@@ -98,11 +99,18 @@ guide_colsteps <- function(
 
   defaults <- if (isTRUE(vanilla)) vanilla_coloursteps_theme() else NULL
 
+  suppress_labels <- recode(
+    suppress_labels,
+    old = c("first", "second"),
+    new = c("text", "opposite")
+  )
+
   compose_sandwich(
     key = key,
     middle = steps,
     text = first_guide,
     opposite = second_guide,
+    suppress_labels = suppress_labels,
     complete = TRUE,
     title = title,
     theme = theme,
