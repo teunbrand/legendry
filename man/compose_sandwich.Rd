@@ -10,6 +10,7 @@ compose_sandwich(
   text = "none",
   opposite = "none",
   args = list(),
+  suppress_labels = "opposite",
   complete = TRUE,
   theme = NULL,
   theme_defaults = list(),
@@ -40,6 +41,10 @@ specification is the same as in the \code{middle} argument.}
 
 \item{args}{A \verb{<list>} of arguments to pass to guides that are given either
 as a function or as a string.}
+
+\item{suppress_labels}{A \verb{<character>} vector giving any of \code{"text"} and
+\code{"opposite"} for the parallel guides. The guide(s) listed here will not
+draw labels if they support a label suppression mechanism.}
 
 \item{complete}{A \verb{<logical[1]>} whether to treat the composition as a
 complete guide. If \code{TRUE}, a title and margin are added to the result.

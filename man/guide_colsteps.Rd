@@ -14,6 +14,7 @@ guide_colsteps(
   show = NA,
   alpha = NA,
   reverse = FALSE,
+  suppress_labels = "second",
   oob = scales::oob_keep,
   theme = NULL,
   position = waiver(),
@@ -72,6 +73,10 @@ of the bar. Use \code{NA} to preserve the alpha encoded in the colour itself.}
 \item{reverse}{A \verb{<logical[1]>} whether to reverse continuous guides.
 If \code{TRUE}, guides like colour bars are flipped. If \code{FALSE} (default),
 the original order is maintained.}
+
+\item{suppress_labels}{A \verb{<character>} vector giving any of \code{"text"} and
+\code{"opposite"} for the parallel guides. The guide(s) listed here will not
+draw labels if they support a label suppression mechanism.}
 
 \item{oob}{An out-of-bounds handling function that affects the cap colour.
 Can be one of the following:

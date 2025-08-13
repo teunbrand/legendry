@@ -17,6 +17,9 @@
 #' @param text,opposite Guides to use at the `legend.text.position` location
 #'   and on the opposite side of the `middle` guide respectively. Guide
 #'   specification is the same as in the `middle` argument.
+#' @param suppress_labels A `<character>` vector giving any of `"text"` and
+#'   `"opposite"` for the parallel guides. The guide(s) listed here will not
+#'   draw labels if they support a label suppression mechanism.
 #' @inheritParams compose_crux
 #'
 #' @return A `<ComposeSandwich>` guide object.
