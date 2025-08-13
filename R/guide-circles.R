@@ -251,7 +251,7 @@ GuideCircles <- ggproto(
     # Add title
     gt <- self$add_title(
       grobs$circles, grobs$title, elements$title_position,
-      with(elements$title, rotate_just(angle, hjust, vjust))
+      rotate_just(element = elements$title)
     )
 
     # Add padding

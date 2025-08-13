@@ -107,8 +107,14 @@ as_cli <- function(..., env = caller_env()) {
   cli::cli_fmt(cli::cli_text(..., .envir = env))
 }
 
-rotate_just <- function(angle = NULL, hjust, vjust) {
+rotate_just <- function(angle = NULL, hjust = NULL, vjust = NULL, element = NULL) {
   angle <- (angle %||% 0) %% 360
+
+  if (!is.null(element)) {
+    angle <- element$angle
+    hjust <- element$hjust
+    vjust <- element$vjust
+  }
 
   # Apply recycle rules
   size  <- vec_size_common(angle, hjust, vjust)
