@@ -68,6 +68,7 @@ to display caps at the end of the bar, depending on out-of-bounds values.</p>
 <span>  show <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  suppress_labels <span class="op">=</span> <span class="st">"second"</span>,</span>
 <span>  oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">oob_keep</a></span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -139,6 +140,12 @@ of the bar. Use <code>NA</code> to preserve the alpha encoded in the colour itse
 <dd><p>A <code>&lt;logical[1]&gt;</code> whether to reverse continuous guides.
 If <code>TRUE</code>, guides like colour bars are flipped. If <code>FALSE</code> (default),
 the original order is maintained.</p></dd>
+
+
+<dt id="arg-suppress-labels">suppress_labels<a class="anchor" aria-label="anchor" href="#arg-suppress-labels"></a></dt>
+<dd><p>A <code>&lt;character&gt;</code> vector giving any of <code>"text"</code> and
+<code>"opposite"</code> for the parallel guides. The guide(s) listed here will not
+draw labels if they support a label suppression mechanism.</p></dd>
 
 
 <dt id="arg-oob">oob<a class="anchor" aria-label="anchor" href="#arg-oob"></a></dt>
