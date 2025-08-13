@@ -1,6 +1,8 @@
 # legendry (development version)
 
 * `legend.key.width/height` is no longer ignored in `guide_colbar()` (#81).
+* `compose_sandwich()` and its wrappers now have a `suppress_labels` argument 
+  that controls label rendering (#91).
 
 # legendry 0.2.2
 
