@@ -22,10 +22,13 @@ guide_axis_base(
 \code{\link[=key_auto]{key_auto()}}. See more information in the linked topic and the 'Details'
 section.}
 
-\item{title}{A \verb{<character[1]>} or \verb{<expression[1]>} indicating the title of
-the guide. If \code{NULL}, the title is not shown. The default,
-\code{\link[ggplot2:waiver]{waiver()}}, takes the name of the scale object or
-the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.}
+\item{title}{One of the following to indicate the title of the guide:
+\itemize{
+\item A \verb{<character[1]>} or \verb{<expression[1]>} to set a custom title.
+\item \code{NULL} to not display any title.
+\item \code{\link[ggplot2:waiver]{waiver()}} (default) to take the name of the scale
+object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
+}}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the
@@ -85,7 +88,7 @@ A \verb{<Guide>} object.
 This axis guide is a visual representation of position scales and can
 represent the \code{x}, \code{y}, \code{theta} and \code{r} aesthetics. It differs from
 \code{\link[ggplot2:guide_axis]{guide_axis()}} in that it can accept custom keys
-and is can act as an axis for \code{\link[ggplot2:coord_polar]{coord_radial()}} like
+and is can act as an axis for \code{\link[ggplot2:coord_radial]{coord_radial()}} like
 \code{\link[ggplot2:guide_axis_theta]{guide_axis_theta()}}.
 }
 \details{
