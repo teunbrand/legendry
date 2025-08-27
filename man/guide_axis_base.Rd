@@ -128,6 +128,7 @@ ggplot(msleep, aes(bodywt, brainwt)) +
 Other standalone guides: 
 \code{\link{guide_axis_dendro}()},
 \code{\link{guide_axis_nested}()},
+\code{\link{guide_axis_plot}()},
 \code{\link{guide_circles}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colring}()},
