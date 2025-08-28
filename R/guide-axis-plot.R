@@ -96,7 +96,7 @@ guide_axis_plot <- function(plot, title = NULL, size = unit(2, "cm"),
                             reposition = TRUE,
                             theme = theme_sub_legend(position = "none"),
                             position = waiver()) {
-  check_plot(plot)
+  check_object(plot, is_ggplot, "a {.cls ggplot} object")
 
   if (!inherits(plot@facet, "FacetNull")) {
     facet_class <- class(plot@facet)[1]
@@ -243,23 +243,3 @@ GuideAxisPlot <- ggproto(
   }
 
 )
-
-
-# Helpers -----------------------------------------------------------------
-
-check_plot <- function(x, allow_null = FALSE, call = caller_env(),
-                       arg = caller_arg(x)) {
-
-  if (!missing(x)) {
-    if (is_ggplot(x)) {
-      return(invisible(NULL))
-    }
-    if (allow_null && is.null(x)) {
-      return(invisible(NULL))
-    }
-  }
-  stop_input_type(
-    x, as_cli("a {.cls ggplot} object"),
-    allow_null = allow_null, arg = arg, call = call
-  )
-}
