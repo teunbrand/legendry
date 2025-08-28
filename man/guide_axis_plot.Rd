@@ -8,6 +8,7 @@ guide_axis_plot(
   plot,
   title = NULL,
   size = unit(2, "cm"),
+  reposition = TRUE,
   theme = theme_sub_legend(position = "none"),
   position = waiver()
 )
@@ -26,8 +27,13 @@ otherwise. To avoid duplicated titles, the default is to have no title for
 the guide.
 }}
 
-\item{size}{An absolute \code{\link[grid:unit]{<unit>}} to set the size of the \code{plot}
-panel in the orthogonal direction.}
+\item{size}{An absolute \code{\link[grid:unit]{<unit>}} to set the size of the \code{plot} panel in
+the orthogonal direction.}
+
+\item{reposition}{A \verb{<logical[1]>}. If \code{TRUE} (default) the \code{position} argument of this guide
+will be propagated to the position scale bestowed upon the \code{plot} argument.
+If \code{FALSE}, that position scale will retain its original \code{position} field.
+Setting \code{reposition = TRUE} will generally tend to point axes outwards.}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The order in which themes are

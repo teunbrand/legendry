@@ -17,8 +17,15 @@
 #' otherwise. To avoid duplicated titles, the default is to have no title for
 #' the guide.
 #'
-#' @param size An absolute [`<unit>`][grid::unit] to set the size of the `plot`
-#'   panel in the orthogonal direction.
+#' @param size
+#' An absolute [`<unit>`][grid::unit] to set the size of the `plot` panel in
+#' the orthogonal direction.
+#'
+#' @param reposition
+#' A `<logical[1]>`. If `TRUE` (default) the `position` argument of this guide
+#' will be propagated to the position scale bestowed upon the `plot` argument.
+#' If `FALSE`, that position scale will retain its original `position` field.
+#' Setting `reposition = TRUE` will generally tend to point axes outwards.
 #'
 #' @param theme
 #' A [`<theme>`][ggplot2::theme] object to style the guide individually or
@@ -86,12 +93,15 @@
 #'   main_plot + guides(x = guide_axis_plot(x_plot))
 #' ))
 guide_axis_plot <- function(plot, title = NULL, size = unit(2, "cm"),
+                            reposition = TRUE,
                             theme = theme_sub_legend(position = "none"),
                             position = waiver()) {
   check_plot(plot)
+
   if (!inherits(plot@facet, "FacetNull")) {
+    facet_class <- class(plot@facet)[1]
     cli::cli_abort(c(
-      "The {.arg plot} argument cannot have facets of class {.cls {class(plot@facet)[1]}}.",
+      "The {.arg plot} argument cannot have facets of class {.cls {facet_class}}.",
       `i` = "Only {.fn facet_null} is supported."
     ))
   }
@@ -101,11 +111,14 @@ guide_axis_plot <- function(plot, title = NULL, size = unit(2, "cm"),
     )
   }
 
+  check_bool(reposition)
   check_unit(size)
+
   new_guide(
     plot = plot,
     title = title,
     size = size,
+    reposition = reposition,
     theme = theme,
     position = position,
     available_aes = c("x", "y"),
@@ -122,12 +135,19 @@ guide_axis_plot <- function(plot, title = NULL, size = unit(2, "cm"),
 GuideAxisPlot <- ggproto(
   "GuideAxisPlot", Guide,
 
-  params = new_params(plot = NULL, size = unit(0.2, "null")),
+  params = new_params(plot = NULL, size = unit(0.2, "null"), reposition = TRUE),
 
   hashables = exprs(plot),
 
   extract_params = function(scale, params, ...) {
+
     scale_copy <- scale$make_fixed_copy()
+
+    if (params$reposition) {
+      # We can modify-in-place here because the scale is already a copy
+      scale_copy$position <- params$position
+    }
+
     params$plot <- params$plot + scale_copy
     params
   },
