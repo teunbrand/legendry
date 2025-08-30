@@ -6,6 +6,8 @@
 #'
 #' @param plot
 #' A `<ggplot>` object, subject to limitations listed in the 'Details' section.
+#' Alternatively, a `<function>` that takes the scale as argument and returns
+#' a `<ggplot>` object.
 #'
 #' @param title
 #' One of the following to indicate the title of the guide:
@@ -96,21 +98,10 @@ guide_axis_plot <- function(plot, title = NULL, size = unit(2, "cm"),
                             reposition = TRUE,
                             theme = theme_sub_legend(position = "none"),
                             position = waiver()) {
-  check_object(plot, is_ggplot, "a {.cls ggplot} object")
 
-  if (!inherits(plot@facet, "FacetNull")) {
-    facet_class <- class(plot@facet)[1]
-    cli::cli_abort(c(
-      "The {.arg plot} argument cannot have facets of class {.cls {facet_class}}.",
-      `i` = "Only {.fn facet_null} is supported."
-    ))
+  if (!is_function(plot)) {
+    check_side_plot(plot)
   }
-  if (!plot@coordinates$is_linear()) {
-    cli::cli_abort(
-      "The {.arg plot} argument cannot have a non-linear coordinate system."
-    )
-  }
-
   check_bool(reposition)
   check_unit(size)
 
@@ -146,6 +137,11 @@ GuideAxisPlot <- ggproto(
     if (params$reposition) {
       # We can modify-in-place here because the scale is already a copy
       scale_copy$position <- params$position
+    }
+
+    if (is_function(params$plot)) {
+      params$plot <- params$plot(scale_copy)
+      check_side_plot(params$plot, arg = "plot")
     }
 
     params$plot <- params$plot + scale_copy
@@ -243,3 +239,25 @@ GuideAxisPlot <- ggproto(
   }
 
 )
+
+# Helpers -----------------------------------------------------------------
+
+check_side_plot <- function(x, arg = caller_arg(x), call = caller_env()) {
+  check_object(x, is_ggplot, "a {.cls ggplot} object", arg = arg, call = call)
+
+  if (!inherits(x@facet, "FacetNull")) {
+    facet_class <- class(x@facet)[1]
+    cli::cli_abort(c(
+      "The {.arg {arg}} argument cannot have facets of class {.cls {facet_class}}.",
+      `i` = "Only {.fn facet_null} is supported."
+    ), call = call)
+  }
+  if (!x@coordinates$is_linear()) {
+    cli::cli_abort(
+      "The {.arg {arg}} argument cannot have a non-linear coordinate system.",
+      call = call
+    )
+  }
+  invisible()
+}
+

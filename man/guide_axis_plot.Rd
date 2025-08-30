@@ -14,7 +14,9 @@ guide_axis_plot(
 )
 }
 \arguments{
-\item{plot}{A \verb{<ggplot>} object, subject to limitations listed in the 'Details' section.}
+\item{plot}{A \verb{<ggplot>} object, subject to limitations listed in the 'Details' section.
+Alternatively, a \verb{<function>} that takes the scale as argument and returns
+a \verb{<ggplot>} object.}
 
 \item{title}{One of the following to indicate the title of the guide:
 \itemize{
