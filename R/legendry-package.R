@@ -36,10 +36,11 @@ NULL
 #' each time.
 #'
 #' @param title
-#' A `<character[1]>` or `<expression[1]>` indicating the title of
-#' the guide. If `NULL`, the title is not shown. The default,
-#' [`waiver()`][ggplot2::waiver()], takes the name of the scale object or
-#' the name specified in [`labs()`][ggplot2::labs] as the title.
+#' One of the following to indicate the title of the guide:
+#' * A `<character[1]>` or `<expression[1]>` to set a custom title.
+#' * `NULL` to not display any title.
+#' * [`waiver()`][ggplot2::waiver()] (default) to take the name of the scale
+#'   object or the name specified in [`labs()`][ggplot2::labs] as the title.
 #'
 #' @param theme
 #' A [`<theme>`][ggplot2::theme] object to style the guide individually or

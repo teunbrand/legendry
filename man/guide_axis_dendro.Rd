@@ -25,10 +25,13 @@ guide_axis_dendro(
 in the linked topic. Alternatively, an object of class
 \code{\link[stats:hclust]{<hclust>}} that automatically invokes \code{key_dendro()}.}
 
-\item{title}{A \verb{<character[1]>} or \verb{<expression[1]>} indicating the title of
-the guide. If \code{NULL}, the title is not shown. The default,
-\code{\link[ggplot2:waiver]{waiver()}}, takes the name of the scale object or
-the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.}
+\item{title}{One of the following to indicate the title of the guide:
+\itemize{
+\item A \verb{<character[1]>} or \verb{<expression[1]>} to set a custom title.
+\item \code{NULL} to not display any title.
+\item \code{\link[ggplot2:waiver]{waiver()}} (default) to take the name of the scale
+object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
+}}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the
@@ -117,6 +120,7 @@ p + guides(y = guide_axis_dendro(clust, labels = FALSE), y.sec = "axis")
 Other standalone guides: 
 \code{\link{guide_axis_base}()},
 \code{\link{guide_axis_nested}()},
+\code{\link{guide_axis_plot}()},
 \code{\link{guide_circles}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colring}()},
