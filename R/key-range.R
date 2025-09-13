@@ -112,9 +112,7 @@ key_range_manual <- function(start, end, name = NULL, level = NULL, ...) {
 #' @rdname key_range
 #' @export
 key_range_map <- function(data, ..., .call = caller_env()) {
-  mapping <- enquos(...)
-  mapping <- Filter(Negate(quo_is_missing), mapping)
-  mapping <- new_aes(mapping, env = .call)
+  mapping <- aes(!!!enquos(...))
 
   df <- eval_aes(
     data, mapping,
