@@ -21,10 +21,13 @@ guide_circles(
 \item{key}{A \link[=key_standard]{standard key} specification. Defaults to
 \code{\link[=key_auto]{key_auto()}}. See more information in the linked topic.}
 
-\item{title}{A \verb{<character[1]>} or \verb{<expression[1]>} indicating the title of
-the guide. If \code{NULL}, the title is not shown. The default,
-\code{\link[ggplot2:waiver]{waiver()}}, takes the name of the scale object or
-the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.}
+\item{title}{One of the following to indicate the title of the guide:
+\itemize{
+\item A \verb{<character[1]>} or \verb{<expression[1]>} to set a custom title.
+\item \code{NULL} to not display any title.
+\item \code{\link[ggplot2:waiver]{waiver()}} (default) to take the name of the scale
+object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
+}}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the
@@ -114,6 +117,7 @@ Other standalone guides:
 \code{\link{guide_axis_base}()},
 \code{\link{guide_axis_dendro}()},
 \code{\link{guide_axis_nested}()},
+\code{\link{guide_axis_plot}()},
 \code{\link{guide_colbar}()},
 \code{\link{guide_colring}()},
 \code{\link{guide_colsteps}()},
