@@ -125,8 +125,6 @@ key_range_map <- function(data, ..., .call = caller_env()) {
     df, c("name", "level", .label_params),
     c(".label", ".level", paste0(".", .label_params))
   )
-  df$colour <- df$color
-  df$color <- NULL
   class(df) <- c("key_range", "key_guide", class(df))
   df
 }

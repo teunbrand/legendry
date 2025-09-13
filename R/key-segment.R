@@ -75,8 +75,6 @@ key_segment_map <- function(data, ..., .call = caller_env()) {
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
 
-  df$colour <- df$color
-  df$color <- NULL
   df <- rename(df, .line_params, paste0(".", .line_params))
   class(df) <- c("key_segment", "key_guide", class(df))
   df
