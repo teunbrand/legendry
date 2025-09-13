@@ -143,27 +143,6 @@ rotate_just <- function(angle = NULL, hjust = NULL, vjust = NULL, element = NULL
   list(hjust = hnew, vjust = vnew)
 }
 
-new_aes <- function(x, env = caller_env()) {
-  if (!is.list(x)) {
-    stop_input_type(x, as_cli("a {.cls list}"))
-  }
-  x <- lapply(x, new_aesthetic, env = env)
-  structure(x, class = "uneval")
-}
-
-new_aesthetic <- function(x, env = caller_env()) {
-  if (is_quosure(x)) {
-    if (!quo_is_symbolic(x)) {
-      x <- quo_get_expr(x)
-    }
-    return(x)
-  }
-  if (is_symbolic(x)) {
-    x <- new_quosure(x, env = env)
-  }
-  x
-}
-
 combine_elements <- function(e1, e2) {
   if (inherits(e1, "S7_object") || inherits(e2, "S7_object")) {
     # TODO: this is a dirty hack that should be resolved at some point

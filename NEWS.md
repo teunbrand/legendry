@@ -1,5 +1,6 @@
 # legendry (development version)
 
+* Fixed an issue detected by CRAN with regards to undeclared imports from S7 (#97)
 * `scale_x/y_dendro()` will no longer fail to lookup `guide_axis_dendro()` when
   legendry is not on the search path (#94).
 
