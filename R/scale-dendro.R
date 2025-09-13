@@ -71,6 +71,8 @@ scale_x_dendro <- function(clust, ..., expand = waiver(), guide = "axis_dendro",
 
   args <- list2(...)
   check_dendro_args(args)
+  # Pre-validating guide here in case legendry is not loaded (#94)
+  guide <- validate_guide(guide)
 
   sc <- inject(discrete_scale(
     aesthetics = c(
@@ -100,6 +102,8 @@ scale_y_dendro <- function(clust, ..., expand = waiver(), guide = "axis_dendro",
 
   args <- list2(...)
   check_dendro_args(args)
+  # Pre-validating guide here in case legendry is not loaded (#94)
+  guide <- validate_guide(guide)
 
   sc <- inject(discrete_scale(
     aesthetics = c(

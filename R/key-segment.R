@@ -66,9 +66,7 @@ key_segment_manual <- function(value, oppo, value_end = value,
 #' @export
 key_segment_map <- function(data, ..., .call = caller_env()) {
 
-  mapping <- enquos(...)
-  mapping <- Filter(Negate(quo_is_missing), mapping)
-  mapping <- new_aes(mapping, env = .call)
+  mapping <- aes(!!!enquos(...))
 
   df <- eval_aes(
     data, mapping,
@@ -77,8 +75,6 @@ key_segment_map <- function(data, ..., .call = caller_env()) {
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
 
-  df$colour <- df$color
-  df$color <- NULL
   df <- rename(df, .line_params, paste0(".", .line_params))
   class(df) <- c("key_segment", "key_guide", class(df))
   df
