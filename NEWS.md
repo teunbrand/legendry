@@ -1,5 +1,7 @@
 # legendry (development version)
 
+* Fixed an issue detected by CRAN with regards to undeclared imports from S7 (#97)
+
 # legendry 0.2.3
 
 This is a patch release fixing a few bugs.
