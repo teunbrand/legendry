@@ -1,6 +1,6 @@
 Package: legendry
 Title: Extended Legends and Axes for 'ggplot2'
-Version: 0.2.4
+Version: 0.2.4.9000
 Authors@R: 
     person("Teun", "van den Brand", , "tahvdbrand@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-9335-7468"))
