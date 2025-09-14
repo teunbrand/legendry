@@ -85,7 +85,7 @@ A \verb{<Guide>} object.
 This axis guide is a visual representation of position scales and can
 represent the \code{x}, \code{y}, \code{theta} and \code{r} aesthetics. It differs from
 \code{\link[ggplot2:guide_axis]{guide_axis()}} in that it can accept custom keys
-and is can act as an axis for \code{\link[ggplot2:coord_polar]{coord_radial()}} like
+and is can act as an axis for \code{\link[ggplot2:coord_radial]{coord_radial()}} like
 \code{\link[ggplot2:guide_axis_theta]{guide_axis_theta()}}.
 }
 \details{

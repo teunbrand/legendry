@@ -9,7 +9,7 @@
 #' @param clust A data structure that can be coerced to an
 #'   [`<hclust>`][stats::hclust] object through
 #'   [`as.hclust()`][stats::as.hclust].
-#' @inheritDotParams ggplot2::discrete_scale -scale_name -limits
+#' @inheritDotParams ggplot2::discrete_scale -scale_name -limits -minor_breaks
 #' @inheritParams ggplot2::scale_x_discrete
 #'
 #' @details
