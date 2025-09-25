@@ -123,7 +123,7 @@ test_that("merge strategies work as intended", {
 
   build <- ggplot_build(p)
   key <- build$plot$guides$get_params(1L)$key
-  expect_equal(key$.row_label, c("1", "1", "1", "2", "2", "2"))
+  expect_equal(key$.row_label, factor(rep(c("1", "2"), each = 3L)))
   expect_equal(key$.col_label, factor(c("A", "B", "C", "A", "B", "C")))
   # The B-1 combination does not exist in the data
   expect_true(is.na(key$colour[2]))
@@ -138,7 +138,7 @@ test_that("merge strategies work as intended", {
 
   build <- ggplot_build(p)
   key <- build$plot$guides$get_params(1L)$key
-  expect_equal(key$.row_label, c("1", "1", "1", "2", "2", "2"))
+  expect_equal(key$.row_label, factor(rep(c("1", "2"), each = 3L)))
   expect_equal(key$.col_label, factor(c("A", "B", "C", "A", "B", "C")))
   # The B-1 combination does not exist in the data
   expect_true(is.na(key$colour[2]))

@@ -125,10 +125,9 @@ group_from_split_label <- function(scale, aesthetic, sep = "[^[:alnum:]]+",
   labels <- lapply(Map(vec_slice, i = -i, x = labels), paste0, collapse = " ")
   labels <- vec_c(!!!labels)
 
-  key$.label <- labels
+  key$.label <- factor(labels, unique0(labels))
   key$.group <- factor(groups, unique0(groups))
-  vec_slice(key, order(key$.group))
-
+  vec_slice(key, order(key$.group, key$.label))
 }
 
 group_from_lut <- function(scale, aesthetic, lut, ungrouped = "Other") {
