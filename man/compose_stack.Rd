@@ -43,7 +43,11 @@ the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.}
 \item{side.titles}{A \verb{<character>} giving labels for titles displayed on the
 side of the stack. Set to \code{NULL} to display no side titles. If \code{waiver()},
 an attempt is made to extract the titles from the guides and use these
-as side titles.}
+as side titles.
+
+The \code{side.titles} are styled using the \code{legendry.axis.subtitle} theme
+setting. Their placement is controlled via the
+\code{legendry.axis.subtitle.position} setting.}
 
 \item{angle}{A specification for the text angle. Compared to setting the \code{angle} argument
 in \code{\link[ggplot2:element]{element_text()}}, this argument uses some

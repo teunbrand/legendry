@@ -220,7 +220,7 @@ register_legendry_elements <- function() {
     legendry.guide.spacing = unit(2.25, "pt"),
     legendry.group.spacing = rel(2),
     legendry.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
-    legendry.axis.subtitle.position = c("left", "top"),
+    legendry.axis.subtitle.position = c("left", "top", "bottom", "right"),
     element_tree = list(
       legendry.bracket.size = el_def("unit"),
       legendry.bracket = el_def(line, "line"),
