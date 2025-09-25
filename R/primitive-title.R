@@ -38,6 +38,12 @@
 #'   x.sec = primitive_title("Horizontal Title"),
 #'   y.sec = primitive_title(c("along vertical", "Multiple tiles"))
 #' )
+#'
+#' # 'Real' titles occur once per plot.
+#' # Primitive titles repeat over facets and hide the 'real' title.
+#' p + facet_wrap(~ drv) +
+#'   guides(x = primitive_title("I am a repeated subtitle")) +
+#'   labs(x = "I am the hidden real title")
 primitive_title = function(title = waiver(), angle = waiver(),
                            theme = NULL, position = waiver()) {
   if (!is_waive(angle)) {
