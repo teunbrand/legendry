@@ -1,6 +1,8 @@
 # legendry (development version)
 
 * Updated title mechanism to comply with ggplot2#6200 (#104)
+* `key_group_split()` tries to preserve order of labels better, rather than 
+  re-sorting them (#100)
 
 # legendry 0.2.4
 
