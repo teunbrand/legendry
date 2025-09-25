@@ -84,7 +84,8 @@ PrimitiveTitle <- ggproto(
 
   extract_key = function(scale, aesthetic, ...) {
     # Need to keep track of limits for r/r.sec positions
-    data_frame0(!!aesthetic := c(-Inf, Inf), .value = scale$get_limits())
+    limits <- range(scale$continuous_range %||% scale$get_limits())
+    data_frame0(!!aesthetic := c(-Inf, Inf), .value = limits)
   },
 
   extract_params = function(scale, params, title = waiver(), ...) {
