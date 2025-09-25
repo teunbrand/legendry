@@ -8,14 +8,14 @@ test_that("key_group_split works correctly", {
   test <- key_group_split(sep = ":")(scale, "colour")
   expect_equal(
     test[c(".label", ".group")],
-    data.frame(.label = c("B", "D", "F"), .group = factor(c("A", "C", "E")))
+    data.frame(.label = factor(c("B", "D", "F")), .group = factor(c("A", "C", "E")))
   )
 
   # Test reverse argument
   test <- key_group_split(sep = ":", reverse = TRUE)(scale, "colour")
   expect_equal(
     test[c(".label", ".group")],
-    data.frame(.label = c("A", "C", "E"), .group = factor(c("B", "D", "F")))
+    data.frame(.label = factor(c("A", "C", "E")), .group = factor(c("B", "D", "F")))
   )
 
   # Missing label
@@ -25,7 +25,7 @@ test_that("key_group_split works correctly", {
   test <- key_group_split(sep = ":")(scale, "colour")
   expect_equal(
     test[c(".label", ".group")],
-    data.frame(.label = c("", "D", "F"), .group = factor(c("A", "C", "E")))
+    data.frame(.label = factor(c("", "D", "F")), .group = factor(c("A", "C", "E")))
   )
 
   # Too many labels
@@ -35,7 +35,7 @@ test_that("key_group_split works correctly", {
   test <- key_group_split(sep = ":")(scale, "colour")
   expect_equal(
     test[c(".label", ".group")],
-    data.frame(.label = c("B", "D", "F G"), .group = factor(c("A", "C", "E")))
+    data.frame(.label = factor(c("B", "D", "F G")), .group = factor(c("A", "C", "E")))
   )
 
   # Expression labels
