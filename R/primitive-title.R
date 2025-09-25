@@ -90,7 +90,7 @@ PrimitiveTitle <- ggproto(
 
   extract_params = function(scale, params, title = waiver(), ...) {
     params$my_title <-
-      scale$make_title(params$my_title %|W|% scale$name %|W|% title)
+      scale$make_title(params$my_title, scale$name, title)
     primitive_extract_params(scale, params, ...)
   },
 
