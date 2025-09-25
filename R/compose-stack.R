@@ -118,7 +118,8 @@ ComposeStack <- ggproto(
     }
 
     side  <- elements$side_position
-    sides <- vec_slice(params$sides, params$sides$position == params$position)
+    sides <- params$sides %||% get_sides()
+    sides <- vec_slice(sides, sides$position == params$position)
     sides <- vec_slice(sides, sides$side == side)
 
     element <- elements$side_titles
@@ -335,12 +336,17 @@ theta_side_titles <- function(label, elements, params, ranges) {
   )
 }
 
-get_sides <- function(coord, panel_params) {
+get_sides <- function(coord = NULL, panel_params = NULL) {
 
-  x <- panel_params$x.range %||%
-    switch(coord$theta, x = panel_params$theta.range, panel_params$r.range)
-  y <- panel_params$y.range %||%
-    switch(coord$theta, y = panel_params$theta.range, panel_params$r.range)
+  if (is.null(panel_params)) {
+    x <- c(0, 1)
+    y <- c(0, 1)
+  } else {
+    x <- panel_params$x.range %||%
+      switch(coord$theta, x = panel_params$theta.range, panel_params$r.range)
+    y <- panel_params$y.range %||%
+      switch(coord$theta, y = panel_params$theta.range, panel_params$r.range)
+  }
 
   df <- data_frame0(
     position = rep(.trbl, each = 2),
@@ -349,5 +355,8 @@ get_sides <- function(coord, panel_params) {
     y = y[c(2, 2, 2, 1, 1, 1, 2, 1)],
     group = 1:8
   )
+  if (is.null(coord)) {
+    return(df)
+  }
   coord_munch(coord, df, panel_params)
 }
