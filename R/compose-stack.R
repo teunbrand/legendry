@@ -100,14 +100,29 @@ ComposeStack <- ggproto(
     if (!is_theta(params$position)) {
       elements$spacing <- cm(elements$spacing)
     }
+
+    side_position <- elements$side_position
     if (!is.null(params$side_titles)) {
-      elements$side_position <- switch(
+      side_position <- switch(
         params$position,
         top = , bottom = , theta = , theta.sec =
-          setdiff(elements$side_position, c("top", "bottom")),
-        left = , right = setdiff(elements$side_position, c("left", "right"))
+          setdiff(side_position, c("top", "bottom")),
+        left = , right =
+          setdiff(side_position, c("left", "right"))
       )
-      check_argmatch(elements$side_position, .trbl)
+      if (length(side_position) > 1) {
+        if (any(params$aesthetic %in% c("x", "y"))) {
+          side_position <- side_position[1]
+        } else {
+          # When we are a non-position guide, we don't want to interfere
+          # with the title, so we try to avoid placing the side titles there
+          title_position <- calc_element("legend.title.position", theme) %||%
+            switch(params$direction, vertical = "top", horizontal = "left")
+          side_position <- setdiff(side_position, title_position)[1]
+        }
+      }
+      check_argmatch(side_position, .trbl)
+      elements$side_position <- side_position
     }
     elements
   },
