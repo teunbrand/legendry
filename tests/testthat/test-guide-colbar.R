@@ -24,3 +24,20 @@ test_that("guide_colbar works in all positions", {
     vdiffr::expect_doppelganger("top position", base + theme(legend.position = "top"))
   })
 })
+
+test_that("guide_colbar can display side titles", {
+
+  p <- ggplot(mtcars, aes(disp, mpg, colour = cyl)) +
+    geom_point() +
+    scale_colour_viridis_c(
+      guide = guide_colbar(
+        suppress_labels = FALSE,
+        first_guide  = compose_stack("axis_base", side.titles = "foo"),
+        second_guide = compose_stack("axis_base", side.titles = "bar")
+      )
+    )
+
+  suppressWarnings({
+    vdiffr::expect_doppelganger("colbar side titles", p)
+  })
+})
