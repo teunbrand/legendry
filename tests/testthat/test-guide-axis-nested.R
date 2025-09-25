@@ -1,33 +1,39 @@
 test_that("guide_axis_nested logic works", {
 
   g <- guide_axis_nested()
+  expect_length(g$params$guides, 3L)
   expect_s3_class(g$params$guides[[1]], "PrimitiveLine")
   expect_s3_class(g$params$guides[[2]], "PrimitiveTicks")
 
   g <- guide_axis_nested(key = "range_auto")
-  expect_s3_class(g$params$guides[[3]], "GuideNone")
+  expect_length(g$params$guides, 3L)
 
   g <- guide_axis_nested(key = key_range_manual(1, 2, "A"))
+  expect_length(g$params$guides, 4L)
   expect_s3_class(g$params$guides[[3]], "PrimitiveLabels")
 
 
   g <- guide_axis_nested(type = "bracket")
-  expect_s3_class(g$params$guides[[4]], "PrimitiveBracket")
+  expect_s3_class(g$params$guides[[3]], "PrimitiveBracket")
 
   g <- guide_axis_nested(type = "box")
-  expect_s3_class(g$params$guides[[4]], "PrimitiveBox")
+  expect_s3_class(g$params$guides[[3]], "PrimitiveBox")
 
+  g <- guide_axis_nested(subtitle = "foobar")
+  expect_length(g$params$guides, 4L)
+  expect_s3_class(g$params$guides[[4]], "PrimitiveTitle")
 })
 
 test_that("guide_axis_nested recognised `key_range_auto()`", {
 
   guide <- guide_axis_nested(key = "range_auto")
-  expect_s3_class(guide$params$guides[[3]], "GuideNone")
+  expect_length(guide$params$guides, 3L)
 
   guide <- guide_axis_nested(key = key_range_auto(sep = "foobar"))
-  expect_s3_class(guide$params$guides[[3]], "GuideNone")
+  expect_length(guide$params$guides, 3L)
 
   guide <- guide_axis_nested(key = key_range_manual(1, 2))
+  expect_length(guide$params$guides, 4L)
   expect_s3_class(guide$params$guides[[3]], "PrimitiveLabels")
 
 })
