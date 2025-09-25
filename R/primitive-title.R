@@ -222,8 +222,6 @@ draw_cart_title <- function(label, elements, params) {
 
   title    <- elements$title
   position <- params$position
-  hjust <- title$hjust
-  vjust <- title$vjust
 
   angle <- (params$angle %|W|% NULL) %||% title$angle
 
@@ -233,6 +231,10 @@ draw_cart_title <- function(label, elements, params) {
   })
   widths  <- width_cm(singles)
   heights <- height_cm(singles)
+
+  justs <- rotate_just(element = title)
+  hjust <- justs$hjust
+  vjust <- justs$vjust
 
   if (position %in% c("left", "right")) {
     x <- hjust
