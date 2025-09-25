@@ -1,5 +1,8 @@
 # legendry (development version)
 
+* New arguments `guide_axis_base(subtitle)` and `guide_axis_nested(subtitle)` 
+  make it easier to title custom axes (#102)
+
 # legendry 0.2.4
 
 This is a patch release fixing a few bugs.
