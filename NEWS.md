@@ -1,5 +1,7 @@
 # legendry (development version)
 
+* Updated title mechanism to comply with ggplot2#6200 (#104)
+
 # legendry 0.2.4
 
 This is a patch release fixing a few bugs.

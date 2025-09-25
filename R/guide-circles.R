@@ -127,7 +127,7 @@ GuideCircles <- ggproto(
   ),
 
   extract_params = function(scale, params, title = waiver(), ...) {
-    params$title    <- scale$make_title(params$title %|W|% scale$name %|W|% title)
+    params$title    <- scale$make_title(params$title, scale$name, title)
     params$position <- params$position %|W|% NULL
     params$limits   <- scale$get_limits()
     params
