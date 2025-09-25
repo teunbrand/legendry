@@ -84,6 +84,7 @@ guide_axis_nested <- function(
     regular_key = "auto",
     type  = "bracket",
     title = waiver(),
+    subtitle = NULL,
     theme = NULL,
     angle = waiver(),
     cap   = "none",
@@ -101,33 +102,48 @@ guide_axis_nested <- function(
   theme$legendry.guide.spacing <-
     theme$legendry.guide.spacing %||% unit(0, "cm")
 
+  pad_discrete <- pad_discrete %||% switch(type, fence = 0.5, 0.4)
+
+  guides <- list(
+    primitive_line(cap = cap, position = position),
+    primitive_ticks(bidi = bidi, position = position)
+  )
+
   nesting <- switch(
     arg_match0(type, c("bracket", "box", "fence")),
     bracket = primitive_bracket,
-    box = primitive_box,
-    fence = primitive_fence
+    box     = primitive_box,
+    fence   = primitive_fence
   )
-  pad_discrete <- pad_discrete %||% switch(type, fence = 0.5, 0.4)
 
   if (is_string(key) && !is_key_string(key)) {
     key <- key_range_auto(sep = key)
   }
-  if (identical(key, "range_auto") ||
-      inherits(key, "key_range_auto_function")) {
-    labels <- guide_none()
-  } else {
-    labels <- primitive_labels(angle = angle)
+  # Some of the `nesting` guides may already absorb label-duty
+  automatic_labels <-
+    identical(key, "range_auto") ||
+    inherits(key, "key_range_auto_function") ||
+    is.null(key)
+  if (!automatic_labels) {
+    # If not absorbed, roll out a formal primitive for labels
+    guides <- c(guides, list(primitive_labels(angle = angle)))
+  }
+
+  # Populate nesting guide
+  nesting <- nesting(
+    key = key %||% "range_auto", angle = angle,
+    oob = oob, drop_zero = drop_zero, pad_discrete = pad_discrete,
+    levels_text = levels_text, ...
+  )
+  guides <- c(guides, list(nesting))
+
+  # Add optional subtitle
+  if (!is.null(subtitle)) {
+    guides <- c(guides, list(primitive_title(subtitle)))
   }
 
   compose_stack(
-    primitive_line(cap = cap, position = position),
-    primitive_ticks(bidi = bidi, position = position),
-    labels,
-    nesting(
-      key = key %||% "range_auto", angle = angle,
-      oob = oob, drop_zero = drop_zero, pad_discrete = pad_discrete,
-      levels_text = levels_text, ...
-    ),
+    !!!guides,
     key = regular_key %||% "auto",
     side.titles = NULL, drop = 3:4, title = title, theme =theme,
     order = order, available_aes = c("any", "x", "y", "r", "theta"),
