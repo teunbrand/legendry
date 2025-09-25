@@ -22,7 +22,7 @@ test_that("guide_axis_base looks good as axis", {
 
   p <- base + guides(
     x = guide_axis_base("log", angle = 0),
-    x.sec = guide_axis_base("minor"),
+    x.sec = guide_axis_base("minor", subtitle = "subtitle"),
     y = guide_axis_base(key = key_manual(c(5, 6, 7))),
     y.sec = guide_axis_base(key = key_manual(c(5, 20, 15),
                                              label = c("A", "B", "C")))

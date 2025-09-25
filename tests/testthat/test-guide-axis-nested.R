@@ -60,7 +60,7 @@ test_that("guide_axis_nested looks good as axis", {
       key = key_range_manual(28, 42, "Bar"),
       regular_key = key_manual(c(20, 30))
     ),
-    x.sec = guide_axis_nested(type = "box")
+    x.sec = guide_axis_nested(type = "box", subtitle = "subtitle")
   )
 
   vdiffr::expect_doppelganger("guide_axis_base cartesian", p)
