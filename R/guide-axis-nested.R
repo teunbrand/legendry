@@ -15,12 +15,15 @@
 #'   appearance of regular tick marks.
 #' @param type Appearance of ranges, either `"box"` to put text in boxes or
 #'   `"bracket"` (default) to text brackets.
+#' @param subtitle Passed on to [`primitive_title(title)`][primitive_title].
+#'   Follow the linked topic for more details.
 #' @inheritParams common_parameters
 #' @inheritParams primitive_line
 #' @inheritParams primitive_ticks
 #' @inheritParams primitive_bracket
 #' @param ... Arguments passed on to [`primitive_bracket()`],
-#'   [`primitive_box()`] or [`primitive_fence()`].
+#'   [`primitive_box()`] or [`primitive_fence()`] (depending on the `type`
+#'   argument).
 #'
 #' @details
 #' Under the hood, this guide is a [stack composition][compose_stack] of a
