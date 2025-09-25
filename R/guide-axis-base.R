@@ -8,9 +8,12 @@
 #' and is can act as an axis for [`coord_radial()`][ggplot2::coord_radial] like
 #' [`guide_axis_theta()`][ggplot2::guide_axis_theta].
 #'
-#' @param key A [standard key][key_standard] specification. Defaults to
-#'   [`key_auto()`]. See more information in the linked topic and the 'Details'
-#'   section.
+#' @param key
+#' A [standard key][key_standard] specification. Defaults to
+#' [`key_auto()`]. See more information in the linked topic and the 'Details'
+#' section.
+#' @param subtitle Passed on to [`primitive_title(title)`][primitive_title].
+#'   Follow the linked topic for more details.
 #' @inheritParams primitive_labels
 #' @inheritParams primitive_line
 #' @inheritParams primitive_ticks
