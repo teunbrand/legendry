@@ -21,6 +21,10 @@
 #'   side of the stack. Set to `NULL` to display no side titles. If `waiver()`,
 #'   an attempt is made to extract the titles from the guides and use these
 #'   as side titles.
+#'
+#'   The `side.titles` are styled using the `legendry.axis.subtitle` theme
+#'   setting. Their placement is controlled via the
+#'   `legendry.axis.subtitle.position` setting.
 #' @param drop An `<integer>` giving the indices of guides that should be
 #'   dropped when a facet requests no labels to be drawn at axes in between
 #'   panels. The default, `NULL`, will drop every guide except the first.
