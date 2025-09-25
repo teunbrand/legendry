@@ -1,5 +1,7 @@
 # legendry (development version)
 
+* `compose_stack(side.titles)` also work in non-position guides (#101)
+
 # legendry 0.2.4
 
 This is a patch release fixing a few bugs.
