@@ -1,5 +1,6 @@
 # legendry (development version)
 
+* New guide `guide_axis_plot()` to place side-plots (#43)
 * New arguments `guide_axis_base(subtitle)` and `guide_axis_nested(subtitle)` 
   make it easier to title custom axes (#102)
 * `compose_stack(side.titles)` also work in non-position guides (#101)
