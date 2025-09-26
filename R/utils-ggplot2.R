@@ -261,4 +261,15 @@ in_arc <- function(theta, arc) {
   }
 }
 
+snake_class <- function(x) snakeize(class(x)[1])
+snakeize <- function(x) {
+  x <- gsub("([A-Za-z])([A-Z])([a-z])", "\\1_\\2\\3", x)
+  x <- gsub(".", "_", x, fixed = TRUE)
+  x <- gsub("([a-z])([A-Z])", "\\1_\\2", x)
+  to_lower_ascii(x)
+}
+to_lower_ascii <- function(x) chartr(upper_ascii, lower_ascii, x)
+upper_ascii <- paste0(LETTERS, collapse = "")
+lower_ascii <- paste0(letters, collapse = "")
+
 # nocov end
