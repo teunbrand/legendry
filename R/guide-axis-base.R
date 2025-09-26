@@ -8,9 +8,12 @@
 #' and is can act as an axis for [`coord_radial()`][ggplot2::coord_radial] like
 #' [`guide_axis_theta()`][ggplot2::guide_axis_theta].
 #'
-#' @param key A [standard key][key_standard] specification. Defaults to
-#'   [`key_auto()`]. See more information in the linked topic and the 'Details'
-#'   section.
+#' @param key
+#' A [standard key][key_standard] specification. Defaults to
+#' [`key_auto()`]. See more information in the linked topic and the 'Details'
+#' section.
+#' @param subtitle Passed on to [`primitive_title(title)`][primitive_title].
+#'   Follow the linked topic for more details.
 #' @inheritParams primitive_labels
 #' @inheritParams primitive_line
 #' @inheritParams primitive_ticks
@@ -53,7 +56,7 @@
 #'     guide = guide_axis_base("log")
 #'   )
 guide_axis_base <- function(
-  key = NULL, title = waiver(), theme = NULL,
+  key = NULL, title = waiver(), subtitle = NULL, theme = NULL,
   n.dodge = 1, check.overlap = FALSE, angle = waiver(),
   cap = "none", bidi = FALSE, order = 0, position = waiver()
 ) {
@@ -61,12 +64,20 @@ guide_axis_base <- function(
   theme$legendry.guide.spacing <-
     theme$legendry.guide.spacing %||% unit(0, "cm")
 
-  compose_stack(
+  guides <- list(
     primitive_line(cap = cap, position = position),
     primitive_ticks(bidi = bidi, position = position),
     primitive_labels(
       angle = angle, n.dodge = n.dodge, check.overlap = check.overlap
-    ),
+    )
+  )
+
+  if (!is.null(subtitle)) {
+    guides <- c(guides, list(primitive_title(subtitle)))
+  }
+
+  compose_stack(
+    !!!guides,
     key = key, side.titles = NULL, drop = 3L,
     title = title, theme = theme, order = order,
     available_aes = c("any", "x", "y", "r", "theta"),

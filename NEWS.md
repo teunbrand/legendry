@@ -1,5 +1,7 @@
 # legendry (development version)
 
+* New arguments `guide_axis_base(subtitle)` and `guide_axis_nested(subtitle)` 
+  make it easier to title custom axes (#102)
 * `compose_stack(side.titles)` also work in non-position guides (#101)
 * Updated title mechanism to comply with ggplot2#6200 (#104)
 * `key_group_split()` tries to preserve order of labels better, rather than 

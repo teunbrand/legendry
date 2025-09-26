@@ -9,6 +9,7 @@ guide_axis_nested(
   regular_key = "auto",
   type = "bracket",
   title = waiver(),
+  subtitle = NULL,
   theme = NULL,
   angle = waiver(),
   cap = "none",
@@ -42,6 +43,9 @@ appearance of regular tick marks.}
 the guide. If \code{NULL}, the title is not shown. The default,
 \code{\link[ggplot2:waiver]{waiver()}}, takes the name of the scale object or
 the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.}
+
+\item{subtitle}{Passed on to \code{\link[=primitive_title]{primitive_title(title)}}.
+Follow the linked topic for more details.}
 
 \item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
 differently from the plot's theme settings. The \code{theme} argument in the
@@ -93,7 +97,8 @@ the \code{drop_zero} setting.}
 text appears at every level.}
 
 \item{...}{Arguments passed on to \code{\link[=primitive_bracket]{primitive_bracket()}},
-\code{\link[=primitive_box]{primitive_box()}} or \code{\link[=primitive_fence]{primitive_fence()}}.}
+\code{\link[=primitive_box]{primitive_box()}} or \code{\link[=primitive_fence]{primitive_fence()}} (depending on the \code{type}
+argument).}
 
 \item{order}{A positive \verb{<integer[1]>} that specifies the order of this guide among
 multiple guides. This controls in which order guides are merged if there
