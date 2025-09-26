@@ -157,6 +157,62 @@ GuideAxisPlot <- ggproto(
         "Non-linear coordinates do not support {.fn guide_axis_plot}."
       )
     }
+    main_reverse <- coord$reverse %||% "none"
+    side_reverse <- params$plot@coordinates$reverse %||% "none"
+    new_reverse  <- "none"
+
+    main <- params$aesthetic[1]
+    oppo <- setdiff(c("x", "y"), main)
+
+    # Let's presume this is an x-axis,
+    # we follow the following scheme
+    #
+    #         main plot -->
+    #        |none|x   |y   |xy
+    # g |----|----|----|----|----
+    # u |none|none| x  |none| x
+    # i |----|----|----|----|----
+    # d | x  |none| x  |none| x
+    # e |----|----|----|----|----
+    # | | y  | y  | xy | y  | xy
+    # V |----|----|----|----|----
+    #   | xy | y  | xy | y  | xy
+    #
+    # When this is a y-axis,
+    # swap the 'x' and 'y'
+
+    if (main_reverse %in% c("none", oppo)) {
+      if (side_reverse %in% c("none", main)) {
+        new_reverse <- "none"
+      } else { # guide_reveral %in% c("xy", oppo)
+        new_reverse <- oppo
+      }
+    } else { # main_reverse %in% c("xy", main)
+      if (side_reverse %in% c("none", main)) {
+        new_reverse <- main
+      } else { # guide_reverse %in%
+        new_reverse <- "xy"
+      }
+    }
+
+    if (new_reverse != side_reverse) {
+
+      old_coords <- params$plot@coordinates
+      coord_cls <- snake_class(old_coords)
+
+      cli::cli_warn(c(
+        "The {.code {coord_cls}(reverse = {.val {side_reverse}})} setting \\
+        in side-plot is {.emph incompatible} with the \\
+        main plot ({.val {main_reverse}}).",
+        i = "Revising to {.code {coord_cls}(reverse = {.val {new_reverse}})}."
+      ), call = expr(guide_axis_plot(plot)))
+
+      params$plot@coordinates <- ggproto(
+        NULL, old_coords,
+        reverse = new_reverse
+      )
+    }
+
     return(params)
   },
 
