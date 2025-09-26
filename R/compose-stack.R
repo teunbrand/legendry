@@ -21,6 +21,10 @@
 #'   side of the stack. Set to `NULL` to display no side titles. If `waiver()`,
 #'   an attempt is made to extract the titles from the guides and use these
 #'   as side titles.
+#'
+#'   The `side.titles` are styled using the `legendry.axis.subtitle` theme
+#'   setting. Their placement is controlled via the
+#'   `legendry.axis.subtitle.position` setting.
 #' @param drop An `<integer>` giving the indices of guides that should be
 #'   dropped when a facet requests no labels to be drawn at axes in between
 #'   panels. The default, `NULL`, will drop every guide except the first.
@@ -100,14 +104,29 @@ ComposeStack <- ggproto(
     if (!is_theta(params$position)) {
       elements$spacing <- cm(elements$spacing)
     }
+
+    side_position <- elements$side_position
     if (!is.null(params$side_titles)) {
-      elements$side_position <- switch(
+      side_position <- switch(
         params$position,
         top = , bottom = , theta = , theta.sec =
-          setdiff(elements$side_position, c("top", "bottom")),
-        left = , right = setdiff(elements$side_position, c("left", "right"))
+          setdiff(side_position, c("top", "bottom")),
+        left = , right =
+          setdiff(side_position, c("left", "right"))
       )
-      check_argmatch(elements$side_position, .trbl)
+      if (length(side_position) > 1) {
+        if (any(params$aesthetic %in% c("x", "y"))) {
+          side_position <- side_position[1]
+        } else {
+          # When we are a non-position guide, we don't want to interfere
+          # with the title, so we try to avoid placing the side titles there
+          title_position <- calc_element("legend.title.position", theme) %||%
+            switch(params$direction, vertical = "top", horizontal = "left")
+          side_position <- setdiff(side_position, title_position)[1]
+        }
+      }
+      check_argmatch(side_position, .trbl)
+      elements$side_position <- side_position
     }
     elements
   },
@@ -118,7 +137,8 @@ ComposeStack <- ggproto(
     }
 
     side  <- elements$side_position
-    sides <- vec_slice(params$sides, params$sides$position == params$position)
+    sides <- params$sides %||% get_sides()
+    sides <- vec_slice(sides, sides$position == params$position)
     sides <- vec_slice(sides, sides$side == side)
 
     element <- elements$side_titles
@@ -335,12 +355,17 @@ theta_side_titles <- function(label, elements, params, ranges) {
   )
 }
 
-get_sides <- function(coord, panel_params) {
+get_sides <- function(coord = NULL, panel_params = NULL) {
 
-  x <- panel_params$x.range %||%
-    switch(coord$theta, x = panel_params$theta.range, panel_params$r.range)
-  y <- panel_params$y.range %||%
-    switch(coord$theta, y = panel_params$theta.range, panel_params$r.range)
+  if (is.null(panel_params)) {
+    x <- c(0, 1)
+    y <- c(0, 1)
+  } else {
+    x <- panel_params$x.range %||%
+      switch(coord$theta, x = panel_params$theta.range, panel_params$r.range)
+    y <- panel_params$y.range %||%
+      switch(coord$theta, y = panel_params$theta.range, panel_params$r.range)
+  }
 
   df <- data_frame0(
     position = rep(.trbl, each = 2),
@@ -349,5 +374,8 @@ get_sides <- function(coord, panel_params) {
     y = y[c(2, 2, 2, 1, 1, 1, 2, 1)],
     group = 1:8
   )
+  if (is.null(coord)) {
+    return(df)
+  }
   coord_munch(coord, df, panel_params)
 }

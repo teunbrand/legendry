@@ -1,5 +1,16 @@
 # legendry (development version)
 
+* New arguments `guide_axis_base(subtitle)` and `guide_axis_nested(subtitle)` 
+  make it easier to title custom axes (#102)
+* `compose_stack(side.titles)` also work in non-position guides (#101)
+* Updated title mechanism to comply with ggplot2#6200 (#104)
+* `key_group_split()` tries to preserve order of labels better, rather than 
+  re-sorting them (#100)
+
+# legendry 0.2.4
+
+This is a patch release fixing a few bugs.
+
 * Fixed an issue detected by CRAN with regards to undeclared imports from S7 (#97)
 * `scale_x/y_dendro()` will no longer fail to lookup `guide_axis_dendro()` when
   legendry is not on the search path (#94).

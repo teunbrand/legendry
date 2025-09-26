@@ -61,7 +61,7 @@ transform data manually. The default, \code{NULL}, will use the scale
 transformation to calculate positions. It is only advisable to set the
 \code{prescale_base} argument when the data have already been log-transformed.
 When using a log-transform in the scale or in
-\code{\link[ggplot2:coord_transform]{coord_trans()}}, the default \code{NULL} is recommended.}
+\code{\link[ggplot2:coord_transform]{coord_transform()}}, the default \code{NULL} is recommended.}
 
 \item{negative_small}{A \verb{<numeric[1]>} setting the smallest absolute value
 that is marked with a tick in case the scale limits include 0 or negative

@@ -74,7 +74,7 @@ Compose <- ggproto(
 
   train = function(self, params = self$params, scale, aesthetic = NULL,
                    title = waiver(), ...) {
-    title <- scale$make_title(params$title %|W|% scale$name %|W|% title)
+    title <- scale$make_title(params$title, scale$name, title)
     position  <- params$position  <- params$position %|W|% NULL
     aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
     check_position(position, inside = TRUE, allow_null = TRUE)
