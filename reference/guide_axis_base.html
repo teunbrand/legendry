@@ -90,10 +90,11 @@ section.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>A <code>&lt;character[1]&gt;</code> or <code>&lt;expression[1]&gt;</code> indicating the title of
-the guide. If <code>NULL</code>, the title is not shown. The default,
-<code><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver()</a></code>, takes the name of the scale object or
-the name specified in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> as the title.</p></dd>
+<dd><p>One of the following to indicate the title of the guide:</p><ul><li><p>A <code>&lt;character[1]&gt;</code> or <code>&lt;expression[1]&gt;</code> to set a custom title.</p></li>
+<li><p><code>NULL</code> to not display any title.</p></li>
+<li><p><code><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver()</a></code> (default) to take the name of the scale
+object or the name specified in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> as the title.</p></li>
+</ul></dd>
 
 
 <dt id="arg-subtitle">subtitle<a class="anchor" aria-label="anchor" href="#arg-subtitle"></a></dt>
@@ -180,6 +181,7 @@ determined by a hashing indicative settings of a guide.</p></dd>
     <div class="dont-index"><p>Other standalone guides:
 <code><a href="guide_axis_dendro.html">guide_axis_dendro</a>()</code>,
 <code><a href="guide_axis_nested.html">guide_axis_nested</a>()</code>,
+<code><a href="guide_axis_plot.html">guide_axis_plot</a>()</code>,
 <code><a href="guide_circles.html">guide_circles</a>()</code>,
 <code><a href="guide_colbar.html">guide_colbar</a>()</code>,
 <code><a href="guide_colring.html">guide_colring</a>()</code>,
