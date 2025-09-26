@@ -2,6 +2,9 @@
 
 #' Side-plot axis
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Displays an axis-sharing plot to the side of the panel.
 #'
 #' @param plot

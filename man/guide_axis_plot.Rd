@@ -50,6 +50,8 @@ legends.}
 A \verb{<Guide>} object.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Displays an axis-sharing plot to the side of the panel.
 }
 \details{
