@@ -60,6 +60,7 @@ be used to infer nesting structure from labels or annotate ranges.</p>
 <span>  regular_key <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"bracket"</span>,</span>
 <span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  subtitle <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  angle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  cap <span class="op">=</span> <span class="st">"none"</span>,</span>
@@ -102,6 +103,11 @@ appearance of regular tick marks.</p></dd>
 the guide. If <code>NULL</code>, the title is not shown. The default,
 <code><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver()</a></code>, takes the name of the scale object or
 the name specified in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> as the title.</p></dd>
+
+
+<dt id="arg-subtitle">subtitle<a class="anchor" aria-label="anchor" href="#arg-subtitle"></a></dt>
+<dd><p>Passed on to <code><a href="primitive_title.html">primitive_title(title)</a></code>.
+Follow the linked topic for more details.</p></dd>
 
 
 <dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>
@@ -165,7 +171,8 @@ text appears at every level.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed on to <code><a href="primitive_bracket.html">primitive_bracket()</a></code>,
-<code><a href="primitive_box.html">primitive_box()</a></code> or <code><a href="primitive_fence.html">primitive_fence()</a></code>.</p></dd>
+<code><a href="primitive_box.html">primitive_box()</a></code> or <code><a href="primitive_fence.html">primitive_fence()</a></code> (depending on the <code>type</code>
+argument).</p></dd>
 
 
 <dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
