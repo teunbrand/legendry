@@ -259,8 +259,8 @@ GuideAxisPlot <- ggproto(
       # Reassemble in gtable where only middle part has width
       height <- sum(plot$heights)
       gt <- gtable(widths = unit(c(0, 1, 0), "npc"), heights = height) |>
-        gtable_add_grob(mid, t = 1, l = 2, clip = "off", name = "plot") |>
-        gtable_add_grob(left, t = 1, l = 1, clip = "off", name = "left-decor") |>
+        gtable_add_grob(mid,   t = 1, l = 2, clip = "off", name = "plot") |>
+        gtable_add_grob(left,  t = 1, l = 1, clip = "off", name = "left-decor") |>
         gtable_add_grob(right, t = 1, l = 3, clip = "off", name = "right-decor") |>
         gList() |>
         absoluteGrob(height = height)
@@ -288,8 +288,8 @@ GuideAxisPlot <- ggproto(
 
       width <- sum(plot$widths)
       gt <- gtable(widths = width, heights = unit(c(0, 1, 0), "npc")) |>
-        gtable_add_grob(mid, t = 2, l = 1, clip = "off", name = "plot") |>
-        gtable_add_grob(top, t = 1, l = 1, clip = "off", name = "top-decor") |>
+        gtable_add_grob(mid,    t = 2, l = 1, clip = "off", name = "plot") |>
+        gtable_add_grob(top,    t = 1, l = 1, clip = "off", name = "top-decor") |>
         gtable_add_grob(bottom, t = 3, l = 1, clip = "off", name = "bottom-decor") |>
         gList() |>
         absoluteGrob(width = width)
