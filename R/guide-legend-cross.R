@@ -372,6 +372,34 @@ GuideLegendCross <- ggproto(
       )
     }
 
+    # Add row title
+    if (!is_zero(grobs$title$row)) {
+      row_size <- unit(width_cm(grobs$title$row), "cm")
+      place <- switch(elements$row_position, right = c(-1, -1), c(0, 1))
+      gt <- gtable_add_cols(gt, row_size, pos = place[1])
+      gt <- gtable_add_grob(
+        gt, grobs$title$row,
+        name = "row-subtitle", clip = "off",
+        t = min(layout$key_row),
+        b = max(layout$key_row),
+        l = place[2], r = place[2]
+      )
+    }
+
+    # Add col title
+    if (!is_zero(grobs$title$col)) {
+      col_size <- unit(height_cm(grobs$title$col), "cm")
+      place <- switch(elements$col_position, top = c(0, 1), c(-1, -1))
+      gt <- gtable_add_rows(gt, col_size, pos = place[1])
+      gt <- gtable_add_grob(
+        gt, grobs$title$col,
+        name = "col-subtitle", clip = "off",
+        t = place[2], b = place[2],
+        l = min(layout$key_col),
+        r = max(layout$key_col)
+      )
+    }
+
     gt <- self$add_title(
       gt, grobs$title$main, elements$title_position,
       rotate_just(element = elements$title)
