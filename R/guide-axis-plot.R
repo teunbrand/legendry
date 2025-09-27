@@ -241,7 +241,7 @@ GuideAxisPlot <- ggproto(
       mid    <- plot[, (panels$l[1]:panels$r[1])]
 
       # Prepare plot parts to the left of the main panel
-      left <- plot[, 1:(panels$l[1] - 1)]
+      left <- plot[, idx_before(ncol(plot), panels$l[1])]
       left_vp <- viewport(
         just = "right", x = 1,
         width = unit(sum(width_cm(left$widths)), "cm")
@@ -249,7 +249,7 @@ GuideAxisPlot <- ggproto(
       left <- editGrob(left, vp = left_vp)
 
       # Perpare plot parts to the right of the main panel
-      right <- plot[, (panels$r[1] + 1):ncol(plot)]
+      right <- plot[, idx_after(ncol(plot), panels$r[1])]
       right_vp <- viewport(
         just = "left", x = 0,
         width = unit(sum(width_cm(right$widths)), "cm")
@@ -271,7 +271,7 @@ GuideAxisPlot <- ggproto(
       mid    <- plot[(panels$t[1]:panels$b[1])]
 
       # Prepare plot parts above the main panel
-      top <- plot[1:(panels$t[1] - 1)]
+      top <- plot[idx_before(nrow(plot), panels$t[1]), ]
       top_vp <- viewport(
         just = "bottom", y = 0,
         height = unit(sum(height_cm(top$heights)), "cm")
@@ -279,7 +279,7 @@ GuideAxisPlot <- ggproto(
       top <- editGrob(top, vp = top_vp)
 
       # Prepare plot parts below the main panel
-      bottom <- plot[(panels$b[1] + 1):nrow(plot),  ]
+      bottom <- plot[idx_after(nrow(plot), panels$b[1]),  ]
       bottom_vp <- viewport(
         just = "top", y = 1,
         height = unit(sum(height_cm(bottom$heights)), "cm")

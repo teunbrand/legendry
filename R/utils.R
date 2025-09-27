@@ -317,3 +317,25 @@ descale <- function(x, to = c(0, 1), from = c(0, 1)) {
   }
   rescale(as.numeric(x), to = to, from = from)
 }
+
+after <- function(x, i) {
+  n <- length(x)
+  if (i >= n) {
+    return(vec_slice(x, 0))
+  }
+  vec_slice(x, (i + 1L):n)
+}
+
+before <- function(x, i) {
+  n <- length(x)
+  if (i >= n) {
+    return(x)
+  }
+  if (i <= 1) {
+    return(vec_slice(x, 0))
+  }
+  vec_slice(x, 1L:(i - 1L))
+}
+
+idx_after  <- function(n, i) after(seq(n), i)
+idx_before <- function(n, i) before(seq(n), i)
