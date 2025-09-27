@@ -90,6 +90,13 @@ guide_legend_cross <- function(
   check_position(position, theta = FALSE, inside = TRUE, allow_null = TRUE)
   check_argmatch(direction, c("horizontal", "vertical"), allow_null = TRUE)
   check_bool(swap)
+  check_list_of(
+    subtitle_position,
+    c("ggplot2::element_text", "ggplot2::element_blank", "NULL"),
+    allow_null = TRUE
+  )
+  check_length(subtitle_position, exact = 4, allow_null = TRUE)
+  check_inherits(col_text, c("ggplot2::element_text", "element_blank"), allow_null = TRUE)
 
   if (length(reverse) == 1L) {
     check_bool(reverse)
