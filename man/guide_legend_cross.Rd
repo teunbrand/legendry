@@ -56,7 +56,8 @@ to the row labels.}
 \item{subtitle_position}{A named list of 4
 \link[ggplot2:element]{text elements}, having the names \code{"top"},
 \code{"right"}, \code{"bottom"} and \verb{"left}. These govern the display of subtitles
-when placed in any of these positions relative to the}
+when placed in any of these positions relative to the keys. See
+\code{\link[=position_text]{position_text()}} for a convenient helper.}
 
 \item{override.aes}{A named \verb{<list>} specifying aesthetic parameters of the
 key glyphs. See details and examples in

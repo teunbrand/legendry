@@ -27,7 +27,8 @@
 #' @param subtitle_position A named list of 4
 #'   [text elements][ggplot2::element_text()], having the names `"top"`,
 #'   `"right"`, `"bottom"` and `"left`. These govern the display of subtitles
-#'   when placed in any of these positions relative to the
+#'   when placed in any of these positions relative to the keys. See
+#'   [`position_text()`] for a convenient helper.
 #' @inheritParams common_parameters
 #'
 #' @return A `<GuideLegend>` object.
@@ -447,7 +448,7 @@ GuideLegendCross <- ggproto(
 
 # Public helpers ----------------------------------------------------------
 
-#' Helper for position text
+#' Helper to position text
 #'
 #' This is a helper function for use in [`guide_legend_cross()`]. It creates
 #' a list of text elements, each corresponding the top, right, bottom or left

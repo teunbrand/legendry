@@ -2,7 +2,7 @@
 % Please edit documentation in R/guide-legend-cross.R
 \name{position_text}
 \alias{position_text}
-\title{Helper for position text}
+\title{Helper to position text}
 \usage{
 position_text(angle = NA, hjust = NA, vjust = NA, ..., element = element_text)
 }
