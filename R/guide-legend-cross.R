@@ -452,12 +452,12 @@ GuideLegendCross <- ggproto(
         just <- rotate_just(element = elements$subtitle_col)$hjust
 
         # Find out how much space needs to added to the right
-        right_width <- if (i[2] == ncol(gt)) 0 else sum(widths[(i[2] + 1):ncol(gt)])
+        right_width <- sum(after(widths, i[2]))
         right_width <- pmax(((1 - just) * excess_width) - right_width, 0)
 
         # Find out how much space needs to added to the left
-        left_width  <- if (i[1] == 1) 0 else sum(widths[1:(i[1] - 1)])
-        left_width  <- pmax((just * excess_width) - left_width, 0)
+        left_width <- sum(before(widths, i[1]))
+        left_width <- pmax((just * excess_width) - left_width, 0)
 
         # Add actual space
         gt <- gtable_add_cols(gt, unit(right_width, "cm"), pos = -1)
@@ -479,11 +479,11 @@ GuideLegendCross <- ggproto(
         just <- rotate_just(element = elements$subtitle_row)$vjust
 
         # Find out how much space needs to added on top
-        top_height <- if (i[2] == nrow(gt)) 0 else sum(heights[(i[2] + 1):nrow(gt)])
+        top_height <- sum(before(heights, i[1]))
         top_height <- pmax(((1 - just) * excess_height) - top_height, 0)
 
         # Find out how much space needs to added on the bottom
-        bottom_height <- if (i[1] == 1) 0 else sum(heights[1:(i[1] - 1)])
+        bottom_height <- sum(after(heights, i[2]))
         bottom_height <- pmax((just * excess_height) - bottom_height, 0)
 
         # Add actual space
