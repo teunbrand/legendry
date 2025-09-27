@@ -252,6 +252,23 @@ GuideLegendCross <- ggproto(
     list(rows = rows, cols = cols)
   },
 
+  build_title = function(label, elements, params) {
+    main <- GuideLegend$build_title(label, elements, params)
+    row <- element_grob(
+      elements$subtitle_row,
+      label = params$row_title,
+      margin_x = TRUE,
+      margin_y = TRUE
+    )
+    col <- element_grob(
+      elements$subtitle_col,
+      label = params$col_title,
+      margin_x = TRUE,
+      margin_y = TRUE
+    )
+    list(main = main, col = col, row = row)
+  },
+
   measure_grobs = function(grobs, params, elements) {
 
     # Get width of keys per column
