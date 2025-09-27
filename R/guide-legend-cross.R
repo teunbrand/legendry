@@ -121,6 +121,11 @@ GuideLegendCross <- ggproto(
 
   hashables = exprs(title, "GuideLegendCross"),
 
+  elements = list2(
+    !!!GuideLegendBase$elements,
+    subtitle = "legendry.legend.subtitle"
+  ),
+
   extract_key = function(scale, aesthetic, key = NULL,
                          dim_order = c("row", "col"), ...) {
 
@@ -213,6 +218,17 @@ GuideLegendCross <- ggproto(
       params$col_text,
       setup_legend_text(theme, col)
     )
+
+    elements$subtitle_row <- setup_legend_title(theme, row, element = elements$subtitle)
+    elements$subtitle_col <- setup_legend_title(theme, col, element = elements$subtitle)
+    original <- theme[[elements$subtitle]]
+    if (is.null(original@hjust)) {
+      elements$subtitle_row@hjust <- 0.5
+      elements$subtitle_col@hjust <- 0.5
+    }
+    if (is.null(original@angle)) {
+      elements$subtitle_row@angle <- switch(row, right = -90, left = 90)
+    }
 
     elements <- Guide$setup_elements(params, elements, theme)
     elements[c("row_position", "col_position")] <- list(row, col)
