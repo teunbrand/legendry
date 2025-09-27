@@ -58,8 +58,11 @@ that displays crosses, or: interactions, between two variables.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">guide_legend_cross</span><span class="op">(</span></span>
 <span>  key <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  row_title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  swap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  col_text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, vjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>  subtitle_position <span class="op">=</span> <span class="fu"><a href="position_text.html">position_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">90</span>, <span class="fl">0</span>, <span class="fl">90</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>  override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -89,6 +92,15 @@ object or the name specified in <code><a href="https://ggplot2.tidyverse.org/ref
 </ul></dd>
 
 
+<dt id="arg-row-title-col-title">row_title, col_title<a class="anchor" aria-label="anchor" href="#arg-row-title-col-title"></a></dt>
+<dd><p>One of the following to indicate subtitles
+spanning the rows and columns of the guide:</p><ul><li><p>A <code>&lt;character[1]&gt;</code> or <code>&lt;expression[1]&gt;</code> to set a custom title.</p></li>
+<li><p><code>NULL</code> to not display any title.</p></li>
+<li><p><code><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver()</a></code> to propagate subtitles from
+merging guides (default).</p></li>
+</ul></dd>
+
+
 <dt id="arg-swap">swap<a class="anchor" aria-label="anchor" href="#arg-swap"></a></dt>
 <dd><p>A <code>&lt;logical[1]&gt;</code> which when <code>TRUE</code> exchanges the column and row
 variables in the displayed legend.</p></dd>
@@ -98,6 +110,14 @@ variables in the displayed legend.</p></dd>
 <dd><p>An <code>&lt;element_text&gt;</code> object giving adjustments to text for
 the column labels. Can be <code>NULL</code> to display column labels in equal fashion
 to the row labels.</p></dd>
+
+
+<dt id="arg-subtitle-position">subtitle_position<a class="anchor" aria-label="anchor" href="#arg-subtitle-position"></a></dt>
+<dd><p>A named list of 4
+<a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">text elements</a>, having the names <code>"top"</code>,
+<code>"right"</code>, <code>"bottom"</code> and <code>"left</code>. These govern the display of subtitles
+when placed in any of these positions relative to the keys. See
+<code><a href="position_text.html">position_text()</a></code> for a convenient helper.</p></dd>
 
 
 <dt id="arg-override-aes">override.aes<a class="anchor" aria-label="anchor" href="#arg-override-aes"></a></dt>
