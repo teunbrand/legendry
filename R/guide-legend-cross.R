@@ -170,6 +170,9 @@ GuideLegendCross <- ggproto(
       params$key <- cross_merge_partial(old_key, new_key)
     }
 
+    params$row_title <- params$row_title %|W|% new_params$row_title
+    params$col_title <- params$col_title %|W|% new_params$col_title
+
     params$override.aes <-
       merge_legend_override(params$override.aes, new_params$override.aes)
     list(guide = self, params = params)
