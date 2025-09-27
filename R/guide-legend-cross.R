@@ -336,8 +336,57 @@ GuideLegendCross <- ggproto(
   },
 
   assemble_drawing = function(self, grobs, layout, sizes, params, elements) {
+
+    widths <- unit(sizes$widths, "cm")
+    if (isTRUE(elements$stretch_x)) {
+      widths[unique0(layout$key_col)] <- elements$key_width
+    }
+
+    heights <- unit(sizes$heights, "cm")
+    if (isTRUE(elements$stretch_y)) {
+      heights[unique0(layout$key_row)] <- elements$key_height
+    }
+
+    gt <- gtable(widths = widths, heights = heights)
+
+    # Add keys
+    if (!is_zero(grobs$decor)) {
+      gt <- gtable_add_grob(
+        gt, grobs$decor,
+        name = names(grobs$decor),
+        clip = "off",
+        t = layout$key_row, r = layout$key_col,
+        b = layout$key_row, l = layout$key_col
+      )
+    }
+
+    # Add labels
     grobs$labels <- c(grobs$labels$rows, grobs$labels$cols)
-    GuideLegendBase$assemble_drawing(grobs, layout, sizes, params, elements)
+    if (!is_zero(grobs$labels)) {
+      gt <- gtable_add_grob(
+        gt, grobs$labels,
+        name = paste("label", layout$label_row, layout$label_col, sep = "-"),
+        clip = "off",
+        t = layout$label_row, r = layout$label_col,
+        b = layout$label_row, l = layout$label_col
+      )
+    }
+
+    gt <- self$add_title(
+      gt, grobs$title$main, elements$title_position,
+      rotate_just(element = elements$title)
+    )
+
+    # Add padding and background
+    gt <- gtable_add_padding(gt, unit(elements$padding, "cm"))
+    if (!is_zero(elements$background)) {
+      gt <- gtable_add_grob(
+        gt, elements$background,
+        name = "background", clip = "off",
+        t = 1, r = -1, b = -1, l =1, z = -Inf
+      )
+    }
+    gt
   }
 )
 
