@@ -421,6 +421,65 @@ GuideLegendCross <- ggproto(
   }
 )
 
+# Public helpers ----------------------------------------------------------
+
+#' Helper for position text
+#'
+#' This is a helper function for use in [`guide_legend_cross()`]. It creates
+#' a list of text elements, each corresponding the top, right, bottom or left
+#' positions. Input is given for that order as well.
+#'
+#' @param angle A `<numeric[1-4]>` value setting the angle of the text.
+#' @param hjust,vjust A `<numeric[1-4]>` between 0 and 1 to set the horizontal
+#'   justification (`hjust`) or vertical justification (`vjust`) for the text.
+#' @param ... Other arguments passed to the `element` function.
+#' @param element An `<function>` creating an object that inherits from the
+#'   [`<element_text>`][ggplot2::element_text] class.
+#'
+#' @details
+#' Input other than the `element` argument will be recycled to length 4. `NA`
+#' and 0-length input will be dropped.
+#'
+#' @returns A named list of `element` objects of length 4. The list has the
+#'   names `"top"`, `"right"`, `"bottom"` and `"left"`.
+#' @export
+#'
+#' @examples
+#' # Red text turning along with position
+#' position_text(angle = c(0, -90, 180, 90), colour = "red")
+position_text <- function(
+  angle = NA,
+  hjust = NA,
+  vjust = NA,
+  ...,
+  element = element_text
+) {
+
+  input <- list2(angle = angle, hjust = hjust, vjust = vjust, ...)
+
+  # Check for invalid arguments
+  nms <- names(input)
+  extra <- setdiff(nms, fn_fmls_names(element))
+  if (length(extra) > 0) {
+    cli::cli_warn(
+      "Unknown argument{?/s}: {.and {.arg {extra}}}",
+      call = current_call()
+    )
+    input <- input[setdiff(nms, extra)]
+  }
+
+  input <- input[lengths(input) > 0]
+  input <- data_frame0(!!!lapply(input, rep, length.out = 4))
+
+  output <- lapply(vec_seq_along(input), function(i) {
+    args  <- as.list(vec_slice(input, i))
+    valid <- !map_lgl(args, function(x) is.null(x) || is.na(x))
+    args  <- args[valid]
+    inject(element(!!!args))
+  })
+  names(output) <- .trbl
+  output
+}
 
 # Helpers -----------------------------------------------------------------
 
