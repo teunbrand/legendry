@@ -67,6 +67,7 @@ guide_legend_cross <- function(
   col_title = waiver(),
   swap = FALSE,
   col_text = element_text(angle = 90, vjust = 0.5),
+  subtitle_position = position_text(angle = c(0, -90, 0, 90), hjust = 0.5),
   override.aes = list(),
   reverse = FALSE,
   theme = NULL,
@@ -96,6 +97,7 @@ guide_legend_cross <- function(
     col_title = col_title,
     dim_order = dim_order,
     override.aes = rename_aes(override.aes),
+    subtitle_position = subtitle_position,
     col_text = col_text,
     reverse = reverse,
     theme = theme,
@@ -116,6 +118,7 @@ GuideLegendCross <- ggproto(
     override.aes = list(), reverse = FALSE,
     row_title = waiver(), col_title = waiver(),
     key = NULL, dim_order = c("row", "col"),
+    subtitle_position = list(),
     col_text = NULL
   ),
 
@@ -222,15 +225,26 @@ GuideLegendCross <- ggproto(
       setup_legend_text(theme, col)
     )
 
-    elements$subtitle_row <- setup_legend_title(theme, row, element = elements$subtitle)
-    elements$subtitle_col <- setup_legend_title(theme, col, element = elements$subtitle)
-    original <- theme[[elements$subtitle]]
-    if (is.null(original@hjust)) {
-      elements$subtitle_row@hjust <- 0.5
-      elements$subtitle_col@hjust <- 0.5
+    if (!is.null(params$row_title %|W|% NULL)) {
+      elements$subtitle_row <- combine_elements(
+        switch(
+          row,
+          right = params$subtitle_position[["right"]],
+          params$subtitle_position[["left"]]
+        ),
+        setup_legend_title(theme, row, element = elements$subtitle)
+      )
     }
-    if (is.null(original@angle)) {
-      elements$subtitle_row@angle <- switch(row, right = -90, left = 90)
+
+    if (!is.null(params$col_title %|W|% NULL)) {
+      elements$subtitle_col <- combine_elements(
+        switch(
+          col,
+          top = params$subtitle_position[["top"]],
+          params$subtitle_position[["bottom"]]
+        ),
+        setup_legend_title(theme, col, element = elements$subtitle)
+      )
     }
 
     elements <- Guide$setup_elements(params, elements, theme)
@@ -258,13 +272,13 @@ GuideLegendCross <- ggproto(
   build_title = function(label, elements, params) {
     main <- GuideLegend$build_title(label, elements, params)
     row <- element_grob(
-      elements$subtitle_row,
+      elements$subtitle_row %||% element_blank(),
       label = params$row_title,
       margin_x = TRUE,
       margin_y = TRUE
     )
     col <- element_grob(
-      elements$subtitle_col,
+      elements$subtitle_col %||% element_blank(),
       label = params$col_title,
       margin_x = TRUE,
       margin_y = TRUE
