@@ -18,6 +18,16 @@
 #' @param reverse A `<logical[2]>` whether the order of the keys should be
 #'   inverted, where the first value controls the row order and second value
 #'   the column order. Input as `<logical[1]>` will be recycled.
+#' @param row_title,col_title One of the following to indicate subtitles
+#'   spanning the rows and columns of the guide:
+#'   * A `<character[1]>` or `<expression[1]>` to set a custom title.
+#'   * `NULL` to not display any title.
+#'   * [`waiver()`][ggplot2::waiver()] to propagate subtitles from
+#'     merging guides (default).
+#' @param subtitle_position A named list of 4
+#'   [text elements][ggplot2::element_text()], having the names `"top"`,
+#'   `"right"`, `"bottom"` and `"left`. These govern the display of subtitles
+#'   when placed in any of these positions relative to the
 #' @inheritParams common_parameters
 #'
 #' @return A `<GuideLegend>` object.
