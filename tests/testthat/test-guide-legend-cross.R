@@ -94,6 +94,49 @@ test_that("cross legend can be constructed from dual scales", {
   )
 })
 
+test_that("subtitles are placed correctly", {
+
+  placement <- position_text(
+    angle  = c(0, 270, 180, 90),
+    colour = c("orchid", "tomato", "dodgerblue", "limegreen"),
+    hjust  = 0.5
+  )
+
+  df <- data.frame(
+    x = 1:5, y = 1:5,
+    z = c("A:1", "A:2", "B:2", "C:1", "C:2")
+  )
+
+  p <- ggplot(df, aes(x, y, colour = z)) +
+    geom_point() +
+    guides(colour = guide_legend_cross(
+      row_title = "Row Title",
+      col_title = "Column Title",
+      subtitle_position = placement
+    ))
+
+  vdiffr::expect_doppelganger(
+    "legend cross subtitles bottom right",
+    p
+  )
+
+  p <- ggplot(df, aes(x, y, colour = z)) +
+    geom_point() +
+    guides(colour = guide_legend_cross(
+      row_title = "Row Title",
+      col_title = "Column Title",
+      subtitle_position = placement,
+      theme = theme(
+        legend.text.position = c("top", "left")
+      )
+    ))
+
+  vdiffr::expect_doppelganger(
+    "legend cross subtitles top left",
+    p
+  )
+})
+
 test_that("merge strategies work as intended", {
 
   df <- data.frame(

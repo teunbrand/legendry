@@ -147,19 +147,20 @@ check_length <- function(
   if (is.null(min) && is.null(max) && is.null(exact)) {
     return(invisible(NULL))
   }
+  type <- if (typeof(x) == "list") "list" else "vector"
   if (!is.null(min) && !is.null(max)) {
-    what <- "a vector with {.field length} between {min} and {max}"
+    what <- "a {type} with {.field length} between {min} and {max}"
   } else if (!is.null(min)) {
-    what <- "a vector with {.field length} more than or equal to {min}"
+    what <- "a {type} with {.field length} more than or equal to {min}"
   } else if (!is.null(max)) {
     if (max > 1) {
-      what <- "a vector with {.field length} less than or equal to {max}"
+      what <- "a {type} with {.field length} less than or equal to {max}"
     } else {
       what <- "a value with {.field length} less than or equal to {max}"
     }
   } else if (!is.null(exact)) {
     if (any(exact > 1)) {
-      what <- "a vector with {.field length} equal to {.or {exact}}"
+      what <- "a {type} with {.field length} equal to {.or {exact}}"
     } else {
       what <- "a single value with {.field length} equal to {.or {exact}}"
     }

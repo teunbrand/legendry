@@ -45,6 +45,7 @@ reference:
   - cap_options
   - theme_guide
   - scale_x_dendro
+  - position_text
 
 news:
   releases:

@@ -7,8 +7,11 @@
 guide_legend_cross(
   key = NULL,
   title = waiver(),
+  row_title = waiver(),
+  col_title = waiver(),
   swap = FALSE,
   col_text = element_text(angle = 90, vjust = 0.5),
+  subtitle_position = position_text(angle = c(0, -90, 0, 90), hjust = 0.5),
   override.aes = list(),
   reverse = FALSE,
   theme = NULL,
@@ -34,12 +37,27 @@ crossing two separate variables across two scales.
 object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
 }}
 
+\item{row_title, col_title}{One of the following to indicate subtitles
+spanning the rows and columns of the guide:
+\itemize{
+\item A \verb{<character[1]>} or \verb{<expression[1]>} to set a custom title.
+\item \code{NULL} to not display any title.
+\item \code{\link[ggplot2:waiver]{waiver()}} to propagate subtitles from
+merging guides (default).
+}}
+
 \item{swap}{A \verb{<logical[1]>} which when \code{TRUE} exchanges the column and row
 variables in the displayed legend.}
 
 \item{col_text}{An \verb{<element_text>} object giving adjustments to text for
 the column labels. Can be \code{NULL} to display column labels in equal fashion
 to the row labels.}
+
+\item{subtitle_position}{A named list of 4
+\link[ggplot2:element]{text elements}, having the names \code{"top"},
+\code{"right"}, \code{"bottom"} and \verb{"left}. These govern the display of subtitles
+when placed in any of these positions relative to the keys. See
+\code{\link[=position_text]{position_text()}} for a convenient helper.}
 
 \item{override.aes}{A named \verb{<list>} specifying aesthetic parameters of the
 key glyphs. See details and examples in
