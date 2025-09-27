@@ -63,6 +63,8 @@
 guide_legend_cross <- function(
   key = NULL,
   title = waiver(),
+  row_title = waiver(),
+  col_title = waiver(),
   swap = FALSE,
   col_text = element_text(angle = 90, vjust = 0.5),
   override.aes = list(),
@@ -90,6 +92,8 @@ guide_legend_cross <- function(
   new_guide(
     key = key,
     title = title,
+    row_title = row_title,
+    col_title = col_title,
     dim_order = dim_order,
     override.aes = rename_aes(override.aes),
     col_text = col_text,
@@ -110,6 +114,7 @@ GuideLegendCross <- ggproto(
 
   params = new_params(
     override.aes = list(), reverse = FALSE,
+    row_title = waiver(), col_title = waiver(),
     key = NULL, dim_order = c("row", "col"),
     col_text = NULL
   ),
