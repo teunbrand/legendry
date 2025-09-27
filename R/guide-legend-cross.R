@@ -412,6 +412,11 @@ GuideLegendCross <- ggproto(
         b = max(layout$key_row),
         l = place[2], r = place[2]
       )
+      if (elements$row_position == "left") {
+        # Account that we've added a column in front.
+        # Needed for accurate placement of column subtitle.
+        layout$key_col <- layout$key_col + 1L
+      }
     }
 
     # Add col title
@@ -426,6 +431,65 @@ GuideLegendCross <- ggproto(
         l = min(layout$key_col),
         r = max(layout$key_col)
       )
+      if (elements$col_position == "top") {
+        # Account that we've added a row on top.
+        # Needed for accurate placement of column subtitle.
+        layout$key_row <- layout$key_row + 1L
+      }
+    }
+
+    # Increase size if titles are large
+    if (!is_zero(grobs$title$col)) {
+      title_width <- width_cm(grobs$title$col)
+
+      # Compute excess title width
+      widths <- width_cm(gt$widths)
+      i <- range(layout$key_col)
+      key_width <- sum(widths[i[1]:i[2]])
+      excess_width <- title_width - key_width
+
+      if (excess_width > 0) {
+        just <- rotate_just(element = elements$subtitle_col)$hjust
+
+        # Find out how much space needs to added to the right
+        right_width <- if (i[2] == ncol(gt)) 0 else sum(widths[(i[2] + 1):ncol(gt)])
+        right_width <- pmax(((1 - just) * excess_width) - right_width, 0)
+
+        # Find out how much space needs to added to the left
+        left_width  <- if (i[1] == 1) 0 else sum(widths[1:(i[1] - 1)])
+        left_width  <- pmax((just * excess_width) - left_width, 0)
+
+        # Add actual space
+        gt <- gtable_add_cols(gt, unit(right_width, "cm"), pos = -1)
+        gt <- gtable_add_cols(gt, unit(left_width,  "cm"), pos = 0)
+      }
+    }
+
+    # Increase size if titles are large
+    if (!is_zero(grobs$title$row)) {
+      title_height <- height_cm(grobs$title$row)
+
+      # Compute excess title height
+      heights <- height_cm(gt$heights)
+      i <- range(layout$key_row)
+      key_height <- sum(heights[i[1]:i[2]])
+      excess_height <- title_height - key_height
+
+      if (excess_height > 0) {
+        just <- rotate_just(element = elements$subtitle_row)$vjust
+
+        # Find out how much space needs to added on top
+        top_height <- if (i[2] == nrow(gt)) 0 else sum(heights[(i[2] + 1):nrow(gt)])
+        top_height <- pmax(((1 - just) * excess_height) - top_height, 0)
+
+        # Find out how much space needs to added on the bottom
+        bottom_height <- if (i[1] == 1) 0 else sum(heights[1:(i[1] - 1)])
+        bottom_height <- pmax((just * excess_height) - bottom_height, 0)
+
+        # Add actual space
+        gt <- gtable_add_rows(gt, unit(bottom_height, "cm"), pos = -1)
+        gt <- gtable_add_rows(gt, unit(top_height, "cm"), pos = 0)
+      }
     }
 
     gt <- self$add_title(
