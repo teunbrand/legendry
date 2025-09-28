@@ -241,6 +241,17 @@ map_chr <- function(x, fun, ...) {
   vapply(x, FUN = fun, FUN.VALUE = character(1), ...)
 }
 
+label_as_vector <- function(x) {
+  if (obj_is_list(x)) {
+    x[lengths(x) == 0] <- ""
+    x <- lapply(x, `[`, 1L)
+  }
+  if (is.expression(x)) {
+    x <- as.list(x)
+  }
+  x
+}
+
 filter_finite <- function(x) {
   x[is.finite(x)]
 }

@@ -272,4 +272,14 @@ to_lower_ascii <- function(x) chartr(upper_ascii, lower_ascii, x)
 upper_ascii <- paste0(LETTERS, collapse = "")
 lower_ascii <- paste0(letters, collapse = "")
 
+modify_list <- function(old, new) {
+  for (i in names(new)) old[[i]] <- new[[i]]
+  old
+}
+
+compact <- function(x) {
+  null <- map_lgl(x, is.null)
+  x[!null]
+}
+
 # nocov end
