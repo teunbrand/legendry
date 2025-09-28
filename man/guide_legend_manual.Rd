@@ -39,6 +39,8 @@ aesthetics passed to the \code{...} argument.}
 A \verb{<GuideCustom>} object.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This is a guide that displays user-defined keys independent of scales.
 It should only be used as a last resort when struggling to format a
 conventional legend.

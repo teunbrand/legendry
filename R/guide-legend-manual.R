@@ -2,6 +2,9 @@
 
 #' Manual legend
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This is a guide that displays user-defined keys independent of scales.
 #' It should only be used as a last resort when struggling to format a
 #' conventional legend.
