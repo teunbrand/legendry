@@ -130,7 +130,7 @@ GuideLegendManual <- ggproto(
 
   hashables = exprs(title),
 
-  get_layer_key = function(params, layers, data = NULL, theme = NULL) {
+  get_layer_key = function(params, layers, data = NULL, theme = NULL, ...) {
     # This is a simplified version of GuideLegend$get_layer_key that doesn't
     # demand matching aesthetics
 
@@ -165,7 +165,12 @@ GuideLegendManual <- ggproto(
 
   draw = function(self, theme, position = NULL, direction  = NULL,
                   params = self$params) {
-    legend <- self$get_layer_key(params$legend, params$layers, NULL, theme)
+    legend <- self$get_layer_key(
+      params = params$legend,
+      layers = params$layers,
+      data   = NULL,
+      theme  = theme
+    )
     guide <- guide_legend_base()
     guide$draw(
       theme = theme,
