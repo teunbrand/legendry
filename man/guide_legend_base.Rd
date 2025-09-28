@@ -117,11 +117,13 @@ Other standalone guides:
 \code{\link{guide_colring}()},
 \code{\link{guide_colsteps}()},
 \code{\link{guide_legend_cross}()},
-\code{\link{guide_legend_group}()}
+\code{\link{guide_legend_group}()},
+\code{\link{guide_legend_manual}()}
 
 Other legend guides: 
 \code{\link{guide_legend_cross}()},
-\code{\link{guide_legend_group}()}
+\code{\link{guide_legend_group}()},
+\code{\link{guide_legend_manual}()}
 }
 \concept{legend guides}
 \concept{standalone guides}
