@@ -69,6 +69,19 @@ key_bins <- function(even.steps = FALSE, show.limits = NULL) {
   }
 }
 
+key_upset <- function(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other") {
+  check_string(sep)
+  force(string)
+  call <- current_call()
+  function(scale, aesthetic = NULL) {
+    upset_from_split_label(
+      scale = scale, aesthetic = aesthetic,
+      sep = sep, order = order, empty_label = empty_label,
+      call = call
+    )
+  }
+}
+
 # Helpers -----------------------------------------------------------------
 
 map_sequence <- function(scale, aesthetic, nbin = 15, ...) {
@@ -190,4 +203,45 @@ parse_binned_breaks <- function(scale, breaks = scale$get_breaks(),
     bin_at = bin_at,
     all    = all_breaks
   )
+}
+
+upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = NULL, call) {
+
+  aesthetic <- aesthetic %||% scale$aesthetics[1]
+  key <- Guide$extract_key(scale, aesthetic)
+
+  label <- strsplit(key$.label, split = sep)
+
+  levels <- unique(unlist(label))
+  if (is.character(order)) {
+    levels <- c(intersect(order, levels), setdiff(levels, order))
+  } else if (is.numeric(order)) {
+    levels <- levels[order]
+  }
+  levels <- factor(levels, levels)
+
+  mtx <- t(vapply(label, function(x) levels %in% x, logical(length(levels))))
+  colnames(mtx) <- levels
+
+  empty <- rowSums(mtx) == 0
+  if (any(empty) && !is.null(empty_label)) {
+    empty[!empty] <- NA
+    mtx <- cbind(mtx, empty)
+    colnames(mtx)[ncol(mtx)] <- empty_label
+    levels <- c(levels, factor(empty_label, empty_label))
+  }
+
+  row <- as.vector(row(mtx))
+  col <- as.vector(col(mtx))
+  df <- data_frame0(
+    x = key$x[row],
+    y = key$y[row],
+    .col = col,
+    .row = row,
+    .value = levels[col],
+    .symbol = as.vector(mtx)
+  )
+
+  class(df) <- c("key_guide", class(df))
+  df
 }
