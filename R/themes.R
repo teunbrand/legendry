@@ -221,6 +221,11 @@ register_legendry_elements <- function() {
     legendry.group.spacing = rel(2),
     legendry.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
     legendry.axis.subtitle.position = c("left", "top", "bottom", "right"),
+    legendry.symbol = element_point(),
+    legendry.zebra.light = NULL,
+    legendry.zebra.dark = NULL,
+    legendry.table.vlines = element_blank(),
+    legendry.table.hlines = element_blank(),
     element_tree = list(
       legendry.bracket.size = el_def("unit"),
       legendry.bracket = el_def(line, "line"),
@@ -240,7 +245,12 @@ register_legendry_elements <- function() {
       legendry.guide.spacing = el_unit("axis.ticks.length"),
       legendry.group.spacing = el_unit("legend.key.spacing"),
       legendry.axis.subtitle = el_def(text, "axis.text"),
-      legendry.axis.subtitle.position = el_def("character")
+      legendry.axis.subtitle.position = el_def("character"),
+      legendry.symbol = el_def(element_point, "point"),
+      legendry.zebra.light = el_def(rect, "plot.background"),
+      legendry.zebra.dark  = el_def(rect, "panel.background"),
+      legendry.table.vlines = el_def(line, "axis.line"),
+      legendry.table.hlines = el_def(line, "axis.line")
     )
   )
 }
