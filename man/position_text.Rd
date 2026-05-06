@@ -15,7 +15,7 @@ justification (\code{hjust}) or vertical justification (\code{vjust}) for the te
 \item{...}{Other arguments passed to the \code{element} function.}
 
 \item{element}{An \verb{<function>} creating an object that inherits from the
-\code{\link[ggplot2:element]{<element_text>}} class.}
+\code{\link[ggplot2:element_text]{<element_text>}} class.}
 }
 \value{
 A named list of \code{element} objects of length 4. The list has the

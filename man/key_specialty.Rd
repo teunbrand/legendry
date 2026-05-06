@@ -49,7 +49,7 @@ key_sequence()(template)
 key_bins()(template)
 }
 \seealso{
-Other keys: 
+Other keys:
 \code{\link{key_group}},
 \code{\link{key_range}},
 \code{\link{key_segments}},

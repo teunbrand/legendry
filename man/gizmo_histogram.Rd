@@ -49,7 +49,7 @@ for centred histograms.}
 \item{oob}{An out-of-bounds handling function that affects the cap colour.
 Can be one of the following:
 \itemize{
-\item A \verb{<function>} like \code{\link[scales:oob]{oob_squish}}.
+\item A \verb{<function>} like \code{\link[scales:oob_squish]{oob_squish}}.
 \item A \verb{<character[1]>} naming such a function without the '\code{oob}'-prefix,
 such as \code{"keep"}.
 }}
@@ -81,7 +81,7 @@ This guide displays a histogram of the aesthetic. If the aesthetic is
 }
 \details{
 Non-finite values such as \code{NA} and \code{NaN} are ignored while infinite values
-such as \code{-Inf} and \code{Inf} are \link[scales:oob]{squished} to the limits.
+such as \code{-Inf} and \code{Inf} are \link[scales:oob_squish]{squished} to the limits.
 }
 \examples{
 # A standard plot
@@ -105,10 +105,10 @@ p + guides(colour = gizmo_histogram(hist = hist(mpg$cty, breaks = 10)))
 p + guides(colour = gizmo_histogram(hist.arg = list(breaks = 10)))
 }
 \seealso{
-Other gizmos: 
-\code{\link{gizmo_barcap}()},
-\code{\link{gizmo_density}()},
-\code{\link{gizmo_grob}()},
-\code{\link{gizmo_stepcap}()}
+Other gizmos:
+\code{\link[=gizmo_barcap]{gizmo_barcap()}},
+\code{\link[=gizmo_density]{gizmo_density()}},
+\code{\link[=gizmo_grob]{gizmo_grob()}},
+\code{\link[=gizmo_stepcap]{gizmo_stepcap()}}
 }
 \concept{gizmos}

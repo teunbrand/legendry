@@ -22,7 +22,7 @@ primitive_box(
 in the linked topic.}
 
 \item{angle}{A specification for the text angle. Compared to setting the \code{angle} argument
-in \code{\link[ggplot2:element]{element_text()}}, this argument uses some
+in \code{\link[ggplot2:element_text]{element_text()}}, this argument uses some
 heuristics to automatically pick the \code{hjust} and \code{vjust} that you
 probably want. Can be one of the following:
 \itemize{
@@ -72,19 +72,19 @@ an axis or in a legend context.
 
 Common to both types is the following:
 \itemize{
-\item \code{legendry.box} an \code{\link[ggplot2:element]{<element_rect>}} for the boxes
+\item \code{legendry.box} an \code{\link[ggplot2:element_rect]{<element_rect>}} for the boxes
 to draw.
 }
 \subsection{As an axis guide}{
 \itemize{
-\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element]{<element_text>}}
+\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
 for the text inside the boxes.
 }
 }
 
 \subsection{As a legend guide}{
 \itemize{
-\item \code{legend.text} an \code{\link[ggplot2:element]{<element_text>}} for the text
+\item \code{legend.text} an \code{\link[ggplot2:element_text]{<element_text>}} for the text
 inside the boxes.
 }
 }
@@ -104,14 +104,14 @@ p + guides(
 )
 }
 \seealso{
-Other primitives: 
-\code{\link{primitive_bracket}()},
-\code{\link{primitive_fence}()},
-\code{\link{primitive_labels}()},
-\code{\link{primitive_line}()},
-\code{\link{primitive_segments}()},
-\code{\link{primitive_spacer}()},
-\code{\link{primitive_ticks}()},
-\code{\link{primitive_title}()}
+Other primitives:
+\code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_fence]{primitive_fence()}},
+\code{\link[=primitive_labels]{primitive_labels()}},
+\code{\link[=primitive_line]{primitive_line()}},
+\code{\link[=primitive_segments]{primitive_segments()}},
+\code{\link[=primitive_spacer]{primitive_spacer()}},
+\code{\link[=primitive_ticks]{primitive_ticks()}},
+\code{\link[=primitive_title]{primitive_title()}}
 }
 \concept{primitives}

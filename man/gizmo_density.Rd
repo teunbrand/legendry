@@ -46,7 +46,7 @@ for violin shapes.}
 \item{oob}{An out-of-bounds handling function that affects the cap colour.
 Can be one of the following:
 \itemize{
-\item A \verb{<function>} like \code{\link[scales:oob]{oob_squish}}.
+\item A \verb{<function>} like \code{\link[scales:oob_squish]{oob_squish}}.
 \item A \verb{<character[1]>} naming such a function without the '\code{oob}'-prefix,
 such as \code{"keep"}.
 }}
@@ -73,7 +73,7 @@ aesthetic is \code{colour} or \code{fill}, the shape will reflect this.
 }
 \details{
 Non-finite values such as \code{NA} and \code{NaN} are ignored while infinite values
-such as \code{-Inf} and \code{Inf} are \link[scales:oob]{squished} to the limits.
+such as \code{-Inf} and \code{Inf} are \link[scales:oob_squish]{squished} to the limits.
 }
 \examples{
 # A standard plot
@@ -97,10 +97,10 @@ p + guides(colour = gizmo_density(density = density(mpg$cty, adjust = 0.5)))
 p + guides(colour = gizmo_density(density.args = list(adjust = 0.5)))
 }
 \seealso{
-Other gizmos: 
-\code{\link{gizmo_barcap}()},
-\code{\link{gizmo_grob}()},
-\code{\link{gizmo_histogram}()},
-\code{\link{gizmo_stepcap}()}
+Other gizmos:
+\code{\link[=gizmo_barcap]{gizmo_barcap()}},
+\code{\link[=gizmo_grob]{gizmo_grob()}},
+\code{\link[=gizmo_histogram]{gizmo_histogram()}},
+\code{\link[=gizmo_stepcap]{gizmo_stepcap()}}
 }
 \concept{gizmos}

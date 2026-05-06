@@ -35,11 +35,11 @@ an axis or in a legend context.
 Common to both types is the following:
 \subsection{As an axis guide}{
 \itemize{
-\item \verb{axis.ticks.\{x/y\}.\{position\}} an \code{\link[ggplot2:element]{<element_line>}}
+\item \verb{axis.ticks.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_line]{<element_line>}}
 for major tick lines.
 \item \verb{axis.minor.ticks.\{x/y\}.\{position\}} an
-\code{\link[ggplot2:element]{<element_line>}} for minor tick lines.
-\item \code{legendry.axis.mini.ticks} an \code{\link[ggplot2:element]{<element_line>}}
+\code{\link[ggplot2:element_line]{<element_line>}} for minor tick lines.
+\item \code{legendry.axis.mini.ticks} an \code{\link[ggplot2:element_line]{<element_line>}}
 internally inheriting from the minor ticks for the smallest ticks in e.g.
 log axes.
 \item \verb{axis.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the major
@@ -54,11 +54,11 @@ log axes.
 
 \subsection{As a legend guide}{
 \itemize{
-\item \code{legend.ticks} an \code{\link[ggplot2:element]{<element_line>}} for major tick
+\item \code{legend.ticks} an \code{\link[ggplot2:element_line]{<element_line>}} for major tick
 lines.
-\item \code{legendry.legend.minor.ticks} an \code{\link[ggplot2:element]{<element_line>}}
+\item \code{legendry.legend.minor.ticks} an \code{\link[ggplot2:element_line]{<element_line>}}
 for minor tick lines.
-\item \code{legendry.legend.mini.ticks} an \code{\link[ggplot2:element]{<element_line>}}
+\item \code{legendry.legend.mini.ticks} an \code{\link[ggplot2:element_line]{<element_line>}}
 for the smallest ticks in e.g. log axes.
 \item \code{legend.ticks.length} a \code{\link[grid:unit]{<unit>}} for the major ticks length.
 \item \code{legendry.legend.minor.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
@@ -78,14 +78,14 @@ p <- ggplot(mpg, aes(displ, hwy)) +
 p + guides(x.sec = primitive_ticks(), y.sec = primitive_ticks())
 }
 \seealso{
-Other primitives: 
-\code{\link{primitive_box}()},
-\code{\link{primitive_bracket}()},
-\code{\link{primitive_fence}()},
-\code{\link{primitive_labels}()},
-\code{\link{primitive_line}()},
-\code{\link{primitive_segments}()},
-\code{\link{primitive_spacer}()},
-\code{\link{primitive_title}()}
+Other primitives:
+\code{\link[=primitive_box]{primitive_box()}},
+\code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_fence]{primitive_fence()}},
+\code{\link[=primitive_labels]{primitive_labels()}},
+\code{\link[=primitive_line]{primitive_line()}},
+\code{\link[=primitive_segments]{primitive_segments()}},
+\code{\link[=primitive_spacer]{primitive_spacer()}},
+\code{\link[=primitive_title]{primitive_title()}}
 }
 \concept{primitives}

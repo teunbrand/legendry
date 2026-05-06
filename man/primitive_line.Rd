@@ -48,14 +48,14 @@ this guide, which may differ depending on whether the guide is used in
 an axis or in a legend context.
 \subsection{As an axis guide}{
 \itemize{
-\item \verb{axis.line.\{x/y\}.\{position\}} an \code{\link[ggplot2:element]{<element_line>}}
+\item \verb{axis.line.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_line]{<element_line>}}
 for the line style.
 }
 }
 
 \subsection{As a legend guide}{
 \itemize{
-\item \code{legend.axis.line} an \code{\link[ggplot2:element]{<element_line>}} for the
+\item \code{legend.axis.line} an \code{\link[ggplot2:element_line]{<element_line>}} for the
 line style.
 }
 }
@@ -74,14 +74,14 @@ p + guides(
 )
 }
 \seealso{
-Other primitives: 
-\code{\link{primitive_box}()},
-\code{\link{primitive_bracket}()},
-\code{\link{primitive_fence}()},
-\code{\link{primitive_labels}()},
-\code{\link{primitive_segments}()},
-\code{\link{primitive_spacer}()},
-\code{\link{primitive_ticks}()},
-\code{\link{primitive_title}()}
+Other primitives:
+\code{\link[=primitive_box]{primitive_box()}},
+\code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_fence]{primitive_fence()}},
+\code{\link[=primitive_labels]{primitive_labels()}},
+\code{\link[=primitive_segments]{primitive_segments()}},
+\code{\link[=primitive_spacer]{primitive_spacer()}},
+\code{\link[=primitive_ticks]{primitive_ticks()}},
+\code{\link[=primitive_title]{primitive_title()}}
 }
 \concept{primitives}

@@ -53,7 +53,7 @@ setting. Their placement is controlled via the
 \code{legendry.axis.subtitle.position} setting.}
 
 \item{angle}{A specification for the text angle. Compared to setting the \code{angle} argument
-in \code{\link[ggplot2:element]{element_text()}}, this argument uses some
+in \code{\link[ggplot2:element_text]{element_text()}}, this argument uses some
 heuristics to automatically pick the \code{hjust} and \code{vjust} that you
 probably want. Can be one of the following:
 \itemize{
@@ -101,10 +101,10 @@ ggplot() +
   theme(plot.margin = margin(5.5, 5.5, 5.5, 11))
 }
 \seealso{
-Other composition: 
-\code{\link{compose_crux}()},
-\code{\link{compose_ontop}()},
-\code{\link{compose_sandwich}()},
+Other composition:
+\code{\link[=compose_crux]{compose_crux()}},
+\code{\link[=compose_ontop]{compose_ontop()}},
+\code{\link[=compose_sandwich]{compose_sandwich()}},
 \code{\link{guide-composition}}
 }
 \concept{composition}

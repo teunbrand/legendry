@@ -97,10 +97,10 @@ ggplot(mpg, aes(displ, hwy)) +
   guides(colour = crux)
 }
 \seealso{
-Other composition: 
-\code{\link{compose_ontop}()},
-\code{\link{compose_sandwich}()},
-\code{\link{compose_stack}()},
+Other composition:
+\code{\link[=compose_ontop]{compose_ontop()}},
+\code{\link[=compose_sandwich]{compose_sandwich()}},
+\code{\link[=compose_stack]{compose_stack()}},
 \code{\link{guide-composition}}
 }
 \concept{composition}

@@ -105,10 +105,10 @@ ggplot(mpg, aes(displ, hwy)) +
   ))
 }
 \seealso{
-Other composition: 
-\code{\link{compose_crux}()},
-\code{\link{compose_ontop}()},
-\code{\link{compose_stack}()},
+Other composition:
+\code{\link[=compose_crux]{compose_crux()}},
+\code{\link[=compose_ontop]{compose_ontop()}},
+\code{\link[=compose_stack]{compose_stack()}},
 \code{\link{guide-composition}}
 }
 \concept{composition}

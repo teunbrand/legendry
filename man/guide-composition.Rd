@@ -55,10 +55,10 @@ my_composition <- new_compose(list("axis", "axis"), super = ComposeStack)
 my_composition <- compose_stack("axis", "axis")
 }
 \seealso{
-Other composition: 
-\code{\link{compose_crux}()},
-\code{\link{compose_ontop}()},
-\code{\link{compose_sandwich}()},
-\code{\link{compose_stack}()}
+Other composition:
+\code{\link[=compose_crux]{compose_crux()}},
+\code{\link[=compose_ontop]{compose_ontop()}},
+\code{\link[=compose_sandwich]{compose_sandwich()}},
+\code{\link[=compose_stack]{compose_stack()}}
 }
 \concept{composition}

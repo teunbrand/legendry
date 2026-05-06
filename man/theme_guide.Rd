@@ -41,16 +41,16 @@ theme_guide(
 )
 }
 \arguments{
-\item{text}{An \code{\link[ggplot2:element]{<element_text>}} setting both
+\item{text}{An \code{\link[ggplot2:element_text]{<element_text>}} setting both
 \code{legend.text} and \code{axis.text} elements.}
 
-\item{line}{An \code{\link[ggplot2:element]{<element_line>}} setting both
+\item{line}{An \code{\link[ggplot2:element_line]{<element_line>}} setting both
 \code{legend.axis.line} and \code{axis.line} elements.}
 
-\item{title}{An \code{\link[ggplot2:element]{<element_text>}} setting both
+\item{title}{An \code{\link[ggplot2:element_text]{<element_text>}} setting both
 \code{legend.title} and \code{axis.title} elements.}
 
-\item{subtitle}{An \code{\link[ggplot2:element]{<element_text>}} setting both
+\item{subtitle}{An \code{\link[ggplot2:element_text]{<element_text>}} setting both
 \code{legendry.legend.subtitle} and \code{legendry.axis.subtitle} elements.}
 
 \item{text.position, title.position, subtitle.position}{One of \code{"top"},
@@ -62,14 +62,14 @@ theme_guide(
 \code{legendry.axis.subtitle.position}
 }}
 
-\item{ticks}{An \code{\link[ggplot2:element]{<element_line>}} setting both
+\item{ticks}{An \code{\link[ggplot2:element_line]{<element_line>}} setting both
 \code{axis.ticks} and \code{legend.ticks} elements.}
 
-\item{minor.ticks}{An \code{\link[ggplot2:element]{<element_line>}} setting
+\item{minor.ticks}{An \code{\link[ggplot2:element_line]{<element_line>}} setting
 \code{legendry.legend.minor.ticks} and all 6 of the
 \verb{axis.ticks.minor.\{r/theta/x.top/x.bottom/y.left/y.right\}} elements.}
 
-\item{mini.ticks}{An \code{\link[ggplot2:element]{<element_line>}} setting both
+\item{mini.ticks}{An \code{\link[ggplot2:element_line]{<element_line>}} setting both
 \code{legendry.legend.mini.ticks} and \code{legendry.axis.mini.ticks} elements.}
 
 \item{ticks.length, minor.ticks.length, mini.ticks.length}{A
@@ -85,7 +85,7 @@ theme_guide(
 \item{spacing, group.spacing}{A [\verb{<unit[1]>}][grid::unit()] setting both the
 \code{legendry.guide.spacing} and \code{legendry.group.spacing} theme elements.}
 
-\item{key}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
+\item{key}{An \code{\link[ggplot2:element_rect]{<element_rect>}} setting the
 \code{legend.key} element.}
 
 \item{key.size, key.width, key.height}{A \code{\link[grid:unit]{<unit>}} setting the
@@ -96,31 +96,31 @@ respectively.}
 setting the \code{legend.key.spacing}, \code{legend.key.spacing.x} and
 \code{legend.key.spacing.y} elements respectively.}
 
-\item{key.margin}{A \code{\link[ggplot2:element]{<margin>}} setting the margin around
+\item{key.margin}{A \code{\link[ggplot2:margin]{<margin>}} setting the margin around
 legend glyphs.}
 
-\item{frame}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
+\item{frame}{An \code{\link[ggplot2:element_rect]{<element_rect>}} setting the
 \code{legend.frame} element.}
 
 \item{byrow}{A \verb{<logical[1]>} setting the \code{legend.byrow} element.}
 
-\item{background}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
+\item{background}{An \code{\link[ggplot2:element_rect]{<element_rect>}} setting the
 \code{legend.background} element.}
 
-\item{margin}{A \code{\link[ggplot2:element]{<margin>}} setting the \code{legend.margin}
+\item{margin}{A \code{\link[ggplot2:margin]{<margin>}} setting the \code{legend.margin}
 element.}
 
-\item{bracket}{An \code{\link[ggplot2:element]{<element_line>}} setting the
+\item{bracket}{An \code{\link[ggplot2:element_line]{<element_line>}} setting the
 \code{legendry.bracket} element.}
 
 \item{bracket.size}{A [\verb{<unit[1]>}][grid::unit()] setting the
 \code{legendry.bracket.size} element.}
 
-\item{box}{An \code{\link[ggplot2:element]{<element_rect>}} setting the
+\item{box}{An \code{\link[ggplot2:element_rect]{<element_rect>}} setting the
 \code{legendry.box} element.}
 
 \item{fence, fence.post, fence.rail}{An
-\code{\link[ggplot2:element]{<element_line>}} setting the \code{legendry.fence},
+\code{\link[ggplot2:element_line]{<element_line>}} setting the \code{legendry.fence},
 \code{legendry.fence.post} and \code{legendry.fence.rail} respectively.}
 }
 \value{

@@ -87,7 +87,7 @@ draw labels if they support a label suppression mechanism.}
 \item{oob}{An out-of-bounds handling function that affects the cap colour.
 Can be one of the following:
 \itemize{
-\item A \verb{<function>} like \code{\link[scales:oob]{oob_squish}}.
+\item A \verb{<function>} like \code{\link[scales:oob_squish]{oob_squish}}.
 \item A \verb{<character[1]>} naming such a function without the '\code{oob}'-prefix,
 such as \code{"keep"}.
 }}
@@ -162,17 +162,17 @@ ggplot(msleep, aes(sleep_total, sleep_rem)) +
   )
 }
 \seealso{
-Other standalone guides: 
-\code{\link{guide_axis_base}()},
-\code{\link{guide_axis_dendro}()},
-\code{\link{guide_axis_nested}()},
-\code{\link{guide_axis_plot}()},
-\code{\link{guide_circles}()},
-\code{\link{guide_colring}()},
-\code{\link{guide_colsteps}()},
-\code{\link{guide_legend_base}()},
-\code{\link{guide_legend_cross}()},
-\code{\link{guide_legend_group}()},
-\code{\link{guide_legend_manual}()}
+Other standalone guides:
+\code{\link[=guide_axis_base]{guide_axis_base()}},
+\code{\link[=guide_axis_dendro]{guide_axis_dendro()}},
+\code{\link[=guide_axis_nested]{guide_axis_nested()}},
+\code{\link[=guide_axis_plot]{guide_axis_plot()}},
+\code{\link[=guide_circles]{guide_circles()}},
+\code{\link[=guide_colring]{guide_colring()}},
+\code{\link[=guide_colsteps]{guide_colsteps()}},
+\code{\link[=guide_legend_base]{guide_legend_base()}},
+\code{\link[=guide_legend_cross]{guide_legend_cross()}},
+\code{\link[=guide_legend_group]{guide_legend_group()}},
+\code{\link[=guide_legend_manual]{guide_legend_manual()}}
 }
 \concept{standalone guides}

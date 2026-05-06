@@ -17,7 +17,7 @@ primitive_segments(
 in the linked topic. Alternatively, an object of class
 \code{\link[stats:hclust]{<hclust>}} that automatically invokes \code{key_dendro()}.}
 
-\item{space}{Either a \code{\link[grid:unit]{<unit>}} or \code{\link[ggplot2:element]{<rel>}}
+\item{space}{Either a \code{\link[grid:unit]{<unit>}} or \code{\link[ggplot2:rel]{<rel>}}
 object of length 1 determining the space allocated in the orthogonal
 direction. When the \code{space} argument is of class \verb{<rel>} (default) the
 base size is taken from the tick length theme setting.}
@@ -47,7 +47,7 @@ this guide, which may differ depending on whether the guide is used in an
 axis or in a legend context.
 \subsection{As an axis guide}{
 \itemize{
-\item \verb{axis.ticks.\{x/y\}.\{position\}} an \code{\link[ggplot2:element]{<element_line>}}
+\item \verb{axis.ticks.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_line]{<element_line>}}
 for display of the segments.
 \item \verb{axis.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the
 base size of the segments in the orthogonal direction.
@@ -56,7 +56,7 @@ base size of the segments in the orthogonal direction.
 
 \subsection{As a legend guide}{
 \itemize{
-\item \code{legend.ticks} an \code{\link[ggplot2:element]{<element_line>}} for display
+\item \code{legend.ticks} an \code{\link[ggplot2:element_line]{<element_line>}} for display
 of the segments.
 \item \code{legend.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
 base size of the segments in the orthogonal direction.
@@ -81,14 +81,14 @@ ggplot(mpg, aes(displ, hwy)) +
   )
 }
 \seealso{
-Other primitives: 
-\code{\link{primitive_box}()},
-\code{\link{primitive_bracket}()},
-\code{\link{primitive_fence}()},
-\code{\link{primitive_labels}()},
-\code{\link{primitive_line}()},
-\code{\link{primitive_spacer}()},
-\code{\link{primitive_ticks}()},
-\code{\link{primitive_title}()}
+Other primitives:
+\code{\link[=primitive_box]{primitive_box()}},
+\code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_fence]{primitive_fence()}},
+\code{\link[=primitive_labels]{primitive_labels()}},
+\code{\link[=primitive_line]{primitive_line()}},
+\code{\link[=primitive_spacer]{primitive_spacer()}},
+\code{\link[=primitive_ticks]{primitive_ticks()}},
+\code{\link[=primitive_title]{primitive_title()}}
 }
 \concept{primitives}
