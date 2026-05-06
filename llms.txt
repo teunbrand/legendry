@@ -1,0 +1,273 @@
+# legendry
+
+The goal of legendry is to provide additional guide functionality to the
+ggplot2 ecosystem.
+
+## Installation
+
+You can install the development version of legendry from
+[GitHub](https://github.com/) with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("teunbrand/legendry")
+```
+
+## Example
+
+Let’s first set up a basic plot to experiment with:
+
+``` r
+
+library(legendry)
+#> Loading required package: ggplot2
+
+base <- ggplot(mpg, aes(displ, hwy, colour = cty)) +
+  geom_point() +
+  labs(
+    x = "Engine displacement",
+    y = "Highway miles per gallon",
+    col = "City miles\nper gallon"
+  ) +
+  theme(axis.line = element_line())
+```
+
+The legendry package offers a selection of what it calls ‘complete
+guides’. These complete guides can just be drop-in replacement of
+regular guides, which you can specify using ggplot2’s
+[`guides()`](https://ggplot2.tidyverse.org/reference/guides.html)
+function or using the `guide` argument in scales. In the example below,
+we’re using two custom variants of vanilla guides, namely
+[`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md)
+and
+[`guide_colbar()`](https://teunbrand.github.io/legendry/reference/guide_colbar.md).
+These custom variants have additional options that allow a greater
+degree of customisation:
+
+- The axis guide has an option for bidirectional ticks.
+- The colourbar automatically recognises out-of-bounds values and
+  displays this with a cap.
+
+``` r
+
+base + 
+  scale_colour_viridis_c(
+    limits = c(NA, 30),
+    guide = "colbar"
+  ) +
+  guides(
+    x = guide_axis_base(bidi = TRUE)
+  )
+```
+
+![](reference/figures/README-full_guides-1.svg)
+
+Besides complete guides, legendry also has incomplete guides that can be
+composed. The
+[`ggplot2::guide_axis_stack()`](https://ggplot2.tidyverse.org/reference/guide_axis_stack.html)
+is an axis composition function that can be used to display multiple
+guides. Here, we use a ‘primitive’ guide (incomplete building block) to
+display a range on the axis. By stacking it with a regular axis the
+primitive guide is completed.
+
+``` r
+
+# A partial guide to display a bracket
+efficient_bracket <- primitive_bracket(
+  # Keys determine what is displayed
+  key = key_range_manual(start = 25, end = Inf, name = "Efficient"),
+  bracket = "square",
+  # We want vertical text
+  theme = theme(
+    legend.text = element_text(angle = 90, hjust = 0.5),
+    axis.text.y.left = element_text(angle = 90, hjust = 0.5)
+  )
+)
+
+base + guides(y = guide_axis_stack("axis", efficient_bracket))
+```
+
+![](reference/figures/README-primitives-1.svg)
+
+The legendry package extends this guide composition concept beyond the
+axes for other types of guides. In the example below we compose a
+‘sandwich’: a central guide flanked by two others. Because our bracket
+is a primitive, it does not matter what aesthetic it displays and we can
+re-use it for the sandwich. I’ve yet to write the vignette on
+composition.
+
+``` r
+
+base + 
+  scale_colour_viridis_c(
+    guide = compose_sandwich(
+      middle = gizmo_density(), 
+      text = "axis_base",
+      opposite = efficient_bracket
+    )
+  )
+```
+
+![](reference/figures/README-composition-1.svg)
+
+## Code of Conduct
+
+Please note that the legendry project is released with a [Contributor
+Code of
+Conduct](https://teunbrand.github.io/legendry/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
+
+# Package index
+
+## Guides to go
+
+These guides are complete and ready to use in your plots.
+
+- [`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md)
+  : Custom axis guide
+- [`guide_axis_dendro()`](https://teunbrand.github.io/legendry/reference/guide_axis_dendro.md)
+  : Dendrogram guide
+- [`guide_axis_nested()`](https://teunbrand.github.io/legendry/reference/guide_axis_nested.md)
+  : Nested axis guide
+- [`guide_axis_plot()`](https://teunbrand.github.io/legendry/reference/guide_axis_plot.md)
+  **\[experimental\]** : Side-plot axis
+- [`guide_circles()`](https://teunbrand.github.io/legendry/reference/guide_circles.md)
+  : Circle size guide
+- [`guide_colbar()`](https://teunbrand.github.io/legendry/reference/guide_colbar.md)
+  : Custom colour bar guide
+- [`guide_colring()`](https://teunbrand.github.io/legendry/reference/guide_colring.md)
+  : Colour rings and arcs
+- [`guide_colsteps()`](https://teunbrand.github.io/legendry/reference/guide_colsteps.md)
+  : Custom colour steps guide
+- [`guide_legend_base()`](https://teunbrand.github.io/legendry/reference/guide_legend_base.md)
+  : Custom legend guide
+- [`guide_legend_cross()`](https://teunbrand.github.io/legendry/reference/guide_legend_cross.md)
+  : Cross legend guide
+- [`guide_legend_group()`](https://teunbrand.github.io/legendry/reference/guide_legend_group.md)
+  : Grouped legend
+- [`guide_legend_manual()`](https://teunbrand.github.io/legendry/reference/guide_legend_manual.md)
+  **\[experimental\]** : Manual legend
+
+## Primitives
+
+These are incomplete guides used in composition.
+
+- [`guide-primitives`](https://teunbrand.github.io/legendry/reference/guide-primitives.md)
+  : Guide primitives
+- [`primitive_box()`](https://teunbrand.github.io/legendry/reference/primitive_box.md)
+  : Guide primitives: boxes
+- [`primitive_bracket()`](https://teunbrand.github.io/legendry/reference/primitive_bracket.md)
+  : Guide primitive: brackets
+- [`primitive_fence()`](https://teunbrand.github.io/legendry/reference/primitive_fence.md)
+  : Guide primitive: fence
+- [`primitive_labels()`](https://teunbrand.github.io/legendry/reference/primitive_labels.md)
+  : Guide primitive: labels
+- [`primitive_line()`](https://teunbrand.github.io/legendry/reference/primitive_line.md)
+  : Guide primitive: line
+- [`primitive_segments()`](https://teunbrand.github.io/legendry/reference/primitive_segments.md)
+  : Guide primitives: segments
+- [`primitive_spacer()`](https://teunbrand.github.io/legendry/reference/primitive_spacer.md)
+  : Guide primitive: spacer
+- [`primitive_ticks()`](https://teunbrand.github.io/legendry/reference/primitive_ticks.md)
+  : Guide primitive: line
+- [`primitive_title()`](https://teunbrand.github.io/legendry/reference/primitive_title.md)
+  : Guide primitive: title
+
+## Gizmos
+
+These are specialty gimmicks tailored to displaying specific aesthetics.
+
+- [`guide-gizmos`](https://teunbrand.github.io/legendry/reference/guide-gizmos.md)
+  : Guide gizmos
+- [`gizmo_barcap()`](https://teunbrand.github.io/legendry/reference/gizmo_barcap.md)
+  : Guide gizmo: capped colour bar
+- [`gizmo_density()`](https://teunbrand.github.io/legendry/reference/gizmo_density.md)
+  : Guide gizmo: kernel density estimate
+- [`gizmo_grob()`](https://teunbrand.github.io/legendry/reference/gizmo_grob.md)
+  : Guide gizmo: custom grob
+- [`gizmo_histogram()`](https://teunbrand.github.io/legendry/reference/gizmo_histogram.md)
+  : Guide gizmo: histogram
+- [`gizmo_stepcap()`](https://teunbrand.github.io/legendry/reference/gizmo_stepcap.md)
+  : Guide gizmo: capped colour steps
+
+## Composition
+
+These are not guides, but ways to combine guides, primitives and gizmos
+together to become a more complete guide.
+
+- [`new_compose()`](https://teunbrand.github.io/legendry/reference/guide-composition.md)
+  **\[experimental\]** : Guide composition
+- [`compose_crux()`](https://teunbrand.github.io/legendry/reference/compose_crux.md)
+  **\[experimental\]** : Compose guides in a cross
+- [`compose_ontop()`](https://teunbrand.github.io/legendry/reference/compose_ontop.md)
+  **\[experimental\]** : Compose guides on top of one another
+- [`compose_sandwich()`](https://teunbrand.github.io/legendry/reference/compose_sandwich.md)
+  **\[experimental\]** : Compose guides as a sandwich
+- [`compose_stack()`](https://teunbrand.github.io/legendry/reference/compose_stack.md)
+  **\[experimental\]** : Compose guides as stack
+
+## Keys
+
+Fantastic labels and where to display them.
+
+- [`key_group_split()`](https://teunbrand.github.io/legendry/reference/key_group.md)
+  [`key_group_lut()`](https://teunbrand.github.io/legendry/reference/key_group.md)
+  : Group keys
+- [`key_range_auto()`](https://teunbrand.github.io/legendry/reference/key_range.md)
+  [`key_range_manual()`](https://teunbrand.github.io/legendry/reference/key_range.md)
+  [`key_range_map()`](https://teunbrand.github.io/legendry/reference/key_range.md)
+  : Range keys
+- [`key_segment_manual()`](https://teunbrand.github.io/legendry/reference/key_segments.md)
+  [`key_segment_map()`](https://teunbrand.github.io/legendry/reference/key_segments.md)
+  [`key_dendro()`](https://teunbrand.github.io/legendry/reference/key_segments.md)
+  : Segment keys
+- [`key_sequence()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+  [`key_bins()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+  : Speciality keys
+- [`key_auto()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+  [`key_manual()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+  [`key_map()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+  [`key_minor()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+  [`key_log()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+  [`key_none()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+  : Standard keys
+
+## Other functions
+
+Miscellaneous functions not directly concerned with guides
+
+- [`bracket_line()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  [`bracket_square()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  [`bracket_chevron()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  [`bracket_round()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  [`bracket_sigmoid()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  [`bracket_atan()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  [`bracket_curvy()`](https://teunbrand.github.io/legendry/reference/bracket_options.md)
+  : Bracket options
+- [`cap_triangle()`](https://teunbrand.github.io/legendry/reference/cap_options.md)
+  [`cap_round()`](https://teunbrand.github.io/legendry/reference/cap_options.md)
+  [`cap_arch()`](https://teunbrand.github.io/legendry/reference/cap_options.md)
+  [`cap_ogee()`](https://teunbrand.github.io/legendry/reference/cap_options.md)
+  [`cap_none()`](https://teunbrand.github.io/legendry/reference/cap_options.md)
+  : Cap options
+- [`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md)
+  : Theme wrapper for guides
+- [`scale_x_dendro()`](https://teunbrand.github.io/legendry/reference/scale_x_dendro.md)
+  [`scale_y_dendro()`](https://teunbrand.github.io/legendry/reference/scale_x_dendro.md)
+  : Dendrogram scales
+- [`position_text()`](https://teunbrand.github.io/legendry/reference/position_text.md)
+  : Helper to position text
+
+# Articles
+
+### All vignettes
+
+- [Example
+  Gallery](https://teunbrand.github.io/legendry/articles/gallery.md):
+- [A guide to guide
+  composition](https://teunbrand.github.io/legendry/articles/guide_composition.md):
+- [Key
+  information](https://teunbrand.github.io/legendry/articles/keys.md):
+- [A guided
+  tour](https://teunbrand.github.io/legendry/articles/tour.md):
