@@ -13,6 +13,8 @@
 #'   guides.
 #' * `key_bins()` is a function factory whose function create a binned key
 #'   given the breaks in the scale. It is used in colour steps guides.
+#' * `key_upset()` is a function factory whose function creates an upset key
+#'   from splitting the breaks in the scale.  It is used in the upset guide.
 #'
 #' @param n A positive `<integer[1]>` giving the number of colours to use for a
 #'   gradient.
@@ -24,9 +26,17 @@
 #'   Note that breaks coinciding with limits are shown regardless of this
 #'   setting. The default, `NULL`, consults the scale's `show.limits` setting
 #'   or defaults to `FALSE`.
+#' @inheritParams key_group sep
+#' @param order Order to set the upset layers in. One of the following:
+#' * A `<character[n]>` giving pieces of split labels.
+#' * An `<integer[n]>` giving the numerical order in which pieces of split
+#'   labels should appear.
+#' @param empty_label A `<character[1]>` giving a level label to assign to the
+#'   breaks that match no values to the pieces of split labels. Can be `NULL`
+#'   to omit labels for empty levels.
 #'
 #' @return
-#' For `key_sequence()` a function.
+#' A function.
 #'
 #' @name key_specialty
 #' @family keys
@@ -38,6 +48,14 @@
 #' # Retrieving colourbar and colourstep keys
 #' key_sequence()(template)
 #' key_bins()(template)
+#'
+#' # Upset key with example scale
+#' template <- scale_x_discrete(limits = c("A", "A,B", ""))
+#' key_upset()(template)
+#' # Putting 'B' in 1st level
+#' key_upset(order = c("B", "A"))(template)
+#' # Omit level for the empty break
+#' key_upset(empty_label = NULL)(template)
 NULL
 
 #' @export
@@ -69,9 +87,12 @@ key_bins <- function(even.steps = FALSE, show.limits = NULL) {
   }
 }
 
+#' @export
+#' @rdname key_specialty
 key_upset <- function(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other") {
   check_string(sep)
   force(string)
+  force(order)
   call <- current_call()
   function(scale, aesthetic = NULL) {
     upset_from_split_label(
@@ -216,7 +237,7 @@ upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = N
   if (is.character(order)) {
     levels <- c(intersect(order, levels), setdiff(levels, order))
   } else if (is.numeric(order)) {
-    levels <- levels[order]
+    levels <- levels[union(order, seq_along(levels))]
   }
   levels <- factor(levels, levels)
 
@@ -242,6 +263,6 @@ upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = N
     .symbol = as.vector(mtx)
   )
 
-  class(df) <- c("key_guide", class(df))
+  class(df) <- c("key_guide", "key_upset", class(df))
   df
 }
