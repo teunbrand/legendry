@@ -100,13 +100,14 @@ ComposeStack <- ggproto(
     params
   },
 
-  override_elements = function(params, elements, theme) {
-    if (!is_theta(params$position)) {
-      elements$spacing <- cm(elements$spacing)
-    }
-
-    side_position <- elements$side_position
+  setup_elements = function(self, params, elements, theme) {
+    side_position <- NULL
     if (!is.null(params$side_titles)) {
+      side_position <- elements$side_position
+      if (!side_position %in% .trbl) {
+        side_position <- calc_element(elements$side_position, theme)
+      }
+      type <- if (any(params$aesthetic %in% c("x", "y"))) "axis" else "legend"
       side_position <- switch(
         params$position,
         top = , bottom = , theta = , theta.sec =
@@ -115,7 +116,7 @@ ComposeStack <- ggproto(
           setdiff(side_position, c("left", "right"))
       )
       if (length(side_position) > 1) {
-        if (any(params$aesthetic %in% c("x", "y"))) {
+        if (type == "axis") {
           side_position <- side_position[1]
         } else {
           # When we are a non-position guide, we don't want to interfere
@@ -126,8 +127,19 @@ ComposeStack <- ggproto(
         }
       }
       check_argmatch(side_position, .trbl)
-      elements$side_position <- side_position
+      elements$side_titles <- setup_side_title(theme, side_position, type)
     }
+    elements <- ggproto_parent(self, Guide)$setup_elements(params, elements, theme)
+    elements$side_position <- side_position %||% elements$side_position
+    elements
+  },
+
+  override_elements = function(params, elements, theme) {
+    if (!is_theta(params$position)) {
+      elements$spacing <- cm(elements$spacing)
+    }
+
+
     elements
   },
 
@@ -171,7 +183,7 @@ ComposeStack <- ggproto(
     check_position(position)
     params$guide_params <-
       set_list_element(params$guide_params, "position", position)
-    direction <- params$direction <-  params$direction %||% direction
+    direction <- params$direction <- params$direction %||% direction
 
     elems <- self$setup_elements(params, self$elements, theme)
     elems <- self$override_elements(params, elems, theme)

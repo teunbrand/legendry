@@ -219,7 +219,7 @@ register_legendry_elements <- function() {
     legendry.axis.mini.ticks.length = rel(0.5),
     legendry.guide.spacing = unit(2.25, "pt"),
     legendry.group.spacing = rel(2),
-    legendry.axis.subtitle = element_text(margin = margin(5.5, 5.5, 5.5, 5.5)),
+    legendry.axis.subtitle = NULL,
     legendry.axis.subtitle.position = c("left", "top", "bottom", "right"),
     legendry.symbol = element_point(),
     legendry.connector = element_line(),

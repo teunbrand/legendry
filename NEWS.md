@@ -7,6 +7,8 @@
 * New arguments `guide_legend_cross(row_title, col_title, subtitle_position)`
   to display subtitles over dimensions (#79).
 * `compose_stack(side.titles)` also work in non-position guides (#101)
+* Changed the margins and inferred justification of the `legendry.axis.subtitle`
+  and `legendry.legend.subtitle` theme elements.
 * Updated title mechanism to comply with ggplot2#6200 (#104)
 * `key_group_split()` tries to preserve order of labels better, rather than 
   re-sorting them (#100)
