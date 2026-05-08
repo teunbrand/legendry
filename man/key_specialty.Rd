@@ -97,6 +97,18 @@ key_upset()(template)
 key_upset(order = c("B", "A"))(template)
 # Omit level for the empty break
 key_upset(empty_label = NULL)(template)
+
+# Symbol key with example scale
+template <- scale_x_discrete(limits = LETTERS[1:5])
+key_symbols(aesthetic = LETTERS[1:3], level = 3:1)(template)
+# Aesthetic can also be numeric
+key_symbols(1:3, 3:1)(template)
+# Setting level order via factors
+key_symbols(1:3, level = factor(c("X", "Y", "Z"), c("Y", "X", "Z")))(template)
+# Setting groups for symbols, for `guide_symbols(override.aes)`
+key_symbols(1:3, 1:3, symbol = c(1, 1, 2))(template)
+# Passing individual graphical parameters
+key_symbols(1:3, 3:1, colour = c("red", "green", "blue"))(template)
 }
 \seealso{
 Other keys:
