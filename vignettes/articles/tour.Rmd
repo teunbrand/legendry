@@ -313,7 +313,7 @@ ggplot(df, aes(drug, value)) +
 The 'magic' of `guide_upset()` is really the `key_upset()` that figures out the set membership.
 You can re-purpose the guide to fit other visual ideoms, like displaying treatments with `+`s and `−`s, which is common in biological sciences.
 In the plot below, we're using `sep = ","` to specify we only want to split labels on commas, in case our regular labels would've contained non-alphanumeric characters that should be preserved.
-We're also setting the `order` to ensure 'DMSO' appears above 'cisplatin'.
+We're also setting the `order` to ensure 'DMSO' (control) appears above 'cisplatin'.
 The `empty_label = NULL` tells the key not to bother annotating categories without set membership.
 The `override.aes` arguments sets new shapes for symbol categories.
 Because set membership can be `TRUE`, `FALSE` or `NA`, we must give three new shapes.

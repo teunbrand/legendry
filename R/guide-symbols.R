@@ -2,6 +2,10 @@
 
 #' Symbol and upset axis guide
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' @description
 #' These axis guides can be used for set annotations of discrete categories.
 #' The upset guide displays set intersections in matrix and is can be used
 #' to replace Venn/Euler diagrams. The symbol guide also displays a matrix of

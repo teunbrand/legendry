@@ -86,6 +86,8 @@ argument determines the number of symbols.}
 A \verb{<Guide>} object.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 These axis guides can be used for set annotations of discrete categories.
 The upset guide displays set intersections in matrix and is can be used
 to replace Venn/Euler diagrams. The symbol guide also displays a matrix of
