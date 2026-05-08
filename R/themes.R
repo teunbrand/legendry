@@ -227,6 +227,7 @@ register_legendry_elements <- function() {
     legendry.zebra.dark = NULL,
     legendry.table.vlines = element_blank(),
     legendry.table.hlines = element_blank(),
+    legendry.table.spacing = rel(0.5),
     element_tree = list(
       legendry.bracket.size = el_def("unit"),
       legendry.bracket = el_def(line, "line"),
@@ -252,7 +253,8 @@ register_legendry_elements <- function() {
       legendry.zebra.light = el_def(rect, "plot.background"),
       legendry.zebra.dark  = el_def(rect, "panel.background"),
       legendry.table.vlines = el_def(line, "axis.line"),
-      legendry.table.hlines = el_def(line, "axis.line")
+      legendry.table.hlines = el_def(line, "axis.line"),
+      legendry.table.spacing = el_def(c("unit", "rel"), "spacing")
     )
   )
 }

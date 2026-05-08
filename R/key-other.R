@@ -14,7 +14,9 @@
 #' * `key_bins()` is a function factory whose function create a binned key
 #'   given the breaks in the scale. It is used in colour steps guides.
 #' * `key_upset()` is a function factory whose function creates an upset key
-#'   from splitting the breaks in the scale.  It is used in the upset guide.
+#'   from splitting the breaks in the scale. It is used in the upset guide.
+#' * `key_symbols()` is a function factory whose function creates a key
+#'   from the literal provided values. It is used in the symbols guide.
 #'
 #' @param n A positive `<integer[1]>` giving the number of colours to use for a
 #'   gradient.
@@ -34,6 +36,18 @@
 #' @param empty_label A `<character[1]>` giving a level label to assign to the
 #'   breaks that match no values to the pieces of split labels. Can be `NULL`
 #'   to omit labels for empty levels.
+#' @param aesthetic A vector of values for the guide to represent equivalent to
+#'   the `breaks` argument in scales. These will be mapped by the scale to
+#'   positions. Alternatively, a `<numeric[n]>` vector to set positions directly.
+#'   Positions are used to place symbols.
+#' @param level A `<factor[n]>` or `<character[n]>` parallel to the `aesthetic`
+#'   argument setting the label level of the symbol.
+#' @param symbol (Optional) An `<integer[n]>` indexing the guide's
+#'   `override.aes` parameter.
+#' @param ... Additional graphical properties to set for each symbol. Valid
+#'   properties are `colour`, `shape`, `size`, `fill` and `stroke`. These
+#'   graphical properties have priority over properties derived via `symbol`
+#'   or the theme.
 #'
 #' @return
 #' A function.
@@ -100,6 +114,28 @@ key_upset <- function(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other"
       sep = sep, order = order, empty_label = empty_label,
       call = call
     )
+  }
+}
+
+#' @export
+#' @rdname key_specialty
+key_symbols <- function(aesthetic, level, symbol = NULL, ...) {
+  if (!is_integerish(level)) {
+    level_universe <- levels(level) %||% unique(level)
+  } else {
+    level_universe <- sort(unique(level))
+  }
+  index <- match(level, level_universe)
+  valid <- c("colour", "color", "shape", "size", "fill", "stroke")
+  key <- data_frame0(
+    aesthetic = aesthetic,
+    .value = factor(level, level_universe),
+    .col = index,
+    .symbol = symbol,
+    !!!extra_args(..., .valid_args = valid)
+  )
+  function(scale, aesthetic = NULL) {
+    merge_symbol_key(scale, aesthetic, key)
   }
 }
 
@@ -265,4 +301,18 @@ upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = N
 
   class(df) <- c("key_guide", "key_upset", class(df))
   df
+}
+
+merge_symbol_key = function(scale, aesthetic, key) {
+  aesthetic <- aesthetic %||% scale$aesthetics[1]
+  if (!is.numeric(key$aesthetic)) {
+    scale_key <- Guide$extract_key(scale, aesthetic)
+    i <- match(key$aesthetic, scale_key$.value)
+    key <- data_frame0(
+      !!!key[setdiff(names(key), "aesthetic")],
+      !!!scale_key[i, setdiff(names(scale_key), names(key))]
+    )
+  }
+  key$.row <- key[[aesthetic]]
+  key
 }

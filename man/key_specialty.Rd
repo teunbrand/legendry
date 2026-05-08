@@ -5,6 +5,7 @@
 \alias{key_sequence}
 \alias{key_bins}
 \alias{key_upset}
+\alias{key_symbols}
 \title{Speciality keys}
 \usage{
 key_sequence(n = 15)
@@ -12,6 +13,8 @@ key_sequence(n = 15)
 key_bins(even.steps = FALSE, show.limits = NULL)
 
 key_upset(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other")
+
+key_symbols(aesthetic, level, symbol = NULL, ...)
 }
 \arguments{
 \item{n}{A positive \verb{<integer[1]>} giving the number of colours to use for a
@@ -42,6 +45,22 @@ labels should appear.
 \item{empty_label}{A \verb{<character[1]>} giving a level label to assign to the
 breaks that match no values to the pieces of split labels. Can be \code{NULL}
 to omit labels for empty levels.}
+
+\item{aesthetic}{A vector of values for the guide to represent equivalent to
+the \code{breaks} argument in scales. These will be mapped by the scale to
+positions. Alternatively, a \verb{<numeric[n]>} vector to set positions directly.
+Positions are used to place symbols.}
+
+\item{level}{A \verb{<factor[n]>} or \verb{<character[n]>} parallel to the \code{aesthetic}
+argument setting the label level of the symbol.}
+
+\item{symbol}{(Optional) An \verb{<integer[n]>} indexing the guide's
+\code{override.aes} parameter.}
+
+\item{...}{Additional graphical properties to set for each symbol. Valid
+properties are \code{colour}, \code{shape}, \code{size}, \code{fill} and \code{stroke}. These
+graphical properties have priority over properties derived via \code{symbol}
+or the theme.}
 }
 \value{
 A function.
@@ -58,7 +77,9 @@ guides.
 \item \code{key_bins()} is a function factory whose function create a binned key
 given the breaks in the scale. It is used in colour steps guides.
 \item \code{key_upset()} is a function factory whose function creates an upset key
-from splitting the breaks in the scale.  It is used in the upset guide.
+from splitting the breaks in the scale. It is used in the upset guide.
+\item \code{key_symbols()} is a function factory whose function creates a key
+from the literal provided values. It is used in the symbols guide.
 }
 }
 \examples{

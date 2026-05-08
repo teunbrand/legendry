@@ -78,3 +78,38 @@ test_that("key_upset can set labels for empty levels", {
   test <- key(scale)
   expect_equal(levels(test$.value), c("X", "Y", "Z"))
 })
+
+test_that("key_symbols levels work as intended", {
+
+  scale <- scale_x_discrete(limits = c("X", "Y", "Z"))
+  key <- key_symbols(c("X", "Y", "Z"), c("C", "A", "B"))
+  test <- key(scale)
+
+  expect_equal(
+    test[c(".value", ".col")],
+    data_frame0(
+      .value = factor(c("C", "A", "B"), levels = c("C", "A", "B")),
+      .col = c(1, 2, 3)
+    )
+  )
+
+  key <- key_symbols(c("X", "Y", "Z"), factor(c("C", "A", "B")))
+  test <- key(scale)
+  expect_equal(
+    test[c(".value", ".col")],
+    data_frame0(
+      .value = factor(c("C", "A", "B"), levels = c("A", "B", "C")),
+      .col = c(3, 1, 2)
+    )
+  )
+
+  key <- key_symbols(c("X", "Y", "Z"), c(2, 3, 1))
+  test <- key(scale)
+  expect_equal(
+    test[c(".value", ".col")],
+    data_frame0(
+      .value = factor(c("2", "3", "1"), levels = c("1", "2", "3")),
+      .col = c(2, 3, 1)
+    )
+  )
+})
