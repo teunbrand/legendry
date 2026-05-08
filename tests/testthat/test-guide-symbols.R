@@ -43,32 +43,31 @@ test_that("connectors works", {
   expect_true(is_zero(line))
 })
 
-test_that("guide_symbols does input checks", {
-  expect_snapshot_error(guide_symbols())
-  expect_silent(guide_symbols)
+test_that("guide_axis_symbols does input checks", {
+  expect_snapshot_error(guide_axis_symbols())
 })
 
-test_that("guide_upset treats input correctly", {
-  expect_snapshot_error(guide_upset(key = NULL))
-  expect_silent(guide_upset)
+test_that("guide_axis_upset treats input correctly", {
+  expect_snapshot_error(guide_axis_upset(key = NULL))
+  expect_silent(guide_axis_upset())
 })
 
-test_that("guide_upset forwards key order argument", {
-  g <- guide_upset(c("foo", "qux", "bar"))
+test_that("guide_axis_upset forwards key order argument", {
+  g <- guide_axis_upset(c("foo", "qux", "bar"))
   key <- g$params$key(scale_x_discrete(limits = c("foo,bar", "qux,bar", "")))
   expect_equal(levels(key$.value), c("foo", "qux", "bar", "Other"))
 })
 
-test_that("guide_upset gives informative error for `override.aes`", {
+test_that("guide_axis_upset gives informative error for `override.aes`", {
   p <- ggplot() +
     scale_x_discrete(
       limits = c("foo,bar", "bar"),
-      guide = guide_upset(override.aes = list(size = 5, colour = c("red", "blue", "green", "purple")))
+      guide = guide_axis_upset(override.aes = list(size = 5, colour = c("red", "blue", "green", "purple")))
     )
   expect_snapshot_error(ggplotGrob(p))
 })
 
-test_that("guide_symbols and guide_upset can be drawn", {
+test_that("guide_axis_symbols and guide_axis_upset can be drawn", {
   df <- data.frame(
     x = c("", "A", "A,B", "B,C", "A,C"),
     y = c("X;Y", "X;Z", "Y;Z", "X;Y;Z", "")
@@ -90,24 +89,24 @@ test_that("guide_symbols and guide_upset can be drawn", {
   p <- ggplot(df, aes(x, y)) +
     geom_point() +
     guides(
-      x = guide_upset(
+      x = guide_axis_upset(
         theme = theme(
           legendry.symbol = element_point(size = 3),
           legendry.connector = element_line(linetype = "dotted")
         )
       ),
-      y = guide_upset(
+      y = guide_axis_upset(
         key_upset(empty_label = NULL, order = c("Z", "Y", "X")),
         connect = "parallel",
         override.aes = list(shape = c(15, 0, 2))
       ),
-      x.sec = guide_symbols(
+      x.sec = guide_axis_symbols(
         symbol_key,
         override.aes = list(colour = c("red", "blue")),
         connect = connector,
         theme = theme(legendry.axis.subtitle.position = "right")
       ),
-      y.sec = guide_symbols(
+      y.sec = guide_axis_symbols(
         key_symbols(df$y, level = LETTERS[seq_len(nrow(df))]),
         connect = NULL
       )

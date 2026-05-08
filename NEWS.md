@@ -2,9 +2,9 @@
 
 * New guide `guide_legend_manual()` for user defined keys (#88)
 * New guide `guide_axis_plot()` to place side-plots (#43)
-* New guide `guide_upset()` to place symbols in upset matrices next to axes. 
+* New guide `guide_axis_upset()` to place symbols in upset matrices next to axes. 
   Also comes with `key_upset()` to match (#38).
-* New guide `guide_symbols()` for a more manual version of placing symbols. 
+* New guide `guide_axis_symbols()` for a more manual version of placing symbols. 
   Also comes with `key_symbols()` to match (#38).
 * New arguments `guide_axis_base(subtitle)` and `guide_axis_nested(subtitle)` 
   make it easier to title custom axes (#102)

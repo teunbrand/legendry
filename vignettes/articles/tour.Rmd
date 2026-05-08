@@ -285,7 +285,7 @@ The O.G. upset plot is akin to a Venn or Euler diagram in that it displays (mult
 The improvement over overlapping circles is that upset plots can easily handle more than 3 set memberships, whereas a Venn diagram easily becomes visually cluttered.
 The upset plot's visual ideom is a matrix of connected symbols, the *combination matrix*, decorating the x-axis of a bar chart.
 This matrix shows the combinations of set memberships of a category, like how a movie can simultaneously be an action movie and comedy movie.
-The goal of legendry's `guide_upset()` is to display the combination matrix at the axis, without pidgeonholing what the rest of the plot can be.
+The goal of legendry's `guide_axis_upset()` is to display the combination matrix at the axis, without pidgeonholing what the rest of the plot can be.
 
 The typical behaviour of the upset axis is to parse the scale's labels by splitting them on any non-alphanumeric character.
 Here, the axis splits the labels on the comma.
@@ -304,13 +304,13 @@ df <- data.frame(
 
 ggplot(df, aes(drug, value)) +
   geom_col() +
-  guides(x = "upset") +
+  guides(x = "axis_upset") +
   theme(
     plot.margin = margin_part(l = 20)
   )
 ```
 
-The 'magic' of `guide_upset()` is really the `key_upset()` that figures out the set membership.
+The 'magic' of `guide_axis_upset()` is really the `key_upset()` that figures out the set membership.
 You can re-purpose the guide to fit other visual ideoms, like displaying treatments with `+`s and `−`s, which is common in biological sciences.
 In the plot below, we're using `sep = ","` to specify we only want to split labels on commas, in case our regular labels would've contained non-alphanumeric characters that should be preserved.
 We're also setting the `order` to ensure 'DMSO' (control) appears above 'cisplatin'.
@@ -322,7 +322,7 @@ By setting `connect = NULL`, we give the instruction to not draw the connecting 
 ```{r}
 ggplot(df, aes(drug, value)) +
   geom_col() +
-  guides(x = guide_upset(
+  guides(x = guide_axis_upset(
     key_upset(sep = ",", order = c("DMSO", "cisplatin"), empty_label = NULL),
     override.aes = list(shape = c("+", "−", NA), size = 5),
     connect = NULL
@@ -332,8 +332,8 @@ ggplot(df, aes(drug, value)) +
   )
 ```
 
-The `guide_upset()` also has a sibling-guide called `guide_symbols()`.
-In principle, it can do all the things that `guide_upset()` can do, but it is geared towards manually setting up a matrix of symbols.
+The `guide_axis_upset()` also has a sibling-guide called `guide_axis_symbols()`.
+In principle, it can do all the things that `guide_axis_upset()` can do, but it is geared towards manually setting up a matrix of symbols.
 It offers more freedoms, but is also more laborious to set up.
 We can use it to setup a little board of 'connect four' under our plot.
 
@@ -354,7 +354,7 @@ connector <- data.frame(
 
 ggplot(mpg, aes(fl, displ)) +
   geom_boxplot() +
-  guides(x = guide_symbols(
+  guides(x = guide_axis_symbols(
     symbol_key, connector,
     override.aes = list(colour = c("red", "gold"))
   ))

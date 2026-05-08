@@ -13,7 +13,7 @@
 #'
 #' @param key
 #' One of the following:
-#' * An [upset key][key_upset] specification. For `guide_upset`, specifying
+#' * An [upset key][key_upset] specification. For `guide_axis_upset`, specifying
 #'   a `<character[n]>` is also passed to the `key_upset(order)` argument. An
 #'   exception is made when the string is a valid key specification.
 #' * A [symbol key][key_symbols] specification.
@@ -83,23 +83,23 @@
 #'   geom_bar()
 #'
 #' # A standard upset axis might not have right order of levels
-#' p + guides(x = "upset")
+#' p + guides(x = "axis_upset")
 #'
 #' # The levels can be manually adjusted to taste
-#' p + guides(x = guide_upset(c("1999", "2008", "4", "f", "r")))
+#' p + guides(x = guide_axis_upset(c("1999", "2008", "4", "f", "r")))
 #'
 #' # The connections can be turned off to just show symbols
-#' p + guides(x = guide_upset(connect = NULL))
+#' p + guides(x = guide_axis_upset(connect = NULL))
 #'
 #' # The style can be changed per group of symbols.
 #' # We need to give 3 colours to also cover NA-breaks
-#' p + guides(x = guide_upset(
+#' p + guides(x = guide_axis_upset(
 #'   override.aes = list(colour = c("purple", "orange", NA))
 #' ))
 #'
 #' # For symbol guides you have to manually specify where you want symbols and
 #' # connection lines appear.
-#' p + guides(x = guide_symbols(
+#' p + guides(x = guide_axis_symbols(
 #'   key_symbols(
 #'     aesthetic = c("4 1999", "4 2008", "r 1999"),
 #'     level = c("Lvl 1", "Lvl 2", "Lvl 3")
@@ -109,7 +109,7 @@
 #'     level_start = 2, level_end = 3
 #'   )
 #' ))
-guide_symbols <- function(
+guide_axis_symbols <- function(
     key = NULL,
     connect = NULL,
     title = waiver(),
@@ -143,9 +143,9 @@ guide_symbols <- function(
   )
 }
 
-#' @rdname guide_symbols
+#' @rdname guide_axis_symbols
 #' @export
-guide_upset <- function(
+guide_axis_upset <- function(
   key = "upset",
   connect = "perpendicular",
   title = waiver(),
@@ -170,7 +170,7 @@ guide_upset <- function(
   check_connect_arg(connect)
   call <- call %||% current_call()
 
-  guide_symbols(
+  guide_axis_symbols(
     key = key,
     title = title,
     theme = theme,
