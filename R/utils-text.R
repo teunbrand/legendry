@@ -19,6 +19,33 @@ setup_legend_text <- function(theme, position = NULL, direction = "vertical") {
   calc_element("legend.text", theme + text)
 }
 
+setup_side_title <- function(theme, position = NULL, type = "axis") {
+  name <- switch(
+    type,
+    axis = "legendry.axis.subtitle",
+    "legendry.legend.subtitle"
+  )
+  position <- position %||% calc_element(paste0(name, ".position"), theme) %||% "left"
+  gap <- switch(
+    type,
+    axis = (calc_element(suffix_position("axis.ticks.length", position)[[1]], theme) %||% unit(0, "pt")) * 2,
+    calc_element("legend.key.spacing", theme) %||% unit(0, "pt")
+  )
+  margin <- calc_element("text", theme)$margin %||% margin()
+  margin <- position_margin(position, margin, gap)
+  text <- theme(
+    text = switch(
+      position,
+      top    = element_text(hjust = 0.5, vjust = 0.0, margin = margin),
+      bottom = element_text(hjust = 0.5, vjust = 1.0, margin = margin),
+      left   = element_text(hjust = 1.0, vjust = 0.5, margin = margin),
+      right  = element_text(hjust = 0.0, vjust = 0.5, margin = margin),
+      element_text(hjust = 0.5, vjust = 0.5, margin = margin)
+    )
+  )
+  calc_element(name, theme + text)
+}
+
 setup_legend_title <- function(theme, position = NULL, direction = "vertical",
                                element = "legend.title") {
   position <- position %||%

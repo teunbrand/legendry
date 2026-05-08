@@ -7,7 +7,7 @@ check_columns <- function(data, columns, call = caller_env(),
   }
   missing <- setdiff(columns, names(data))
   cli::cli_abort(
-    "The {.field {missing}} column{?s} {?is/are} required.",
+    "The {.field {missing}} column{?s} {?is/are} required in {.arg {arg}}.",
     call = call
   )
 }
