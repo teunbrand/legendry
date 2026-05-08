@@ -46,6 +46,70 @@ test_that("key_bins throws appropriate messages", {
     key(scale, "x"),
     "is ignored"
   )
+})
 
+test_that("key_upset can set order", {
+  scale <- scale_x_discrete(limits = c("X,Y", "X", "", "Z"))
 
+  key <- key_upset()
+  test <- key(scale)
+  test <- test[test$.symbol & !is.na(test$.symbol),]
+  expect_equal(levels(test$.value), c("X", "Y", "Z", "Other"))
+
+  key <- key_upset(order = c("Y", "X"))
+  test <- key(scale)
+  test <- test[test$.symbol & !is.na(test$.symbol),]
+  expect_equal(levels(test$.value), c("Y", "X", "Z", "Other"))
+
+  key <- key_upset(order = c(3, 1))
+  test <- key(scale)
+  test <- test[test$.symbol & !is.na(test$.symbol),]
+  expect_equal(levels(test$.value), c("Z", "X", "Y", "Other"))
+})
+
+test_that("key_upset can set labels for empty levels", {
+  scale <- scale_x_discrete(limits = c("X,Y", "X", "", "Z"))
+
+  key <- key_upset(empty_label = "foo")
+  test <- key(scale)
+  expect_equal(levels(test$.value), c("X", "Y", "Z", "foo"))
+
+  key <- key_upset(empty_label = NULL)
+  test <- key(scale)
+  expect_equal(levels(test$.value), c("X", "Y", "Z"))
+})
+
+test_that("key_symbols levels work as intended", {
+
+  scale <- scale_x_discrete(limits = c("X", "Y", "Z"))
+  key <- key_symbols(c("X", "Y", "Z"), c("C", "A", "B"))
+  test <- key(scale)
+
+  expect_equal(
+    test[c(".value", ".col")],
+    data_frame0(
+      .value = factor(c("C", "A", "B"), levels = c("C", "A", "B")),
+      .col = c(1, 2, 3)
+    )
+  )
+
+  key <- key_symbols(c("X", "Y", "Z"), factor(c("C", "A", "B")))
+  test <- key(scale)
+  expect_equal(
+    test[c(".value", ".col")],
+    data_frame0(
+      .value = factor(c("C", "A", "B"), levels = c("A", "B", "C")),
+      .col = c(3, 1, 2)
+    )
+  )
+
+  key <- key_symbols(c("X", "Y", "Z"), c(2, 3, 1))
+  test <- key(scale)
+  expect_equal(
+    test[c(".value", ".col")],
+    data_frame0(
+      .value = factor(c("2", "3", "1"), levels = c("1", "2", "3")),
+      .col = c(2, 3, 1)
+    )
+  )
 })

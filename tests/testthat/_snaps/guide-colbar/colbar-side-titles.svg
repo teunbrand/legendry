@@ -97,7 +97,7 @@
 <text x='681.39' y='294.64' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>6</text>
 <text x='681.39' y='273.04' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>7</text>
 <text x='681.39' y='251.44' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>8</text>
-<text x='681.68' y='346.35' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='12.72px' lengthAdjust='spacingAndGlyphs'>bar</text>
+<text x='676.49' y='347.11' style='font-size: 9.90px; font-family: sans;' textLength='14.31px' lengthAdjust='spacingAndGlyphs'>bar</text>
 <polyline points='700.69,334.81 704.15,334.81 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <polyline points='700.69,313.21 704.15,313.21 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <polyline points='700.69,291.61 704.15,291.61 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
@@ -108,7 +108,7 @@
 <text x='709.63' y='294.64' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>6</text>
 <text x='709.63' y='273.04' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>7</text>
 <text x='709.63' y='251.44' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>8</text>
-<text x='709.33' y='346.35' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>foo</text>
+<text x='704.15' y='347.11' style='font-size: 9.90px; font-family: sans;' textLength='13.76px' lengthAdjust='spacingAndGlyphs'>foo</text>
 <text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='94.65px' lengthAdjust='spacingAndGlyphs'>colbar side titles</text>
 </g>
 </svg>

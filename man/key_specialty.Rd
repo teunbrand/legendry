@@ -4,11 +4,17 @@
 \alias{key_specialty}
 \alias{key_sequence}
 \alias{key_bins}
+\alias{key_upset}
+\alias{key_symbols}
 \title{Speciality keys}
 \usage{
 key_sequence(n = 15)
 
 key_bins(even.steps = FALSE, show.limits = NULL)
+
+key_upset(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other")
+
+key_symbols(aesthetic, level, symbol = NULL, ...)
 }
 \arguments{
 \item{n}{A positive \verb{<integer[1]>} giving the number of colours to use for a
@@ -23,9 +29,41 @@ should be shown with labels and ticks (\code{TRUE}) or remain hidden (\code{FALS
 Note that breaks coinciding with limits are shown regardless of this
 setting. The default, \code{NULL}, consults the scale's \code{show.limits} setting
 or defaults to \code{FALSE}.}
+
+\item{sep}{A \verb{<character[1]>} giving a \link[base:regex]{regular expression} to
+use for splitting labels provided by the scale using the
+\code{\link[base:strsplit]{strsplit()}} function. By defaults, labels are splitted
+on any non-alphanumeric character.}
+
+\item{order}{Order to set the upset layers in. One of the following:
+\itemize{
+\item A \verb{<character[n]>} giving pieces of split labels.
+\item An \verb{<integer[n]>} giving the numerical order in which pieces of split
+labels should appear.
+}}
+
+\item{empty_label}{A \verb{<character[1]>} giving a level label to assign to the
+breaks that match no values to the pieces of split labels. Can be \code{NULL}
+to omit labels for empty levels.}
+
+\item{aesthetic}{A vector of values for the guide to represent equivalent to
+the \code{breaks} argument in scales. These will be mapped by the scale to
+positions. Alternatively, a \verb{<numeric[n]>} vector to set positions directly.
+Positions are used to place symbols.}
+
+\item{level}{A \verb{<factor[n]>} or \verb{<character[n]>} parallel to the \code{aesthetic}
+argument setting the label level of the symbol.}
+
+\item{symbol}{(Optional) An \verb{<integer[n]>} indexing the guide's
+\code{override.aes} parameter.}
+
+\item{...}{Additional graphical properties to set for each symbol. Valid
+properties are \code{colour}, \code{shape}, \code{size}, \code{fill} and \code{stroke}. These
+graphical properties have priority over properties derived via \code{symbol}
+or the theme.}
 }
 \value{
-For \code{key_sequence()} a function.
+A function.
 }
 \description{
 These functions are helper functions for working with keys in guides. The
@@ -38,6 +76,10 @@ spaced sequence between the limits of a scale. It is used in colour bar
 guides.
 \item \code{key_bins()} is a function factory whose function create a binned key
 given the breaks in the scale. It is used in colour steps guides.
+\item \code{key_upset()} is a function factory whose function creates an upset key
+from splitting the breaks in the scale. It is used in the upset guide.
+\item \code{key_symbols()} is a function factory whose function creates a key
+from the literal provided values. It is used in the symbols guide.
 }
 }
 \examples{
@@ -47,6 +89,26 @@ template <- scale_fill_viridis_c(limits = c(0, 10), breaks = c(2, 4, 6, 8))
 # Retrieving colourbar and colourstep keys
 key_sequence()(template)
 key_bins()(template)
+
+# Upset key with example scale
+template <- scale_x_discrete(limits = c("A", "A,B", ""))
+key_upset()(template)
+# Putting 'B' in 1st level
+key_upset(order = c("B", "A"))(template)
+# Omit level for the empty break
+key_upset(empty_label = NULL)(template)
+
+# Symbol key with example scale
+template <- scale_x_discrete(limits = LETTERS[1:5])
+key_symbols(aesthetic = LETTERS[1:3], level = 3:1)(template)
+# Aesthetic can also be numeric
+key_symbols(1:3, 3:1)(template)
+# Setting level order via factors
+key_symbols(1:3, level = factor(c("X", "Y", "Z"), c("Y", "X", "Z")))(template)
+# Setting groups for symbols, for `guide_axis_symbols(override.aes)`
+key_symbols(1:3, 1:3, symbol = c(1, 1, 2))(template)
+# Passing individual graphical parameters
+key_symbols(1:3, 3:1, colour = c("red", "green", "blue"))(template)
 }
 \seealso{
 Other keys:

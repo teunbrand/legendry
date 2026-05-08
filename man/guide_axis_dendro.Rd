@@ -121,6 +121,7 @@ Other standalone guides:
 \code{\link[=guide_axis_base]{guide_axis_base()}},
 \code{\link[=guide_axis_nested]{guide_axis_nested()}},
 \code{\link[=guide_axis_plot]{guide_axis_plot()}},
+\code{\link[=guide_axis_symbols]{guide_axis_symbols()}},
 \code{\link[=guide_circles]{guide_circles()}},
 \code{\link[=guide_colbar]{guide_colbar()}},
 \code{\link[=guide_colring]{guide_colring()}},

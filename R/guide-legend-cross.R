@@ -570,6 +570,9 @@ position_text <- function(
   output <- lapply(vec_seq_along(input), function(i) {
     args  <- as.list(vec_slice(input, i))
     valid <- !map_lgl(args, function(x) is.null(x) || is.na(x))
+    if (is.list(args$margin) && is_margin(args$margin[[1]])) {
+      args$margin <- args$margin[[1]]
+    }
     args  <- args[valid]
     inject(element(!!!args))
   })
