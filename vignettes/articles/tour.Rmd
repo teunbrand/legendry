@@ -279,6 +279,88 @@ ggplot(mtcars, aes(mpg, rownames(mtcars))) +
   )
 ```
 
+### Upset axes
+
+The O.G. upset plot is akin to a Venn or Euler diagram in that it displays (multi)set memberships that can intersect.
+The improvement over overlapping circles is that upset plots can easily handle more than 3 set memberships, whereas a Venn diagram easily becomes visually cluttered.
+The upset plot's visual ideom is a matrix of connected symbols, the *combination matrix*, decorating the x-axis of a bar chart.
+This matrix shows the combinations of set memberships of a category, like how a movie can simultaneously be an action movie and comedy movie.
+The goal of legendry's `guide_upset()` is to display the combination matrix at the axis, without pidgeonholing what the rest of the plot can be.
+
+The typical behaviour of the upset axis is to parse the scale's labels by splitting them on any non-alphanumeric character.
+Here, the axis splits the labels on the comma.
+Each entry after the split gets its own 'level'.
+An automatic level is assigned when the category has no set membership.
+You can also notice that a connecting line is drawn between 'cisplatin' and 'DMSO' when a category belongs to both sets.
+
+Because of how ggplot2 calculates the layout of a plot, it is not possible to fit long level labels in upset axes.
+The remedy is to set the `plot.margin` wide enough to accommodate the labels.
+
+```{r}
+df <- data.frame(
+  drug = c("DMSO", "cisplatin", "DMSO,cisplatin", ""),
+  value = c(3, 10, 11, 2)
+)
+
+ggplot(df, aes(drug, value)) +
+  geom_col() +
+  guides(x = "upset") +
+  theme(
+    plot.margin = margin_part(l = 20)
+  )
+```
+
+The 'magic' of `guide_upset()` is really the `key_upset()` that figures out the set membership.
+You can re-purpose the guide to fit other visual ideoms, like displaying treatments with `+`s and `−`s, which is common in biological sciences.
+In the plot below, we're using `sep = ","` to specify we only want to split labels on commas, in case our regular labels would've contained non-alphanumeric characters that should be preserved.
+We're also setting the `order` to ensure 'DMSO' appears above 'cisplatin'.
+The `empty_label = NULL` tells the key not to bother annotating categories without set membership.
+The `override.aes` arguments sets new shapes for symbol categories.
+Because set membership can be `TRUE`, `FALSE` or `NA`, we must give three new shapes.
+By setting `connect = NULL`, we give the instruction to not draw the connecting lines between `TRUE` (set membership) points.
+
+```{r}
+ggplot(df, aes(drug, value)) +
+  geom_col() +
+  guides(x = guide_upset(
+    key_upset(sep = ",", order = c("DMSO", "cisplatin"), empty_label = NULL),
+    override.aes = list(shape = c("+", "−", NA), size = 5),
+    connect = NULL
+  )) +
+  theme(
+    plot.margin = margin_part(l = 20)
+  )
+```
+
+The `guide_upset()` also has a sibling-guide called `guide_symbols()`.
+In principle, it can do all the things that `guide_upset()` can do, but it is geared towards manually setting up a matrix of symbols.
+It offers more freedoms, but is also more laborious to set up.
+We can use it to setup a little board of 'connect four' under our plot.
+
+```{r}
+symbol_key <- key_symbols(
+  aesthetic = rep(1:5, c(1:4, 2)),
+  level = c(4, 4, 3, 4, 3, 2, 4, 3, 2, 1, 4, 3),
+  symbol = c(1, 2, 1, 2, 2, 1, 1, 2, 2, 1, 2, 1), # 2 symbols
+  size = 3
+)
+
+# Need these column names exactly
+connector <- data.frame(
+  value_start = 1, value_end = 4,
+  level_start = 4, level_end = 1,
+  colour = 'red'
+)
+
+ggplot(mpg, aes(fl, displ)) +
+  geom_boxplot() +
+  guides(x = guide_symbols(
+    symbol_key, connector,
+    override.aes = list(colour = c("red", "gold"))
+  ))
+```
+
+
 ## Colours
 
 The `colour` and `fill` aesthetics are wonderful to build guides for, as they can apply to pretty much anything.
