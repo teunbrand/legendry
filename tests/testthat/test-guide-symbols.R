@@ -63,7 +63,7 @@ test_that("guide_upset gives informative error for `override.aes`", {
   p <- ggplot() +
     scale_x_discrete(
       limits = c("foo,bar", "bar"),
-      guide = guide_upset(override.aes = list(size = 5, colour = c("red", "blue", "green")))
+      guide = guide_upset(override.aes = list(size = 5, colour = c("red", "blue", "green", "purple")))
     )
   expect_snapshot_error(ggplotGrob(p))
 })

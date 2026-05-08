@@ -222,7 +222,6 @@ GuideSymbols <- ggproto(
   },
 
   extract_key = function(scale, aesthetic, key, ...) {
-    # browser()
     key <- standard_extract_key(scale, aesthetic, key, ...)
     key$.symbol <- key$.symbol %||% 1L
     key <- vec_slice(key, !is.na(key$.symbol))
@@ -308,7 +307,7 @@ GuideSymbols <- ggproto(
       n <- max(params$key$.index)
     }
 
-    wrong <- which(!(lengths(override) == n))
+    wrong <- which(!(lengths(override) %in% c(1, n)))
     if (length(wrong)) {
       problems <- paste0("override.aes$", names(override)[wrong])
       lens <- lengths(override)[wrong]
