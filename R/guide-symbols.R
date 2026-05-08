@@ -1,11 +1,117 @@
+# Constructor -------------------------------------------------------------
+
+#' Symbol and upset axis guide
+#'
+#' These axis guides can be used for set annotations of discrete categories.
+#' The upset guide displays set intersections in matrix and is can be used
+#' to replace Venn/Euler diagrams. The symbol guide also displays a matrix of
+#' symbols, but requires manually specifying them.
+#'
+#' @param key
+#' One of the following:
+#' * An [upset key][key_upset] specification. For `guide_upset`, specifying
+#'   a `<character[n]>` is also passed to the `key_upset(order)` argument. An
+#'   exception is made when the string is a valid key specification.
+#' * A [symbol key][key_symbols] specification.
+#'
+#' @param connect
+#' One of the following:
+#' * A `<data.frame>` containing the following columns:
+#'     * `value_start`, `value_end` Scale break values or `<numeric[n]>` values
+#'       connecting along the axis.
+#'     * `level_start`, `level_end` must be `<integer[n]>` values connecting
+#'       perpendicular to the axis.
+#'     * (Optional) columns for graphical parameters: `colour`, `linewidth`
+#'       and `linetype`.
+#' * A `<character[1]>` keyword for upset guides or logical symbols:
+#'     * `"perpendicular"`: connect `TRUE` symbols (set membership for upset)
+#'       perpendicular to the axis.
+#'     * `"parallel"`: connect `TRUE` symbols parallel to the axis. This is
+#'       *not* appropriate for upset guides.
+#'
+#' @param override.aes
+#' A named `<list>` specifying graphical properties of points to apply to
+#' symbols. Every element must either be length 1 or match the number of symbols
+#' determined by the key. 3 symbols are used in upset guides or for logical
+#' symbolism. Otherwise the number of unique values to the `key_symbols(symbol)`
+#' argument determines the number of symbols.
+#'
+#' @inheritParams common_parameters
+#'
+#' @details
+#' The upset axis does not predetermine the order the categories. If any sorting
+#' based on set size needs to occur, the scale is the correct tool to handle
+#' this task.
+#'
+#' ## Styling options
+#'
+#' Several styling options are provided in the theme, while individualised
+#' styling is discussed below the table.
+#'
+#' | Theme setting | Description |
+#' | ------------- | ----------- |
+#' | `legendry.axis.subtitle` | [`element_text()`] for titles on the side |
+#' | `legendry.axis.subtitle.position` | `"top"`, `"right"`, `"bottom"` or `"left"`
+#' | `legendry.zebra.light` | [`element_rect()`] for row shading |
+#' | `legendry.zebra.dark` | [`element_rect()`] for alternate row shading |
+#' | `legendry.table.spacing` | [`rel()`]/[`unit()`] for padding between levels |
+#' | `legendry.point` | [`element_point()`] for symbol style |
+#' | `legendry.connector` | [`element_line()`] for drawing `connect` lines. |
+#'
+#' Moreover, styling options *per group* of symbols can be set via the
+#' `override.aes` argument.
+#'
+#' Styling options *per symbol* can be set in [`key_symbols()`] via the `...`
+#' argument.
+#'
+#' Styling options *per line* in line connectors can be set by including
+#' graphical parameters as columns in the `connect = <data.frame>` argument.
+#'
+#' @returns A `<Guide>` object.
+#' @export
+#' @family standalone guides
+#'
+#' @examples
+#' # Example plot
+#' p <- ggplot(mpg, aes(paste(drv, year))) +
+#'   geom_bar()
+#'
+#' # A standard upset axis might not have right order of levels
+#' p + guides(x = "upset")
+#'
+#' # The levels can be manually adjusted to taste
+#' p + guides(x = guide_upset(c("1999", "2008", "4", "f", "r")))
+#'
+#' # The connections can be turned off to just show symbols
+#' p + guides(x = guide_upset(connect = NULL))
+#'
+#' # The style can be changed per group of symbols.
+#' # We need to give 3 colours to also cover NA-breaks
+#' p + guides(x = guide_upset(
+#'   override.aes = list(colour = c("purple", "orange", NA))
+#' ))
+#'
+#' # For symbol guides you have to manually specify where you want symbols and
+#' # connection lines appear.
+#' p + guides(x = guide_symbols(
+#'   key_symbols(
+#'     aesthetic = c("4 1999", "4 2008", "r 1999"),
+#'     level = c("Lvl 1", "Lvl 2", "Lvl 3")
+#'   ),
+#'   connect = data_frame0(
+#'     value_start = "4 2008", value_end = "r 1999",
+#'     level_start = 2, level_end = 3
+#'   )
+#' ))
 guide_symbols <- function(
     key = NULL,
+    connect = NULL,
     title = waiver(),
     theme = NULL,
-    connect = NULL,
     override.aes = list(),
     position = waiver(),
-    direction = NULL
+    direction = NULL,
+    call = NULL
 ) {
 
   if (is.null(key)) {
@@ -14,27 +120,34 @@ guide_symbols <- function(
       using {.fn key_symbols}.",
     )
   }
+  call <- call %||% current_call()
+  check_connect_arg(connect)
 
   new_guide(
     key = key,
     title = title,
     theme = theme,
     connect = connect,
-    override.aes = rename_aes(override.aes),
+    override.aes = override.aes,
     position = position,
     direction = direction,
     available_aes = c("x", "y", "any"),
+    call = call,
     super = GuideSymbols
   )
 }
 
+#' @rdname guide_symbols
+#' @export
 guide_upset <- function(
   key = "upset",
+  connect = "perpendicular",
   title = waiver(),
   theme = NULL,
   override.aes = list(),
   position = waiver(),
-  direction = NULL
+  direction = NULL,
+  call = NULL
 ) {
 
   if (is_character(key) && !(length(key) == 1 && is_key_string(key))) {
@@ -48,21 +161,31 @@ guide_upset <- function(
     )
   }
 
+  check_connect_arg(connect)
+  call <- call %||% current_call()
+
   guide_symbols(
     key = key,
     title = title,
     theme = theme,
     override.aes = override.aes,
-    connect = "perpendicular",
+    connect = connect,
     position = position,
-    direction = direction
+    direction = direction,
+    call = call
   )
 }
 
+# Class -------------------------------------------------------------------
+
+#' @export
+#' @rdname legendry_extensions
+#' @format NULL
+#' @usage NULL
 GuideSymbols <- ggproto(
   "GuideSymbols", Guide,
 
-  params = new_params(key = "upset", side_titles = NULL, connect = NULL, override.aes = list()),
+  params = new_params(key = "upset", connect = NULL, override.aes = list(), call = NULL),
 
   elements = list(
     position  = list(
@@ -90,12 +213,116 @@ GuideSymbols <- ggproto(
   ),
 
   transform = function(self, params, coord, panel_params) {
-    params$key <-
-      transform_key(params$key, params$position, coord, panel_params)
+    for (i in c("key", "decor")) {
+      params[[i]] <- transform_key(params[[i]], params$position, coord, panel_params)
+    }
     params
   },
 
-  extract_key = standard_extract_key,
+  extract_key = function(scale, aesthetic, key, ...) {
+    # browser()
+    key <- standard_extract_key(scale, aesthetic, key, ...)
+    key$.symbol <- key$.symbol %||% 1L
+    key <- vec_slice(key, !is.na(key$.symbol))
+    symbol <- key$.symbol
+    if (is.logical(symbol)) {
+      index <- match(symbol, c(TRUE, FALSE, NA), nomatch = 3)
+    } else {
+      if (is_integerish(symbol)) {
+        index <- as.integer(symbol)
+      } else {
+        index <- match(symbol, levels(symbol) %||% sort(unique(symbol)))
+      }
+    }
+    key$.index <- index
+    key
+  },
+
+  # Decor in the symbol/upset guide are connections between symbols
+  extract_decor = function(scale, aesthetic, key, connect, ...) {
+    if (is.null(connect)) {
+      return()
+    }
+
+    # Custom, user-defined connections
+    if (is.data.frame(connect)) {
+
+      level <- vec_interleave(connect$level_start, connect$level_end)
+      value <- vec_interleave(connect$value_start, connect$value_end)
+      value <- scale$map(value)
+
+      required_cols <- c("value_start", "value_end", "level_start", "level_end")
+      extra_cols <- setdiff(names(connect), required_cols)
+      extra <- NULL
+      if (length(extra_cols) > 0) {
+        extra <- vec_rep_each(connect[extra_cols], 2)
+        extra <- rename_aes(extra, arg = "connect")
+        names(extra) <- paste0(".", names(extra))
+      }
+      connect <- data_frame0(
+        !!aesthetic := value,
+        .level = level,
+        .id = rep(vec_seq_along(connect), each = 2),
+        !!!extra
+      )
+      return(connect)
+    }
+
+    if (!is_logical(key$.symbol)) {
+      cli::cli_abort(
+        "{.arg connect} cannot be {.val {connect}} when key symbols are not logical."
+      )
+    }
+
+    # Upset connections
+    major <- switch(connect, perpendicular = ".row", ".col")
+    minor <- setdiff(c(".row", ".col"), major)
+
+    connect <- vec_split(key, key[[major]])
+    connect <- lapply(connect$val, function(df) {
+
+      hits <- df$.symbol & !is.na(df$.symbol)
+      if (sum(hits) < 2) {
+        return(NULL)
+      }
+      i <- which(df$.symbol)
+      minor <- df[[minor]][i]
+      i <- i[c(which.max(minor), which.min(minor))]
+      vec_slice(df, i)
+
+    })
+    connect <- vec_rbind(!!!connect)
+    connect$.id <- rep(seq(nrow(connect) / 2), each = 2)
+    connect
+  },
+
+  extract_params = function(scale, params, key, ...) {
+    # Ensure override.aes is setup with the right lengths
+    override <- params$override.aes
+    if (is.logical(params$key$.symbol)) {
+      override$shape <- override$shape %||% c(19, 1, 12)
+      n <- 3
+    } else {
+      n <- max(params$key$.index)
+    }
+
+    wrong <- which(!(lengths(override) == n))
+    if (length(wrong)) {
+      problems <- paste0("override.aes$", names(override)[wrong])
+      lens <- lengths(override)[wrong]
+      lens <- paste0(
+        "size", if (length(lens) > 1) "s", " ",
+        oxford_comma(lens, final = "and")
+      )
+      cli::cli_abort(
+        "Can't recycle {.and {.arg {problems}}} ({lens}) to size {n}.",
+        call = params$call
+      )
+    }
+    override <- rename_aes(override)
+    params$override.aes <- df_list(!!!override, .size = n)
+    params
+  },
 
   setup_params = function(params) {
     key <- params$key
@@ -136,57 +363,46 @@ GuideSymbols <- ggproto(
     })
   },
 
-  build_decor = function(decor, grobs, elements, params) {
-
+  build_decor = function(self, decor, grobs, elements, params) {
     key <- params$key
     key <- vec_slice(key, !is.na(key$.symbol))
-    idx <- vec_group_loc(key$.col)
+    levels <- vec_group_loc(key$.col)
+    levels <- vec_slice(levels, order(levels$key))
     point <- elements$point
 
-    x <- switch(params$position, top = , bottom = key$x, rep(0.5, nrow(key)))
-    y <- switch(params$position, left = , right = key$y, rep(0.5, nrow(key)))
     groups <- vec_group_id(key$.symbol)
     groups[is.na(key$.symbol)] <- NA
     n_groups <- attr(groups, "n")
 
-    if (is.logical(key$.symbol)) {
-      j <- match(key$.symbol, c(TRUE, FALSE, NA), nomatch = 3)
-      override <- df_list(!!!params$override.aes, .size = 3)
-      override$shape <- override$shape %||% c(19, 1, 12)
-    } else {
-      if (is_integerish(key$.symbol)) {
-        j <- as.integer(key$.symbol)
-      } else {
-        j <- match(key$.symbol, levels(key$.symbol) %||% sort(unique(key$.symbol)))
-      }
-      override <- df_list(!!!params$override.aes, .size = max(j))
-    }
+    override <- params$override.aes
+    x <- switch(params$position, top = , bottom = key$x, rep(0.5, nrow(key)))
+    y <- switch(params$position, left = , right = key$y, rep(0.5, nrow(key)))
 
-    points <- lapply(idx$loc, function(idx) {
+    points <- lapply(levels$loc, function(level) {
       grobs <- list()
-      track_size <- point$size
-      for (i in seq_len(n_groups)) {
-        member <- idx[groups[idx] == i]
+      size_tracker <- point$size
+      for (group_id in seq_len(n_groups)) {
+        member <- level[groups[level] == group_id]
         if (length(member) < 1) {
           next
         }
         key_members <- vec_slice(key, member)
-        k <- j[member]
-        size <- key_members$.size %||% override$size[k]
-        track_size <- max(track_size, size)
+        i <- key_members$.index
+        size <- key_members$.size %||% override$size[i]
+        size_tracker <- max(size_tracker, size)
         grob <- element_grob(
           point,
           x = unit(x[member], "native"),
           y = unit(y[member], "native"),
-          colour = key_members$.colour %||% override$colour[k],
-          fill   = key_members$.fill   %||% override$fill[k],
-          shape  = key_members$.shape  %||% override$shape[k],
-          stroke = key_members$.stroke %||% override$stroke[k],
+          colour = key_members$.colour %||% override$colour[i],
+          fill   = key_members$.fill   %||% override$fill[i],
+          shape  = key_members$.shape  %||% override$shape[i],
+          stroke = key_members$.stroke %||% override$stroke[i],
           size   = size
         )
         grobs <- c(grobs, list(grob))
       }
-      gTree(children = inject(gList(!!!grobs)), size = track_size)
+      gTree(children = inject(gList(!!!grobs)), size = size_tracker)
     })
 
     size <- map_dbl(points, function(x) x$size)
@@ -235,7 +451,7 @@ GuideSymbols <- ggproto(
   },
 
   assemble_drawing = function(grobs, layout, sizes, params, elems) {
-    connectors <- draw_connectors(params$key, params, elems, sizes)
+    connectors <- draw_connectors(params$decor, params, elems, sizes)
 
     labels <- grobs$labels
     along  <- seq_along(labels)
@@ -298,53 +514,50 @@ GuideSymbols <- ggproto(
   }
 )
 
-side_title_position <- function(element = element_text) {
-  position_text(
-    angle = c(90, 0, 90, 0),
-    hjust = c(0, 0, 1, 1),
-    vjust = 0.5,
-    margin = list(
-      margin(b = 5.5),# l = 2.75, r = 2.75),
-      margin(l = 5.5),# t = 2.75, b = 2.75),
-      margin(t = 5.5),# l = 2.75, r = 2.75),
-      margin(r = 5.5)#, t = 2.75, b = 2.75)
-    ),
-    element = element
-  )
+check_connect_arg <- function(connect, arg = caller_arg(connect), env = caller_env()) {
+  if (is.null(connect)) {
+    return(invisible())
+  }
+  if (is.character(connect)) {
+    arg_match0(connect, c("perpendicular", "parallel"), arg_nm = arg, error_call = env)
+    return(invisible())
+  }
+  cols <- c("value_start", "value_end", "level_start", "level_end")
+  check_columns(connect, cols)
+  for (col in cols[3:4]) {
+    check_object(
+      connect[[col]],
+      is_integerish,
+      what = "{.cls integer}",
+      arg = paste0(arg, "$", col),
+      call = env
+    )
+  }
+  invisible()
 }
 
-draw_connectors <- function(key, params, elems, sizes) {
-  if (is.null(params$connect)) {
+draw_connectors <- function(decor, params, elems, sizes) {
+  if (is.null(params$connect) || is.null(decor)) {
     return(zeroGrob())
   }
 
-  major <- switch(params$connect, perpendicular = ".row", ".col")
-  minor <- setdiff(c(".row", ".col"), major)
-
-  connect <- vec_split(key, key[[major]])
-  connect <- lapply(connect$val, function(df) {
-    sym <- df$.symbol
-    sym[is.na(sym)] <- FALSE
-    if (sum(sym) < 2) {
-      return(NULL)
-    }
-    i <- which(df$.symbol)
-    minor <- df[[minor]][i]
-    i <- i[c(which.max(minor), which.min(minor))]
-    vec_slice(df, i)
-  })
-  connect <- vec_rbind(!!!connect)
-
+  levels <- decor[[".level"]] %||% decor[[".col"]]
   if (params$position %in% c("top", "bottom")) {
     oppo <- sum(sizes) - cumsum(sizes) + sizes / 2
-    x <- unit(connect$x, "native")
-    y <- unit(oppo[connect[[".col"]]], "cm")
+    x <- unit(decor$x, "native")
+    y <- unit(oppo[levels], "cm")
   } else {
     oppo <- c(0, cumsum(sizes[-length(sizes)])) + sizes / 2
-    x <- unit(oppo[connect[[".row"]]], "cm")
-    y <- unit(connect$y, "native")
+    x <- unit(oppo[levels], "cm")
+    y <- unit(decor$y, "native")
   }
 
-  id <- vec_unrep(connect[[major]])$times
-  element_grob(elems$connector, x = x, y = y, id.lengths = id)
+  element_grob(
+    elems$connector,
+    x = x, y = y,
+    id.lengths = vec_unrep(decor$.id)$times,
+    colour = decor[[".colour"]],
+    linewidth = decor[[".linewidth"]],
+    linetype = decor[[".linetype"]]
+  )
 }
