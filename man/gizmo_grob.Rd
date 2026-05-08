@@ -14,7 +14,7 @@ gizmo_grob(
 )
 }
 \arguments{
-\item{grob}{A \code{\link[grid:grid.grob]{<grob>}} to display.}
+\item{grob}{A \code{\link[grid:grob]{<grob>}} to display.}
 
 \item{width, height}{A [\verb{<unit[1]>}][grid::unit] setting the allocated
 width and height of the the grob respectively.}
@@ -49,10 +49,10 @@ ggplot(mpg, aes(displ, hwy, colour = cty)) +
   )
 }
 \seealso{
-Other gizmos: 
-\code{\link{gizmo_barcap}()},
-\code{\link{gizmo_density}()},
-\code{\link{gizmo_histogram}()},
-\code{\link{gizmo_stepcap}()}
+Other gizmos:
+\code{\link[=gizmo_barcap]{gizmo_barcap()}},
+\code{\link[=gizmo_density]{gizmo_density()}},
+\code{\link[=gizmo_histogram]{gizmo_histogram()}},
+\code{\link[=gizmo_stepcap]{gizmo_stepcap()}}
 }
 \concept{gizmos}

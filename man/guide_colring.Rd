@@ -109,17 +109,17 @@ p + guides(colour = guide_colring(show_labels = "both"))
 p + guides(colour = guide_colring(angle = 0))
 }
 \seealso{
-Other standalone guides: 
-\code{\link{guide_axis_base}()},
-\code{\link{guide_axis_dendro}()},
-\code{\link{guide_axis_nested}()},
-\code{\link{guide_axis_plot}()},
-\code{\link{guide_circles}()},
-\code{\link{guide_colbar}()},
-\code{\link{guide_colsteps}()},
-\code{\link{guide_legend_base}()},
-\code{\link{guide_legend_cross}()},
-\code{\link{guide_legend_group}()},
-\code{\link{guide_legend_manual}()}
+Other standalone guides:
+\code{\link[=guide_axis_base]{guide_axis_base()}},
+\code{\link[=guide_axis_dendro]{guide_axis_dendro()}},
+\code{\link[=guide_axis_nested]{guide_axis_nested()}},
+\code{\link[=guide_axis_plot]{guide_axis_plot()}},
+\code{\link[=guide_circles]{guide_circles()}},
+\code{\link[=guide_colbar]{guide_colbar()}},
+\code{\link[=guide_colsteps]{guide_colsteps()}},
+\code{\link[=guide_legend_base]{guide_legend_base()}},
+\code{\link[=guide_legend_cross]{guide_legend_cross()}},
+\code{\link[=guide_legend_group]{guide_legend_group()}},
+\code{\link[=guide_legend_manual]{guide_legend_manual()}}
 }
 \concept{standalone guides}

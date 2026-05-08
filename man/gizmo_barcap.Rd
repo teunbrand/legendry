@@ -47,7 +47,7 @@ of the bar. Use \code{NA} to preserve the alpha encoded in the colour itself.}
 \item{oob}{An out-of-bounds handling function that affects the cap colour.
 Can be one of the following:
 \itemize{
-\item A \verb{<function>} like \code{\link[scales:oob]{oob_squish}}.
+\item A \verb{<function>} like \code{\link[scales:oob_squish]{oob_squish}}.
 \item A \verb{<character[1]>} naming such a function without the '\code{oob}'-prefix,
 such as \code{"keep"}.
 }}
@@ -105,10 +105,10 @@ p +
   )
 }
 \seealso{
-Other gizmos: 
-\code{\link{gizmo_density}()},
-\code{\link{gizmo_grob}()},
-\code{\link{gizmo_histogram}()},
-\code{\link{gizmo_stepcap}()}
+Other gizmos:
+\code{\link[=gizmo_density]{gizmo_density()}},
+\code{\link[=gizmo_grob]{gizmo_grob()}},
+\code{\link[=gizmo_histogram]{gizmo_histogram()}},
+\code{\link[=gizmo_stepcap]{gizmo_stepcap()}}
 }
 \concept{gizmos}

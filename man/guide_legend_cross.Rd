@@ -54,7 +54,7 @@ the column labels. Can be \code{NULL} to display column labels in equal fashion
 to the row labels.}
 
 \item{subtitle_position}{A named list of 4
-\link[ggplot2:element]{text elements}, having the names \code{"top"},
+\link[ggplot2:element_text]{text elements}, having the names \code{"top"},
 \code{"right"}, \code{"bottom"} and \verb{"left}. These govern the display of subtitles
 when placed in any of these positions relative to the keys. See
 \code{\link[=position_text]{position_text()}} for a convenient helper.}
@@ -126,23 +126,23 @@ ggplot(mpg, aes(displ, hwy)) +
   )
 }
 \seealso{
-Other standalone guides: 
-\code{\link{guide_axis_base}()},
-\code{\link{guide_axis_dendro}()},
-\code{\link{guide_axis_nested}()},
-\code{\link{guide_axis_plot}()},
-\code{\link{guide_circles}()},
-\code{\link{guide_colbar}()},
-\code{\link{guide_colring}()},
-\code{\link{guide_colsteps}()},
-\code{\link{guide_legend_base}()},
-\code{\link{guide_legend_group}()},
-\code{\link{guide_legend_manual}()}
+Other standalone guides:
+\code{\link[=guide_axis_base]{guide_axis_base()}},
+\code{\link[=guide_axis_dendro]{guide_axis_dendro()}},
+\code{\link[=guide_axis_nested]{guide_axis_nested()}},
+\code{\link[=guide_axis_plot]{guide_axis_plot()}},
+\code{\link[=guide_circles]{guide_circles()}},
+\code{\link[=guide_colbar]{guide_colbar()}},
+\code{\link[=guide_colring]{guide_colring()}},
+\code{\link[=guide_colsteps]{guide_colsteps()}},
+\code{\link[=guide_legend_base]{guide_legend_base()}},
+\code{\link[=guide_legend_group]{guide_legend_group()}},
+\code{\link[=guide_legend_manual]{guide_legend_manual()}}
 
-Other legend guides: 
-\code{\link{guide_legend_base}()},
-\code{\link{guide_legend_group}()},
-\code{\link{guide_legend_manual}()}
+Other legend guides:
+\code{\link[=guide_legend_base]{guide_legend_base()}},
+\code{\link[=guide_legend_group]{guide_legend_group()}},
+\code{\link[=guide_legend_manual]{guide_legend_manual()}}
 }
 \concept{legend guides}
 \concept{standalone guides}

@@ -54,14 +54,14 @@ ggplot(mpg, aes(displ, hwy)) +
   )
 }
 \seealso{
-Other primitives: 
-\code{\link{primitive_box}()},
-\code{\link{primitive_bracket}()},
-\code{\link{primitive_fence}()},
-\code{\link{primitive_labels}()},
-\code{\link{primitive_line}()},
-\code{\link{primitive_segments}()},
-\code{\link{primitive_ticks}()},
-\code{\link{primitive_title}()}
+Other primitives:
+\code{\link[=primitive_box]{primitive_box()}},
+\code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_fence]{primitive_fence()}},
+\code{\link[=primitive_labels]{primitive_labels()}},
+\code{\link[=primitive_line]{primitive_line()}},
+\code{\link[=primitive_segments]{primitive_segments()}},
+\code{\link[=primitive_ticks]{primitive_ticks()}},
+\code{\link[=primitive_title]{primitive_title()}}
 }
 \concept{primitives}

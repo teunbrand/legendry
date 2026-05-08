@@ -42,7 +42,7 @@ object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
 }}
 
 \item{angle}{A specification for the text angle. Compared to setting the \code{angle} argument
-in \code{\link[ggplot2:element]{element_text()}}, this argument uses some
+in \code{\link[ggplot2:element_text]{element_text()}}, this argument uses some
 heuristics to automatically pick the \code{hjust} and \code{vjust} that you
 probably want. Can be one of the following:
 \itemize{
@@ -98,10 +98,10 @@ ggplot(mpg, aes(displ, hwy)) +
   ))
 }
 \seealso{
-Other composition: 
-\code{\link{compose_crux}()},
-\code{\link{compose_sandwich}()},
-\code{\link{compose_stack}()},
+Other composition:
+\code{\link[=compose_crux]{compose_crux()}},
+\code{\link[=compose_sandwich]{compose_sandwich()}},
+\code{\link[=compose_stack]{compose_stack()}},
 \code{\link{guide-composition}}
 }
 \concept{composition}

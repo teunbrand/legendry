@@ -29,7 +29,7 @@ farther from the plot panel, or \code{"both"} to sandwich the labels between
 rails.}
 
 \item{angle}{A specification for the text angle. Compared to setting the \code{angle} argument
-in \code{\link[ggplot2:element]{element_text()}}, this argument uses some
+in \code{\link[ggplot2:element_text]{element_text()}}, this argument uses some
 heuristics to automatically pick the \code{hjust} and \code{vjust} that you
 probably want. Can be one of the following:
 \itemize{
@@ -79,21 +79,21 @@ axis or legend context.
 
 Common to both types is the following:
 \itemize{
-\item \code{legendry.fence.post} an \code{\link[ggplot2:element]{<element_line>}} for the
+\item \code{legendry.fence.post} an \code{\link[ggplot2:element_line]{<element_line>}} for the
 line used to draw the pieces orthogonal to the direction of the scale.
-\item \code{legendry.fence.rail} an \code{\link[ggplot2:element]{<element_line>}} for the
+\item \code{legendry.fence.rail} an \code{\link[ggplot2:element_line]{<element_line>}} for the
 line used to draw the pieces parallel to the direction of the scale.
 }
 \subsection{As an axis guide}{
 \itemize{
-\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element]{<element_text>}}
+\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
 for the text displayed.
 }
 }
 
 \subsection{As a legend guide}{
 \itemize{
-\item \code{legend.text} an \code{\link[ggplot2:element]{<element_text>}} for the text
+\item \code{legend.text} an \code{\link[ggplot2:element_text]{<element_text>}} for the text
 displayed.
 }
 }
@@ -113,14 +113,14 @@ p + guides(
 )
 }
 \seealso{
-Other primitives: 
-\code{\link{primitive_box}()},
-\code{\link{primitive_bracket}()},
-\code{\link{primitive_labels}()},
-\code{\link{primitive_line}()},
-\code{\link{primitive_segments}()},
-\code{\link{primitive_spacer}()},
-\code{\link{primitive_ticks}()},
-\code{\link{primitive_title}()}
+Other primitives:
+\code{\link[=primitive_box]{primitive_box()}},
+\code{\link[=primitive_bracket]{primitive_bracket()}},
+\code{\link[=primitive_labels]{primitive_labels()}},
+\code{\link[=primitive_line]{primitive_line()}},
+\code{\link[=primitive_segments]{primitive_segments()}},
+\code{\link[=primitive_spacer]{primitive_spacer()}},
+\code{\link[=primitive_ticks]{primitive_ticks()}},
+\code{\link[=primitive_title]{primitive_title()}}
 }
 \concept{primitives}

@@ -8,7 +8,6 @@
 %   R/primitive-bracket.R, R/primitive-fence.R, R/primitive-labels.R,
 %   R/primitive-line.R, R/primitive-spacer.R, R/primitive-ticks.R,
 %   R/primitive-title.R
-\docType{data}
 \name{Compose}
 \alias{Compose}
 \alias{ComposeCrux}
@@ -49,5 +48,4 @@ variations on axes, legends and colourbars.
 \seealso{
 The documentation over at \code{\link[ggplot2:ggproto]{ggproto}}.
 }
-\keyword{datasets}
 \keyword{internal}

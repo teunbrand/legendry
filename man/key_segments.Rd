@@ -32,7 +32,7 @@ argument is evaluated.}
 \item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 
 \item{dendro}{A data structure that can be coerced to a dendrogram through
-the \code{\link[stats:dendrogram]{as.dendrogram()}} function. When \code{NULL}
+the \code{\link[stats:as.dendrogram]{as.dendrogram()}} function. When \code{NULL}
 (default) an attempt is made to search for such data in the scale.}
 
 \item{type}{A string, either \code{"rectangle"} or \code{"triangle"}, indicating the
@@ -70,7 +70,7 @@ clust <- hclust(dist(USArrests), "ave")
 key_dendro(clust)(scale_x_discrete())
 }
 \seealso{
-Other keys: 
+Other keys:
 \code{\link{key_group}},
 \code{\link{key_range}},
 \code{\link{key_specialty}},
