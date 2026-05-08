@@ -374,6 +374,118 @@ ggplot(mtcars, aes(mpg, rownames(mtcars))) +
 
 ![](tour_files/figure-html/unnamed-chunk-18-1.png)
 
+### Upset axes
+
+The O.G. upset plot is akin to a Venn or Euler diagram in that it
+displays (multi)set memberships that can intersect. The improvement over
+overlapping circles is that upset plots can easily handle more than 3
+set memberships, whereas a Venn diagram easily becomes visually
+cluttered. The upset plot’s visual ideom is a matrix of connected
+symbols, the *combination matrix*, decorating the x-axis of a bar chart.
+This matrix shows the combinations of set memberships of a category,
+like how a movie can simultaneously be an action movie and comedy movie.
+The goal of legendry’s
+[`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+is to display the combination matrix at the axis, without pidgeonholing
+what the rest of the plot can be.
+
+The typical behaviour of the upset axis is to parse the scale’s labels
+by splitting them on any non-alphanumeric character. Here, the axis
+splits the labels on the comma. Each entry after the split gets its own
+‘level’. An automatic level is assigned when the category has no set
+membership. You can also notice that a connecting line is drawn between
+‘cisplatin’ and ‘DMSO’ when a category belongs to both sets.
+
+Because of how ggplot2 calculates the layout of a plot, it is not
+possible to fit long level labels in upset axes. The remedy is to set
+the `plot.margin` wide enough to accommodate the labels.
+
+``` r
+
+df <- data.frame(
+  drug = c("DMSO", "cisplatin", "DMSO,cisplatin", ""),
+  value = c(3, 10, 11, 2)
+)
+
+ggplot(df, aes(drug, value)) +
+  geom_col() +
+  guides(x = "axis_upset") +
+  theme(
+    plot.margin = margin_part(l = 20)
+  )
+```
+
+![](tour_files/figure-html/unnamed-chunk-19-1.png)
+
+The ‘magic’ of
+[`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+is really the
+[`key_upset()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+that figures out the set membership. You can re-purpose the guide to fit
+other visual ideoms, like displaying treatments with `+`s and `−`s,
+which is common in biological sciences. In the plot below, we’re using
+`sep = ","` to specify we only want to split labels on commas, in case
+our regular labels would’ve contained non-alphanumeric characters that
+should be preserved. We’re also setting the `order` to ensure ‘DMSO’
+(control) appears above ‘cisplatin’. The `empty_label = NULL` tells the
+key not to bother annotating categories without set membership. The
+`override.aes` arguments sets new shapes for symbol categories. Because
+set membership can be `TRUE`, `FALSE` or `NA`, we must give three new
+shapes. By setting `connect = NULL`, we give the instruction to not draw
+the connecting lines between `TRUE` (set membership) points.
+
+``` r
+
+ggplot(df, aes(drug, value)) +
+  geom_col() +
+  guides(x = guide_axis_upset(
+    key_upset(sep = ",", order = c("DMSO", "cisplatin"), empty_label = NULL),
+    override.aes = list(shape = c("+", "−", NA), size = 5),
+    connect = NULL
+  )) +
+  theme(
+    plot.margin = margin_part(l = 20)
+  )
+```
+
+![](tour_files/figure-html/unnamed-chunk-20-1.png)
+
+The
+[`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+also has a sibling-guide called
+[`guide_axis_symbols()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md).
+In principle, it can do all the things that
+[`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+can do, but it is geared towards manually setting up a matrix of
+symbols. It offers more freedoms, but is also more laborious to set up.
+We can use it to setup a little board of ‘connect four’ under our plot.
+
+``` r
+
+symbol_key <- key_symbols(
+  aesthetic = rep(1:5, c(1:4, 2)),
+  level = c(4, 4, 3, 4, 3, 2, 4, 3, 2, 1, 4, 3),
+  symbol = c(1, 2, 1, 2, 2, 1, 1, 2, 2, 1, 2, 1), # 2 symbols
+  size = 3
+)
+
+# Need these column names exactly
+connector <- data.frame(
+  value_start = 1, value_end = 4,
+  level_start = 4, level_end = 1,
+  colour = 'red'
+)
+
+ggplot(mpg, aes(fl, displ)) +
+  geom_boxplot() +
+  guides(x = guide_axis_symbols(
+    symbol_key, connector,
+    override.aes = list(colour = c("red", "gold"))
+  ))
+```
+
+![](tour_files/figure-html/unnamed-chunk-21-1.png)
+
 ## Colours
 
 The `colour` and `fill` aesthetics are wonderful to build guides for, as
@@ -409,7 +521,7 @@ standard +
   labs(title = "Custom colour steps")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-19-1.png)![](tour_files/figure-html/unnamed-chunk-19-2.png)
+![](tour_files/figure-html/unnamed-chunk-22-1.png)![](tour_files/figure-html/unnamed-chunk-22-2.png)
 
 Please note that the following paragraphs apply equally to
 [`guide_colsteps()`](https://teunbrand.github.io/legendry/reference/guide_colsteps.md),
@@ -437,7 +549,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-20-1.png)
+![](tour_files/figure-html/unnamed-chunk-23-1.png)
 
 You can change the out-of-bounds strategy, the `oob` argument of the
 scale, to have the caps reflect the colour that out-of-bounds data has
@@ -452,7 +564,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-21-1.png)
+![](tour_files/figure-html/unnamed-chunk-24-1.png)
 
 You can also force the caps to appear, even when there are no
 out-of-bounds data, or force the cap colour to be consistent with the
@@ -469,7 +581,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-22-1.png)
+![](tour_files/figure-html/unnamed-chunk-25-1.png)
 
 The shape of the cap needn’t be a triangle. You can set the shape to any
 of the built-in cap shapes.
@@ -485,7 +597,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-23-1.png)
+![](tour_files/figure-html/unnamed-chunk-26-1.png)
 
 The caps can be provided as a string naming a cap function, like
 `"arch"` that invokes
@@ -513,7 +625,7 @@ ggplot(caps, aes(x, y)) +
   coord_equal()
 ```
 
-![](tour_files/figure-html/unnamed-chunk-24-1.png)
+![](tour_files/figure-html/unnamed-chunk-27-1.png)
 
 It is most certainly possible to use shapes of your own imagination as
 well. To provide your own shape, use a numeric matrix that:
@@ -544,7 +656,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-25-1.png)
+![](tour_files/figure-html/unnamed-chunk-28-1.png)
 
 #### Side-guides
 
@@ -561,7 +673,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-26-1.png)
+![](tour_files/figure-html/unnamed-chunk-29-1.png)
 
 This trick allows you to tailor the colour bar to your liking on
 separate sides. You can use this to invoke any of the tricks described
@@ -589,7 +701,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-27-1.png)
+![](tour_files/figure-html/unnamed-chunk-30-1.png)
 
 ### Rings
 
@@ -622,7 +734,7 @@ housing +
   scale_colour_viridis_c(limits = c(0, 12))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-28-1.png)
+![](tour_files/figure-html/unnamed-chunk-31-1.png)
 
 Every year we get a sharp colour transition in the winter. The remedy
 for this problem is to use a cyclical palette. The {scico} package
@@ -640,7 +752,7 @@ housing +
   scale_colour_gradientn(colours = periodic_pal, limits = c(0, 12))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-29-1.png)
+![](tour_files/figure-html/unnamed-chunk-32-1.png)
 
 This is already much better, but the guide itself does a poor job of
 displaying the cyclical nature of months. To have this better reflected
@@ -657,7 +769,7 @@ housing +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-30-1.png)
+![](tour_files/figure-html/unnamed-chunk-33-1.png)
 
 The ‘thickness’ of the donut can be controlled by the `legend.key.width`
 parameter, which by default is 1/5^(th) of the diameter. The outer
@@ -684,7 +796,7 @@ housing +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-31-1.png)
+![](tour_files/figure-html/unnamed-chunk-34-1.png)
 
 ## Legends
 
@@ -708,7 +820,7 @@ standard +
   guides(colour = guide_legend_base(design = design))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-32-1.png)
+![](tour_files/figure-html/unnamed-chunk-35-1.png)
 
 Secondly,
 [`guide_legend_cross()`](https://teunbrand.github.io/legendry/reference/guide_legend_cross.md)
@@ -726,7 +838,7 @@ standard +
   guides(colour = common, shape = common)
 ```
 
-![](tour_files/figure-html/unnamed-chunk-33-1.png)
+![](tour_files/figure-html/unnamed-chunk-36-1.png)
 
 Alternatively, you can also use the guide for a compound variable that
 already combines two variables. Note that missing combinations are
@@ -739,7 +851,7 @@ standard +
   guides(colour = "legend_cross")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-34-1.png)
+![](tour_files/figure-html/unnamed-chunk-37-1.png)
 
 Lastly, there is also a legend that is suitable for displaying groups.
 The
@@ -760,4 +872,4 @@ ggplot(msleep[i, ], aes(sleep_total, bodywt)) +
   guides(colour = "legend_group")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-35-1.png)
+![](tour_files/figure-html/unnamed-chunk-38-1.png)

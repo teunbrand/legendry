@@ -89,6 +89,7 @@ Other standalone guides:
 [`guide_axis_dendro()`](https://teunbrand.github.io/legendry/reference/guide_axis_dendro.md),
 [`guide_axis_nested()`](https://teunbrand.github.io/legendry/reference/guide_axis_nested.md),
 [`guide_axis_plot()`](https://teunbrand.github.io/legendry/reference/guide_axis_plot.md),
+[`guide_axis_symbols()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md),
 [`guide_circles()`](https://teunbrand.github.io/legendry/reference/guide_circles.md),
 [`guide_colbar()`](https://teunbrand.github.io/legendry/reference/guide_colbar.md),
 [`guide_colring()`](https://teunbrand.github.io/legendry/reference/guide_colring.md),

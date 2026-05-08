@@ -10,6 +10,16 @@
   [`guide_axis_plot()`](https://teunbrand.github.io/legendry/reference/guide_axis_plot.md)
   to place side-plots
   ([\#43](https://github.com/teunbrand/legendry/issues/43))
+- New guide
+  [`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+  to place symbols in upset matrices next to axes. Also comes with
+  [`key_upset()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+  to match ([\#38](https://github.com/teunbrand/legendry/issues/38)).
+- New guide
+  [`guide_axis_symbols()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+  for a more manual version of placing symbols. Also comes with
+  [`key_symbols()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+  to match ([\#38](https://github.com/teunbrand/legendry/issues/38)).
 - New arguments `guide_axis_base(subtitle)` and
   `guide_axis_nested(subtitle)` make it easier to title custom axes
   ([\#102](https://github.com/teunbrand/legendry/issues/102))
@@ -19,6 +29,9 @@
   ([\#79](https://github.com/teunbrand/legendry/issues/79)).
 - `compose_stack(side.titles)` also work in non-position guides
   ([\#101](https://github.com/teunbrand/legendry/issues/101))
+- Changed the margins and inferred justification of the
+  `legendry.axis.subtitle` and `legendry.legend.subtitle` theme
+  elements.
 - Updated title mechanism to comply with ggplot2#6200
   ([\#104](https://github.com/teunbrand/legendry/issues/104))
 - [`key_group_split()`](https://teunbrand.github.io/legendry/reference/key_group.md)

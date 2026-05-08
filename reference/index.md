@@ -12,6 +12,9 @@ These guides are complete and ready to use in your plots.
   : Nested axis guide
 - [`guide_axis_plot()`](https://teunbrand.github.io/legendry/reference/guide_axis_plot.md)
   **\[experimental\]** : Side-plot axis
+- [`guide_axis_symbols()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+  [`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
+  **\[experimental\]** : Symbol and upset axis guide
 - [`guide_circles()`](https://teunbrand.github.io/legendry/reference/guide_circles.md)
   : Circle size guide
 - [`guide_colbar()`](https://teunbrand.github.io/legendry/reference/guide_colbar.md)
@@ -104,6 +107,8 @@ Fantastic labels and where to display them.
   : Segment keys
 - [`key_sequence()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
   [`key_bins()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+  [`key_upset()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
+  [`key_symbols()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
   : Speciality keys
 - [`key_auto()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
   [`key_manual()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
