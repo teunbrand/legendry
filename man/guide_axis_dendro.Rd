@@ -128,6 +128,7 @@ Other standalone guides:
 \code{\link[=guide_legend_base]{guide_legend_base()}},
 \code{\link[=guide_legend_cross]{guide_legend_cross()}},
 \code{\link[=guide_legend_group]{guide_legend_group()}},
-\code{\link[=guide_legend_manual]{guide_legend_manual()}}
+\code{\link[=guide_legend_manual]{guide_legend_manual()}},
+\code{\link[=guide_symbols]{guide_symbols()}}
 }
 \concept{standalone guides}

@@ -36,6 +36,8 @@
 #' symbolism. Otherwise the number of unique values to the `key_symbols(symbol)`
 #' argument determines the number of symbols.
 #'
+#' @param call A [call][rlang::topic-error-call] to display in messages.
+#'
 #' @inheritParams common_parameters
 #'
 #' @details
@@ -98,7 +100,7 @@
 #'     aesthetic = c("4 1999", "4 2008", "r 1999"),
 #'     level = c("Lvl 1", "Lvl 2", "Lvl 3")
 #'   ),
-#'   connect = data_frame0(
+#'   connect = data.frame(
 #'     value_start = "4 2008", value_end = "r 1999",
 #'     level_start = 2, level_end = 3
 #'   )
