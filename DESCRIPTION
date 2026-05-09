@@ -21,6 +21,7 @@ Imports:
     gtable,
     lifecycle,
     rlang (>= 1.2.0),
+    S7,
     scales (>= 1.1.1),
     vctrs (>= 0.6.0)
 Suggests: 

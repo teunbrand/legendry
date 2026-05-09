@@ -75,3 +75,13 @@ position_margin <- function(
     margin + gap
   )
 }
+
+# Utility for grabbing the justification of an element
+get_just <- function(element) {
+  element <- destructure_element(element)
+  rotate_just(
+    element$angle %||% 0.0,
+    element$hjust %||% 0.5,
+    element$vjust %||% 0.5
+  )
+}

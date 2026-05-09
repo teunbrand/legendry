@@ -111,9 +111,10 @@ rotate_just <- function(
   angle = NULL, hjust = NULL, vjust = NULL, element = NULL
 ) {
   if (!is.null(element)) {
-    angle <- element$angle
-    hjust <- element$hjust
-    vjust <- element$vjust
+    element <- destructure_element(element)
+    angle <- angle %||% element$angle
+    hjust <- hjust %||% element$hjust
+    vjust <- vjust %||% element$vjust
   }
 
   angle <- (angle %||% 0.0) %% 360.0

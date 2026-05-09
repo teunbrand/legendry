@@ -100,19 +100,19 @@ rep0 <- function(x, ...) {
   rep(x, ...)
 }
 
+recode <- function(x, old, new) {
+  i <- match(x, old)
+  skip <- is.na(i)
+  x[!skip] <- new[i][!skip]
+  x
+}
+
 rename <- function(df, old, new) {
   if (is.function(new)) {
     new <- new(old)
   }
   names(df) <- recode(names(df), old, new)
   df
-}
-
-recode <- function(x, old, new) {
-  i <- match(x, old)
-  skip <- is.na(i)
-  x[!skip] <- new[i][!skip]
-  x
 }
 
 .flip_names <-
@@ -294,42 +294,7 @@ insert_after <- function(x, i, value) {
   new
 }
 
-get_just <- function(element) {
-  rotate_just(
-    element$angle %||% 0.0,
-    element$hjust %||% 0.5,
-    element$vjust %||% 0.5
-  )
-}
-
-.label_params <- c(
-  "text_colour", "colour",
-  "text_size", "size",
-  "face", "hjust", "vjust", "angle",
-  "lineheight"
-)
-.line_params <- c(
-  "line_colour",    "colour",
-  "line_linewidth", "linewidth",
-  "line_linetype",  "linetype"
-)
-.rect_params <- c(
-  "rect_colour",    "colour",
-  "rect_linewidth", "linewidth",
-  "rect_linetype",  "linetype",
-  "rect_fill",      "fill"
-)
-.point_params <- c(
-  "point_colour", "colour",
-  "point_size",  "size",
-  "point_fill", "fill",
-  "shape", "stroke"
-)
-.all_params <- unique(
-  c(.label_params, .line_params, .rect_params, .point_params)
-)
-
-extra_args <- function(..., .valid_args = .all_params, call = caller_env()) {
+extra_args <- function(..., .valid_args = .element_params, call = caller_env()) {
   args <- list2(...)
   if (length(args) == 0L) {
     return(NULL)
@@ -342,41 +307,6 @@ extra_args <- function(..., .valid_args = .all_params, call = caller_env()) {
   args <- args[lengths(args) > 0L]
   names(args) <- paste0(".", names(args))
   args
-}
-
-element_key_properties <- function(key, type) {
-  props <- switch(
-    type,
-    point = list(
-      colour     = key$.point_colour   %||% key$.colour,
-      size       = key$.point_size     %||% key$.size,
-      fill       = key$.point_fill     %||% key$.fill,
-      shape      = key$.shape,
-      stroke     = key$.stroke
-    ),
-    rect = list(
-      colour     = key$.rect_colour    %||% key$.colour,
-      linewidth  = key$.rect_linewidth %||% key$.linewidth,
-      linetype   = key$.rect_linetype  %||% key$.linetype,
-      fill       = key$.rect_fill      %||% key$.fill
-    ),
-    line = list(
-      colour     = key$.line_colour    %||% key$.colour,
-      linewidth  = key$.line_linewidth %||% key$.linewidth,
-      linetype   = key$.line_linetype  %||% key$.linetype
-    ),
-    text = list(
-      colour     = key$.text_colour    %||% key$.colour,
-      size       = key$.text_size      %||% key$.size,
-      face       = key$.face,
-      hjust      = key$.hjust,
-      vjust      = key$.vjust,
-      angle      = key$.angle,
-      lineheight = key$.lineheight
-    ),
-    list()
-  )
-  props[lengths(props) > 1]
 }
 
 descale <- function(x, to = c(0.0, 1.0), from = c(0.0, 1.0)) {
@@ -412,31 +342,4 @@ as_mapped_discrete <- function(x) {
   x <- as.numeric(x)
   class(x) <- c("mapped_discrete", class(x))
   x
-}
-
-element_classes <- function(..., allow_null = TRUE) {
-  type <- do.call(c, list(...))
-  classes <- character()
-  if (allow_null) {
-    classes <- c(classes, "NULL")
-  }
-  if ("rect" %in% type) {
-    classes <- c(classes, "ggplot2::element_rect", "element_rect")
-  }
-  if ("line" %in% type) {
-    classes <- c(classes, "ggplot2::element_line", "element_line")
-  }
-  if ("text" %in% type) {
-    classes <- c(classes, "ggplot2::element_text", "element_text")
-  }
-  if ("blank" %in% type) {
-    classes <- c(classes, "ggplot2::element_blank", "element_blank")
-  }
-  if ("point" %in% type) {
-    classes <- c(classes, "ggplot2::element_point")
-  }
-  if ("polygon" %in% type) {
-    classes <- c(classes, "ggplot2::element_polygon")
-  }
-  classes
 }
