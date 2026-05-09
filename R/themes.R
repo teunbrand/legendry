@@ -155,7 +155,7 @@ theme_guide <- function(
     axis.minor.ticks.y.left = minor.ticks,
     axis.minor.ticks.y.right = minor.ticks,
 
-    legendry.legend.minor.ticks.lenth = minor.ticks.length,
+    legendry.legend.minor.ticks.length = minor.ticks.length,
     axis.minor.ticks.length = minor.ticks.length,
 
     legendry.axis.mini.ticks = mini.ticks,
