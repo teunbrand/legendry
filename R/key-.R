@@ -40,7 +40,8 @@
 #'   transformation to calculate positions. It is only advisable to set the
 #'   `prescale_base` argument when the data have already been log-transformed.
 #'   When using a log-transform in the scale or in
-#'   [`coord_transform()`][ggplot2::coord_transform], the default `NULL` is recommended.
+#'   [`coord_transform()`][ggplot2::coord_transform], the default `NULL` is
+#'   recommended.
 #' @param negative_small A `<numeric[1]>` setting the smallest absolute value
 #'   that is marked with a tick in case the scale limits include 0 or negative
 #'   numbers.
@@ -85,7 +86,7 @@ NULL
 #' @export
 key_auto <- function(...) {
   function(scale, aesthetic = NULL) {
-    aesthetic <- aesthetic %||% scale$aesthetics[1]
+    aesthetic <- aesthetic %||% scale$aesthetics[1L]
     df <- Guide$extract_key(scale, aesthetic)
     df <- data_frame0(df, !!!extra_args(...))
     class(df) <- c("key_standard", "key_guide", class(df))
@@ -113,7 +114,7 @@ key_map <- function(data, ..., .call = caller_env()) {
 
   df <- eval_aes(
     data, mapping,
-    required = c("aesthetic"),
+    required = "aesthetic",
     optional = c("value", "label", .label_params),
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
@@ -136,7 +137,7 @@ key_map <- function(data, ..., .call = caller_env()) {
 key_minor <- function(...) {
   dots <- extra_args(...)
   function(scale, aesthetic = NULL) {
-    aesthetic <- aesthetic %||% scale$aesthetics[1]
+    aesthetic <- aesthetic %||% scale$aesthetics[1L]
     df <- GuideAxis$extract_key(scale, aesthetic, minor.ticks = TRUE)
     df <- data_frame0(df, !!!dots)
     class(df) <- c("key_standard", "key_guide", class(df))
@@ -164,7 +165,7 @@ key_log <- function(
   dots <- extra_args(...)
   call <- expr(key_log())
   function(scale, aesthetic = NULL) {
-    key <- log10_keys(
+    log10_keys(
       scale = scale, aesthetic = aesthetic,
       prescale_base = prescale_base,
       negative_small = negative_small,
@@ -232,7 +233,7 @@ log10_keys <- function(scale, aesthetic,
                        labeller = NULL,
                        extra_args = NULL,
                        call = caller_env()) {
-  aesthetic <- aesthetic %||% scale$aesthetics[1]
+  aesthetic <- aesthetic %||% scale$aesthetics[1L]
   if (scale$is_discrete()) {
     cli::cli_abort(
       "Cannot calculate logarithmic ticks for discrete scales.",
@@ -252,24 +253,24 @@ log10_keys <- function(scale, aesthetic,
   }
 
   limits <- transform$inverse(scale$get_limits())
-  has_negatives <- any(limits <= 0)
+  has_negatives <- any(limits <= 0.0)
 
-  if (!has_negatives) {
-    start <- floor(log10(min(limits))) - 1L
-    end   <- ceiling(log10(max(limits))) + 1L
-  } else {
+  if (has_negatives) {
     negative_small <- negative_small %||% 0.1
     start <- floor(log10(abs(negative_small)))
     end   <- ceiling(log10(max(abs(limits)))) + 1L
+  } else {
+    start <- floor(log10(min(limits))) - 1L
+    end   <- ceiling(log10(max(limits))) + 1L
   }
 
-  tens  <- 10^seq(start, end, by = 1)
-  fives <- tens * 5
-  ones  <- as.vector(outer(setdiff(2:9, 5), tens))
+  tens  <- 10L^seq(start, end, by = 1L)
+  fives <- tens * 5L
+  ones  <- as.vector(outer(setdiff(2L:9L, 5L), tens))
 
   if (has_negatives) {
     tens  <- tens[tens >= negative_small]
-    tens  <- c(tens, -tens, 0)
+    tens  <- c(tens, -tens, 0.0)
     fives <- fives[fives >= negative_small]
     fives <- c(fives, -fives)
     ones  <- ones[ones >= negative_small]
@@ -308,7 +309,7 @@ log10_keys <- function(scale, aesthetic,
 }
 
 negative_log_label <- function(x) {
-  if (length(x) == 0) {
+  if (length(x) == 0L) {
     return(expression)
   }
   sign <- as.character(sign(x))
@@ -317,14 +318,14 @@ negative_log_label <- function(x) {
   sign[sign == "0"] <- ""
 
   abs <- abs(x)
-  exponent <- format(log(abs, base = 10), digits = 3)
-  text <- paste0(sign, 10, "^", exponent)
-  text[x == 0] <- "0"
+  exponent <- format(log(abs, base = 10.0), digits = 3L)
+  text <- paste0(sign, 10L, "^", exponent)
+  text[x == 0.0] <- "0"
 
   out <- vector("expression", length(text))
   for (i in seq_along(text)) {
     expr <- parse(text = text[[i]])
-    out[[i]] <- if (length(expr) == 0) NA else expr[[1]]
+    out[[i]] <- if (length(expr) == 0L) NA else expr[[1L]]
   }
   out[is.na(x)] <- NA
   out
@@ -339,7 +340,7 @@ transform_key <- function(key, position, coord, panel_params) {
   transformed <- coord$transform(key, panel_params)
 
   if (is_theta(position)) {
-    add <- if (position == "theta.sec") pi else 0
+    add <- if (position == "theta.sec") pi else 0.0
     transformed$theta <- transformed$theta + add
   }
 
@@ -348,20 +349,20 @@ transform_key <- function(key, position, coord, panel_params) {
     return(transformed)
   }
 
-  if (ends[1]) {
+  if (ends[1L]) {
     key <- rename(key, c("x", "xend"), rev)
   }
-  if (ends[2]) {
+  if (ends[2L]) {
     key <- rename(key, c("y", "yend"), rev)
   }
   key <- coord$transform(key, panel_params)
   if (is_theta(position)) {
     transformed$thetaend <- key$theta + add
   } else {
-    if (ends[1]) {
+    if (ends[1L]) {
       transformed$xend <- key$x
     }
-    if (ends[2]) {
+    if (ends[2L]) {
       transformed$yend <- key$y
     }
   }

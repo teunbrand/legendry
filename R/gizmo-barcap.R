@@ -75,12 +75,12 @@ gizmo_barcap <- function(key = "sequence", shape = "triangle", size = NULL,
                          show = NA, alpha = NA, oob = "keep", theme = NULL,
                          position = waiver(), direction = NULL) {
   check_number_decimal(
-    alpha, min = 0, max = 1,
+    alpha, min = 0.0, max = 1.0,
     allow_infinite = FALSE, allow_na = TRUE
   )
   check_logical(show)
-  check_length(show, exact = 1:2)
-  show <- rep(show, length.out = 2)
+  check_length(show, exact = 1L:2L)
+  show <- rep_len(show, 2L)
 
   check_unit(size, allow_null = TRUE)
   shape <- resolve_cap_shape(shape)
@@ -133,24 +133,23 @@ GizmoBarcap <- ggproto(
     limits <- scale$get_limits()
     range <- scale$range$range
 
-    lower_oob <- range[1] < limits[1]
-    upper_oob <- range[2] > limits[2]
+    lower_oob <- range[1L] < limits[1L]
+    upper_oob <- range[2L] > limits[2L]
 
-    params$show[1] <- !isFALSE(params$show[1] %|NA|% lower_oob)
-    params$show[2] <- !isFALSE(params$show[2] %|NA|% upper_oob)
+    params$show[1L] <- !isFALSE(params$show[1L] %|NA|% lower_oob)
+    params$show[2L] <- !isFALSE(params$show[2L] %|NA|% upper_oob)
 
-    # TODO: ragg gradient buffer has 512 values in LUT
-    add <- abs(diff(limits)) / 1000
-    if (params$show[1]) {
-      val <- params$oob(limits[1] - add, limits)
+    add <- abs(diff(limits)) / 1000.0
+    if (params$show[1L]) {
+      val <- params$oob(limits[1L] - add, limits)
       limits <- range(limits, val)
       key <- data_frame0(
         colour = c(scale$map(val), key$colour),
         .value = c(val, key$.value)
       )
     }
-    if (params$show[2]) {
-      val <- params$oob(limits[2] + add, limits)
+    if (params$show[2L]) {
+      val <- params$oob(limits[2L] + add, limits)
       limits <- range(limits, val)
       key <- data_frame0(
         colour = c(key$colour, scale$map(val)),
@@ -171,7 +170,7 @@ GizmoBarcap <- ggproto(
     key$x <- switch(params$position, left = , right = 0.5, key$.value)
     key$y <- switch(params$position, left = , right = key$.value, 0.5)
     params$key <- key
-    if (params$limits[1] > params$limits[2]) {
+    if (params$limits[1L] > params$limits[2L]) {
       params$show <- rev(params$show)
     }
     params
@@ -180,9 +179,9 @@ GizmoBarcap <- ggproto(
   setup_elements = function(params, elements, theme) {
     theme$legend.frame <- theme$legend.frame %||% element_blank()
     if (params$direction == "horizontal") {
-      theme$legend.key.width <- (theme$legend.key.width %||% rel(1)) * 5
+      theme$legend.key.width <- (theme$legend.key.width %||% rel(1.0)) * 5.0
     } else {
-      theme$legend.key.height <- (theme$legend.key.height %||% rel(1)) * 5
+      theme$legend.key.height <- (theme$legend.key.height %||% rel(1.0)) * 5.0
     }
     Guide$setup_elements(params, elements, theme)
   },
@@ -193,30 +192,30 @@ GizmoBarcap <- ggproto(
       switch(params$direction, vertical = elements$width, elements$height)
 
     shape <- params$shape
-    max   <- max(shape[, 2])
-    if (max != 0) {
-      shape[, 2] <- rescale_max(shape[, 2], from = c(0, max))
+    max   <- max(shape[, 2L])
+    if (max != 0.0) {
+      shape[, 2L] <- rescale_max(shape[, 2L], from = c(0.0, max))
     }
 
     size_lower <- size_upper <- params$size %||% (max * short_side)
-    if (!isFALSE(params$show[1])) {
-      lower <- cbind(shape[, 1], 1 - shape[, 2])
+    if (isFALSE(params$show[1L])) {
+      lower <- cbind(c(0.0, 1.0), c(1.0, 1.0))
+      size_lower <- unit(0.0, "cm")
     } else {
-      lower <- cbind(c(0, 1), c(1, 1))
-      size_lower <- unit(0, "cm")
+      lower <- cbind(shape[, 1L], 1.0 - shape[, 2L])
     }
-    if (!isFALSE(params$show[2])) {
-      upper <- cbind(rev(shape[, 1]), 1 - rev(shape[, 2]))
+    if (isFALSE(params$show[2L])) {
+      upper <- cbind(c(1.0, 0.0), c(1.0, 1.0))
+      size_upper <- unit(0.0, "cm")
     } else {
-      upper <- cbind(c(1, 0), c(1, 1))
-      size_upper <- unit(0, "cm")
+      upper <- cbind(rev(shape[, 1L]), 1.0 - rev(shape[, 2L]))
     }
     poly_args <- list(
       x = unit.c(
-        unit(0, "npc") + lower[, 2] * size_lower,
-        unit(1, "npc") - upper[, 2] * size_upper
+        unit(0.0, "npc") + lower[, 2L] * size_lower,
+        unit(1.0, "npc") - upper[, 2L] * size_upper
       ),
-      y = unit(c(lower[, 1], upper[, 1]), "npc")
+      y = unit(c(lower[, 1L], upper[, 1L]), "npc")
     )
     if (params$direction == "vertical") {
       poly_args <- rename(poly_args, c("x", "y"), c("y", "x"))
@@ -227,13 +226,13 @@ GizmoBarcap <- ggproto(
     list(grob = frame, upper = size_upper, lower = size_lower)
   },
 
-  fill_frame = function(key, grobs = NULL, elements, params) {
+  fill_frame = function(key, elements, params, grobs = NULL) {
 
     check_device("gradients", call = expr(gizmo_barcap()))
 
     grad_args <- list(
-      x1 = unit(0, "npc") + grobs$lower,
-      x2 = unit(1, "npc") - grobs$upper,
+      x1 = unit(0.0, "npc") + grobs$lower,
+      x2 = unit(1.0, "npc") - grobs$upper,
       y1 = 0.5, y2 = 0.5, colours = key$colour, stops = key$.value
     )
     if (params$direction == "vertical") {
@@ -249,18 +248,24 @@ GizmoBarcap <- ggproto(
 
     middle <- switch(layout, horizontal = elements$width, elements$height)
     if (unitType(middle) != "null") {
-      middle <- max(middle - sizes$lower - sizes$upper, unit(0, "cm"))
+      middle <- max(middle - sizes$lower - sizes$upper, unit(0.0, "cm"))
     }
     sizes <- unit.c(sizes$lower, middle, sizes$upper)
 
     if (layout == "horizontal") {
-      gt <- gtable(widths = sizes, heights = elements$height)
-      gt <- gtable_add_grob(gt, grobs, t = 1, l = 1, r = -1, clip = "off", name = "barcap")
-      gt$align <- list(horizontal = c(2, -2))
+      gt <- gtable(widths = sizes, heights = elements$height) |>
+        gtable_add_grob(
+          grobs, t = 1L, l = 1L, r = -1L,
+          clip = "off", name = "barcap"
+        )
+      gt$align <- list(horizontal = c(2.0, -2.0))
     } else {
-      gt <- gtable(widths = elements$width, heights = rev(sizes))
-      gt <- gtable_add_grob(gt, grobs, t = 1, b = -1, l = 1, clip = "off", name = "barcap")
-      gt$align <- list(vertical = c(2, -2))
+      gt <- gtable(widths = elements$width, heights = rev(sizes)) |>
+        gtable_add_grob(
+          grobs, t = 1L, b = -1L, l = 1L,
+          clip = "off", name = "barcap"
+        )
+      gt$align <- list(vertical = c(2.0, -2.0))
     }
     gt
   },
@@ -273,7 +278,7 @@ GizmoBarcap <- ggproto(
     elems  <- self$setup_elements(params, self$elements, theme)
 
     frame <- self$build_frame(params$key, elems, params)
-    bar   <- self$fill_frame(params$key, frame, elems, params = params)
+    bar   <- self$fill_frame(params$key, elems, params, grobs = frame)
 
     self$assemble_drawing(
       grobs = bar$grob, layout = params$direction,
@@ -285,7 +290,7 @@ GizmoBarcap <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-resolve_oob = function(x, call = caller_call(), arg = caller_arg(x)) {
+resolve_oob <- function(x, call = caller_call(), arg = caller_arg(x)) {
   if (is.function(x)) {
     return(x)
   }
@@ -304,4 +309,3 @@ resolve_oob = function(x, call = caller_call(), arg = caller_arg(x)) {
   }
   cli::cli_abort("Unknown {.arg {arg}} handler: {x}.", call = call)
 }
-

@@ -57,12 +57,12 @@
 #'   )
 guide_axis_base <- function(
   key = NULL, title = waiver(), subtitle = NULL, theme = NULL,
-  n.dodge = 1, check.overlap = FALSE, angle = waiver(),
-  cap = "none", bidi = FALSE, order = 0, position = waiver()
+  n.dodge = 1L, check.overlap = FALSE, angle = waiver(),
+  cap = "none", bidi = FALSE, order = 0L, position = waiver()
 ) {
   theme <- theme %||% theme()
   theme$legendry.guide.spacing <-
-    theme$legendry.guide.spacing %||% unit(0, "cm")
+    theme$legendry.guide.spacing %||% unit(0.0, "cm")
 
   guides <- list(
     primitive_line(cap = cap, position = position),

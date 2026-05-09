@@ -69,7 +69,9 @@
 #' @export
 #'
 #' @examples
-#' red_ticks <- theme_guide(ticks = element_line(colour = "red", linewidth = 0.5))
+#' red_ticks <- theme_guide(
+#'   ticks = element_line(colour = "red", linewidth = 0.5)
+#' )
 #'
 #' # Both axis and colourbar gain red ticks
 #' ggplot(mpg, aes(displ, hwy, colour = cty)) +
@@ -79,47 +81,47 @@
 #'     x = guide_axis(theme = red_ticks)
 #'   )
 theme_guide <- function(
-    text = NULL,
-    line = NULL,
+  text = NULL,
+  line = NULL,
 
-    title = NULL,
-    subtitle = NULL,
+  title = NULL,
+  subtitle = NULL,
 
-    text.position = NULL,
-    title.position = NULL,
-    subtitle.position = NULL,
+  text.position = NULL,
+  title.position = NULL,
+  subtitle.position = NULL,
 
-    ticks = NULL,
-    minor.ticks = NULL,
-    mini.ticks = NULL,
+  ticks = NULL,
+  minor.ticks = NULL,
+  mini.ticks = NULL,
 
-    ticks.length = NULL,
-    minor.ticks.length = NULL,
-    mini.ticks.length = NULL,
+  ticks.length = NULL,
+  minor.ticks.length = NULL,
+  mini.ticks.length = NULL,
 
-    spacing = NULL,
-    group.spacing = NULL,
+  spacing = NULL,
+  group.spacing = NULL,
 
-    key = NULL,
-    key.size = NULL,
-    key.width = NULL,
-    key.height = NULL,
-    key.spacing = NULL,
-    key.spacing.x = NULL,
-    key.spacing.y = NULL,
-    key.margin = NULL,
+  key = NULL,
+  key.size = NULL,
+  key.width = NULL,
+  key.height = NULL,
+  key.spacing = NULL,
+  key.spacing.x = NULL,
+  key.spacing.y = NULL,
+  key.margin = NULL,
 
-    frame = NULL,
-    byrow = NULL,
-    background = NULL,
-    margin = NULL,
+  frame = NULL,
+  byrow = NULL,
+  background = NULL,
+  margin = NULL,
 
-    bracket = NULL,
-    bracket.size = NULL,
-    box = NULL,
-    fence = NULL,
-    fence.post = NULL,
-    fence.rail = NULL
+  bracket = NULL,
+  bracket.size = NULL,
+  box = NULL,
+  fence = NULL,
+  fence.post = NULL,
+  fence.rail = NULL
 ) {
 
   theme <- list(
@@ -188,7 +190,7 @@ theme_guide <- function(
     legendry.fence.post = fence.post,
     legendry.fence.rail = fence.rail
   )
-  theme <- theme[lengths(theme) > 0]
+  theme <- theme[lengths(theme) > 0L]
   theme(!!!theme)
 }
 
@@ -202,7 +204,7 @@ register_legendry_elements <- function() {
   marg <- tree$plot.margin$class
 
   register_theme_elements(
-    legendry.bracket.size = unit(2, "mm"),
+    legendry.bracket.size = unit(2.0, "mm"),
     legendry.bracket = element_line(),
     legendry.fence = element_line(),
     legendry.fence.post = element_line(),
@@ -218,7 +220,7 @@ register_legendry_elements <- function() {
     legendry.axis.mini.ticks = element_line(),
     legendry.axis.mini.ticks.length = rel(0.5),
     legendry.guide.spacing = unit(2.25, "pt"),
-    legendry.group.spacing = rel(2),
+    legendry.group.spacing = rel(2.0),
     legendry.axis.subtitle = NULL,
     legendry.axis.subtitle.position = c("left", "top", "bottom", "right"),
     legendry.symbol = element_point(),
@@ -238,7 +240,8 @@ register_legendry_elements <- function() {
       legendry.legend.minor.ticks = el_def(line, "legend.ticks"),
       legendry.legend.minor.ticks.length = el_unit("legend.ticks.length"),
       legendry.legend.mini.ticks = el_def(line, "legendry.legend.minor.ticks"),
-      legendry.legend.mini.ticks.length = el_unit("legendry.legend.minor.ticks.length"),
+      legendry.legend.mini.ticks.length =
+        el_unit("legendry.legend.minor.ticks.length"),
       legendry.legend.subtitle = el_def(text, "legend.title"),
       legendry.legend.subtitle.position = el_def("character"),
       legendry.legend.key.margin = el_def(marg, "legend.margin"),

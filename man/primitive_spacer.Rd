@@ -37,9 +37,9 @@ other guides.
 This function constructs a spacer \link[=guide-primitives]{guide primitive}.
 }
 \section{Styling options}{
-#' Below are the \link[ggplot2:theme]{theme} options that determine the styling of
-this guide. This guide does not have option dependent on its role as axis or
-legend.
+#' Below are the \link[ggplot2:theme]{theme} options that determine the styling
+of this guide. This guide does not have option dependent on its role as axis
+or legend.
 \itemize{
 \item \code{legendry.guide.spacing} A \code{\link[grid:unit]{<unit>}} setting the amount of
 spacing when the \code{space} argument is \code{NULL}.

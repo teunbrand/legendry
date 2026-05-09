@@ -52,7 +52,7 @@ compose_sandwich <- function(
   theme = NULL,
   theme_defaults = list(),
   reverse = FALSE,
-  order = 0,
+  order = 0L,
   title = waiver(),
   position = waiver(),
   available_aes = NULL
@@ -88,8 +88,15 @@ compose_sandwich <- function(
 ComposeSandwich <- ggproto(
   "ComposeSandwich", Compose,
 
-  params = c(Compose$params, list(complete = FALSE, theme_defaults = list(),
-                                  reverse = FALSE, suppress_labels = "opposite")),
+  params = c(
+    Compose$params,
+    list(
+      complete = FALSE,
+      theme_defaults = list(),
+      reverse = FALSE,
+      suppress_labels = "opposite"
+    )
+  ),
 
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {

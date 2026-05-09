@@ -14,9 +14,11 @@ test_that("primitive_labels works as axis", {
   p <- base +
     guides(
       x     = primitive_labels(),
-      x.sec = primitive_labels(n.dodge = 2),
-      y     = primitive_labels(angle = 45),
-      y.sec = primitive_labels(theme = theme(axis.text = element_text(colour = "red")))
+      x.sec = primitive_labels(n.dodge = 2L),
+      y     = primitive_labels(angle = 45.0),
+      y.sec = primitive_labels(
+        theme = theme(axis.text = element_text(colour = "red"))
+      )
     )
 
   vdiffr::expect_doppelganger("primitive_labels cartesian", p)
@@ -25,9 +27,11 @@ test_that("primitive_labels works as axis", {
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       theta     = primitive_labels(),
-      theta.sec = primitive_labels(angle = 0),
-      r         = primitive_labels(n.dodge = 2),
-      r.sec     = primitive_labels(theme = theme(axis.text = element_text(colour = "red")))
+      theta.sec = primitive_labels(angle = 0.0),
+      r         = primitive_labels(n.dodge = 2L),
+      r.sec     = primitive_labels(
+        theme = theme(axis.text = element_text(colour = "red"))
+      )
     )
 
   vdiffr::expect_doppelganger("primitive_labels radial", p)
@@ -45,7 +49,9 @@ test_that("primitive_labels works as legend", {
     geom_point() +
     guides(
       colour = primitive_labels(),
-      fill = primitive_labels(key = key_manual(c(200, 300)), position = "bottom")
+      fill = primitive_labels(
+        key = key_manual(c(200.0, 300.0)), position = "bottom"
+      )
     )
 
   vdiffr::expect_doppelganger("primitive_labels legend", p)
@@ -57,18 +63,18 @@ test_that("primitive_labels works as legend", {
 test_that("draw_labels sets priorities", {
 
   elem <- theme_gray()$text
-  key <- data.frame(
-    x = c(0, 0.25, 0.5, 0.75, 1),
-    y = 1,
+  key <- data_frame0(
+    x = c(0.0, 0.25, 0.5, 0.75, 1.0),
+    y = 1.0,
     .label = c("A", "B", "C", "D", "E")
   )
 
   test <- withr::with_pdf(
     tempfile(fileext = ".pdf"),
-    draw_labels(key, elem, 0, 0, "bottom", check_overlap = TRUE)
+    draw_labels(key, elem, 0.0, 0.0, "bottom", check_overlap = TRUE)
   )
   # Expect outer labels first
-  expect_equal(test$children[[1]]$label, c("A", "E", "C", "B", "D"))
+  expect_identical(test$children[[1L]]$label, c("A", "E", "C", "B", "D"))
 
 })
 
@@ -76,9 +82,9 @@ test_that("draw_labels can draw theta labels", {
 
   elem <- theme_gray()$text
 
-  key <- data.frame(
-    x = c(0, 0.25, 0.5, 0.75, 1),
-    y = 1,
+  key <- data_frame0(
+    x = c(0.0, 0.25, 0.5, 0.75, 1.0),
+    y = 1.0,
     .label = c("A", "B", "C", "D", "E")
   )
   key$theta <- key$x
@@ -86,7 +92,7 @@ test_that("draw_labels can draw theta labels", {
 
   test <- withr::with_pdf(
     tempfile(fileext = ".pdf"),
-    draw_labels(key, elem, 0, 0, "theta")
+    draw_labels(key, elem, 0.0, 0.0, "theta")
   )
   expect_s3_class(test, "titleGrob")
   expect_equal(attr(test, "size"), 0.364, tolerance = 1e-3)
@@ -95,7 +101,7 @@ test_that("draw_labels can draw theta labels", {
 
 test_that("label angles works", {
 
-  grid <- expand.grid(angle = seq(0, 360, by = 45), position = .trbl)
+  grid <- expand.grid(angle = seq(0.0, 360.0, by = 45.0), position = .trbl)
   result <- Map(
     angle_labels,
     angle = grid$angle, position = grid$position,

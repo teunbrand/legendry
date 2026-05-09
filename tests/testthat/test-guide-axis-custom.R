@@ -21,22 +21,24 @@ test_that("guide_axis_base looks good as axis", {
     )
 
   p <- base + guides(
-    x = guide_axis_base("log", angle = 0),
+    x = guide_axis_base("log", angle = 0.0),
     x.sec = guide_axis_base("minor", subtitle = "subtitle"),
-    y = guide_axis_base(key = key_manual(c(5, 6, 7))),
-    y.sec = guide_axis_base(key = key_manual(c(5, 20, 15),
+    y = guide_axis_base(key = key_manual(c(5.0, 6.0, 7.0))),
+    y.sec = guide_axis_base(key = key_manual(c(5.0, 20.0, 15.0),
                                              label = c("A", "B", "C")))
   )
 
   vdiffr::expect_doppelganger("guide_axis_base cartesian", p)
 
   p <- base +
-    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) + guides(
-      theta = guide_axis_base("log", angle = 0),
+    coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
+    guides(
+      theta = guide_axis_base("log", angle = 0.0),
       theta.sec = guide_axis_base("minor"),
-      r = guide_axis_base(key = key_manual(c(5, 7, 9)), angle = 0),
-      r.sec = guide_axis_base(key = key_manual(c(5, 20, 15),
-                                                 label = c("A", "B", "C")))
+      r = guide_axis_base(key = key_manual(c(5.0, 7.0, 9.0)), angle = 0.0),
+      r.sec = guide_axis_base(
+        key = key_manual(c(5.0, 20.0, 15.0), label = c("A", "B", "C"))
+      )
     )
 
   vdiffr::expect_doppelganger("guide_axis_base radial", p)

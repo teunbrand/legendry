@@ -16,18 +16,25 @@ test_that("primitive_fence works as axis", {
       y = primitive_fence(rail = "both"),
       y.sec = primitive_fence(
         rail = "none",
-        key = key_range_auto(reverse = TRUE), drop_zero = FALSE
+        key = key_range_auto(reverse = TRUE),
+        drop_zero = FALSE
       ),
       x = primitive_fence(
         rail = "inner",
-        key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB")),
+        key = key_range_manual(
+          start = c(2.0, 4.0),
+          end = c(5.0, 7.0),
+          name = c("A\nA", "B\nB")
+        ),
         levels_post = list(NULL, element_line("red"))
       ),
       x.sec = primitive_fence(
         rail = "outer",
         key = key_range_manual(
-          start = c(2, 4, 3), end = c(5, 7, 6), name = c("1", "2", "3"),
-          level = c(1, 2, 3)
+          start = c(2.0, 4.0, 3.0),
+          end = c(5.0, 7.0, 6.0),
+          name = c("1", "2", "3"),
+          level = c(1L, 2L, 3L)
         )
       )
     )
@@ -39,19 +46,27 @@ test_that("primitive_fence works as axis", {
     guides(
       r = primitive_fence(rail = "both"),
       r.sec = primitive_fence(
-        angle = 0, rail = "none",
-        key = key_range_auto(reverse = TRUE), drop_zero = FALSE
+        angle = 0.0,
+        rail = "none",
+        key = key_range_auto(reverse = TRUE),
+        drop_zero = FALSE
       ),
       theta = primitive_fence(
         rail = "inner",
-        key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB")),
+        key = key_range_manual(
+          start = c(2.0, 4.0),
+          end = c(5.0, 7.0),
+          name = c("A\nA", "B\nB")
+        ),
         levels_post = list(NULL, element_line("red"))
       ),
       theta.sec = primitive_fence(
         rail = "outer",
         key = key_range_manual(
-          start = c(2, 4, 3), end = c(5, 7, 6), name = c("1", "2", "3"),
-          level = c(1, 2, 3)
+          start = c(2.0, 4.0, 3.0),
+          end = c(5.0, 7.0, 6.0),
+          name = c("1", "2", "3"),
+          level = c(1L, 2L, 3L)
         )
       )
     )
@@ -71,10 +86,10 @@ test_that("primitive_bracket works as legend", {
     geom_point() +
     guides(
       colour = primitive_fence(key = key_range_manual(
-        c(100, 200), c(250, 300), c("A", "B")
+        c(100.0, 200.0), c(250.0, 300.0), c("A", "B")
       ), rail = "outer"),
       fill = primitive_fence(key = key_range_manual(
-        c(100, 150, 200), c(300, 300, 300), c("A", "B", "C")
+        c(100.0, 150.0, 200.0), c(300.0, 300.0, 300.0), c("A", "B", "C")
       ), position = "bottom", rail = "inner")
     ) +
     theme(

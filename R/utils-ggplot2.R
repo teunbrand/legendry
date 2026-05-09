@@ -36,7 +36,7 @@ absoluteGrob <- function(grob, width = NULL, height = NULL,
 unique0 <- function(x, ...) if (is.null(x)) x else vec_unique(x, ...)
 
 is_empty <- function(df) {
-  length(df) == 0 || nrow(df) == 0 || is_waive(df)
+  length(df) == 0L || nrow(df) == 0L || is_waive(df)
 }
 
 is_zero <- function(x) is.null(x) || inherits(x, "zeroGrob")
@@ -49,16 +49,16 @@ replace_null <- function(obj, ..., env = caller_env()) {
   obj
 }
 
-.rad2deg <- 180 / pi
+.rad2deg <- 180.0 / pi
 rad2deg <- function(rad) rad * .rad2deg
 
-.deg2rad <- pi / 180
+.deg2rad <- pi / 180.0
 deg2rad <- function(deg) deg * .deg2rad
 
 flip_text_angle <- function(angle) {
-  angle <- angle %% 360
-  flip  <- angle > 90 & angle < 270
-  angle[flip] <- angle[flip] + 180
+  angle <- angle %% 360.0
+  flip  <- angle > 90.0 & angle < 270.0
+  angle[flip] <- angle[flip] + 180.0
   angle
 }
 
@@ -107,23 +107,23 @@ as_cli <- function(..., env = caller_env()) {
   cli::cli_fmt(cli::cli_text(..., .envir = env))
 }
 
-rotate_just <- function(angle = NULL, hjust = NULL, vjust = NULL, element = NULL) {
-
-
+rotate_just <- function(
+  angle = NULL, hjust = NULL, vjust = NULL, element = NULL
+) {
   if (!is.null(element)) {
     angle <- element$angle
     hjust <- element$hjust
     vjust <- element$vjust
   }
 
-  angle <- (angle %||% 0) %% 360
+  angle <- (angle %||% 0.0) %% 360.0
 
   if (is.character(hjust)) {
-    hjust <- match(hjust, c("left", "right")) - 1
+    hjust <- match(hjust, c("left", "right")) - 1.0
     hjust[is.na(hjust)] <- 0.5
   }
   if (is.character(vjust)) {
-    vjust <- match(vjust, c("bottom", "top")) - 1
+    vjust <- match(vjust, c("bottom", "top")) - 1.0
     vjust[is.na(vjust)] <- 0.5
   }
 
@@ -134,22 +134,22 @@ rotate_just <- function(angle = NULL, hjust = NULL, vjust = NULL, element = NULL
   vjust <- vec_recycle(vjust, size)
 
   # Find quadrant on circle
-  case <- findInterval(angle, c(0, 90, 180, 270, 360))
+  case <- findInterval(angle, c(0.0, 90.0, 180.0, 270.0, 360.0))
 
   hnew <- hjust
   vnew <- vjust
 
-  is_case <- which(case == 2) # 90 <= x < 180
-  hnew[is_case] <- 1 - vjust[is_case]
+  is_case <- which(case == 2L) # 90 <= x < 180
+  hnew[is_case] <- 1.0 - vjust[is_case]
   vnew[is_case] <- hjust[is_case]
 
-  is_case <- which(case == 3) # 180 <= x < 270
-  hnew[is_case] <- 1 - hjust[is_case]
-  vnew[is_case] <- 1 - vjust[is_case]
+  is_case <- which(case == 3L) # 180 <= x < 270
+  hnew[is_case] <- 1.0 - hjust[is_case]
+  vnew[is_case] <- 1.0 - vjust[is_case]
 
-  is_case <- which(case == 4) # 270 <= x < 360
+  is_case <- which(case == 4L) # 270 <= x < 360
   hnew[is_case] <- vjust[is_case]
-  vnew[is_case] <- 1 - hjust[is_case]
+  vnew[is_case] <- 1.0 - hjust[is_case]
 
   list(hjust = hnew, vjust = vnew)
 }
@@ -157,7 +157,8 @@ rotate_just <- function(angle = NULL, hjust = NULL, vjust = NULL, element = NULL
 combine_elements <- function(e1, e2) {
   if (inherits(e1, "S7_object") || inherits(e2, "S7_object")) {
     # TODO: this is a dirty hack that should be resolved at some point
-    combine <- utils::getFromNamespace("combine_elements", asNamespace("ggplot2"))
+    combine <-
+      utils::getFromNamespace("combine_elements", asNamespace("ggplot2"))
     return(combine(e1, e2))
   }
 
@@ -200,7 +201,7 @@ combine_elements <- function(e1, e2) {
   e1
 }
 
-`%0%` <- function(e1, e2) if (length(e1) == 0) e2 else e1
+`%0%` <- function(e1, e2) if (length(e1) == 0L) e2 else e1
 
 is_rel <- function(x) inherits(x, "rel")
 
@@ -208,34 +209,34 @@ defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])
 
 is.subclass <- function(x, y) {{
   inheritance <- inherits(x, class(y), which = TRUE)
-  !any(inheritance == 0) && length(setdiff(class(x), class(y))) > 0
+  !any(inheritance == 0L) && length(setdiff(class(x), class(y))) > 0L
 }}
 
 polar_bbox <- function(arc, margin = c(0.05, 0.05, 0.05, 0.05),
-                       inner_radius = c(0, 0.4)) {
-  if (abs(diff(arc) >= 2 * pi)) {
-    return(list(x = c(0, 1), y = c(0, 1)))
+                       inner_radius = c(0.0, 0.4)) {
+  if (abs(diff(arc) >= 2.0 * pi)) {
+    return(list(x = c(0.0, 1.0), y = c(0.0, 1.0)))
   }
   xmax <- 0.5 * sin(arc) + 0.5
   ymax <- 0.5 * cos(arc) + 0.5
-  xmin <- inner_radius[1] * sin(arc) + 0.5
-  ymin <- inner_radius[1] * cos(arc) + 0.5
-  margin <- rep(margin, length.out = 4)
+  xmin <- inner_radius[1L] * sin(arc) + 0.5
+  ymin <- inner_radius[1L] * cos(arc) + 0.5
+  margin <- rep_len(margin, 4L)
   margin <- c(
-    max(ymin) + margin[1],
-    max(xmin) + margin[2],
-    min(ymin) - margin[3],
-    min(xmin) - margin[4]
+    max(ymin) + margin[1L],
+    max(xmin) + margin[2L],
+    min(ymin) - margin[3L],
+    min(xmin) - margin[4L]
   )
-  pos_theta <- c(0, 0.5, 1, 1.5) * pi
+  pos_theta <- c(0.0, 0.5, 1.0, 1.5) * pi
   in_sector <- in_arc(pos_theta, arc)
   bounds <- ifelse(
     in_sector,
-    c(1, 1, 0, 0),
-    c(max(ymax, margin[1]), max(xmax, margin[2]),
-      min(ymax, margin[3]), min(xmax, margin[4]))
+    c(1.0, 1.0, 0.0, 0.0),
+    c(max(ymax, margin[1L]), max(xmax, margin[2L]),
+      min(ymax, margin[3L]), min(xmax, margin[4L]))
   )
-  list(x = c(bounds[4], bounds[2]), y = c(bounds[3], bounds[1]))
+  list(x = c(bounds[4L], bounds[2L]), y = c(bounds[3L], bounds[1L]))
 }
 
 rename_aes <- function(x, arg = caller_arg(x)) {
@@ -252,18 +253,18 @@ rename_aes <- function(x, arg = caller_arg(x)) {
 }
 
 in_arc <- function(theta, arc) {
-  if (abs(diff(arc)) > 2 * pi - sqrt(.Machine$double.eps)) {
+  if (abs(diff(arc)) > 2.0 * pi - sqrt(.Machine$double.eps)) {
     return(rep(TRUE, length(theta)))
   }
-  arc <- arc %% (2 * pi)
-  if (arc[1] < arc[2]) {
+  arc <- arc %% (2.0 * pi)
+  if (arc[1L] < arc[2L]) {
     in_range(theta, arc)
   } else {
-    !(theta < arc[1] & theta > arc[2])
+    !(theta < arc[1L] & theta > arc[2L])
   }
 }
 
-snake_class <- function(x) snakeize(class(x)[1])
+snake_class <- function(x) snakeize(class(x)[1L])
 snakeize <- function(x) {
   x <- gsub("([A-Za-z])([A-Z])([a-z])", "\\1_\\2\\3", x)
   x <- gsub(".", "_", x, fixed = TRUE)
@@ -271,8 +272,8 @@ snakeize <- function(x) {
   to_lower_ascii(x)
 }
 to_lower_ascii <- function(x) chartr(upper_ascii, lower_ascii, x)
-upper_ascii <- paste0(LETTERS, collapse = "")
-lower_ascii <- paste0(letters, collapse = "")
+upper_ascii <- paste(LETTERS, collapse = "")
+lower_ascii <- paste(letters, collapse = "")
 
 modify_list <- function(old, new) {
   for (i in names(new)) old[[i]] <- new[[i]]

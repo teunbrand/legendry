@@ -19,7 +19,7 @@ check_list_names <- function(data, names, call = caller_env(),
     return(invisible())
   }
   missing <- setdiff(names, names(data))
-  a <- if (length(missing) == 1) "a" else ""
+  a <- if (length(missing) == 1L) "a" else ""
   cli::cli_abort(paste0(
     "The {.arg {arg}} argument must have {a} named {.field {missing}} ",
     "element{?s}."
@@ -41,8 +41,8 @@ check_list_of <- function(x, class, allow_null = FALSE,
       problems <- map_chr(x[fail], obj_type_friendly)
       problems <- paste0(arg, "[[", which(fail), "]] is ", problems)
       names(problems) <- rep("x", length(problems))
-      if (length(problems) > 5) {
-        problems <- c(problems[1:5], "x" = "...and more mismatches.")
+      if (length(problems) > 5L) {
+        problems <- c(problems[1L:5L], x = "...and more mismatches.")
       }
     }
   }
@@ -135,7 +135,7 @@ check_length <- function(
     }
     length <- length(x)
     if (!is.null(min %||% max)) {
-      between <- c(min %||% 0, max %||% Inf)
+      between <- c(min %||% 0L, max %||% Inf)
       if (in_range(length, between)) {
         return(invisible(NULL))
       }
@@ -153,20 +153,23 @@ check_length <- function(
   } else if (!is.null(min)) {
     what <- "a {type} with {.field length} more than or equal to {min}"
   } else if (!is.null(max)) {
-    if (max > 1) {
+    if (max > 1L) {
       what <- "a {type} with {.field length} less than or equal to {max}"
     } else {
       what <- "a value with {.field length} less than or equal to {max}"
     }
   } else if (!is.null(exact)) {
-    if (any(exact > 1)) {
+    if (any(exact > 1L)) {
       what <- "a {type} with {.field length} equal to {.or {exact}}"
     } else {
       what <- "a single value with {.field length} equal to {.or {exact}}"
     }
   }
   obj <- obj_type_friendly(x, value = FALSE)
-  msg <- "{.arg {arg}} must be {as_cli(what)}, not {obj} with length {length(x)}."
+  msg <- paste0(
+    "{.arg {arg}} must be {as_cli(what)}, ",
+    "not {obj} with length {length(x)}."
+  )
   cli::cli_abort(msg, call = call)
 }
 
@@ -193,11 +196,11 @@ check_inherits <- function(
 }
 
 check_argmatch <- function(
-    x, options,
-    ...,
-    allow_null = FALSE,
-    arg = caller_arg(x),
-    call = caller_env()
+  x, options,
+  ...,
+  allow_null = FALSE,
+  arg = caller_arg(x),
+  call = caller_env()
 ) {
   if (!missing(x)) {
     if (allow_null && is_null(x)) {
@@ -217,10 +220,10 @@ check_argmatch <- function(
 }
 
 check_position <- function(
-    x, options = .trbl, theta = TRUE, inside = FALSE,
-    ...,
-    allow_null = FALSE,
-    arg = caller_arg(x), call = caller_env()
+  x, options = .trbl, theta = TRUE, inside = FALSE,
+  ...,
+  allow_null = FALSE,
+  arg = caller_arg(x), call = caller_env()
 ) {
   if (!missing(x)) {
     if (allow_null && is_null(x)) {
@@ -250,8 +253,8 @@ check_unique <- function(x, arg = caller_arg(x), call = caller_env()) {
     return(invisible())
   }
   dups <- unique(x[vec_duplicate_detect(x)])
-  more <- if (length(dups) > 5) " and more." else "."
-  dups <- dups[1:pmin(5, length(dups))]
+  more <- if (length(dups) > 5L) " and more." else "."
+  dups <- dups[seq_len(pmin(5L, length(dups)))]
   n <- length(dups)
   cli::cli_abort(c(
     "{.arg {arg}} must only have unique values.",
@@ -294,8 +297,8 @@ check_matrix <- function(
 
   # Test dimensions
   dim <- dim(x)
-  valid_dim <- length(dim) == 2 && !anyNA(dim) &&
-    all(dim >= (0 + as.numeric(!zero_dim)))
+  valid_dim <- length(dim) == 2L && !anyNA(dim) &&
+    all(dim >= (0L + as.integer(!zero_dim)))
 
   if (valid_dim) {
     return(invisible(NULL))

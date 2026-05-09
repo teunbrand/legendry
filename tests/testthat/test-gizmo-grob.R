@@ -1,6 +1,6 @@
 test_that("gizmo_grob works for positions", {
 
-  gizmo <- circleGrob(r = unit(1, "cm"))
+  gizmo <- circleGrob(r = unit(1.0, "cm"))
 
   p <- ggplot(mpg, aes(displ, hwy)) +
     geom_blank() +
@@ -23,7 +23,7 @@ test_that("gizmo_grob works for positions", {
 
 test_that("gizmo_grob works for legends", {
 
-  circle <- circleGrob(r = unit(1, "cm"))
+  circle <- circleGrob(r = unit(1.0, "cm"))
   rect   <- rectGrob()
 
   p <- ggplot(mtcars, aes(disp, mpg, shape = factor(cyl), colour = cyl)) +
@@ -37,7 +37,7 @@ test_that("gizmo_grob works for legends", {
     ) +
     guides(
       colour = gizmo_grob(
-        rect, width = unit(1, "cm"), height = unit(2, "cm"),
+        rect, width = unit(1.0, "cm"), height = unit(2.0, "cm"),
         position = "bottom"
       ),
       shape = gizmo_grob(circle)

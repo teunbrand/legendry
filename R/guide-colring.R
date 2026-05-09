@@ -18,7 +18,8 @@
 #'   * A `<function>` that returns a `<Guide>` class object.
 #'   * A `<character>` naming such function, without the `guide_` or
 #'     `primitive_` prefix.
-#' @param nbin A positive `<integer[1]>` determining how many colours to display.
+#' @param
+#' nbin A positive `<integer[1]>` determining how many colours to display.
 #' @param reverse A `<logical[1]>` whether to reverse continuous guides.
 #'   If `TRUE`, guides like colour bars are flipped. If `FALSE` (default),
 #'   the original order is maintained.
@@ -64,11 +65,11 @@
 guide_colring <- function(
   title = waiver(),
   key = "auto",
-  start = 0,
+  start = 0.0,
   end = NULL,
   outer_guide = "axis_base",
   inner_guide = "axis_base",
-  nbin = 300,
+  nbin = 300L,
   reverse = FALSE,
   show_labels = "outer",
   theme = NULL,
@@ -119,7 +120,7 @@ GuideColring <- ggproto(
   params = new_params(
     guides = list(), guide_params = list(),
     key = NULL, angle = waiver(), coord = NULL,
-    nbin = 300, alpha = NA, reverse = FALSE,
+    nbin = 300L, alpha = NA, reverse = FALSE,
     show_labels = list(inner = FALSE, outer = TRUE),
     theme_defaults = NULL
   ),
@@ -161,22 +162,26 @@ GuideColring <- ggproto(
 
     panels <- params$coord$setup_panel_params(
       scale_x_continuous(limits = params$limits),
-      scale_y_continuous(limits = c(0, 1))
+      scale_y_continuous(limits = c(0.0, 1.0))
     )
     # Override parameters
     panels$inner_radius <- c(0.5, 0.5)
-    panels$bbox <- params$bbox <- polar_bbox(panels$arc, 0, panels$inner_radius)
+    panels$bbox <- params$bbox <-
+      polar_bbox(panels$arc, 0.0, panels$inner_radius)
 
     params <- Compose$transform(params, params$coord, panels)
-    params$arc  <- panels$arc %% (2 * pi)
-    params$decor <- coord_munch(params$coord, params$decor, panels, segment_length = 0.04)
+    params$arc  <- panels$arc %% (2.0 * pi)
+    params$decor <- coord_munch(
+      params$coord, params$decor,
+      panels, segment_length = 0.04
+    )
     params
   },
 
   build_frame = function(params, elements) {
     frame <- elements$frame
     if (is_blank(frame)) {
-      frame <- list(colour = NA, linewidth = 0)
+      frame <- list(colour = NA, linewidth = 0.0)
     }
     decor <- params$decor
 
@@ -186,10 +191,10 @@ GuideColring <- ggproto(
     x <- unit.c(x, rev(x) - unit(sin(rev(decor$theta)) * elements$width, "cm"))
     y <- unit.c(y, rev(y) - unit(cos(rev(decor$theta)) * elements$width, "cm"))
 
-    if (abs(diff(params$coord$arc %% (2 * pi))) < 1e-2) {
-      id <- nrow(decor)[c(1, 1)]
+    if (abs(diff(params$coord$arc %% (2.0 * pi))) < 1e-2) {
+      id <- nrow(decor)[c(1L, 1L)]
     } else {
-      id <- nrow(decor) * 2
+      id <- nrow(decor) * 2L
     }
 
     polygonGrob(
@@ -209,11 +214,11 @@ GuideColring <- ggproto(
     limits <- params$limits %||% range(params$key$.value)
     theta <- rescale(params$key$.value, to = arc, from = limits)
     difftheta <- diff(theta)
-    start <- c(arc[1], theta[-1] - 0.5 * difftheta)
-    end   <- c(theta[-length(theta)] + 0.5 * difftheta, arc[2])
+    start <- c(arc[1L], theta[-1L] - 0.5 * difftheta)
+    end   <- c(theta[-length(theta)] + 0.5 * difftheta, arc[2L])
 
     theta <- vec_interleave(start, start, end, end)
-    r <- rep(c(0, 1, 1, 0), length(start)) * elements$width
+    r <- rep(c(0.0, 1.0, 1.0, 0.0), length(start)) * elements$width
 
     x <- rescale(0.5 * sin(theta) + 0.5, from = params$bbox$x)
     y <- rescale(0.5 * cos(theta) + 0.5, from = params$bbox$y)
@@ -223,8 +228,8 @@ GuideColring <- ggproto(
 
     colour <- params$key[[params$aesthetic]]
     ring <- polygonGrob(
-      x = x, y = y, id.lengths = rep(4, nrow(params$key)),
-      gp = gpar(fill = colour, col = colour, lwd = 1),
+      x = x, y = y, id.lengths = rep(4L, nrow(params$key)),
+      gp = gpar(fill = colour, col = colour, lwd = 1.0),
       vp = viewport(clip = frame)
     )
     gTree(children = gList(ring, frame))
@@ -239,9 +244,13 @@ GuideColring <- ggproto(
   override_elements = function(params, elements, theme) {
     elements$title_position <- elements$title_position %||%
       switch(params$direction, horizontal = "left", vertical = "top")
-    check_position(elements$title_position, theta = FALSE, arg = "legend.title.position")
+    check_position(
+      elements$title_position,
+      theta = FALSE,
+      arg = "legend.title.position"
+    )
     elements$width <- cm(elements$width)
-    elements$size  <- cm(elements$size) * 5
+    elements$size  <- cm(elements$size) * 5.0
     elements$margin <- elements$margin %||% margin()
     elements$background <- element_grob(elements$background)
     elements
@@ -267,12 +276,14 @@ GuideColring <- ggproto(
     inner <- params$guide_params$inner
     inner$stack_offset <- unit(elems$width, "cm")
     inner$draw_label <- isTRUE(params$show_labels$inner)
-    inner <- params$guides$inner$draw(theme, position, direction, params = inner)
+    inner <-
+      params$guides$inner$draw(theme, position, direction, params = inner)
 
     # Draw outer guide
     outer <- params$guide_params$outer
     outer$draw_label <- isTRUE(params$show_labels$outer)
-    outer <- params$guides$outer$draw(theme, position, direction, params = outer)
+    outer <-
+      params$guides$outer$draw(theme, position, direction, params = outer)
 
     # Draw ring
     frame <- self$build_frame(params, elems)
@@ -281,15 +292,16 @@ GuideColring <- ggproto(
     # Setup gtable
     asp <- with(params$bbox, diff(y) / diff(x))
     gt <- gtable(
-      widths  = unit(elems$size * pmin(1 / asp, 1), "cm"),
-      heights = unit(elems$size * pmin(asp, 1), "cm")
+      widths  = unit(elems$size * pmin(1.0 / asp, 1.0), "cm"),
+      heights = unit(elems$size * pmin(asp, 1.0), "cm")
     ) |>
-      gtable_add_grob(ring,  1, 1, name = "ring",  clip = "off") |>
-      gtable_add_grob(inner, 1, 1, name = "inner", clip = "off") |>
-      gtable_add_grob(outer, 1, 1, name = "outer", clip = "off")
+      gtable_add_grob(ring,  1L, 1L, name = "ring",  clip = "off") |>
+      gtable_add_grob(inner, 1L, 1L, name = "inner", clip = "off") |>
+      gtable_add_grob(outer, 1L, 1L, name = "outer", clip = "off")
 
     # Add padding, title, margin and background
-    margin <- ring_margin(params$arc, outer$offset, elems$width + cm(inner$offset))
+    margin <-
+      ring_margin(params$arc, outer$offset, elems$width + cm(inner$offset))
     title  <- self$build_title(params$title, elems)
     gt <- gtable_add_padding(gt, margin) |>
       self$add_title(
@@ -302,7 +314,7 @@ GuideColring <- ggproto(
       gt <- gtable_add_grob(
         gt, elems$background,
         name = "background", clip = "off",
-        t = 1, r = -1, b = -1, l = 1, z = -Inf
+        t = 1L, r = -1L, b = -1L, l = 1L, z = -Inf
       )
     }
 
@@ -314,18 +326,19 @@ GuideColring <- ggproto(
 
 ring_xy <- function(params, aesthetic) {
   if ("guide_params" %in% names(params)) {
-    params$guide_params <- lapply(params$guide_params, ring_xy, aesthetic = aesthetic)
+    params$guide_params <-
+      lapply(params$guide_params, ring_xy, aesthetic = aesthetic)
   }
   key <- params$key
   if (!is.null(key)) {
     key$x <- key$x %||% key$.value %||% key[[aesthetic]]
-    key$y <- key$y %||% 1
+    key$y <- key$y %||% 1.0
     params$key <- key
   }
   decor <- params$decor
   if (!is.null(decor)) {
     decor$x <- decor$x %||% decor$.value %||% decor[[aesthetic]]
-    decor$y <- decor$y %||% 1
+    decor$y <- decor$y %||% 1.0
     params$decor <- decor
   }
   params
@@ -333,61 +346,62 @@ ring_xy <- function(params, aesthetic) {
 
 ring_margin <- function(arc, outer = NULL, inner = NULL) {
 
-  outer <- cm(outer %||% unit(0, "cm"))
+  outer <- cm(outer %||% unit(0.0, "cm"))
 
   # If we have a full circle, apply outer padding to every margin
-  if (abs(diff(arc)) >= 2 * pi) {
-    return(unit(rep(outer, 4), "cm"))
+  if (abs(diff(arc)) >= 2.0 * pi) {
+    return(unit(rep(outer, 4L), "cm"))
   }
 
-  tol <- c(1, -1) * sqrt(.Machine$double.eps)
-  margin <- rep(0, 4)
-  inner  <- cm(inner %||% unit(0, "cm"))
+  tol <- c(1.0, -1.0) * sqrt(.Machine$double.eps)
+  margin <- rep(0.0, 4L)
+  inner  <- cm(inner %||% unit(0.0, "cm"))
 
   # Left margin
+  keep <- in_range(arc, c(1.0, 2.0) * pi + tol)
   if (in_arc(1.5 * pi, arc)) {
-    margin[4] <- outer
-  } else if (any(keep <- in_range(arc, c(1, 2) * pi + tol))) {
+    margin[4L] <- outer
+  } else if (any(keep)) {
     theta <- arc[keep]
-    margin[4] <- max(abs(cos(theta))) * outer
-  } else if (all(in_range(arc, c(0, 1) * pi + tol))) {
-    margin[4] <- max(cos(arc)) * inner
+    margin[4L] <- max(abs(cos(theta))) * outer
+  } else if (all(in_range(arc, c(0.0, 1.0) * pi + tol))) {
+    margin[4L] <- max(cos(arc)) * inner
   }
 
   # Right margin
+  keep <- in_range(arc, c(0.0, 1.0) * pi + tol)
   if (in_arc(0.5 * pi, arc)) {
-    margin[2] <- outer
-  } else if (any(keep <- in_range(arc, c(0, 1) * pi + tol))) {
+    margin[2L] <- outer
+  } else if (any(keep)) {
     theta <- arc[keep]
-    margin[2] <- max(abs(cos(theta))) * outer
-  } else if (all(in_range(arc, c(1, 2) * pi + tol))) {
-    margin[2] <- max(cos(arc)) * inner
+    margin[2L] <- max(abs(cos(theta))) * outer
+  } else if (all(in_range(arc, c(1.0, 2.0) * pi + tol))) {
+    margin[2L] <- max(cos(arc)) * inner
   }
 
   # Bottom margin
+  keep <- in_range(arc, c(0.5, 1.5) * pi + tol)
   if (in_arc(pi, arc)) {
-    margin[3] <- outer
-  }  else if (any(keep <- in_range(arc, c(0.5, 1.5) * pi + tol))) {
+    margin[3L] <- outer
+  }  else if (any(keep)) {
     theta <- arc[keep]
-    margin[3] <- max(abs(sin(theta))) * outer
+    margin[3L] <- max(abs(sin(theta))) * outer
   } else if (all(in_arc(arc, c(1.5, 2.5) * pi + tol))) {
-    margin[3] <- max(sin(arc)) * inner
+    margin[3L] <- max(sin(arc)) * inner
   }
 
   # Top margin
-  if (in_arc(0, arc)) {
-    margin[1] <- outer
-  } else if (any(
-    keep <-
-    in_range(arc, c(0, 0.5) * pi + c(0, tol[2])) |
-    in_range(arc, c(1.5, 2) * pi + c(tol[1], 0))
-  )) {
+  keep <-
+    in_range(arc, c(0.0, 0.5) * pi + c(0.0, tol[2L])) |
+    in_range(arc, c(1.5, 2.0) * pi + c(tol[1L], 0.0))
+  if (in_arc(0.0, arc)) {
+    margin[1L] <- outer
+  } else if (any(keep)) {
     theta <- arc[keep]
-    margin[1] <- max(abs(sin(theta))) * outer
+    margin[1L] <- max(abs(sin(theta))) * outer
   } else if (all(in_arc(arc, c(0.5, 1.5) * pi + tol))) {
-    margin[1] <- max(-sin(arc)) * inner
+    margin[1L] <- max(-sin(arc)) * inner
   }
 
   unit(margin, "cm")
 }
-

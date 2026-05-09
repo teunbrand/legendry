@@ -86,7 +86,7 @@ guide_colbar <- function(
   shape = "triangle",
   size = NULL,
   show = NA,
-  nbin = 15,
+  nbin = 15L,
   alpha = NA,
   reverse = FALSE,
   suppress_labels = "second",
@@ -131,7 +131,7 @@ vanilla_colourbar_theme <- function(...) {
   theme(
     legend.axis.line = element_blank(),
     legend.ticks = element_line(colour = "white", linewidth = 0.5 / .pt),
-    legend.ticks.length = rel(-1),
+    legend.ticks.length = rel(-1.0),
     legend.frame = element_blank(),
     ...
   )

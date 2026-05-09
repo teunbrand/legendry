@@ -41,10 +41,10 @@ gizmo_grob <- function(
   check_grob(grob)
   check_unit(width)
   check_unit(height)
-  check_length(width, exact = 1)
-  check_length(height, exact = 1)
-  check_number_decimal(hjust, min = 0, max = 1, allow_infinite = FALSE)
-  check_number_decimal(vjust, min = 0, max = 1, allow_infinite = FALSE)
+  check_length(width, exact = 1L)
+  check_length(height, exact = 1L)
+  check_number_decimal(hjust, min = 0.0, max = 1.0, allow_infinite = FALSE)
+  check_number_decimal(vjust, min = 0.0, max = 1.0, allow_infinite = FALSE)
 
   new_guide(
     grob   = grob,
@@ -69,14 +69,14 @@ GizmoGrob <- ggproto(
   "GizmoGrob", Guide,
 
   params = new_params(
-    grob = zeroGrob(), width = unit(0, "cm"), height = unit(0, "cm"),
+    grob = zeroGrob(), width = unit(0.0, "cm"), height = unit(0.0, "cm"),
     hjust = 0.5, vjust = 0.5
   ),
 
   elements = list(),
 
   train = function(params, scale, aesthetic = NULL, ...) {
-    params$aesthetic <- aesthetic %||% scale$aesthetics[1]
+    params$aesthetic <- aesthetic %||% scale$aesthetics[1L]
     params$position  <- params$position %|W|% NULL
     params
   },
@@ -95,14 +95,18 @@ GizmoGrob <- ggproto(
     width  <- unit(width_cm(params$width),   "cm")
     height <- unit(height_cm(params$height), "cm")
 
-    gt <- gtable(widths = width, heights = height)
-    gt <- gtable_add_grob(gt, params$grob, t = 1, l = 1, clip = "off", name = "gizmo_grob")
+    gt <-
+      gtable(widths = width, heights = height) |>
+      gtable_add_grob(
+        params$grob, t = 1L, l = 1L,
+        clip = "off", name = "gizmo_grob"
+      )
 
     if (params$aesthetic %in% c("x", "y")) {
       padding <- margin(
-        t = 1 - params$vjust,
+        t = 1.0 - params$vjust,
         b = params$vjust,
-        r = 1 - params$hjust,
+        r = 1.0 - params$hjust,
         l = params$hjust,
         unit = "null"
       )

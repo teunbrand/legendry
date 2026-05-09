@@ -7,7 +7,7 @@ new_params <- function(...) {
     position = waiver(),
     direction = NULL,
     order = 0L,
-    hash = character(0)
+    hash = character(0L)
   )
   dots <- list2(...)
   for (i in names(dots)) required[i] <- dots[i]

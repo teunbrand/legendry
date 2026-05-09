@@ -49,16 +49,16 @@
 #'     legend.frame = element_rect(colour = "black"),
 #'     legend.key.width = unit(0.5, "cm")
 #'   )
-gizmo_stepcap <- function(key = "bins", shape = "triangle", size = NULL, show = NA,
-                          alpha = NA, oob = "keep", theme = NULL,
+gizmo_stepcap <- function(key = "bins", shape = "triangle", size = NULL,
+                          show = NA, alpha = NA, oob = "keep", theme = NULL,
                           position = waiver(), direction = NULL) {
   check_number_decimal(
-    alpha, min = 0, max = 1,
+    alpha, min = 0.0, max = 1.0,
     allow_infinite = FALSE, allow_na = TRUE
   )
   check_logical(show)
-  check_length(show, exact = 1:2)
-  show <- rep(show, length.out = 2)
+  check_length(show, exact = 1L:2L)
+  show <- rep_len(show, 2L)
 
   check_unit(size, allow_null = TRUE)
   shape <- resolve_cap_shape(shape)
@@ -112,26 +112,26 @@ GizmoStepcap <- ggproto(
     aes <- params$aesthetic
     key <- params$key
 
-    lower_oob <- range[1] < limits[1]
-    upper_oob <- range[2] > limits[2]
+    lower_oob <- range[1L] < limits[1L]
+    upper_oob <- range[2L] > limits[2L]
 
-    params$show[1] <- !isFALSE(params$show[1] %|NA|% lower_oob)
-    params$show[2] <- !isFALSE(params$show[2] %|NA|% upper_oob)
-    add <- diff(limits) / 1000
+    params$show[1L] <- !isFALSE(params$show[1L] %|NA|% lower_oob)
+    params$show[2L] <- !isFALSE(params$show[2L] %|NA|% upper_oob)
+    add <- diff(limits) / 1000.0
 
-    if (params$show[1]) {
-      val <- params$oob(limits[1] - add, limits)
+    if (params$show[1L]) {
+      val <- params$oob(limits[1L] - add, limits)
       limits <- range(limits, val)
       key <- data_frame0(
         !!aes := c(scale$map(val), key[[aes]]),
         min    = c(-Inf, key$min),
-        max    = c(key$min[1], key$max),
+        max    = c(key$min[1L], key$max),
         .label = c(NA, key$.label),
         .value = c(NA, key$.value)
       )
     }
-    if (params$show[2]) {
-      val <- params$oob(limits[2] + add, limits)
+    if (params$show[2L]) {
+      val <- params$oob(limits[2L] + add, limits)
       limits <- range(limits, val)
       n <- max(which(!is.na(key[[aes]])))
       if (n == nrow(key)) {
@@ -143,9 +143,9 @@ GizmoStepcap <- ggproto(
           .value = c(key$.value, NA)
         )
       } else {
-        n <- n + 1
+        n <- n + 1L
         key[[aes]][n] <- scale$map(val)
-        key$min[n] <- key$max[n - 1]
+        key$min[n] <- key$max[n - 1L]
         key$max[n] <- Inf
       }
     }
@@ -162,13 +162,13 @@ GizmoStepcap <- ggproto(
     key <- vec_slice(key, !is.na(key[[params$aesthetic]]))
     min <- guide_rescale(key$min, params$limits)
     max <- guide_rescale(key$max, params$limits)
-    key$mid <- (max + min) / 2
+    key$mid <- (max + min) / 2.0
     key$height <- abs(max - min)
     params$key <- key
     params
   },
 
-  fill_frame = function(key, grobs = NULL, elements, params) {
+  fill_frame = function(key, elements, params, grobs = NULL) {
     if (!any(c("colour", "fill") %in% names(key))) {
       return(grobs)
     }
@@ -177,22 +177,22 @@ GizmoStepcap <- ggproto(
     lower <- grobs$lower
     upper <- grobs$upper
 
-    min <- unit(0, "npc") + lower
-    max <- unit(1, "npc") + upper
-    delta <- unit(1, "npc") - (lower + upper)
+    min <- unit(0.0, "npc") + lower
+    max <- unit(1.0, "npc") + upper
+    delta <- unit(1.0, "npc") - (lower + upper)
     n <- nrow(key)
 
     args <- list(
       x = 0.5,
       y = unit.c(
-        unit(0, "npc"), min + key$mid[-c(1, n)] * delta, unit(1, "npc")
+        unit(0.0, "npc"), min + key$mid[-c(1L, n)] * delta, unit(1.0, "npc")
       ),
       height = unit.c(
-        lower + key$height[1] * delta,
-        key$height[-c(1, n)]  * delta,
+        lower + key$height[1L] * delta,
+        key$height[-c(1L, n)]  * delta,
         upper + key$height[n] * delta
       ),
-      vjust = c(0, rep(0.5, nrow(key) - 2L), 1),
+      vjust = c(0.0, rep(0.5, nrow(key) - 2L), 1.0),
       gp = gpar(fill = key[[params$aesthetic]], col = NA)
     )
 
@@ -208,4 +208,3 @@ GizmoStepcap <- ggproto(
     grobs
   }
 )
-

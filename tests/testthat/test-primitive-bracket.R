@@ -16,17 +16,24 @@ test_that("primitive_bracket works as axis", {
       y = primitive_bracket(bracket = "curvy"),
       y.sec = primitive_bracket(
         bracket = "round",
-        key = key_range_auto(reverse = TRUE), drop_zero = FALSE
+        key = key_range_auto(reverse = TRUE),
+        drop_zero = FALSE
       ),
       x = primitive_bracket(
         bracket = "square",
-        key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
+        key = key_range_manual(
+          start = c(2L, 4L),
+          end   = c(5L, 7L),
+          name  = c("A\nA", "B\nB")
+        )
       ),
       x.sec = primitive_bracket(
         bracket = "chevron",
         key = key_range_manual(
-          start = c(2, 4, 3), end = c(5, 7, 6), name = c("1", "2", "3"),
-          level = c(1, 2, 3)
+          start = c(2.0, 4.0, 3.0),
+          end   = c(5.0, 7.0, 6.0),
+          name  = c("1", "2", "3"),
+          level = c(1L, 2L, 3L)
         )
       )
     )
@@ -38,18 +45,26 @@ test_that("primitive_bracket works as axis", {
     guides(
       r = primitive_bracket(bracket = "curvy"),
       r.sec = primitive_bracket(
-        bracket = "round", angle = 0,
-        key = key_range_auto(reverse = TRUE), drop_zero = FALSE
+        bracket = "round",
+        angle = 0.0,
+        key = key_range_auto(reverse = TRUE),
+        drop_zero = FALSE
       ),
       theta = primitive_bracket(
         bracket = "chevron",
-        key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
+        key = key_range_manual(
+          start = c(2.0, 4.0),
+          end = c(5.0, 7.0),
+          name = c("A\nA", "B\nB")
+        )
       ),
       theta.sec = primitive_bracket(
         bracket = "square",
         key = key_range_manual(
-          start = c(2, 4, 3), end = c(5, 7, 6), name = c("1", "2", "3"),
-          level = c(1, 2, 3)
+          start = c(2.0, 4.0, 3.0),
+          end = c(5.0, 7.0, 6.0),
+          name = c("1", "2", "3"),
+          level = c(1L, 2L, 3L)
         )
       )
     )
@@ -69,10 +84,10 @@ test_that("primitive_bracket works as legend", {
     geom_point() +
     guides(
       colour = primitive_bracket(key = key_range_manual(
-        c(100, 200), c(250, 300), c("A", "B")
+        c(100.0, 200.0), c(250.0, 300.0), c("A", "B")
       )),
       fill = primitive_bracket(key = key_range_manual(
-        c(100, 150, 200), c(300, 300, 300), c("A", "B", "C")
+        c(100.0, 150.0, 200.0), c(300.0, 300.0, 300.0), c("A", "B", "C")
       ), position = "bottom")
     ) +
     theme(

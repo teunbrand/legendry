@@ -1,7 +1,7 @@
 test_that("guide_colbar works in all positions", {
 
   base <- ggplot(mtcars, aes(disp, mpg, colour = cyl)) +
-    geom_point(shape = 21) +
+    geom_point(shape = 21L) +
     scale_colour_viridis_c(
       oob = oob_squish,
       guide = compose_stack(
@@ -18,10 +18,22 @@ test_that("guide_colbar works in all positions", {
     )
 
   suppressWarnings({
-    vdiffr::expect_doppelganger("right position", base + theme(legend.position = "right"))
-    vdiffr::expect_doppelganger("left position", base + theme(legend.position = "left"))
-    vdiffr::expect_doppelganger("bottom position", base + theme(legend.position = "bottom"))
-    vdiffr::expect_doppelganger("top position", base + theme(legend.position = "top"))
+    vdiffr::expect_doppelganger(
+      "right position",
+      base + theme(legend.position = "right")
+    )
+    vdiffr::expect_doppelganger(
+      "left position",
+      base + theme(legend.position = "left")
+    )
+    vdiffr::expect_doppelganger(
+      "bottom position",
+      base + theme(legend.position = "bottom")
+    )
+    vdiffr::expect_doppelganger(
+      "top position",
+      base + theme(legend.position = "top")
+    )
   })
 })
 

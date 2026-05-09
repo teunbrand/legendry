@@ -1,17 +1,17 @@
 test_that("new_params include default params", {
   # This test acts as a sentinel when ggplot2 changes default parameters
-  expect_equal(new_params(), Guide$params)
+  expect_equal(new_params(), Guide$params, ignore_attr = "foo")
 })
 
 test_that("primitive grob makes grobs for theta positions", {
 
   grob <- pointsGrob()
 
-  test <- primitive_grob(grob, unit(2, "cm"), "theta", "grob")
+  test <- primitive_grob(grob, unit(2.0, "cm"), "theta", "grob")
   expect_s3_class(test, "gTree")
 
   grob <- list(grob, grob)
-  test <- primitive_grob(grob, unit(2, "cm"), "theta.sec", "grob")
+  test <- primitive_grob(grob, unit(2.0, "cm"), "theta.sec", "grob")
   expect_s3_class(test, "gTree")
 
 })
@@ -19,8 +19,16 @@ test_that("primitive grob makes grobs for theta positions", {
 test_that("primitive_setup_elements sets up elements", {
 
   elements <- list(
-    position = list(title = "axis.title", text = "axis.text", ticks_length = "axis.ticks.length"),
-    legend   = list(title = "legend.title", text = "legend.text", ticks_length = "legend.ticks.length")
+    position = list(
+      title = "axis.title",
+      text = "axis.text",
+      ticks_length = "axis.ticks.length"
+    ),
+    legend = list(
+      title = "legend.title",
+      text = "legend.text",
+      ticks_length = "legend.ticks.length"
+    )
   )
 
   theme <- theme_gray()
@@ -54,17 +62,17 @@ test_that("primitive_setup_params sets up non-position parameters", {
 
   params <- list(
     position = "right", direction = "vertical", aesthetic = "colour",
-    limits = c(0, 10),
-    key = data.frame(.value = c(2, 8)),
+    limits = c(0.0, 10.0),
+    key = data.frame(.value = c(2.0, 8.0)),
     decor = data.frame(y = 0.5)
   )
 
   test <- primitive_setup_params(params)
-  expect_equal(test$key$x, c(0, 0))
-  expect_equal(test$key$y, c(0.2, 0.8))
+  expect_identical(test$key$x, c(0.0, 0.0))
+  expect_identical(test$key$y, c(0.2, 0.8))
   expect_in(names(test$decor), c("x", "y"))
 
   params <- list(aesthetic = "x")
   test <- primitive_setup_params(params)
-  expect_equal(params, test)
+  expect_identical(params, test)
 })

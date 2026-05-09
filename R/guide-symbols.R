@@ -57,7 +57,7 @@
 #' | Theme setting | Description |
 #' | ------------- | ----------- |
 #' | `legendry.axis.subtitle` | [`element_text()`] for titles on the side |
-#' | `legendry.axis.subtitle.position` | `"top"`, `"right"`, `"bottom"` or `"left"`
+#' | `legendry.axis.subtitle.position` | `"top"`, `"right"`, `"bottom"` or `"left"` |
 #' | `legendry.zebra.light` | [`element_rect()`] for row shading |
 #' | `legendry.zebra.dark` | [`element_rect()`] for alternate row shading |
 #' | `legendry.table.spacing` | [`rel()`]/[`unit()`] for padding between levels |
@@ -110,23 +110,24 @@
 #'   )
 #' ))
 guide_axis_symbols <- function(
-    key = NULL,
-    connect = NULL,
-    title = waiver(),
-    theme = NULL,
-    override.aes = list(),
-    position = waiver(),
-    direction = NULL,
-    call = NULL
+  key = NULL,
+  connect = NULL,
+  title = waiver(),
+  theme = NULL,
+  override.aes = list(),
+  position = waiver(),
+  direction = NULL,
+  call = NULL
 ) {
-
+  call <- call %||% current_call()
   if (is.null(key)) {
     cli::cli_abort(
       "The {.arg key} argument is required. You can set a manual key \\
       using {.fn key_symbols}.",
+      call = call
     )
   }
-  call <- call %||% current_call()
+
   check_connect_arg(connect)
 
   new_guide(
@@ -156,19 +157,21 @@ guide_axis_upset <- function(
   call = NULL
 ) {
 
-  if (is_character(key) && !(length(key) == 1 && is_key_string(key))) {
+  if (is_character(key) && !(length(key) == 1L && is_key_string(key))) {
     key <- key_upset(order = key)
   }
 
+  call <- call %||% current_call()
   if (is.null(key)) {
     cli::cli_abort(
       "The {.arg key} argument is required. You can set a key \\
       using {.fn key_upset}.",
+      call = call
     )
   }
 
   check_connect_arg(connect)
-  call <- call %||% current_call()
+
 
   guide_axis_symbols(
     key = key,
@@ -191,7 +194,9 @@ guide_axis_upset <- function(
 GuideSymbols <- ggproto(
   "GuideSymbols", Guide,
 
-  params = new_params(key = "upset", connect = NULL, override.aes = list(), call = NULL),
+  params = new_params(
+    key = "upset", connect = NULL, override.aes = list(), call = NULL
+  ),
 
   elements = list(
     position  = list(
@@ -220,7 +225,8 @@ GuideSymbols <- ggproto(
 
   transform = function(self, params, coord, panel_params) {
     for (i in c("key", "decor")) {
-      params[[i]] <- transform_key(params[[i]], params$position, coord, panel_params)
+      params[[i]] <-
+        transform_key(params[[i]], params$position, coord, panel_params)
     }
     params
   },
@@ -231,13 +237,11 @@ GuideSymbols <- ggproto(
     key <- vec_slice(key, !is.na(key$.symbol))
     symbol <- key$.symbol
     if (is.logical(symbol)) {
-      index <- match(symbol, c(TRUE, FALSE, NA), nomatch = 3)
+      index <- match(symbol, c(TRUE, FALSE, NA), nomatch = 3L)
+    } else if (is_integerish(symbol)) {
+      index <- as.integer(symbol)
     } else {
-      if (is_integerish(symbol)) {
-        index <- as.integer(symbol)
-      } else {
-        index <- match(symbol, levels(symbol) %||% sort(unique(symbol)))
-      }
+      index <- match(symbol, levels(symbol) %||% sort(unique(symbol)))
     }
     key$.index <- index
     key
@@ -259,15 +263,15 @@ GuideSymbols <- ggproto(
       required_cols <- c("value_start", "value_end", "level_start", "level_end")
       extra_cols <- setdiff(names(connect), required_cols)
       extra <- NULL
-      if (length(extra_cols) > 0) {
-        extra <- vec_rep_each(connect[extra_cols], 2)
+      if (length(extra_cols) > 0L) {
+        extra <- vec_rep_each(connect[extra_cols], 2L)
         extra <- rename_aes(extra, arg = "connect")
         names(extra) <- paste0(".", names(extra))
       }
       connect <- data_frame0(
         !!aesthetic := value,
         .level = level,
-        .id = rep(vec_seq_along(connect), each = 2),
+        .id = rep(vec_seq_along(connect), each = 2L),
         !!!extra
       )
       return(connect)
@@ -275,7 +279,8 @@ GuideSymbols <- ggproto(
 
     if (!is_logical(key$.symbol)) {
       cli::cli_abort(
-        "{.arg connect} cannot be {.val {connect}} when key symbols are not logical."
+        "{.arg connect} cannot be {.val {connect}} when key symbols are \\
+        not logical."
       )
     }
 
@@ -287,7 +292,7 @@ GuideSymbols <- ggproto(
     connect <- lapply(connect$val, function(df) {
 
       hits <- df$.symbol & !is.na(df$.symbol)
-      if (sum(hits) < 2) {
+      if (sum(hits) < 2L) {
         return(NULL)
       }
       i <- which(df$.symbol)
@@ -297,7 +302,7 @@ GuideSymbols <- ggproto(
 
     })
     connect <- vec_rbind(!!!connect)
-    connect$.id <- rep(seq(nrow(connect) / 2), each = 2)
+    connect$.id <- rep(seq(nrow(connect) / 2L), each = 2L)
     connect
   },
 
@@ -305,18 +310,18 @@ GuideSymbols <- ggproto(
     # Ensure override.aes is setup with the right lengths
     override <- params$override.aes
     if (is.logical(params$key$.symbol)) {
-      override$shape <- override$shape %||% c(19, 1, 12)
-      n <- 3
+      override$shape <- override$shape %||% c(19L, 1L, 12L)
+      n <- 3L
     } else {
       n <- max(params$key$.index)
     }
 
-    wrong <- which(!(lengths(override) %in% c(1, n)))
+    wrong <- which(!(lengths(override) %in% c(1L, n)))
     if (length(wrong)) {
       problems <- paste0("override.aes$", names(override)[wrong])
       lens <- lengths(override)[wrong]
       lens <- paste0(
-        "size", if (length(lens) > 1) "s", " ",
+        "size", if (length(lens) > 1L) "s", " ",
         oxford_comma(lens, final = "and")
       )
       cli::cli_abort(
@@ -333,9 +338,9 @@ GuideSymbols <- ggproto(
     key <- params$key
     key$.symbol <- key$.symbol %||% TRUE
     if (params$position %in% c("top", "bottom")) {
-      key$.row <- key$.row %||% 1
+      key$.row <- key$.row %||% 1L
     } else {
-      key$.col <- key$.col %||% 1
+      key$.col <- key$.col %||% 1L
     }
     params$key <- key
     params
@@ -351,7 +356,7 @@ GuideSymbols <- ggproto(
         params$position,
         top = , bottom = setdiff(elements$text_position, c("top", "bottom")),
         setdiff(elements$text_position, c("left", "right"))
-      )[[1]]
+      )[[1L]]
     type <- if (any(params$aesthetic %in% c("x", "y"))) "axis" else "legend"
     elements$text <- elements$title <-
       setup_side_title(theme, elements$text_position, type)
@@ -360,7 +365,7 @@ GuideSymbols <- ggproto(
 
   build_labels = function(key, elements, params) {
     labels <- levels(key$.value)
-    if (length(labels) < 1) {
+    if (length(labels) < 1L) {
       return(NULL)
     }
     lapply(labels, function(lab) {
@@ -388,7 +393,7 @@ GuideSymbols <- ggproto(
       size_tracker <- point$size
       for (group_id in seq_len(n_groups)) {
         member <- level[groups[level] == group_id]
-        if (length(member) < 1) {
+        if (length(member) < 1L) {
           next
         }
         key_members <- vec_slice(key, member)
@@ -411,32 +416,30 @@ GuideSymbols <- ggproto(
     })
 
     size <- map_dbl(points, function(x) x$size)
-    size <- unit(size + height_cm(elements$spacing) * 10, "mm")
+    size <- unit(size + height_cm(elements$spacing) * 10.0, "mm")
     along <- seq_along(points)
 
-    zebra <- rep(list(
-      element_grob(elements$light),
-      element_grob(elements$dark)
-    ), length.out = length(size))
+    zebra <- list(element_grob(elements$light), element_grob(elements$dark))
+    zebra <- rep_len(zebra, length(size))
 
     if (params$position %in% c("top", "bottom")) {
-      gt <- gtable(widths = unit(1, "npc"), heights = size) |>
+      gt <- gtable(widths = unit(1.0, "npc"), heights = size) |>
         gtable_add_grob(
-          points, l = 1, t = along, z = 2,
+          points, l = 1L, t = along, z = 2L,
           name = paste0("symbols-", along)
         ) |>
         gtable_add_grob(
-          zebra, l = 1, t = along, z = 0,
+          zebra, l = 1L, t = along, z = 0L,
           name = paste0("zebra-", along)
         )
     } else {
-      gt <- gtable(widths = size, heights = unit(1, "npc")) |>
+      gt <- gtable(widths = size, heights = unit(1.0, "npc")) |>
         gtable_add_grob(
-          points, l = along, t = 1, z = 2,
+          points, l = along, t = 1L, z = 2L,
           name = paste0("symbols-", along)
         ) |>
         gtable_add_grob(
-          zebra, l = along, t = 1, z = 0,
+          zebra, l = along, t = 1L, z = 0L,
           name = paste0("zebra-", along)
         )
     }
@@ -445,11 +448,11 @@ GuideSymbols <- ggproto(
 
   measure_grobs = function(grobs, params, elements) {
     if (params$position %in% c("top", "bottom")) {
-      lab_height <- height_cm(grobs$labels %||% unit(0, "cm"))
+      lab_height <- height_cm(grobs$labels %||% unit(0.0, "cm"))
       tab_height <- height_cm(grobs$decor$heights)
       pmax(lab_height, tab_height)
     } else {
-      lab_width <- width_cm(grobs$labels %||% unit(0, "cm"))
+      lab_width <- width_cm(grobs$labels %||% unit(0.0, "cm"))
       tab_width <- width_cm(grobs$decor$widths)
       pmax(lab_width, tab_width)
     }
@@ -466,24 +469,24 @@ GuideSymbols <- ggproto(
       width <- unit(max(width_cm(labels)), "cm")
       table$heights <- unit(sizes, "cm")
       if (!is_zero(connectors)) {
-        table <- table |>
+        table <-
           gtable_add_grob(
-            connectors, l = 1, t = 1, b = -1,
+            table, connectors, l = 1L, t = 1L, b = -1L,
             name = "connectors", clip = "off"
           )
       }
       if (elems$text_position == "left") {
         table <- table |>
-          gtable_add_cols(c(-1, 1) * width, pos = 0) |>
+          gtable_add_cols(c(-1.0, 1.0) * width, pos = 0L) |>
           gtable_add_grob(
-            labels, t = along, l = 2,
+            labels, t = along, l = 2L,
             name = paste0("label-", along)
           )
       } else {
         table <- table |>
-          gtable_add_cols(c(1, -1) * width, pos = -1) |>
+          gtable_add_cols(c(1.0, -1.0) * width, pos = -1L) |>
           gtable_add_grob(
-            labels, t = along, l = 2,
+            labels, t = along, l = 2L,
             name = paste0("label-", along)
           )
       }
@@ -491,25 +494,25 @@ GuideSymbols <- ggproto(
       height <- unit(max(height_cm(labels)), "cm")
       table$widths <- unit(sizes, "cm")
       if (!is_zero(connectors)) {
-        table <- table |>
+        table <-
           gtable_add_grob(
-            connectors, l = 1, r = -1, t = 1,
+            table, connectors, l = 1L, r = -1L, t = 1L,
             name = "connectors", clip = "off"
           )
       }
       if (elems$text_position == "bottom") {
         table <- table |>
-          gtable_add_rows(c(1, -1) * height, pos = -1) |>
+          gtable_add_rows(c(1.0, -1.0) * height, pos = -1L) |>
           gtable_add_grob(
-            labels, t = 2, l = along,
+            labels, t = 2L, l = along,
             name = paste0("label-", along),
             clip = "off"
           )
       } else {
         table <- table |>
-          gtable_add_rows(c(-1, 1) * height, pos = 0) |>
+          gtable_add_rows(c(-1.0, 1.0) * height, pos = 0L) |>
           gtable_add_grob(
-            labels, t = 2, l = along,
+            labels, t = 2L, l = along,
             name = paste0("label-", along),
             clip = "off"
           )
@@ -519,17 +522,22 @@ GuideSymbols <- ggproto(
   }
 )
 
-check_connect_arg <- function(connect, arg = caller_arg(connect), env = caller_env()) {
+check_connect_arg <- function(
+  connect, arg = caller_arg(connect), env = caller_env()
+) {
   if (is.null(connect)) {
     return(invisible())
   }
   if (is.character(connect)) {
-    arg_match0(connect, c("perpendicular", "parallel"), arg_nm = arg, error_call = env)
+    arg_match0(
+      connect, c("perpendicular", "parallel"),
+      arg_nm = arg, error_call = env
+    )
     return(invisible())
   }
   cols <- c("value_start", "value_end", "level_start", "level_end")
   check_columns(connect, cols)
-  for (col in cols[3:4]) {
+  for (col in cols[3L:4L]) {
     check_object(
       connect[[col]],
       is_integerish,
@@ -548,11 +556,11 @@ draw_connectors <- function(decor, params, elems, sizes) {
 
   levels <- decor[[".level"]] %||% decor[[".col"]]
   if (params$position %in% c("top", "bottom")) {
-    oppo <- sum(sizes) - cumsum(sizes) + sizes / 2
+    oppo <- sum(sizes) - cumsum(sizes) + sizes / 2.0
     x <- unit(decor$x, "native")
     y <- unit(oppo[levels], "cm")
   } else {
-    oppo <- c(0, cumsum(sizes[-length(sizes)])) + sizes / 2
+    oppo <- c(0.0, cumsum(sizes[-length(sizes)])) + sizes / 2.0
     x <- unit(oppo[levels], "cm")
     y <- unit(decor$y, "native")
   }

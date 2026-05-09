@@ -26,9 +26,9 @@ test_that("compose_crux can compose a legend", {
 
   crux <- compose_crux(
     key = key_auto(),
-    centre = gizmo_grob(circleGrob(r = unit(2, "cm"))),
-    top = guides[[1]], bottom = guides[[2]],
-    left = guides[[3]], right = guides[[4]]
+    centre = gizmo_grob(circleGrob(r = unit(2.0, "cm"))),
+    top = guides[[1L]], bottom = guides[[2L]],
+    left = guides[[3L]], right = guides[[4L]]
   )
 
 

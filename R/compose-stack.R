@@ -46,7 +46,7 @@
 compose_stack <- function(
   ..., args = list(),
   key = NULL, title = waiver(), side.titles = waiver(),
-  angle = waiver(), theme = NULL, order = 0, drop = NULL,
+  angle = waiver(), theme = NULL, order = 0L, drop = NULL,
   position = waiver(), available_aes = NULL
 ) {
   new_compose(
@@ -115,21 +115,22 @@ ComposeStack <- ggproto(
         left = , right =
           setdiff(side_position, c("left", "right"))
       )
-      if (length(side_position) > 1) {
+      if (length(side_position) > 1L) {
         if (type == "axis") {
-          side_position <- side_position[1]
+          side_position <- side_position[1L]
         } else {
           # When we are a non-position guide, we don't want to interfere
           # with the title, so we try to avoid placing the side titles there
           title_position <- calc_element("legend.title.position", theme) %||%
             switch(params$direction, vertical = "top", horizontal = "left")
-          side_position <- setdiff(side_position, title_position)[1]
+          side_position <- setdiff(side_position, title_position)[1L]
         }
       }
       check_argmatch(side_position, .trbl)
       elements$side_titles <- setup_side_title(theme, side_position, type)
     }
-    elements <- ggproto_parent(self, Guide)$setup_elements(params, elements, theme)
+    elements <-
+      ggproto_parent(self, Guide)$setup_elements(params, elements, theme)
     elements$side_position <- side_position %||% elements$side_position
     elements
   },
@@ -144,7 +145,7 @@ ComposeStack <- ggproto(
   },
 
   build_title = function(label, elements, params) {
-    if (length(label) < 1) {
+    if (length(label) < 1L) {
       return(NULL)
     }
 
@@ -158,8 +159,8 @@ ComposeStack <- ggproto(
     x <- switch(side, left = , right = sides$x, element$hjust)
     y <- switch(side, top = , bottom = sides$y, element$vjust)
 
-    hjust <- switch(side, left = 1, right = 0, element$hjust)
-    vjust <- switch(side, top = 0, bottom = 1, element$vjust)
+    hjust <- switch(side, left = 1.0, right  = 0.0, element$hjust)
+    vjust <- switch(side, top  = 0.0, bottom = 1.0, element$vjust)
 
     lapply(label, function(lab) {
       element_grob(
@@ -173,7 +174,7 @@ ComposeStack <- ggproto(
   draw = function(self, theme, position = NULL, direction = NULL,
                   params = self$params) {
     n_guides <- length(params$guides)
-    if (n_guides < 1) {
+    if (n_guides < 1L) {
       return(zeroGrob())
     }
 
@@ -193,13 +194,13 @@ ComposeStack <- ggproto(
     draw_label <- !isFALSE(params$draw_label %||% TRUE)
 
     keep <- rep(TRUE, n_guides)
-    if (!draw_label && length(params$drop) > 0) {
-      drop <- intersect(params$drop %||% guide_index[-1], guide_index)
+    if (!draw_label && length(params$drop) > 0L) {
+      drop <- intersect(params$drop %||% guide_index[-1L], guide_index)
       keep[drop] <- FALSE
     }
 
     if (is_theta(position)) {
-      stack_offset <- unit(cm(params$stack_offset %||% 0), "cm")
+      stack_offset <- unit(cm(params$stack_offset %||% 0.0), "cm")
       offset <- stack_offset
       offset_ranges <- vector("list", n_guides)
       guide_index <- guide_index[keep]
@@ -243,7 +244,7 @@ ComposeStack <- ggproto(
 
     keep <- keep & !map_lgl(grobs, is_zero)
     grobs <- grobs[keep]
-    if (length(grobs) == 0) {
+    if (length(grobs) == 0L) {
       return(zeroGrob())
     }
     side_titles <- side_titles[keep]
@@ -261,16 +262,22 @@ ComposeStack <- ggproto(
     }
 
     if (position %in% c("bottom", "top")) {
-      gt <- gtable(widths = unit(1, "npc"), heights = unit(heights, "cm"))
-      gt <- gtable_add_grob(gt, grobs, t = along, l = 1, name = "stack", clip = "off")
-      gt <- add_side_titles(gt, side_titles, params$position)
-      gt <- gtable_add_row_space(gt, height = unit(elems$spacing, "cm"))
+      gt <- gtable(widths = unit(1.0, "npc"), heights = unit(heights, "cm")) |>
+        gtable_add_grob(
+          grobs, t = along, l = 1L,
+          name = "stack", clip = "off"
+        ) |>
+        add_side_titles(side_titles, params$position) |>
+        gtable_add_row_space(height = unit(elems$spacing, "cm"))
       vp <- viewport(y = origin, height = grobHeight(gt), just = just)
     } else {
-      gt <- gtable(widths = unit(widths, "cm"), heights = unit(1, "npc"))
-      gt <- gtable_add_grob(gt, grobs, t = 1, l = along, name = "stack", clip = "off")
-      gt <- add_side_titles(gt, side_titles, params$position)
-      gt <- gtable_add_col_space(gt, width = unit(elems$spacing, "cm"))
+      gt <- gtable(widths = unit(widths, "cm"), heights = unit(1.0, "npc")) |>
+        gtable_add_grob(
+          grobs, t = 1L, l = along,
+          name = "stack", clip = "off"
+        ) |>
+        add_side_titles(side_titles, params$position) |>
+        gtable_add_col_space(width = unit(elems$spacing, "cm"))
       vp <- viewport(x = origin, width = grobWidth(gt), just = just)
     }
 
@@ -311,13 +318,13 @@ add_side_titles <- function(gt, titles, position) {
     return(gt)
   }
   along <- seq_along(titles)
-  t <- switch(position, left = , right = 1, top  = rev(along), bottom = along)
-  l <- switch(position, top = , bottom = 1, left = rev(along), right  = along)
+  t <- switch(position, left = , right = 1L, top  = rev(along), bottom = along)
+  l <- switch(position, top = , bottom = 1L, left = rev(along), right  = along)
   gtable_add_grob(gt, titles, t = t, l = l, clip = "off", name = "side titles")
 }
 
 theta_side_titles <- function(label, elements, params, ranges) {
-  if (length(label) < 1) {
+  if (length(label) < 1L) {
     return(zeroGrob())
   }
 
@@ -338,13 +345,13 @@ theta_side_titles <- function(label, elements, params, ranges) {
   rad <- origin$theta
 
   if (position == "theta") {
-    dir <- switch(side, left = 1, right = -1)
+    dir <- switch(side, left = 1.0, right = -1.0)
   } else {
     rad <- rad + pi
-    dir <- switch(side, left = -1, right = 1)
+    dir <- switch(side, left = -1.0, right = 1.0)
   }
 
-  hjust <- switch(side, left = 1, right = 0, elements$hjust)
+  hjust <- switch(side, left = 1.0, right = 0.0, elements$hjust)
   margin <- max(cm(element$margin)) * dir
 
   xoffset <- sin(rad) * just - cos(rad) * margin
@@ -353,11 +360,11 @@ theta_side_titles <- function(label, elements, params, ranges) {
   x <- unit(origin$x, "npc") + unit(xoffset, "cm")
   y <- unit(origin$y, "npc") + unit(yoffset, "cm")
 
-  angle <- -rad2deg(origin$theta) %% 360
-  flip  <- angle > 90 & angle < 270
+  angle <- -rad2deg(origin$theta) %% 360.0
+  flip  <- angle > 90.0 & angle < 270.0
   if (flip) {
-    angle <- angle + 180
-    hjust <- 1 - hjust
+    angle <- angle + 180.0
+    hjust <- 1.0 - hjust
   }
 
   element_grob(
@@ -370,8 +377,8 @@ theta_side_titles <- function(label, elements, params, ranges) {
 get_sides <- function(coord = NULL, panel_params = NULL) {
 
   if (is.null(panel_params)) {
-    x <- c(0, 1)
-    y <- c(0, 1)
+    x <- c(0.0, 1.0)
+    y <- c(0.0, 1.0)
   } else {
     x <- panel_params$x.range %||%
       switch(coord$theta, x = panel_params$theta.range, panel_params$r.range)
@@ -380,11 +387,11 @@ get_sides <- function(coord = NULL, panel_params = NULL) {
   }
 
   df <- data_frame0(
-    position = rep(.trbl, each = 2),
-    side     = rep(.trbl[c(4, 2, 1, 3)], 2),
-    x = x[c(1, 2, 2, 2, 1, 2, 1, 1)],
-    y = y[c(2, 2, 2, 1, 1, 1, 2, 1)],
-    group = 1:8
+    position = rep(.trbl, each = 2L),
+    side     = rep(.trbl[c(4L, 2L, 1L, 3L)], 2L),
+    x = x[c(1L, 2L, 2L, 2L, 1L, 2L, 1L, 1L)],
+    y = y[c(2L, 2L, 2L, 1L, 1L, 1L, 2L, 1L)],
+    group = 1L:8L
   )
   if (is.null(coord)) {
     return(df)

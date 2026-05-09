@@ -37,7 +37,7 @@
 compose_ontop <- function(
   ..., args = list(),
   key = NULL, title = waiver(),
-  angle = waiver(), theme = NULL, order = 0,
+  angle = waiver(), theme = NULL, order = 0L,
   position = waiver(), available_aes = NULL
 ) {
   new_compose(
@@ -75,7 +75,7 @@ ComposeOntop <- ggproto(
     grobs <- vector("list", n_guides)
 
     if (is_theta(position)) {
-      stack_offset <- unit(cm(params$stack_offset %||% 0), "cm")
+      stack_offset <- unit(cm(params$stack_offset %||% 0.0), "cm")
       offset <- stack_offset
 
       for (i in guide_index) {
@@ -111,7 +111,7 @@ ComposeOntop <- ggproto(
 
     keep  <- !map_lgl(grobs, is_zero)
     grobs <- grobs[keep]
-    if (length(grobs) == 0) {
+    if (length(grobs) == 0L) {
       return(zeroGrob())
     }
 
@@ -124,13 +124,13 @@ ComposeOntop <- ggproto(
 
     if (position %in% c("bottom", "top")) {
       height <- unit(max(heights), "cm")
-      gt <- gtable(widths = unit(1, "npc"), heights = height)
-      gt <- gtable_add_grob(gt, grobs, t = 1, l = 1, name = names, clip = "off")
+      gt <- gtable(widths = unit(1.0, "npc"), heights = height)
+      gt <- gtable_add_grob(gt, grobs, t = 1L, l = 1L, name = names, clip = "off")
       vp <- viewport(y = origin, height = height, just = just)
     } else {
       width <- unit(max(widths), "cm")
-      gt <- gtable(widths = width, heights = unit(1, "npc"))
-      gt <- gtable_add_grob(gt, grobs, t = 1, l = 1, name = names, clip = "off")
+      gt <- gtable(widths = width, heights = unit(1.0, "npc"))
+      gt <- gtable_add_grob(gt, grobs, t = 1L, l = 1L, name = names, clip = "off")
       vp <- viewport(x = origin, width = width, just = just)
     }
     absoluteGrob(

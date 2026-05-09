@@ -6,16 +6,22 @@ test_that("key_group_split works correctly", {
 
   # Standard case
   test <- key_group_split(sep = ":")(scale, "colour")
-  expect_equal(
+  expect_identical(
     test[c(".label", ".group")],
-    data.frame(.label = factor(c("B", "D", "F")), .group = factor(c("A", "C", "E")))
+    data.frame(
+      .label = factor(c("B", "D", "F")),
+      .group = factor(c("A", "C", "E"))
+    )
   )
 
   # Test reverse argument
   test <- key_group_split(sep = ":", reverse = TRUE)(scale, "colour")
-  expect_equal(
+  expect_identical(
     test[c(".label", ".group")],
-    data.frame(.label = factor(c("A", "C", "E")), .group = factor(c("B", "D", "F")))
+    data.frame(
+      .label = factor(c("A", "C", "E")),
+      .group = factor(c("B", "D", "F"))
+    )
   )
 
   # Missing label
@@ -23,9 +29,12 @@ test_that("key_group_split works correctly", {
   scale$train(c("A", "C:D", "E:F"))
 
   test <- key_group_split(sep = ":")(scale, "colour")
-  expect_equal(
+  expect_identical(
     test[c(".label", ".group")],
-    data.frame(.label = factor(c("", "D", "F")), .group = factor(c("A", "C", "E")))
+    data.frame(
+      .label = factor(c("", "D", "F")),
+      .group = factor(c("A", "C", "E"))
+    )
   )
 
   # Too many labels
@@ -33,9 +42,12 @@ test_that("key_group_split works correctly", {
   scale$train(c("A:B", "C:D", "E:F:G"))
 
   test <- key_group_split(sep = ":")(scale, "colour")
-  expect_equal(
+  expect_identical(
     test[c(".label", ".group")],
-    data.frame(.label = factor(c("B", "D", "F G")), .group = factor(c("A", "C", "E")))
+    data.frame(
+      .label = factor(c("B", "D", "F G")),
+      .group = factor(c("A", "C", "E"))
+    )
   )
 
   # Expression labels
@@ -50,7 +62,7 @@ test_that("key_group_split works correctly", {
 test_that("key_group_lut works as intended", {
 
   levels <- c("Coffee", "Tea", "Soda", "Water")
-  groups <- rep(c("Hot drinks", "Cold drinks"), each = 2)
+  groups <- rep(c("Hot drinks", "Cold drinks"), each = 2L)
 
   sc <- scale_colour_hue()
   sc$train(levels)
@@ -59,8 +71,11 @@ test_that("key_group_lut works as intended", {
   key <- key_group_lut(levels,  groups)
   test <- key(sc, "colour")
 
-  expect_equal(test$.label, c(levels, "Car"))
-  expect_equal(test$.group, factor(c(groups, "Other"), unique(c(groups, "Other"))))
+  expect_identical(test$.label, c(levels, "Car"))
+  expect_identical(
+    test$.group,
+    factor(c(groups, "Other"), unique(c(groups, "Other")))
+  )
 
   # Mismatched lengths
   levels <- c("A", "B")

@@ -14,9 +14,13 @@ test_that("primitive_ticks works as axis", {
   p <- base +
     guides(
       x     = primitive_ticks(),
-      x.sec = primitive_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),
+      x.sec = primitive_ticks(
+        theme = theme(axis.ticks.length = unit(-2.0, "mm"))
+      ),
       y     = primitive_ticks(),
-      y.sec = primitive_ticks(theme = theme(axis.ticks = element_line(colour = "red")))
+      y.sec = primitive_ticks(
+        theme = theme(axis.ticks = element_line(colour = "red"))
+      )
     )
 
   vdiffr::expect_doppelganger("primitive_ticks cartesian", p)
@@ -25,9 +29,13 @@ test_that("primitive_ticks works as axis", {
     coord_radial(start = 0.25 * pi, end = 1.75 * pi, inner.radius = 0.5) +
     guides(
       theta     = primitive_ticks(),
-      theta.sec = primitive_ticks(theme = theme(axis.ticks.length = unit(-2, "mm"))),
+      theta.sec = primitive_ticks(
+        theme = theme(axis.ticks.length = unit(-2.0, "mm"))
+      ),
       r         = primitive_ticks(),
-      r.sec = primitive_ticks(theme = theme(axis.ticks = element_line(colour = "red")))
+      r.sec = primitive_ticks(
+        theme = theme(axis.ticks = element_line(colour = "red"))
+      )
     )
 
   vdiffr::expect_doppelganger("primitive_ticks radial", p)
@@ -44,7 +52,7 @@ test_that("primitive_ticks works as legend", {
     ) +
     geom_point() +
     guides(
-      colour = primitive_ticks(key = key_manual(c(100, 300))),
+      colour = primitive_ticks(key = key_manual(c(100.0, 300.0))),
       fill = primitive_ticks(position = "bottom")
     )
 
@@ -55,11 +63,11 @@ test_that("primitive_ticks works as legend", {
 test_that("draw_ticks works with theta position", {
 
   ticks <- draw_ticks(
-    key = data.frame(x = 1, y = 0, theta = 0, r = 0),
+    key = data.frame(x = 1.0, y = 0.0, theta = 0.0, r = 0.0),
     theme_gray()$line,
     list(),
     "theta",
-    1
+    1.0
   )
   expect_s3_class(ticks, "polyline")
 })

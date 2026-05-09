@@ -32,17 +32,25 @@ primitive_grob <- function(grob, size, position, name) {
   opposite <- opposite_position(position)
 
   if (position %in% c("top", "bottom")) {
-    width  <- unit(1, "npc")
+    width  <- unit(1.0, "npc")
     height <- size
     vp     <- viewport(y = origin, height = sum(size), just = opposite)
-    gt <- gtable(widths = width, heights = height)
-    gt <- gtable_add_grob(gt, grob, t = seq_along(size), l = 1L, clip = "off", name = name)
+    gt <-
+      gtable(widths = width, heights = height) |>
+      gtable_add_grob(
+        grob, t = seq_along(size), l = 1L,
+        clip = "off", name = name
+      )
   } else {
-    height <- unit(1, "npc")
+    height <- unit(1.0, "npc")
     width  <- size
     vp     <- viewport(x = origin, width = sum(size), just = opposite)
-    gt <- gtable(widths = width, heights = height)
-    gt <- gtable_add_grob(gt, grob, t = 1L, l = seq_along(size), clip = "off", name = name)
+    gt <-
+      gtable(widths = width, heights = height) |>
+      gtable_add_grob(
+        grob, t = 1L, l = seq_along(size),
+        clip = "off", name = name
+      )
   }
 
   absoluteGrob(gList(gt), width = sum(width), height = sum(height), vp = vp)
@@ -67,11 +75,11 @@ primitive_setup_elements <- function(params, elements, theme) {
   }
   is_char <- map_lgl(elements, is.character)
   elements[is_char] <- lapply(elements[is_char], calc_element, theme = theme)
-  elements$offset <- cm(params$stack_offset %||% 0)
+  elements$offset <- cm(params$stack_offset %||% 0.0)
   elements
 }
 
-primitive_extract_params = function(scale, params, ...) {
+primitive_extract_params <- function(scale, params, ...) {
   params$position <- params$position %|W|% NULL
   params$limits   <- scale$get_limits()
   params
@@ -82,10 +90,11 @@ primitive_setup_params <- function(params) {
     return(params)
   }
 
+  bottom_left <- params$position %in% c("left", "bottom")
   if (!is_empty(params$key)) {
     key   <- params$key
     value <- guide_rescale(key$.value, params$limits)
-    oppo  <- key$oppo %||% as.numeric(params$position %in% c("left", "bottom"))
+    oppo  <- key$oppo %||% as.numeric(bottom_left)
     key$x <- key$x %||% switch(params$position, left = , right = oppo, value)
     key$y <- key$y %||% switch(params$position, bottom = , top = oppo, value)
     params$key <- key
@@ -94,7 +103,7 @@ primitive_setup_params <- function(params) {
   decor <- params$decor
   if (!is_empty(params$decor)) {
     decor <- params$decor
-    oppo  <- decor$oppo %||% as.numeric(params$position %in% c("left", "bottom"))
+    oppo  <- decor$oppo %||% as.numeric(bottom_left)
     decor$x <- decor$x %||% switch(params$position, left = , right = oppo, 0.5)
     decor$y <- decor$y %||% switch(params$position, bottom = , top = oppo, 0.5)
     params$decor <- decor

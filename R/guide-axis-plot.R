@@ -97,10 +97,10 @@
 #' main_plot + guides(x = guide_axis_plot(
 #'   main_plot + guides(x = guide_axis_plot(x_plot))
 #' ))
-guide_axis_plot <- function(plot, title = NULL, size = unit(2, "cm"),
-                            reposition = TRUE,
-                            theme = theme_sub_legend(position = "none"),
-                            position = waiver()) {
+guide_axis_plot <- function(
+  plot, title = NULL, size = unit(2.0, "cm"), reposition = TRUE,
+  theme = theme_sub_legend(position = "none"), position = waiver()
+) {
 
   if (!is_function(plot)) {
     check_side_plot(plot)
@@ -161,7 +161,7 @@ GuideAxisPlot <- ggproto(
     side_reverse <- params$plot@coordinates$reverse %||% "none"
     new_reverse  <- "none"
 
-    main <- params$aesthetic[1]
+    main <- params$aesthetic[1L]
     oppo <- setdiff(c("x", "y"), main)
 
     # Let's presume this is an x-axis,
@@ -184,15 +184,16 @@ GuideAxisPlot <- ggproto(
     if (main_reverse %in% c("none", oppo)) {
       if (side_reverse %in% c("none", main)) {
         new_reverse <- "none"
-      } else { # guide_reveral %in% c("xy", oppo)
+      } else {
+        # guide_reveral %in% c("xy", oppo)
         new_reverse <- oppo
       }
-    } else { # main_reverse %in% c("xy", main)
-      if (side_reverse %in% c("none", main)) {
-        new_reverse <- main
-      } else { # guide_reverse %in%
-        new_reverse <- "xy"
-      }
+    } else if (side_reverse %in% c("none", main)) {
+      # main_reverse %in% c("xy", main)
+      new_reverse <- main
+    } else {
+      # guide_reverse %in%
+      new_reverse <- "xy"
     }
 
     if (new_reverse != side_reverse) {
@@ -213,7 +214,7 @@ GuideAxisPlot <- ggproto(
       )
     }
 
-    return(params)
+    params
   },
 
   draw = function(self, theme, position = NULL, direction = NULL,
@@ -238,59 +239,77 @@ GuideAxisPlot <- ggproto(
     if (params$position %in% c("top", "bottom")) {
 
       panels <- panel_cols(plot)
-      mid    <- plot[, (panels$l[1]:panels$r[1])]
+      mid    <- plot[, (panels$l[1L]:panels$r[1L])]
 
       # Prepare plot parts to the left of the main panel
-      left <- plot[, idx_before(ncol(plot), panels$l[1])]
+      left <- plot[, idx_before(ncol(plot), panels$l[1L])]
       left_vp <- viewport(
-        just = "right", x = 1,
+        just = "right", x = 1.0,
         width = unit(sum(width_cm(left$widths)), "cm")
       )
       left <- editGrob(left, vp = left_vp)
 
       # Perpare plot parts to the right of the main panel
-      right <- plot[, idx_after(ncol(plot), panels$r[1])]
+      right <- plot[, idx_after(ncol(plot), panels$r[1L])]
       right_vp <- viewport(
-        just = "left", x = 0,
+        just = "left", x = 0.0,
         width = unit(sum(width_cm(right$widths)), "cm")
       )
       right <- editGrob(right, vp = right_vp)
 
       # Reassemble in gtable where only middle part has width
       height <- sum(plot$heights)
-      gt <- gtable(widths = unit(c(0, 1, 0), "npc"), heights = height) |>
-        gtable_add_grob(mid,   t = 1, l = 2, clip = "off", name = "plot") |>
-        gtable_add_grob(left,  t = 1, l = 1, clip = "off", name = "left-decor") |>
-        gtable_add_grob(right, t = 1, l = 3, clip = "off", name = "right-decor") |>
+      gt <- gtable(widths = unit(c(0.0, 1.0, 0.0), "npc"), heights = height) |>
+        gtable_add_grob(
+          mid, t = 1L, l = 2L,
+          clip = "off", name = "plot"
+        ) |>
+        gtable_add_grob(
+          left, t = 1L, l = 1L,
+          clip = "off", name = "left-decor"
+        ) |>
+        gtable_add_grob(
+          right, t = 1L, l = 3L,
+          clip = "off", name = "right-decor"
+        ) |>
         gList() |>
         absoluteGrob(height = height)
 
     } else {
 
       panels <- panel_rows(plot)
-      mid    <- plot[(panels$t[1]:panels$b[1])]
+      mid    <- plot[(panels$t[1L]:panels$b[1L])]
 
       # Prepare plot parts above the main panel
-      top <- plot[idx_before(nrow(plot), panels$t[1]), ]
+      top <- plot[idx_before(nrow(plot), panels$t[1L]), ]
       top_vp <- viewport(
-        just = "bottom", y = 0,
+        just = "bottom", y = 0.0,
         height = unit(sum(height_cm(top$heights)), "cm")
       )
       top <- editGrob(top, vp = top_vp)
 
       # Prepare plot parts below the main panel
-      bottom <- plot[idx_after(nrow(plot), panels$b[1]),  ]
+      bottom <- plot[idx_after(nrow(plot), panels$b[1L]),  ]
       bottom_vp <- viewport(
-        just = "top", y = 1,
+        just = "top", y = 1.0,
         height = unit(sum(height_cm(bottom$heights)), "cm")
       )
       bottom <- editGrob(bottom, vp = bottom_vp)
 
       width <- sum(plot$widths)
-      gt <- gtable(widths = width, heights = unit(c(0, 1, 0), "npc")) |>
-        gtable_add_grob(mid,    t = 2, l = 1, clip = "off", name = "plot") |>
-        gtable_add_grob(top,    t = 1, l = 1, clip = "off", name = "top-decor") |>
-        gtable_add_grob(bottom, t = 3, l = 1, clip = "off", name = "bottom-decor") |>
+      gt <- gtable(widths = width, heights = unit(c(0.0, 1.0, 0.0), "npc")) |>
+        gtable_add_grob(
+          mid, t = 2L, l = 1L,
+          clip = "off", name = "plot"
+        ) |>
+        gtable_add_grob(
+          top, t = 1L, l = 1L,
+          clip = "off", name = "top-decor"
+        ) |>
+        gtable_add_grob(
+          bottom, t = 3L, l = 1L,
+          clip = "off", name = "bottom-decor"
+        ) |>
         gList() |>
         absoluteGrob(width = width)
     }
@@ -305,10 +324,11 @@ check_side_plot <- function(x, arg = caller_arg(x), call = caller_env()) {
   check_object(x, is_ggplot, "a {.cls ggplot} object", arg = arg, call = call)
 
   if (!inherits(x@facet, "FacetNull")) {
-    facet_class <- class(x@facet)[1]
+    facet_class <- class(x@facet)[1L]
     cli::cli_abort(c(
-      "The {.arg {arg}} argument cannot have facets of class {.cls {facet_class}}.",
-      `i` = "Only {.fn facet_null} is supported."
+      "The {.arg {arg}} argument cannot have facets of class \\
+      {.cls {facet_class}}.",
+      i = "Only {.fn facet_null} is supported."
     ), call = call)
   }
   if (!x@coordinates$is_linear()) {
@@ -319,4 +339,3 @@ check_side_plot <- function(x, arg = caller_arg(x), call = caller_env()) {
   }
   invisible()
 }
-

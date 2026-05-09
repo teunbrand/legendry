@@ -1,7 +1,7 @@
 test_that("legend cross labels can be placed anywhere", {
 
-  p <- ggplot(data.frame(colour = c("A:a", "B:a", "C:a", "A:b", "C:b"))) +
-    geom_point(aes(1:5, 1:5, colour = colour)) +
+  p <- ggplot(data_frame0(colour = c("A:a", "B:a", "C:a", "A:b", "C:b"))) +
+    geom_point(aes(1L:5L, 1L:5L, colour = colour)) +
     scale_colour_discrete(guide = guide_legend_cross())
 
   build <- ggplot_build(p)
@@ -26,7 +26,7 @@ test_that("legend cross labels can be placed anywhere", {
   gt <- gtable(unit(c(0.5, 0.5), "null"), unit(c(0.5, 0.5), "null"))
   gt <- gtable_add_grob(
     gt, grobs,
-    t = c(2, 1, 2, 1), l = c(1, 1, 2, 2)
+    t = c(2L, 1L, 2L, 1L), l = c(1L, 1L, 2L, 2L)
   )
 
   vdiffr::expect_doppelganger(
@@ -36,8 +36,8 @@ test_that("legend cross labels can be placed anywhere", {
 })
 
 test_that("cross legend can be constructed from single scale", {
-  df <- data.frame(
-    x = 1:5, y = 1:5,
+  df <- data_frame0(
+    x = 1L:5L, y = 1L:5L,
     z = c("A:1", "A:2", "B:2", "C:1", "C:2")
   )
 
@@ -62,8 +62,8 @@ test_that("cross legend can be constructed from single scale", {
 
 test_that("cross legend can be constructed from dual scales", {
 
-  df <- data.frame(
-    x = 1:5, y = 1:5,
+  df <- data_frame0(
+    x = 1L:5L, y = 1L:5L,
     v = c("A", "A", "B", "C", "C"),
     w = c("1", "2", "2", "1", "2")
   )
@@ -97,13 +97,13 @@ test_that("cross legend can be constructed from dual scales", {
 test_that("subtitles are placed correctly", {
 
   placement <- position_text(
-    angle  = c(0, 270, 180, 90),
+    angle  = c(0.0, 270.0, 180.0, 90.0),
     colour = c("orchid", "tomato", "dodgerblue", "limegreen"),
     hjust  = 0.5
   )
 
-  df <- data.frame(
-    x = 1:5, y = 1:5,
+  df <- data_frame0(
+    x = 1L:5L, y = 1L:5L,
     z = c("A:1", "A:2", "B:2", "C:1", "C:2")
   )
 
@@ -139,8 +139,8 @@ test_that("subtitles are placed correctly", {
 
 test_that("merge strategies work as intended", {
 
-  df <- data.frame(
-    x = 1:5, y = 1:5,
+  df <- data_frame0(
+    x = 1L:5L, y = 1L:5L,
     v = c("A", "A", "B", "C", "C"),
     w = c("1", "2", "2", "1", "2")
   )
@@ -155,8 +155,8 @@ test_that("merge strategies work as intended", {
 
   build <- ggplot_build(p)
   key <- build$plot$guides$get_params(1L)$key
-  expect_equal(key$.row_label, c("A", "A", "B", "B", "C", "C"))
-  expect_equal(key$.col_label, c("1", "2", "1", "2", "1", "2"))
+  expect_identical(key$.row_label, c("A", "A", "B", "B", "C", "C"))
+  expect_identical(key$.col_label, c("1", "2", "1", "2", "1", "2"))
 
   # Uses the 'partial' strategy
   p <- ggplot(df, aes(x, y, colour = paste(v, w), shape = w)) +
@@ -166,11 +166,11 @@ test_that("merge strategies work as intended", {
 
   build <- ggplot_build(p)
   key <- build$plot$guides$get_params(1L)$key
-  expect_equal(key$.row_label, factor(rep(c("1", "2"), each = 3L)))
-  expect_equal(key$.col_label, factor(c("A", "B", "C", "A", "B", "C")))
+  expect_identical(key$.row_label, factor(rep(c("1", "2"), each = 3L)))
+  expect_identical(key$.col_label, factor(c("A", "B", "C", "A", "B", "C")))
   # The B-1 combination does not exist in the data
-  expect_true(is.na(key$colour[2]))
-  expect_false(is.na(key$shape[2]))
+  expect_true(is.na(key$colour[2L]))
+  expect_false(is.na(key$shape[2L]))
 
   # Uses the 'complete' strategy
   guide <- guide_legend_cross(title = "cross legend")
@@ -181,17 +181,17 @@ test_that("merge strategies work as intended", {
 
   build <- ggplot_build(p)
   key <- build$plot$guides$get_params(1L)$key
-  expect_equal(key$.row_label, factor(rep(c("1", "2"), each = 3L)))
-  expect_equal(key$.col_label, factor(c("A", "B", "C", "A", "B", "C")))
+  expect_identical(key$.row_label, factor(rep(c("1", "2"), each = 3L)))
+  expect_identical(key$.col_label, factor(c("A", "B", "C", "A", "B", "C")))
   # The B-1 combination does not exist in the data
-  expect_true(is.na(key$colour[2]))
-  expect_true(is.na(key$shape[2]))
+  expect_true(is.na(key$colour[2L]))
+  expect_true(is.na(key$shape[2L]))
 
   # Edge cases
-  a <- data.frame(foo = 1:2, .row_label = 1:2, .col_label = 1:2)
-  b <- data.frame(bar = 3:4, .row_label = 3:4, .col_label = 3:4)
+  a <- data.frame(foo = 1L:2L, .row_label = 1L:2L, .col_label = 1L:2L)
+  b <- data.frame(bar = 3L:4L, .row_label = 3L:4L, .col_label = 3L:4L)
   expect_error(cross_merge_complete(a, b), "Cannot merge")
   expect_error(cross_merge_partial(a, b), "Cannot match")
-  d <- data.frame(qux = 1:2, .label = c("A", "B"))
-  expect_equal(d, cross_merge_incomplete(d, d))
+  d <- data_frame0(qux = 1L:2L, .label = c("A", "B"))
+  expect_identical(d, cross_merge_incomplete(d, d))
 })

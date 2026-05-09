@@ -36,7 +36,8 @@
 #' p + guides(y = guide_axis_dendro(clust))
 #'
 #' # Adding ticks and axis line
-#' p + guides(y = guide_axis_dendro(clust, ticks = "ticks", axis_line = "line")) +
+#' p +
+#'   guides(y = guide_axis_dendro(clust, ticks = "ticks", axis_line = "line")) +
 #'   theme(axis.line = element_line())
 #'
 #' # Controlling space allocated to dendrogram
@@ -47,15 +48,15 @@
 #' p + guides(y = guide_axis_dendro(clust, labels = FALSE), y.sec = "axis")
 guide_axis_dendro <- function(
   key = "dendro", title = waiver(), theme = NULL,
-  labels = TRUE, space = rel(10), vanish = TRUE,
-  n.dodge = 1, angle = waiver(), check.overlap = FALSE,
+  labels = TRUE, space = rel(10.0), vanish = TRUE,
+  n.dodge = 1L, angle = waiver(), check.overlap = FALSE,
   ticks = "none", axis_line = "none",
-  order = 0, position = waiver()
+  order = 0L, position = waiver()
 ) {
 
   theme <- replace_null(
     theme %||% theme(),
-    legendry.guide.spacing = unit(0, "cm")
+    legendry.guide.spacing = unit(0.0, "cm")
   )
 
   if (isTRUE(labels)) {
@@ -72,7 +73,7 @@ guide_axis_dendro <- function(
   } else if (isFALSE(ticks)) {
     ticks <- "none"
   }
-  if(isTRUE(axis_line)) {
+  if (isTRUE(axis_line)) {
     axis_line <- primitive_line()
   } else if (isFALSE(axis_line)) {
     axis_line <- "none"

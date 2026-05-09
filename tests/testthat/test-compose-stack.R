@@ -15,7 +15,7 @@ test_that("compose_stack works as axis line", {
   stack <- compose_stack(
     "line", "ticks", "labels", spacer, "ticks", "line",
     side.titles = c("", "A", "", "", "B", ""),
-    theme = theme(legendry.guide.spacing = unit(0, "pt"))
+    theme = theme(legendry.guide.spacing = unit(0.0, "pt"))
   )
 
   p <- base +
@@ -46,18 +46,18 @@ test_that("theta_side_titles does not error", {
   )
 
   test <- withr::with_pdf(
-    tempfile(fileext = '.pdf'),
+    tempfile(fileext = ".pdf"),
     theta_side_titles(
       label = c("A", "B"),
       elements,
-      ranges = list(c(0, 0.4), c(0, 0.4)),
+      ranges = list(c(0.0, 0.4), c(0.0, 0.4)),
       params = list(
         position = "theta",
-        sides = data.frame(
+        sides = data_frame0(
           theta = c(5.5, 0.8),
           r     = c(0.4, 0.4),
           position = c("left", "left"),
-          group = 1:2,
+          group = 1L:2L,
           x = c(0.2, 0.6),
           y = c(0.9, 0.75),
           side = c("left", "left")

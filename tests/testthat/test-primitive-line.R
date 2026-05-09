@@ -1,9 +1,9 @@
 
 test_that("check_cap_arg wors", {
 
-  expect_type( check_cap_arg(TRUE), "closure")
-  expect_equal(check_cap_arg(FALSE), c(-Inf, Inf))
-  expect_type( check_cap_arg("upper"), "closure")
+  expect_type(check_cap_arg(TRUE), "closure")
+  expect_identical(check_cap_arg(FALSE), c(-Inf, Inf))
+  expect_type(check_cap_arg("upper"), "closure")
   expect_snapshot_error(check_cap_arg(NA))
   expect_error(
     check_cap_arg(environment()),
@@ -28,9 +28,9 @@ test_that("primitive_line works as axis line", {
     guides(
       x     = primitive_line(),
       x.sec = primitive_line(cap = "both"),
-      y     = primitive_line(cap = c(15, 25, 35, 40)),
+      y     = primitive_line(cap = c(15.0, 25.0, 35.0, 40.0)),
       y.sec = primitive_line(cap = function(breaks, limits) {
-        c(min(breaks, na.rm = TRUE), limits[2])
+        c(min(breaks, na.rm = TRUE), limits[2L])
       })
     )
 
@@ -41,9 +41,9 @@ test_that("primitive_line works as axis line", {
     guides(
       theta.sec = primitive_line(),
       theta     = primitive_line(cap = "both"),
-      r         = primitive_line(cap = c(15, 25, 35, 40)),
+      r         = primitive_line(cap = c(15.0, 25.0, 35.0, 40.0)),
       r.sec     = primitive_line(cap = function(breaks, limits) {
-        c(min(breaks, na.rm = TRUE), limits[2])
+        c(min(breaks, na.rm = TRUE), limits[2L])
       })
     )
 
@@ -69,5 +69,3 @@ test_that("primitive_line works as legend", {
   vdiffr::expect_doppelganger("primitive_line legend", p)
 
 })
-
-

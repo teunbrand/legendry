@@ -40,7 +40,7 @@ new_compose <- function(guides, args = list(), ...,
                         call = caller_env(), super = Compose) {
 
   guides <- lapply(guides, validate_guide, args = args, call = call)
-  if (length(guides) < 1) {
+  if (length(guides) < 1L) {
     cli::cli_abort("There must be at least one guide to compose.", call = call)
   }
 
@@ -76,12 +76,12 @@ Compose <- ggproto(
                    title = waiver(), ...) {
     title <- scale$make_title(params$title, scale$name, title)
     position  <- params$position  <- params$position %|W|% NULL
-    aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1]
+    aesthetic <- params$aesthetic <- aesthetic %||% scale$aesthetics[1L]
     check_position(position, inside = TRUE, allow_null = TRUE)
 
     key <- resolve_key(params$key, allow_null = TRUE)
     if (is.function(key)) {
-      key <- key(scale, aesthetic %||% scale$aesthetics[1])
+      key <- key(scale, aesthetic %||% scale$aesthetics[1L])
     }
     params$key <- NULL
     any_title <- FALSE
@@ -152,7 +152,7 @@ compatible_aes <- function(guides, available_aes, call = caller_env()) {
   available <- lapply(guides[valid], `[[`, name = "available_aes")
   common <- Reduce(any_intersect, available)
 
-  if (length(common) < 1) {
+  if (length(common) < 1L) {
     cli::cli_abort(
       "The guides to combine have no shared {.field available aesthetics}.",
       call = call
@@ -160,7 +160,7 @@ compatible_aes <- function(guides, available_aes, call = caller_env()) {
   }
   if (!is.null(available_aes)) {
     common <- any_intersect(available_aes, common)
-    if (length(common) < 1) {
+    if (length(common) < 1L) {
       cli::cli_abort(c(
         "The guides have incompatible {.arg available_aes} settings.",
         "They must include {.or {.val {available_aes}}}."
@@ -175,7 +175,7 @@ any_intersect <- function(x, y) {
     x <- union(x, setdiff(y, c("x", "y", "r", "theta")))
   }
   if ("any" %in% y) {
-    y <- union(y, setdiff(x, c("x", "y", "r", 'theta')))
+    y <- union(y, setdiff(x, c("x", "y", "r", "theta")))
   }
   intersect(x, y)
 }
@@ -184,10 +184,16 @@ validate_guide <- function(guide, args = list(), env = global_env(),
                            call = caller_env()) {
   input <- guide
   if (is.character(guide)) {
-    guide <- find_global(paste0("guide_", input), env = env, mode = "function")
+    guide <- find_global(
+      paste0("guide_", input),
+      env = env, mode = "function"
+    )
   }
   if (is.null(guide) && is.character(input)) {
-    guide <- find_global(paste0("primitive_", input), env = env, mode = "function")
+    guide <- find_global(
+      paste0("primitive_", input),
+      env = env, mode = "function"
+    )
   }
   if (is.function(guide)) {
     args  <- args[intersect(names(args), fn_fmls_names(guide))]
@@ -201,11 +207,11 @@ validate_guide <- function(guide, args = list(), env = global_env(),
 
 accumulate_limits <- function(...) {
   args <- list2(...)
-  args <- args[lengths(args) > 0]
-  if (length(args) == 0) {
+  args <- args[lengths(args) > 0L]
+  if (length(args) == 0L) {
     return(NULL)
   }
-  if (is.character(args[[1]])) {
+  if (is.character(args[[1L]])) {
     unique(unlist(args))
   } else {
     inject(range(!!!args, na.rm = TRUE))
@@ -223,7 +229,8 @@ get_limits <- function(params) {
 
 set_limits <- function(params, limits) {
   if ("guide_params" %in% names(params)) {
-    params$guide_params <- lapply(params$guide_params, set_limits, limits = limits)
+    params$guide_params <-
+      lapply(params$guide_params, set_limits, limits = limits)
   }
   params$limits <- limits
   params

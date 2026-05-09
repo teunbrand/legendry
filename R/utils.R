@@ -29,11 +29,11 @@ eval_aes <- function(
 
   values <- lapply(mapping, eval_tidy, data = data)
   sizes  <- list_sizes(values)
-  values <- values[sizes > 0]
+  values <- values[sizes > 0.0]
 
   if (!is.null(valid)) {
     extra_nms <- setdiff(names(values), valid)
-    if (length(extra_nms) > 0) {
+    if (length(extra_nms) > 0L) {
       cli::cli_warn(
         "Ignoring unknown aesthetics: {.field {extra_nms}}.",
         call = call
@@ -43,7 +43,7 @@ eval_aes <- function(
     sizes  <- list_sizes(values)
   }
 
-  if (length(sizes) == 0) {
+  if (length(sizes) == 0L) {
     cli::cli_warn(
       "No valid data found with {.arg {arg_mapping}} in {.arg {arg_data}}.",
       call = call
@@ -55,16 +55,16 @@ eval_aes <- function(
     .error_call = call
   )
 
-  check_columns(df, required, arg = 'key', call = call)
+  check_columns(df, required, arg = "key", call = call)
 
   df
 }
 
 `%|NA|%` <- function(x, y) {
-  if (length(x) == 0) {
+  if (length(x) == 0L) {
     return(y)
   }
-  if (length(y) == 1) {
+  if (length(y) == 1L) {
     x[is.na(x)] <- y
   } else {
     x[is.na(x)] <- y[is.na(x)]
@@ -76,15 +76,15 @@ get_attr <- function(x, which, default = NULL) {
   attr(x, which = which, exact = TRUE) %||% default
 }
 
-get_size_attr <- function(x, default = 0) {
+get_size_attr <- function(x, default = 0.0) {
   get_attr(x, "size", default = default)
 }
 
-get_width_attr <- function(x, default = 0) {
+get_width_attr <- function(x, default = 0.0) {
   get_attr(x, "width", default = default)
 }
 
-get_height_attr <- function(x, default = 0) {
+get_height_attr <- function(x, default = 0.0) {
   get_attr(x, "height", default = default)
 }
 
@@ -130,12 +130,12 @@ is_discrete <- function(x) {
 
 is_oob <- function(x, limits) {
   limits <- sort(limits)
-  x < limits[1] | x > limits[2]
+  x < limits[1L] | x > limits[2L]
 }
 
 in_range <- function(x, range) {
   range <- sort(range)
-  x >= range[1] & x <= range[2]
+  x >= range[1L] & x <= range[2L]
 }
 
 in_ranges <- function(x, start, end) {
@@ -143,7 +143,7 @@ in_ranges <- function(x, start, end) {
   upper <- pmax(start, end)
   smaller <- outer(lower, x, FUN = "<")
   larger  <- outer(upper, x, FUN = ">")
-  colSums(larger & smaller) > 0
+  colSums(larger & smaller) > 0L
 }
 
 polar_xy <- function(data, r, theta, bbox) {
@@ -185,7 +185,7 @@ cm <- function(x) {
 new_rle <- function(x) {
   rle <- vec_unrep(x)
   rle$end   <- cumsum(rle$times)
-  rle$start <- rle$end - rle$times + 1
+  rle$start <- rle$end - rle$times + 1L
   rle
 }
 
@@ -215,7 +215,7 @@ vec_ave <- function(x, group, fun, ...) {
   list_unchop(chopped, indices = index)
 }
 
-by_group <- function(x, group, fun, ..., value = x[1]) {
+by_group <- function(x, group, fun, ..., value = x[1L]) {
   index <- vec_group_loc(group)$loc
   vapply(vec_chop(x, indices = index), FUN = fun, FUN.VALUE = value, ...)
 }
@@ -224,26 +224,28 @@ set_list_element <- function(x, i, value) {
   lapply(x, `[<-`, i = i, value = list(value))
 }
 
-guide_rescale <- function(value, from = range(value), oob = oob_squish_infinite) {
-  from <- from %||% c(0, 1)
-  rescale(oob(value, from), to = c(0, 1), from)
+guide_rescale <- function(
+  value, from = range(value), oob = oob_squish_infinite
+) {
+  from <- from %||% c(0.0, 1.0)
+  rescale(oob(value, from), to = c(0.0, 1.0), from)
 }
 
 map_lgl <- function(x, fun, ...) {
-  vapply(x, FUN = fun, FUN.VALUE = logical(1), ...)
+  vapply(x, FUN = fun, FUN.VALUE = logical(1L), ...)
 }
 
 map_dbl <- function(x, fun, ...) {
-  vapply(x, FUN = fun, FUN.VALUE = numeric(1), ...)
+  vapply(x, FUN = fun, FUN.VALUE = numeric(1L), ...)
 }
 
 map_chr <- function(x, fun, ...) {
-  vapply(x, FUN = fun, FUN.VALUE = character(1), ...)
+  vapply(x, FUN = fun, FUN.VALUE = character(1L), ...)
 }
 
 label_as_vector <- function(x) {
   if (obj_is_list(x)) {
-    x[lengths(x) == 0] <- ""
+    x[lengths(x) == 0L] <- ""
     x <- lapply(x, `[`, 1L)
   }
   if (is.expression(x)) {
@@ -260,7 +262,7 @@ match_list <- function(x, list) {
   findInterval(
     match(x, unlist(list, FALSE, FALSE)),
     cumsum(lengths(list)), left.open = TRUE
-  ) + 1
+  ) + 1L
 }
 
 apply_theme_defaults <- function(theme, defaults = NULL) {
@@ -278,7 +280,7 @@ apply_theme_defaults <- function(theme, defaults = NULL) {
 
 insert_before <- function(x, i, value) {
   new <- vec_init(x, length(x) + length(i))
-  i <- i + seq_along(i) - 1
+  i <- i + seq_along(i) - 1L
   new[i] <- value
   new[-i] <- x
   new
@@ -294,18 +296,21 @@ insert_after <- function(x, i, value) {
 
 get_just <- function(element) {
   rotate_just(
-    element$angle %||% 0,
+    element$angle %||% 0.0,
     element$hjust %||% 0.5,
     element$vjust %||% 0.5
   )
 }
 
-.label_params <- setdiff(fn_fmls_names(element_text), c("margin", "debug", "inherit.blank"))
+.label_params <- setdiff(
+  fn_fmls_names(element_text),
+  c("margin", "debug", "inherit.blank")
+)
 .line_params <- c("colour", "color", "linewidth", "linetype")
 
 extra_args <- function(..., .valid_args = .label_params, call = caller_env()) {
   args <- list2(...)
-  if (length(args) == 0) {
+  if (length(args) == 0L) {
     return(NULL)
   }
 
@@ -314,16 +319,16 @@ extra_args <- function(..., .valid_args = .label_params, call = caller_env()) {
     args$color <- NULL
   }
   extra <- setdiff(names(args), .valid_args)
-  if (length(extra) > 0) {
+  if (length(extra) > 0L) {
     cli::cli_warn("Ignoring unknown parameters: {.and {extra}}.", call = call)
   }
-  args <- args[lengths(args) > 0]
+  args <- args[lengths(args) > 0L]
   names(args) <- paste0(".", names(args))
   args
 }
 
-descale <- function(x, to = c(0, 1), from = c(0, 1)) {
-  if (!is.numeric(x) | !is_asis(x)) {
+descale <- function(x, to = c(0.0, 1.0), from = c(0.0, 1.0)) {
+  if (!is.numeric(x) || !is_asis(x)) {
     return(x)
   }
   rescale(as.numeric(x), to = to, from = from)
@@ -332,7 +337,7 @@ descale <- function(x, to = c(0, 1), from = c(0, 1)) {
 after <- function(x, i) {
   n <- length(x)
   if (i >= n) {
-    return(vec_slice(x, 0))
+    return(vec_slice(x, 0L))
   }
   vec_slice(x, (i + 1L):n)
 }
@@ -342,8 +347,8 @@ before <- function(x, i) {
   if (i >= n) {
     return(x)
   }
-  if (i <= 1) {
-    return(vec_slice(x, 0))
+  if (i <= 1L) {
+    return(vec_slice(x, 0L))
   }
   vec_slice(x, 1L:(i - 1L))
 }
@@ -353,6 +358,6 @@ idx_before <- function(n, i) before(seq(n), i)
 
 as_mapped_discrete <- function(x) {
   x <- as.numeric(x)
-  class(x) <- c("mapped_discrete", x)
+  class(x) <- c("mapped_discrete", class(x))
   x
 }

@@ -15,9 +15,9 @@
 #' @details
 #' # Styling options
 #'
-#' #' Below are the [theme][ggplot2::theme] options that determine the styling of
-#' this guide. This guide does not have option dependent on its role as axis or
-#' legend.
+#' #' Below are the [theme][ggplot2::theme] options that determine the styling
+#' of this guide. This guide does not have option dependent on its role as axis
+#' or legend.
 #'
 #' * `legendry.guide.spacing` A [`<unit>`][grid::unit] setting the amount of
 #'   spacing when the `space` argument is `NULL`.
@@ -50,7 +50,7 @@ PrimitiveSpacer <- ggproto(
   params = new_params(space = NULL),
 
   train = function(self, params = self$params, scale, aesthetic = NULL, ...) {
-    params$aesthetic <- aesthetic %||% scale$aesthetics[1]
+    params$aesthetic <- aesthetic %||% scale$aesthetics[1L]
     params$position  <- params$position %|W|% NULL
     params$hash <- hash(list(params$position, params$space))
     params

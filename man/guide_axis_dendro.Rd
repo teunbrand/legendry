@@ -11,12 +11,12 @@ guide_axis_dendro(
   labels = TRUE,
   space = rel(10),
   vanish = TRUE,
-  n.dodge = 1,
+  n.dodge = 1L,
   angle = waiver(),
   check.overlap = FALSE,
   ticks = "none",
   axis_line = "none",
-  order = 0,
+  order = 0L,
   position = waiver()
 )
 }
@@ -106,7 +106,8 @@ p <- ggplot(mtcars, aes(disp, rownames(mtcars))) +
 p + guides(y = guide_axis_dendro(clust))
 
 # Adding ticks and axis line
-p + guides(y = guide_axis_dendro(clust, ticks = "ticks", axis_line = "line")) +
+p +
+  guides(y = guide_axis_dendro(clust, ticks = "ticks", axis_line = "line")) +
   theme(axis.line = element_line())
 
 # Controlling space allocated to dendrogram

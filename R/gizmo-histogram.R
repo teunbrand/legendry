@@ -59,14 +59,14 @@
 gizmo_histogram <- function(
   key = waiver(),
   hist = NULL, hist.args = list(), hist.fun = graphics::hist,
-  just = 1, oob = oob_keep, metric = "counts", alpha = NA,
+  just = 1.0, oob = oob_keep, metric = "counts", alpha = NA,
   # standard arguments
   theme = NULL, position = waiver(), direction = NULL
 ) {
   hist <- suppress_hist_plot(enquo(hist))
   hist.args$plot <- hist.args$plot %||% FALSE
 
-  check_number_decimal(just, min = 0, max = 1, allow_infinite = FALSE)
+  check_number_decimal(just, min = 0.0, max = 1.0, allow_infinite = FALSE)
   check_argmatch(metric, c("counts", "density"))
 
   new_guide(
@@ -92,7 +92,7 @@ GizmoHistogram <- ggproto(
 
   params = new_params(
     hist = NULL, hist_args = list(), hist_fun = graphics::hist,
-    just = 0.5, nbin = 15, oob = oob_keep, metric = "counts",
+    just = 0.5, nbin = 15L, oob = oob_keep, metric = "counts",
     alpha = NA, key = "sequence"
   ),
 
@@ -119,8 +119,10 @@ GizmoHistogram <- ggproto(
 
   get_layer_key = function(params, layers, data = NULL, ...) {
     hist <- params$decor %||% params$hist
-    if (length(hist) == 0) {
-      values <- filter_finite(vec_c(!!!lapply(data, .subset2, params$aesthetic)))
+    if (length(hist) == 0L) {
+      values <-
+        vec_c(!!!lapply(data, .subset2, params$aesthetic)) |>
+        filter_finite()
       hist   <- inject(params$hist_fun(values, !!!params$hist_args))
       check_histogram(hist, params$metric)
     }
@@ -143,12 +145,17 @@ normalise_histogram <- function(hist, metric = "counts") {
   y    <- oob_squish_infinite(y, ylim)
 
   list(
-    x = rep(x, each = 2),
-    y = rescale_max(c(0, rep(y, each = 2), 0), to = c(0, 0.9), from = ylim)
+    x = rep(x, each = 2L),
+    y = rescale_max(
+      c(0.0, rep(y, each = 2L), 0.0),
+      to = c(0.0, 0.9), from = ylim
+    )
   )
 }
 
-check_histogram <- function(x, metric = "counts", arg = caller_arg(x), call = caller_env()) {
+check_histogram <- function(
+  x, metric = "counts", arg = caller_arg(x), call = caller_env()
+) {
   if (is_missing(x)) {
     cli::cli_abort("{.arg {arg}} cannot be missing.", call = call)
   }
@@ -159,17 +166,16 @@ check_histogram <- function(x, metric = "counts", arg = caller_arg(x), call = ca
   check_list_names(x, c("breaks", metric), arg = arg, call = call)
 
   if (length(x$breaks) != (length(x[[metric]]) + 1L)) {
-    cli::cli_abort(c(paste0(
-      "In the {.arg {arg}} argument, the {.field breaks} element should be ",
-      "exactly 1 longer than the {.field {metric}} element."
-    ),
-    i = "{.code {arg}$breaks} has length {length(x$breaks)}.",
-    i = "{.code {arg}${metric}} has length {length(x[[metric]])}."
+    cli::cli_abort(c(
+      "In the {.arg {arg}} argument, the {.field breaks} element should be \\
+       exactly 1 longer than the {.field {metric}} element.",
+      i = "{.code {arg}$breaks} has length {length(x$breaks)}.",
+      i = "{.code {arg}${metric}} has length {length(x[[metric]])}."
     ), call = call)
   }
-  check_length(x$breaks, min = 2, arg = as_cli("{arg}$breaks"), call = call)
-  check_bare_numeric(x$breaks,    arg = as_cli("{arg}$breaks"), call = call)
-  check_bare_numeric(x$counts,    arg = as_cli("{arg}${metric}"), call = call)
+  check_length(x$breaks, min = 2L, arg = as_cli("{arg}$breaks"), call = call)
+  check_bare_numeric(x$breaks,     arg = as_cli("{arg}$breaks"), call = call)
+  check_bare_numeric(x$counts,     arg = as_cli("{arg}${metric}"), call = call)
   invisible()
 }
 
@@ -178,7 +184,7 @@ suppress_hist_plot <- function(hist) {
     return(eval_tidy(hist))
   }
   expr <- quo_get_expr(hist)
-  if (expr[[1]] != quote(hist)) {
+  if (expr[[1L]] != quote(hist)) {
     return(eval_tidy(hist))
   }
   expr <- call_match(expr, graphics::hist)

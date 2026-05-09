@@ -24,15 +24,15 @@ NULL
 #' @describeIn cap_options An equilateral triangle with `n = 3` points.
 cap_triangle <- function() {
   cbind(
-    c(0, 0.5, 1), # x
-    c(0, sqrt(3) / 2, 0)# y
+    c(0.0, 0.5, 1.0), # x
+    c(0.0, sqrt(3.0) / 2.0, 0.0)# y
   )
 }
 
 #' @export
 #' @describeIn cap_options A semicircle.
-cap_round <- function(n = 100) {
-  t <- seq(1, 0, length.out = n) * pi
+cap_round <- function(n = 100L) {
+  t <- seq(1.0, 0.0, length.out = n) * pi
   cbind(
     cos(t) * 0.5 + 0.5,
     sin(t) * 0.5
@@ -41,31 +41,31 @@ cap_round <- function(n = 100) {
 
 #' @export
 #' @describeIn cap_options Two circular arcs forming an equilateral Gothic arch.
-cap_arch <- function(n = 100) {
-  half_n <- round(n / 2)
-  t <- seq((1 * pi) / 3, 0, length.out = half_n)
+cap_arch <- function(n = 100L) {
+  half_n <- round(n / 2L)
+  t <- seq((1.0 * pi) / 3.0, 0.0, length.out = half_n)
   cbind(
-    c(1 - rev(cos(t)), cos(t)),
+    c(1.0 - rev(cos(t)), cos(t)),
     c(rev(sin(t)), sin(t))
   )
 }
 
 #' @export
 #' @describeIn cap_options Four circular arcs forming an 'ogee' arch.
-cap_ogee <- function(n = 100) {
-  quart_n <- round(n / 4)
-  t <- seq(0, 1/3, length.out = quart_n) * pi
-  top <- sqrt(3)
+cap_ogee <- function(n = 100L) {
+  quart_n <- round(n / 4L)
+  t <- seq(0.0, 1.0 / 3.0, length.out = quart_n) * pi
+  top <- sqrt(3.0)
 
-  x <- c(0, cos(t + pi) + 1, rev(cos(t)), -cos(t) + 2, rev(cos(t)) + 1) / 2
-  y <- c(0, -sin(t + pi), top - rev(sin(t)), top - sin(t), rev(sin(t))) / 2
-  out <- cbind(x, y)
+  x <- c(0.0, cos(t + pi) + 1.0, rev(cos(t)), -cos(t) + 2.0, rev(cos(t)) + 1.0)
+  y <- c(0.0, -sin(t + pi), top - rev(sin(t)), top - sin(t), rev(sin(t)))
+  cbind(x / 2.0, y / 2.0)
 }
 
 #' @export
 #' @describeIn cap_options No cap.
 cap_none <- function() {
-  cbind(c(0, 1), c(0, 0))
+  cbind(c(0.0, 1.0), c(0.0, 0.0))
 }
 
 # Helpers -----------------------------------------------------------------
@@ -85,15 +85,15 @@ resolve_cap_shape <- function(x, arg = caller_arg(x), call = caller_env()) {
   } else {
     msg <- "{.arg {arg}} must be a {type}, not {obj_type_friendly(x)}"
   }
-  if (is.matrix(x) && ncol(x) == 2 & nrow(x) > 1) {
+  if (is.matrix(x) && ncol(x) == 2L && nrow(x) > 1L) {
     return(x)
   }
   type <- as_cli("a {.cls matrix}")
-  if (ncol(x) != 2) {
+  if (ncol(x) != 2L) {
     type <- as_cli("a {.cls matrix} with 2 columns")
     msg <- c(msg, "The provided {.arg {arg}} has {ncol(x)} column{?s}.")
   }
-  if (nrow(x) < 2) {
+  if (nrow(x) < 2L) {
     type <- as_cli("a {.cls matrix} with 2 or more rows")
     msg <- c(msg, "The provided {.arg {arg}} has {nrow(x)} row{?s}.")
   }

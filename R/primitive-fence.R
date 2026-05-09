@@ -77,19 +77,22 @@ primitive_fence <- function(
   rail <- arg_match0(rail, c("none", "inner", "outer", "both"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
+  line_class <- c("element_line", "ggplot2::element_line")
+  text_class <- c("element_text", "ggplot2::element_text")
+  blank_class <- c("element_blank", "ggplot2::element_blank")
   check_list_of(
     levels_text,
-    c("element_text", "element_blank", "NULL", "ggplot2::element_text", "ggplot2::element_blank"),
+    c(text_class, blank_class, "NULL"),
     allow_null = TRUE
   )
   check_list_of(
     levels_post,
-    c("element_line",  "element_blank", "NULL", "ggplot2::element_line",  "ggplot2::element_blank"),
+    c(line_class, blank_class, "NULL"),
     allow_null = TRUE
   )
   check_list_of(
     levels_rail,
-    c("element_line",  "element_blank", "NULL", "ggplot2::element_line",  "ggplot2::element_blank"),
+    c(line_class, blank_class, "NULL"),
     allow_null = TRUE
   )
 
@@ -149,7 +152,7 @@ PrimitiveFence <- ggproto(
 
     levels <- sort(unique(key$.level))
     key <- vec_slice(key, key$.draw)
-    if (nrow(key) < 1) {
+    if (nrow(key) < 1L) {
       return(NULL)
     }
 
@@ -169,7 +172,7 @@ PrimitiveFence <- ggproto(
     for (lvl in levels[-1L]) {
       lower <- which(key$.level == lvl - 1L)
       current <- which(decor$.level_end >= lvl)
-      if (length(current) < 1 || length(lower) < 1) {
+      if (length(current) < 1L || length(lower) < 1L) {
         next
       }
       trim <- in_ranges(
@@ -188,7 +191,8 @@ PrimitiveFence <- ggproto(
       transform_key(params$key, params$position, coord, panel_params)
     params$decor <-
       transform_key(params$decor, params$position, coord, panel_params)
-    params$bbox <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
+    params$bbox <- panel_params$bbox %||%
+      list(x = c(0.0, 1.0), y = c(0.0, 1.0))
     params
   },
 
@@ -210,7 +214,7 @@ PrimitiveFence <- ggproto(
     key <- justify_ranges(key, levels, elements$text, text_levels)
 
     if (is_theta(position)) {
-      add  <- if (position == "theta.sec") pi else 0
+      add  <- if (position == "theta.sec") pi else 0.0
       key  <- polar_xy(key, key$r,   key$theta  + add, params$bbox)
       rail <- polar_xy(rail, rail$r, rail$theta + add, params$bbox)
     }
@@ -229,7 +233,7 @@ PrimitiveFence <- ggproto(
     angle <- params$angle %|W|% NULL
     text <- angle_labels(elements$text, angle, position)
     offset <- elements$offset
-    sizes <- numeric(nlevels + 1)
+    sizes <- numeric(nlevels + 1L)
     grobs <- vector("list", nlevels)
 
     for (i in seq_len(nlevels)) {
@@ -239,20 +243,20 @@ PrimitiveFence <- ggproto(
         combine_elements(text_levels[[i]], text),
         angle = angle, offset = offset, position = position
       )
-      sizes[i + 1] <- measure(labels)
-      offset <- offset + sizes[i + 1]
+      sizes[i + 1L] <- measure(labels)
+      offset <- offset + sizes[i + 1L]
 
       fencepost <- draw_fencepost(
         vec_slice(decor, decor$.level_end == i),
         combine_elements(post_levels[[i]], elements$post),
-        sizes = sizes[1:(i + 1)],
+        sizes = sizes[1L:(i + 1L)],
         offset = offset, position = position
       )
 
       fencerail <- draw_fencerail(
         vec_slice(rail, rail$.level == i),
         combine_elements(rail_levels[[i]], elements$rail),
-        sizes = sizes[1:(i + 1)],
+        sizes = sizes[1L:(i + 1L)],
         offset = offset, position = position,
         side = params$rail, bbox = params$bbox
       )
@@ -260,7 +264,7 @@ PrimitiveFence <- ggproto(
       grobs[[i]] <- grobTree(fencepost, fencerail, labels)
     }
 
-    sizes <- sizes[-1]
+    sizes <- sizes[-1L]
     if (position %in% c("top", "left")) {
       grobs <- rev(grobs)
       sizes <- rev(sizes)
@@ -278,7 +282,7 @@ PrimitiveFence <- ggproto(
     elems <- self$setup_elements(params, self$elements, theme)
     fence <- self$build_fence(params$key, params$decor, elems, params)
 
-    if (length(fence) < 1) {
+    if (length(fence) < 1L) {
       return(zeroGrob())
     }
 
@@ -295,41 +299,40 @@ PrimitiveFence <- ggproto(
 # Helpers -----------------------------------------------------------------
 
 draw_fencerail <- function(rail, element, sizes, offset, position, side, bbox) {
-  if (side == "none" || nrow(rail) < 1 || is_blank(element)) {
+  if (side == "none" || nrow(rail) < 1L || is_blank(element)) {
     return(NULL)
   }
 
   if (is_theta(position)) {
-    n <- as.integer(round(rail$thetaend - rail$theta) / (pi / 45))
+    n <- as.integer(round(rail$thetaend - rail$theta) / (pi / 45.0))
     n <- pmax(n, 2L)
 
     theta <- Map(seq, rail$theta, rail$thetaend, length.out = n)
     i     <- rep(seq_along(theta), lengths(theta))
 
-    add <- as.numeric(position == "theta.sec")
+    add <- as.integer(position == "theta.sec")
     xy <- data_frame0(
       theta = unlist(theta) + add * pi,
       r = rail$r[i],
       i = i
     )
     xy <- polar_xy(xy, xy$r, xy$theta, bbox)
-    levels <- rail$.level[i]
 
     if (side == "inner") {
-      r <- unit(rep(offset - sizes[rail$.level + 1], n), "cm")
+      r <- unit(rep(offset - sizes[rail$.level + 1L], n), "cm")
     } else if (side == "outer") {
       r <- unit(rep(offset, sum(n)), "cm")
     } else {
       r <- unit(c(
-        rep(offset - sizes[rail$.level + 1], n),
+        rep(offset - sizes[rail$.level + 1L], n),
         rep(offset, sum(n))
       ), "cm")
-      xy$i <- c(1, xy$i[-1] != xy$i[-nrow(xy)])
+      xy$i <- c(1L, xy$i[-1L] != xy$i[-nrow(xy)])
       xy <- vec_c(xy, xy)
       xy$i <- cumsum(xy$i)
     }
-    if (add == 1) {
-      r <- r * -1
+    if (add == 1L) {
+      r <- r * -1.0
     }
 
     rails <- element_grob(
@@ -346,21 +349,21 @@ draw_fencerail <- function(rail, element, sizes, offset, position, side, bbox) {
 
   mark <- vec_interleave(rail[[aes]], rail[[aesend]])
   if (side == "inner") {
-    tick <- rep(0, length(mark))
+    tick <- rep(0.0, length(mark))
   } else if (side == "outer") {
-    tick <- rep(1, length(mark))
+    tick <- rep(1.0, length(mark))
   } else {
-    tick <- rep(c(0, 1), each = length(mark))
+    tick <- rep(c(0.0, 1.0), each = length(mark))
     mark <- c(mark, mark)
   }
   mark <- unit(mark, "npc")
   tick <- switch(
     position,
-    top = , right = unit(0 + tick, "npc"),
-    unit(1 - tick, "npc")
+    top = , right = unit(0.0 + tick, "npc"),
+    unit(1.0 - tick, "npc")
   )
 
-  args <- list(x = tick, y = mark, id.lengths = rep(2L, length(tick) / 2))
+  args <- list(x = tick, y = mark, id.lengths = rep(2L, length(tick) / 2L))
   if (position %in% c("top", "bottom")) {
     args <- flip_names(args)
   }
@@ -368,21 +371,21 @@ draw_fencerail <- function(rail, element, sizes, offset, position, side, bbox) {
 }
 
 draw_fencepost <- function(decor, element, sizes, offset, position) {
-  if (nrow(decor) < 1 || is_blank(element)) {
+  if (nrow(decor) < 1L || is_blank(element)) {
     return(NULL)
   }
 
-  levels <- vec_interleave(decor$.level, decor$.level_end + 1)
+  levels <- vec_interleave(decor$.level, decor$.level_end + 1L)
 
   if (is_theta(position)) {
-    add <- as.numeric(position == "theta.sec")
+    add <- as.integer(position == "theta.sec")
 
-    angle <- rep(decor$theta, each = 2) + add * pi
-    x     <- rep(decor$x,     each = 2)
-    y     <- rep(decor$y,     each = 2)
+    angle <- rep(decor$theta, each = 2L) + add * pi
+    x     <- rep(decor$x,     each = 2L)
+    y     <- rep(decor$y,     each = 2L)
     length <- cumsum(sizes)[levels] + offset - sum(sizes)
-    if (add == 1) {
-      length <- length * -1
+    if (add == 1L) {
+      length <- length * -1L
     }
     length <- unit(length, "cm")
 
@@ -390,19 +393,19 @@ draw_fencepost <- function(decor, element, sizes, offset, position) {
       element,
       x = unit(x, "npc") + sin(angle) * length,
       y = unit(y, "npc") + cos(angle) * length,
-      id.lengths = rep(2, nrow(decor))
+      id.lengths = rep(2L, nrow(decor))
     )
     return(ticks)
   }
 
   aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
-  mark <- unit(rep(decor[[aes]], each = 2), "npc")
+  mark <- unit(rep(decor[[aes]], each = 2L), "npc")
 
   tick <- unit(offset - cumsum(sizes)[levels], "cm")
   tick <- switch(
     position,
-    top = , right = unit(1, "npc") - tick,
-    unit(0, "npc") + tick
+    top = , right = unit(1.0, "npc") - tick,
+    unit(0.0, "npc") + tick
   )
 
   args <- list(x = tick, y = mark, id.lengths = rep(2L, nrow(decor)))
@@ -411,4 +414,3 @@ draw_fencepost <- function(decor, element, sizes, offset, position) {
   }
   inject(element_grob(element, !!!args))
 }
-

@@ -5,7 +5,7 @@ test_that("guide_axis_plot() can be rendered", {
     guides(y.sec = "axis")
 
   y_plot <- ggplot(mtcars, aes(y = mpg, fill = factor(cyl))) +
-    geom_histogram(bins = 10, na.rm = TRUE) +
+    geom_histogram(bins = 10L, na.rm = TRUE) +
     guides(x.sec = "axis")
 
   p <- ggplot(mtcars, aes(disp, mpg, colour = factor(cyl))) +

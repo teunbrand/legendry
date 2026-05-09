@@ -126,7 +126,7 @@ PrimitiveTicks <- ggproto(
 
     # We need to setup mini ticks for axes, as the inheritance tree isn't
     # mirrored for every aesthetic/position combination.
-    if (n_mini > 0 && params$aesthetic %in% c("x", "y")) {
+    if (n_mini > 0L && params$aesthetic %in% c("x", "y")) {
       elements$mini <- combine_elements(
         theme$legendry.axis.mini.ticks,
         elements$minor
@@ -143,7 +143,7 @@ PrimitiveTicks <- ggproto(
     elements <- zap_tick(elements, "mini",  n_mini)
 
     lengths <- c("ticks_length", "minor_length", "mini_length")
-    elements$size <- inject(range(!!!elements[lengths], 0))
+    elements$size <- inject(range(!!!elements[lengths], 0.0))
     elements
   },
 
@@ -165,7 +165,7 @@ PrimitiveTicks <- ggproto(
     # Discard zeroGrobs
     grob <- list(major, minor, mini)
     grob <- grob[!map_lgl(grob, is_zero)]
-    if (length(grob) == 0) {
+    if (length(grob) == 0L) {
       return(zeroGrob())
     }
     gTree(children = inject(gList(!!!grob)))
@@ -184,7 +184,7 @@ PrimitiveTicks <- ggproto(
     # If ticks have negative length, we want to preserve reasonable spacing
     # to text labels.
     ticks <- list(ticks, zeroGrob())
-    size <- unit(c(elems$size[2], max(0, -1 * diff(elems$size))), "cm")
+    size <- unit(c(elems$size[2L], max(0.0, -1.0 * diff(elems$size))), "cm")
 
     primitive_grob(
       grob = ticks,
@@ -197,19 +197,19 @@ PrimitiveTicks <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-draw_ticks = function(key, element, params, position, length, offset = 0) {
+draw_ticks <- function(key, element, params, position, length, offset = 0.0) {
   n_breaks <- nrow(key)
-  if (n_breaks < 1 || is_blank(element) || all(length == 0)) {
+  if (n_breaks < 1L || is_blank(element) || all(length == 0L)) {
     return(zeroGrob())
   }
-  length <- rep(length, length.out = n_breaks)
-  bidi <- c(1, -as.numeric(params$bidi %||% FALSE))
+  length <- rep_len(length, n_breaks)
+  bidi <- c(1.0, -as.numeric(params$bidi %||% FALSE))
   if (is_theta(position)) {
-    angle  <- rep(key$theta, each = 2)
-    x      <- rep(key$x,     each = 2)
-    y      <- rep(key$y,     each = 2)
+    angle  <- rep(key$theta, each = 2L)
+    x      <- rep(key$x,     each = 2L)
+    y      <- rep(key$y,     each = 2L)
 
-    length <- rep(length, length.out = n_breaks * 2)
+    length <- rep_len(length, n_breaks * 2L)
     length <- rep(bidi, times = n_breaks) * length
     length <- unit(length + offset, "cm")
 
@@ -217,7 +217,7 @@ draw_ticks = function(key, element, params, position, length, offset = 0) {
       element,
       x = unit(x, "npc") + sin(angle) * length,
       y = unit(y, "npc") + cos(angle) * length,
-      id.lengths = rep(2, n_breaks)
+      id.lengths = rep(2L, n_breaks)
     )
     return(ticks)
   }
@@ -227,14 +227,14 @@ draw_ticks = function(key, element, params, position, length, offset = 0) {
     switch(params$direction, horizontal = "x", "y")
   )
 
-  mark <- unit(rep(key[[aes]], each = 2), "npc")
+  mark <- unit(rep(key[[aes]], each = 2L), "npc")
 
-  pos <- switch(position, top = , right = 0, left = , bottom = 1)
-  dir <- (-2 * pos + 1) * bidi
-  pos <- unit(rep(pos, 2 * n_breaks), "npc")
-  tick <- unit(rep(dir, n_breaks) * rep(length, each = 2), "cm") + pos
+  pos <- switch(position, top = , right = 0.0, left = , bottom = 1.0)
+  dir <- (-2.0 * pos + 1.0) * bidi
+  pos <- unit(rep(pos, 2L * n_breaks), "npc")
+  tick <- unit(rep(dir, n_breaks) * rep(length, each = 2L), "cm") + pos
 
-  args <- list(x = tick, y = mark, id.lengths = rep(2, n_breaks))
+  args <- list(x = tick, y = mark, id.lengths = rep(2L, n_breaks))
   if (position %in% c("top", "bottom")) {
     args <- flip_names(args)
   }
@@ -244,12 +244,12 @@ draw_ticks = function(key, element, params, position, length, offset = 0) {
 zap_tick <- function(elements, name, n) {
   length <- paste0(name, "_length")
   # If there are no ticks, set the element to NULL
-  if (n < 1) {
+  if (n < 1L) {
     elements[[name]] <- NULL
   }
   # If there is no element, set the length to 0
   if (is_blank(elements[[name]])) {
-    elements[[length]] <- 0
+    elements[[length]] <- 0.0
   }
   # Ensure tick lengths are in centimetres
   elements[[length]] <- cm(elements[[length]])

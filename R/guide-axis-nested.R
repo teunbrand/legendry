@@ -79,31 +79,35 @@
 #' ggplot(mpg, aes(displ, hwy)) +
 #'   geom_point() +
 #'   guides(x = guide_axis_nested(
-#'     key = key_range_manual(start = 2:3, end = 5:6, name = c("First", "Second")),
+#'     key = key_range_manual(
+#'       start = 2:3,
+#'       end = 5:6,
+#'       name = c("First", "Second")
+#'     ),
 #'     regular_key = key_manual(c(2, 2.5, 3, 5, 7))
 #'   ))
 guide_axis_nested <- function(
-    key   = "range_auto",
-    regular_key = "auto",
-    type  = "bracket",
-    title = waiver(),
-    subtitle = NULL,
-    theme = NULL,
-    angle = waiver(),
-    cap   = "none",
-    bidi  = FALSE,
-    oob   = "squish",
-    drop_zero = TRUE,
-    pad_discrete = NULL,
-    levels_text = NULL,
-    ...,
-    order = 0,
-    position = waiver()
+  key   = "range_auto",
+  regular_key = "auto",
+  type  = "bracket",
+  title = waiver(),
+  subtitle = NULL,
+  theme = NULL,
+  angle = waiver(),
+  cap   = "none",
+  bidi  = FALSE,
+  oob   = "squish",
+  drop_zero = TRUE,
+  pad_discrete = NULL,
+  levels_text = NULL,
+  ...,
+  order = 0L,
+  position = waiver()
 ) {
 
   theme <- theme %||% theme()
   theme$legendry.guide.spacing <-
-    theme$legendry.guide.spacing %||% unit(0, "cm")
+    theme$legendry.guide.spacing %||% unit(0.0, "cm")
 
   pad_discrete <- pad_discrete %||% switch(type, fence = 0.5, 0.4)
 
@@ -148,7 +152,7 @@ guide_axis_nested <- function(
   compose_stack(
     !!!guides,
     key = regular_key %||% "auto",
-    side.titles = NULL, drop = 3:4, title = title, theme =theme,
+    side.titles = NULL, drop = 3L:4L, title = title, theme = theme,
     order = order, available_aes = c("any", "x", "y", "r", "theta"),
     position = position
   )

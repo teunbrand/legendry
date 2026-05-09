@@ -49,9 +49,9 @@ different methods:
 \itemize{
 \item \code{key_segment_manual()} directly uses user-provided vectors to set segments.
 \item \code{key_segment_map()} makes mappings from a \verb{<data.frame>} to set segments.
-\item \code{key_dendro()} is a specialty case for coercing dendrogram data to segments.
-Be aware that setting the key alone cannot affect the scale limits, and
-will give misleading results when used incorrectly!
+\item \code{key_dendro()} is a specialty case for coercing dendrogram data to
+segments. Be aware that setting the key alone cannot affect the scale
+limits, and will give misleading results when used incorrectly!
 }
 }
 \examples{

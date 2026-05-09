@@ -8,7 +8,7 @@
 \alias{key_symbols}
 \title{Speciality keys}
 \usage{
-key_sequence(n = 15)
+key_sequence(n = 15L)
 
 key_bins(even.steps = FALSE, show.limits = NULL)
 
@@ -48,8 +48,8 @@ to omit labels for empty levels.}
 
 \item{aesthetic}{A vector of values for the guide to represent equivalent to
 the \code{breaks} argument in scales. These will be mapped by the scale to
-positions. Alternatively, a \verb{<numeric[n]>} vector to set positions directly.
-Positions are used to place symbols.}
+positions. Alternatively, a \verb{<numeric[n]>} vector to set positions
+directly. Positions are used to place symbols.}
 
 \item{level}{A \verb{<factor[n]>} or \verb{<character[n]>} parallel to the \code{aesthetic}
 argument setting the label level of the symbol.}
@@ -104,7 +104,8 @@ key_symbols(aesthetic = LETTERS[1:3], level = 3:1)(template)
 # Aesthetic can also be numeric
 key_symbols(1:3, 3:1)(template)
 # Setting level order via factors
-key_symbols(1:3, level = factor(c("X", "Y", "Z"), c("Y", "X", "Z")))(template)
+ordered <- factor(c("X", "Y", "Z"), c("Y", "X", "Z"))
+key_symbols(1:3, level = ordered)(template)
 # Setting groups for symbols, for `guide_axis_symbols(override.aes)`
 key_symbols(1:3, 1:3, symbol = c(1, 1, 2))(template)
 # Passing individual graphical parameters

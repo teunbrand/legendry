@@ -15,15 +15,22 @@ test_that("primitive_box works as axis", {
     guides(
       y = primitive_box(),
       y.sec = primitive_box(
-        min_size = 1,
-        key = key_range_auto(reverse = TRUE), drop_zero = FALSE
+        min_size = 1L,
+        key = key_range_auto(reverse = TRUE),
+        drop_zero = FALSE
       ),
       x = primitive_box(
-        key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
+        key = key_range_manual(
+          start = c(2.0, 4.0),
+          end = c(5.0, 7.0),
+          name = c("A\nA", "B\nB")
+        )
       ),
       x.sec = primitive_box(
         key = key_range_manual(
-          start = c(2, 4, 3), end = c(5, 7, 6), level = c(1, 2, 3)
+          start = c(2.0, 4.0, 3.0),
+          end = c(5.0, 7.0, 6.0),
+          level = c(1L, 2L, 3L)
         )
       )
     )
@@ -38,12 +45,16 @@ test_that("primitive_box works as axis", {
         key = key_range_auto(reverse = TRUE), drop_zero = FALSE
       ),
       theta = primitive_box(
-        key = key_range_manual(start = c(2, 4), end = c(5, 7), name = c("A\nA", "B\nB"))
+        key = key_range_manual(
+          start = c(2.0, 4.0),
+          end = c(5.0, 7.0),
+          name = c("A\nA", "B\nB")
+        )
       ),
       theta.sec = primitive_box(
         key = key_range_manual(
-          start = c(2, 4, 3), end = c(5, 7, 6),
-          level = c(1, 2, 3)
+          start = c(2.0, 4.0, 3.0), end = c(5.0, 7.0, 6.0),
+          level = c(1L, 2L, 3L)
         )
       )
     )
@@ -62,10 +73,10 @@ test_that("primitive_box works as legend", {
     geom_point() +
     guides(
       colour = primitive_box(key = key_range_manual(
-        c(100, 200), c(250, 300), c("A", "B")
+        c(100.0, 200.0), c(250.0, 300.0), c("A", "B")
       )),
       fill = primitive_box(key = key_range_manual(
-        c(100, 150, 200), c(300, 300, 300), c("A", "B", "C")
+        c(100.0, 150.0, 200.0), c(300.0, 300.0, 300.0), c("A", "B", "C")
       ), position = "bottom")
     )
 
@@ -75,10 +86,10 @@ test_that("primitive_box works as legend", {
 
 test_that("draw_box can draw theta boxes", {
   box <- draw_box(
-    data.frame(x = c(0, 1), y = c(0, 1), group = 1, theta = 0),
+    data.frame(x = c(0.0, 1.0), y = c(0.0, 1.0), group = 1L, theta = 0.0),
     element = theme_gray()$rect,
     position = "theta",
-    size = 0.1, offset = 1
+    size = 0.1, offset = 1.0
   )
   expect_s3_class(box, "polygon")
 })

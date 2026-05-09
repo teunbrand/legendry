@@ -133,7 +133,9 @@ intent, and due to legends and axes having mutually exclusive theme elements,
 this function sets the elements for both simultaneously.
 }
 \examples{
-red_ticks <- theme_guide(ticks = element_line(colour = "red", linewidth = 0.5))
+red_ticks <- theme_guide(
+  ticks = element_line(colour = "red", linewidth = 0.5)
+)
 
 # Both axis and colourbar gain red ticks
 ggplot(mpg, aes(displ, hwy, colour = cty)) +

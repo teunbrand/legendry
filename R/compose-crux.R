@@ -63,7 +63,7 @@ compose_crux <- function(
   theme = NULL,
   theme_defaults = list(),
   reverse = FALSE,
-  order = 0,
+  order = 0L,
   title = waiver(),
   position = waiver(),
   available_aes = NULL
@@ -103,9 +103,9 @@ ComposeCrux <- ggproto(
   "ComposeCrux", Compose,
 
   params = c(
-    Compose$params, list(complete = FALSE, reverse = FALSE,
-    theme_defaults = list()
-  )),
+    Compose$params,
+    list(complete = FALSE, reverse = FALSE, theme_defaults = list())
+  ),
 
   elements = list(
     title_position = "legend.title.position",
@@ -127,7 +127,10 @@ ComposeCrux <- ggproto(
     elements$text_position <- elements$text_position %||%
       switch(params$direction, horizontal = "bottom", vertical = "right")
 
-    check_position(elements$title_position, theta = FALSE, arg = "legend.title.position")
+    check_position(
+      elements$title_position,
+      theta = FALSE, arg = "legend.title.position"
+    )
     elements
   },
 
@@ -136,7 +139,7 @@ ComposeCrux <- ggproto(
     direction = NULL, params = self$params
   ) {
     n_guides <- length(params$guides)
-    if (n_guides < 1) {
+    if (n_guides < 1L) {
       return(zeroGrob())
     }
 
@@ -182,32 +185,32 @@ ComposeCrux <- ggproto(
     align  <- try_alignment(params$guides$centre, gt)
 
     if (!is_zero(grobs$top)) {
-      gt <- gtable_add_rows(gt, grobs$top$height, 0)
+      gt <- gtable_add_rows(gt, grobs$top$height, 0L)
       gt <- gtable_add_grob(
-        gt, grobs$top, t = 1, l = align$h[1], r = align$h[2],
+        gt, grobs$top, t = 1L, l = align$h[1L], r = align$h[2L],
         clip = "off", name = "top-guide"
       )
-      align$v[1] <- align$v[1] + 1
+      align$v[1L] <- align$v[1L] + 1.0
     }
     if (!is_zero(grobs$bottom)) {
-      gt <- gtable_add_rows(gt, grobs$bottom$height, pos = -1)
+      gt <- gtable_add_rows(gt, grobs$bottom$height, pos = -1L)
       gt <- gtable_add_grob(
-        gt, grobs$bottom, t = -1, l = align$h[1], r = align$h[2],
+        gt, grobs$bottom, t = -1L, l = align$h[1L], r = align$h[2L],
         clip = "off", name = "bottom-guide"
       )
-      align$v[2] <- align$v[2] - 1
+      align$v[2L] <- align$v[2L] - 1.0
     }
     if (!is_zero(grobs$left)) {
-      gt <- gtable_add_cols(gt, grobs$left$width, pos = 0)
+      gt <- gtable_add_cols(gt, grobs$left$width, pos = 0L)
       gt <- gtable_add_grob(
-        gt, grobs$left, t = align$v[1], b = align$v[2], l = 1,
+        gt, grobs$left, t = align$v[1L], b = align$v[2L], l = 1L,
         clip = "off", name = "left-guide"
       )
     }
     if (!is_zero(grobs$right)) {
-      gt <- gtable_add_cols(gt, grobs$right$width, pos = -1)
+      gt <- gtable_add_cols(gt, grobs$right$width, pos = -1L)
       gt <- gtable_add_grob(
-        gt, grobs$right, t = align$v[1], b = align$v[2], l = -1,
+        gt, grobs$right, t = align$v[1L], b = align$v[2L], l = -1L,
         clip = "off", name = "right-guide"
       )
     }
@@ -224,7 +227,7 @@ ComposeCrux <- ggproto(
       if (!is_zero(elems$background)) {
         gt <- gtable_add_grob(
           gt, element_grob(elems$background), name = "background",
-          clip = "off", t = 1, r = -1, b = -1, l = 1, z = -Inf
+          clip = "off", t = 1L, r = -1L, b = -1L, l = 1L, z = -Inf
         )
       }
     }
@@ -233,15 +236,15 @@ ComposeCrux <- ggproto(
 )
 
 try_alignment <- function(guide, gt) {
-  v <- gt$align$vertical   %||% c(1, -1)
-  h <- gt$align$horizontal %||% c(1, -1)
+  v <- gt$align$vertical   %||% c(1.0, -1.0)
+  h <- gt$align$horizontal %||% c(1.0, -1.0)
   if (inherits(guide, "GuideLegend")) {
-    layout <- gt$layout[grepl("bar|key", gt$layout$name),]
+    layout <- gt$layout[grepl("bar|key", gt$layout$name), ]
     v <- range(layout$t, layout$b)
     h <- range(layout$l, layout$r)
-    v[2] <- v[2] - nrow(gt) - 1L
-    h[2] <- h[2] - ncol(gt) - 1L
+    v[2L] <- v[2L] - nrow(gt) - 1L
+    h[2L] <- h[2L] - ncol(gt) - 1L
 
   }
-  return(list(v = v, h = h))
+  list(v = v, h = h)
 }

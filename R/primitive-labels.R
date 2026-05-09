@@ -45,16 +45,16 @@
 #'   x.sec = primitive_labels(),
 #'   y.sec = primitive_labels(n.dodge = 2)
 #' )
-primitive_labels <- function(key = NULL, angle = waiver(), n.dodge = 1,
-                         check.overlap = FALSE,
-                         theme = NULL, position = waiver()) {
+primitive_labels <- function(key = NULL, angle = waiver(), n.dodge = 1L,
+                             check.overlap = FALSE,
+                             theme = NULL, position = waiver()) {
   if (!is_waive(angle)) {
     check_number_decimal(
-      angle, min = -360, max = 360,
+      angle, min = -360.0, max = 360.0,
       allow_infinite = FALSE, allow_null = TRUE
     )
   }
-  check_number_whole(n.dodge, min = 1)
+  check_number_whole(n.dodge, min = 1.0)
   check_bool(check.overlap)
 
   new_guide(
@@ -80,7 +80,7 @@ PrimitiveLabels <- ggproto(
   "PrimitiveLabels", Guide,
 
   params = new_params(
-    angle = waiver(), n_dodge = 1, check_overlap = FALSE, key = NULL
+    angle = waiver(), n_dodge = 1L, check_overlap = FALSE, key = NULL
   ),
 
   elements = list(
@@ -116,11 +116,11 @@ PrimitiveLabels <- ggproto(
 
     n_labels <- nrow(key)
 
-    if (n_labels < 1 || is_blank(elements$text)) {
+    if (n_labels < 1L || is_blank(elements$text)) {
       return(list(zeroGrob()))
     }
 
-    dodge_value <- rep(seq_len(params$n_dodge %||% 1), length.out = n_labels)
+    dodge_value <- rep_len(seq_len(params$n_dodge %||% 1L), n_labels)
     dodge_index <- unname(split(seq_len(n_labels), dodge_value))
     angle <- params$angle %|W|% NULL
 
@@ -138,7 +138,7 @@ PrimitiveLabels <- ggproto(
     }
     if (params$position %in% c("top", "left")) grobs <- rev(grobs)
 
-    attr(grobs, 'offset') <- offset - elements$offset
+    attr(grobs, "offset") <- offset - elements$offset
     grobs
   },
 
@@ -173,11 +173,10 @@ draw_labels <- function(key, element, angle, offset,
                         position, check_overlap = NULL) {
 
   n_breaks  <- length(key$.label)
-  if (n_breaks < 1 || is_blank(element)) {
+  if (n_breaks < 1L || is_blank(element)) {
     return(zeroGrob())
   }
 
-  aes <- switch(position, top = , bottom = "x", "y")
   margin_x <- switch(position, left = , right = TRUE, FALSE)
   margin_y <- switch(position, top = , bottom = TRUE, FALSE)
 
@@ -192,8 +191,8 @@ draw_labels <- function(key, element, angle, offset,
   y <- switch(position, top = , bottom = just$vjust, key$y)
 
   # Resolve positions
-  x <- rep(x, length.out = n_breaks)
-  y <- rep(y, length.out = n_breaks)
+  x <- rep_len(x, n_breaks)
+  y <- rep_len(y, n_breaks)
   if (!is.unit(x)) x <- unit(x, "npc")
   if (!is.unit(y)) y <- unit(y, "npc")
 
@@ -228,7 +227,7 @@ draw_labels <- function(key, element, angle, offset,
   }
   rad   <- deg2rad(angle)
   theta <- key$theta %||% (pi * switch(
-    position, top = 0, bottom = 1, left = 1.5, right = 0.5
+    position, top = 0.0, bottom = 1.0, left = 1.5, right = 0.5
   ))
 
   margin <- cm(max(element$margin))
@@ -237,8 +236,8 @@ draw_labels <- function(key, element, angle, offset,
   x <- x + unit(offset * sin(theta), "cm")
   y <- y + unit(offset * cos(theta), "cm")
 
-  hjust <- 0.5 - sin(theta + rad) / 2
-  vjust <- 0.5 - cos(theta + rad) / 2
+  hjust <- 0.5 - sin(theta + rad) / 2.0
+  vjust <- 0.5 - cos(theta + rad) / 2.0
 
   grob <- element_grob(
     element = element,
@@ -285,49 +284,37 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
   heights <- height_cm(singles)
 
   xmin <- widths * -hjust
-  xmax <- widths * (1 - hjust)
+  xmax <- widths * (1.0 - hjust)
 
   ymin <- heights * -vjust
-  ymax <- heights * (1 - vjust)
+  ymax <- heights * (1.0 - vjust)
 
   x <- vec_interleave(xmin, xmin, xmax, xmax)
   y <- vec_interleave(ymin, ymax, ymax, ymin)
 
-  angle <- rep(angle, each = 4)
+  angle <- rep(angle, each = 4L)
   max(x * sin(angle) + y * cos(angle), na.rm = TRUE) + max(cm(margin))
 }
 
 angle_labels <- function(element, angle, position) {
-  if (!is_theme_element(element, "text") || is_waive(angle) || is_null(angle)) {
+  if (!is_theme_element(element, "text") ||
+      is_waive(angle) ||
+      is_null(angle)  ||
+      !position %in% .trbl) {
     return(element)
   }
 
-  # Initialise parameters
-  angle <- angle %% 360
-  hjust <- NULL
-  vjust <- NULL
+  position <- arg_match0(as.character(position), .trbl)
+  radians <- deg2rad(angle)
+  digits <- 3
 
-  if (position == "bottom") {
+  cosine <- sign(round(cos(radians), digits)) / 2 + 0.5
+  sine   <- sign(round(sin(radians), digits)) / 2 + 0.5
 
-    hjust <- if (angle %in% c(0, 180))  0.5 else if (angle < 180) 1 else 0
-    vjust <- if (angle %in% c(90, 270)) 0.5 else if (angle > 90 & angle < 270) 0 else 1
-
-  } else if (position == "left") {
-
-    hjust <- if (angle %in% c(90, 270)) 0.5 else if (angle > 90 & angle < 270) 0 else 1
-    vjust <- if (angle %in% c(0, 180))  0.5 else if (angle < 180) 0 else 1
-
-  } else if (position == "top") {
-
-    hjust <- if (angle %in% c(0, 180))  0.5 else if (angle < 180) 0 else 1
-    vjust <- if (angle %in% c(90, 270)) 0.5 else if (angle > 90 & angle < 270) 1 else 0
-
-  } else if (position == "right") {
-
-    hjust <- if (angle %in% c(90, 270)) 0.5 else if (angle > 90 & angle < 270) 1 else 0
-    vjust <- if (angle %in% c(0, 180))  0.5 else if (angle < 180) 1 else 0
-
-  }
+  hjust <-
+    switch(position, left = cosine, right = 1 - cosine, top = 1 - sine, sine)
+  vjust <-
+    switch(position, left = 1 - sine, right = sine, top = 1 - cosine, cosine)
 
   element$angle <- angle %||% element$angle
   element$hjust <- hjust %||% element$hjust
@@ -349,17 +336,17 @@ validate_labels <- function(labels) {
 
 
 label_priority <- function(n) {
-  if (n <= 0) {
-    return(numeric(0))
+  if (n <= 0L) {
+    return(numeric(0L))
   }
-  c(1, n, label_priority_between(1, n))
+  c(1L, n, label_priority_between(1L, n))
 }
 
 label_priority_between <- function(min, max) {
-  n <- max - min + 1
-  if (n <= 2) {
-    return(numeric(0))
+  n <- max - min + 1L
+  if (n <= 2L) {
+    return(numeric(0L))
   }
-  mid <- min - 1 + (n + 1) %/% 2
+  mid <- min - 1L + (n + 1L) %/% 2L
   c(mid, label_priority_between(min, mid), label_priority_between(mid, max))
 }

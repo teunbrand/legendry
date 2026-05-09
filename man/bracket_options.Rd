@@ -17,13 +17,13 @@ bracket_square()
 
 bracket_chevron()
 
-bracket_round(angle = 180, n = 100)
+bracket_round(angle = 180, n = 100L)
 
-bracket_sigmoid(curvature = 10, n = 100)
+bracket_sigmoid(curvature = 10, n = 100L)
 
-bracket_atan(curvature = 5, n = 100)
+bracket_atan(curvature = 5, n = 100L)
 
-bracket_curvy(angle = 225, n = 100)
+bracket_curvy(angle = 225, n = 100L)
 }
 \arguments{
 \item{angle}{A \code{numeric(1)}: the angle in degrees for which a circle piece

@@ -15,7 +15,7 @@ compose_sandwich(
   theme = NULL,
   theme_defaults = list(),
   reverse = FALSE,
-  order = 0,
+  order = 0L,
   title = waiver(),
   position = waiver(),
   available_aes = NULL

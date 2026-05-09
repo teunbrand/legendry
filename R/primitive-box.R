@@ -66,14 +66,17 @@ primitive_box <- function(
   oob <- arg_match0(oob, c("squish", "censor", "none"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
+  rect_class  <- c("ggplot2::element_rect",  "element_rect")
+  text_class  <- c("ggplot2::element_text",  "element_text")
+  blank_class <- c("ggplot2::element_blank", "elmeent_blank")
   check_list_of(
     levels_box,
-    c("element_rect", "element_blank", "NULL", "ggplot2::element_rect", "ggplot2::element_blank"),
+    c(rect_class, blank_class, "NULL"),
     allow_null = TRUE
   )
   check_list_of(
     levels_text,
-    c("element_text", "element_blank", "NULL", "ggplot2::element_rect", "ggplot2::element_blank"),
+    c(text_class, blank_class, "NULL"),
     allow_null = TRUE
   )
 
@@ -127,17 +130,18 @@ PrimitiveBox <- ggproto(
 
     data_frame0(
       !!aesthetic := value,
-      group  = rep(seq_len(n_keys), each = 2),
-      .level = rep(key$.level, each = 2)
+      group  = rep(seq_len(n_keys), each = 2L),
+      .level = rep(key$.level, each = 2L)
     )
   },
 
   transform = function(self, params, coord, panel_params) {
     params$key <-
       transform_key(params$key, params$position, coord, panel_params)
-    params$bbox <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
+    params$bbox <- panel_params$bbox %||% list(x = c(0.0, 1.0), y = c(0.0, 1.0))
     if (!is_empty(params$decor)) {
-      other <- switch(params$position, bottom = , left = , theta.sec = -Inf, Inf)
+      other <-
+        switch(params$position, bottom = , left = , theta.sec = -Inf, Inf)
       params$decor <- replace_null(params$decor, x = other, y = other)
       params$decor <- coord_munch(coord, params$decor, panel_params)
       if (params$position == "theta.sec") {
@@ -165,7 +169,7 @@ PrimitiveBox <- ggproto(
     key <- justify_ranges(key, levels, elements$text, text_levels)
 
     if (is_theta(position)) {
-      add <- if (position == "theta.sec") pi else 0
+      add <- if (position == "theta.sec") pi else 0.0
       key <- polar_xy(key, key$r, key$theta + add, params$bbox)
     }
 
@@ -221,7 +225,7 @@ PrimitiveBox <- ggproto(
     elems <- self$setup_elements(params, self$elements, theme)
     box <- self$build_box(params$key, params$decor, elems, params)
 
-    if (length(box) < 1) {
+    if (length(box) < 1L) {
       return(zeroGrob())
     }
 
@@ -237,19 +241,19 @@ PrimitiveBox <- ggproto(
 
 # Helpers -----------------------------------------------------------------
 
-draw_box = function(decor, element, size, offset, position) {
-  if (nrow(decor) < 2 || is_blank(element)) {
+draw_box <- function(decor, element, size, offset, position) {
+  if (nrow(decor) < 2L || is_blank(element)) {
     return(zeroGrob())
   }
   aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
 
   rle <- new_rle(decor$group)
   if (is_theta(position)) {
-    rev <- vec_slice(decor, nrow(decor):1)
+    rev <- vec_slice(decor, rev(vec_seq_along(decor)))
     x <- unit(c(decor$x, rev$x), "npc")
     y <- unit(c(decor$y, rev$y), "npc")
     theta  <- c(decor$theta, rev$theta)
-    offset <- rep(c(0, size) + offset, each = nrow(decor))
+    offset <- rep(c(0.0, size) + offset, each = nrow(decor))
     x <- x + unit(sin(theta) * offset, "cm")
     y <- y + unit(cos(theta) * offset, "cm")
     id <- c(decor$group, rev$group)
@@ -269,8 +273,9 @@ draw_box = function(decor, element, size, offset, position) {
   min <- pmin(start, end)
   max <- pmax(start, end)
   args <- list(
-    x = min, width = max - min, hjust = 0, vjust = 0.5,
-    y = 0.5, height = 1
+    x = min, width = max - min,
+    hjust = 0.0, vjust = 0.5,
+    y = 0.5, height = 1.0
   )
   if (position %in% c("left", "right")) {
     args <- flip_names(args)

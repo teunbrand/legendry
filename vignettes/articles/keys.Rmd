@@ -118,8 +118,8 @@ For example, we can annotate the airtimes of TV shows in timeseries data.
 ```{r}
 ranges <- key_range_manual(
   start = as.Date(c("1985-09-14", "1993-09-16")),
-  end   = as.Date(c("1992-05-09", "2004-05-13")), 
-  name  = c("Golden Girls", "Frasier"), 
+  end   = as.Date(c("1992-05-09", "2004-05-13")),
+  name  = c("Golden Girls", "Frasier"),
   level = 1:2
 )
 ranges
@@ -176,12 +176,12 @@ key <- key_range_manual(
 By the following, more pipe-friendly version:
 
 ```{r}
-key <- presidential |>
-  key_range_map(
-    start = start,
-    end   = end,
-    name  = name
-  )
+key <- key_range_map(
+  presidential,
+  start = start,
+  end   = end,
+  name  = name
+)
 ```
 
 Both of these keys would display as something like this:

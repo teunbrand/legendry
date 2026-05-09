@@ -11,7 +11,7 @@ compose_ontop(
   title = waiver(),
   angle = waiver(),
   theme = NULL,
-  order = 0,
+  order = 0L,
   position = waiver(),
   available_aes = NULL
 )

@@ -140,7 +140,7 @@ key_range_map <- function(data, ..., .call = caller_env()) {
 key_range_rle <- function(x, ...) {
   rle <- vec_unrep(x)
   end <- as_mapped_discrete(cumsum(rle$times))
-  start <- as_mapped_discrete(end - rle$times + 1)
+  start <- as_mapped_discrete(end - rle$times + 1.0)
   key_range_manual(start, end, name = rle$key, level = 1L, ...)
 }
 
@@ -148,7 +148,7 @@ key_range_rle <- function(x, ...) {
 
 range_extract_key <- function(
   scale, aesthetic, key,
-  drop_zero = TRUE, pad_discrete = 0,  oob = "squish",
+  drop_zero = TRUE, pad_discrete = 0.0,  oob = "squish",
   ...
 ) {
   if (is.function(key)) {
@@ -159,8 +159,8 @@ range_extract_key <- function(
   }
 
   # Mark discrete variables separately for start and end
-  pad_start <- -1 * is_discrete(key$start) * pad_discrete
-  pad_end   <- +1 * is_discrete(key$end)   * pad_discrete
+  pad_start <- -1.0 * is_discrete(key$start) * pad_discrete
+  pad_end   <- +1.0 * is_discrete(key$end)   * pad_discrete
 
   map <- aesthetic %in% c("x", "y")
   key$start <- scale_transform(key$start, scale, map = map, "start")
@@ -182,7 +182,7 @@ range_extract_key <- function(
   if (!isFALSE(drop_zero)) {
     key$.draw <- abs(key$end - key$start) > sqrt(.Machine$double.eps)
   }
-  key$.draw <- key$.draw & key$.level > 0
+  key$.draw <- key$.draw & key$.level > 0L
 
   # Apply padding for discrete variables
   extend <- pad_discrete
@@ -204,8 +204,8 @@ range_oob <- function(ranges, method, limits) {
   limits <- sort(limits)
   ranges <- switch(
     method,
-    "squish" = range_squish(ranges, limits),
-    "censor" = range_censor(ranges, limits),
+    squish = range_squish(ranges, limits),
+    censor = range_censor(ranges, limits),
     ranges
   )
   vec_slice(ranges, !is.na(ranges$.draw))
@@ -216,10 +216,10 @@ range_squish <- function(ranges, limits) {
   end    <- ranges$end
   oob_start <- is_oob(start, limits)
   oob_end   <- is_oob(end,   limits)
-  keep <- !oob_start | !oob_end | (start < limits[1] & end > limits[2])
+  keep <- !oob_start | !oob_end | (start < limits[1L] & end > limits[2L])
   ranges$.draw[!keep] <- NA
-  ranges$start <- pmin(pmax(ranges$start, limits[1]), limits[2])
-  ranges$end   <- pmin(pmax(ranges$end,   limits[1]), limits[2])
+  ranges$start <- pmin(pmax(ranges$start, limits[1L]), limits[2L])
+  ranges$end   <- pmin(pmax(ranges$end,   limits[1L]), limits[2L])
   ranges
 }
 
@@ -238,7 +238,7 @@ range_from_label <- function(
   extra_args = list(), call = caller_env()
 ) {
   # Extract a standard key from the scale
-  aesthetic <- aesthetic %||% scale$aesthetics[1]
+  aesthetic <- aesthetic %||% scale$aesthetics[1L]
   key <- Guide$extract_key(scale, aesthetic)
 
   # Reject expressions, as we cannot split these
@@ -271,18 +271,18 @@ range_from_label <- function(
     labels <- labels[, rev(seq_len(ncol(labels)))]
   }
 
-  key$.label <- labels[, 1, drop = TRUE]
-  labels <- labels[, -1, drop = FALSE]
+  key$.label <- labels[, 1L, drop = TRUE]
+  labels <- labels[, -1L, drop = FALSE]
 
   # Set first series of unbracketed labels
-  value  <- key[[1]]
+  value  <- key[[1L]]
   key <- data_frame0(
-    start = value, end = value, .label = key$.label, .level = 0
+    start = value, end = value, .label = key$.label, .level = 0L
   )
   if (is_empty(labels)) {
     return(data_frame0(key, !!!extra_args))
   }
-  ranges <- apply(labels, 2, function(labs) {
+  ranges <- apply(labels, 2L, function(labs) {
     rle   <- vec_unrep(labs)
     start <- cumsum(rle$times) - rle$times + 1L
     data_frame0(
@@ -308,12 +308,12 @@ justify_ranges <- function(key, levels, element, level_elements) {
   }
 
   ends <- intersect(c("thetaend", "xend", "yend"), names(key))
-  if (length(ends) < 1) {
+  if (length(ends) < 1L) {
     return(key)
   }
-  starts <- gsub("end$", "", ends[1])
+  starts <- gsub("end$", "", ends[1L])
 
-  just_name <- switch(ends[1], yend = "vjust", "hjust")
+  just_name <- switch(ends[1L], yend = "vjust", "hjust")
   just <- element[[just_name]] %||% 0.5
 
   if (!is.null(level_elements)) {
@@ -322,7 +322,7 @@ justify_ranges <- function(key, levels, element, level_elements) {
   }
 
   key[[starts]] <- switch(
-    ends[1],
+    ends[1L],
     thetaend = justify_range(key$theta, key$thetaend, just, theta = TRUE),
     xend     = justify_range(key$x, key$xend, just),
     yend     = justify_range(key$y, key$yend, just)
@@ -334,7 +334,7 @@ justify_ranges <- function(key, levels, element, level_elements) {
 justify_range <- function(start, end, just, theta = FALSE) {
   if (theta) {
     add <- end < start
-    end[add] <- end[add] + 2 * pi
+    end[add] <- end[add] + 2.0 * pi
   }
   (end - start) * just + start
 }
@@ -342,7 +342,7 @@ justify_range <- function(start, end, just, theta = FALSE) {
 disjoin_ranges <- function(ranges) {
 
   n_ranges <- nrow(ranges)
-  if (n_ranges < 2) {
+  if (n_ranges < 2L) {
     ranges$.level <- rep(1L, nrow(ranges))
     return(ranges)
   }
@@ -354,16 +354,16 @@ disjoin_ranges <- function(ranges) {
   ends   <- ranges$end
 
   # Initialise first range
-  end_tracker <- ends[1]
+  end_tracker <- ends[1L]
   bin <- rep(NA_integer_, nrow(ranges))
-  bin[1] <- 1L
+  bin[1L] <- 1L
 
   # Find bins
-  for (range_id in seq_len(n_ranges)[-1]) {
+  for (range_id in seq_len(n_ranges)[-1L]) {
     candidate <- which(end_tracker < starts[range_id])
-    if (length(candidate) > 0) {
+    if (length(candidate) > 0L) {
       # If there is room in this bin, update this bin
-      ans <- candidate[1]
+      ans <- candidate[1L]
       end_tracker[ans] <- ends[range_id]
     } else {
       # Register new bin
@@ -398,9 +398,8 @@ setup_range_params <- function(params) {
     return(params)
   }
 
-  limits   <- params$limits %||% c(0, 1)
-  other    <- switch(params$position, bottom = , left = 1, 0)
-  position <- params$position
+  limits   <- params$limits %||% c(0.0, 1.0)
+  other    <- switch(params$position, bottom = , left = 1L, 0L)
 
   if (!is_empty(params$key)) {
     key <- params$key

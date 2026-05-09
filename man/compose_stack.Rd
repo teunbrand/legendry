@@ -12,7 +12,7 @@ compose_stack(
   side.titles = waiver(),
   angle = waiver(),
   theme = NULL,
-  order = 0,
+  order = 0L,
   drop = NULL,
   position = waiver(),
   available_aes = NULL

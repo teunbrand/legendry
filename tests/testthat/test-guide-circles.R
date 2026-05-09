@@ -1,11 +1,11 @@
-test_that("label placement is ok regardless of hjust/vjust", {
+test_that("label placement is ok regardless of hjust or vjust", {
 
-  p <- ggplot(data.frame(x = c(4, 12, 25))) +
+  p <- ggplot(data.frame(x = c(4.0, 12.0, 25.0))) +
     geom_point(aes(x, x, size = x)) +
     scale_size_area(
-      limits = c(0, 25),
-      breaks = c(0, 3, 12, 25),
-      max_size = 20,
+      limits = c(0.0, 25.0),
+      breaks = c(0.0, 3.0, 12.0, 25.0),
+      max_size = 20L,
       guide = guide_circles()
     )
 
@@ -14,7 +14,7 @@ test_that("label placement is ok regardless of hjust/vjust", {
   params <- build$plot$guides$get_params("size")
   params[c("position", "direction")] <- list("right", "vertical")
 
-  grid <- vec_expand_grid(hjust = c(0, 0.5, 1), vjust = c(0, 0.5, 1))
+  grid <- vec_expand_grid(hjust = c(0.0, 0.5, 1.0), vjust = c(0.0, 0.5, 1.0))
 
   grobs <- lapply(vec_seq_along(grid), function(i) {
     tmp <- params
@@ -25,11 +25,11 @@ test_that("label placement is ok regardless of hjust/vjust", {
     )
   })
 
-  gt <- gtable(unit(rep(1, 3), "null"), unit(rep(1, 3), "null"))
+  gt <- gtable(unit(rep(1.0, 3L), "null"), unit(rep(1.0, 3L), "null"))
   gt <- gtable_add_grob(
     gt, grobs,
-    t = grid$vjust * 2 + 1,
-    l = grid$hjust * 2 + 1
+    t = grid$vjust * 2.0 + 1.0,
+    l = grid$hjust * 2.0 + 1.0
   )
 
   vdiffr::expect_doppelganger(
@@ -37,10 +37,10 @@ test_that("label placement is ok regardless of hjust/vjust", {
     gt
   )
 
-  grid <- data.frame(
+  grid <- data_frame0(
     text  = c("top", "right", "bottom", "left"),
-    hjust = c(1, 0.5, 0, 0.5),
-    vjust = c(0.5, 0, 0.5, 1)
+    hjust = c(1.0, 0.5, 0.0, 0.5),
+    vjust = c(0.5, 0.0, 0.5, 1.0)
   )
 
   grobs <- lapply(vec_seq_along(grid), function(i) {
@@ -52,11 +52,11 @@ test_that("label placement is ok regardless of hjust/vjust", {
     )
   })
 
-  gt <- gtable(unit(rep(1, 2), "null"), unit(rep(1, 2), "null"))
+  gt <- gtable(unit(rep(1.0, 2.0), "null"), unit(rep(1.0, 2.0), "null"))
   gt <- gtable_add_grob(
     gt, grobs,
-    t = c(1, 2, 1, 2),
-    l = c(1, 1, 2, 2)
+    t = c(1L, 2L, 1L, 2L),
+    l = c(1L, 1L, 2L, 2L)
   )
 
   vdiffr::expect_doppelganger(
@@ -66,11 +66,11 @@ test_that("label placement is ok regardless of hjust/vjust", {
 })
 
 test_that("guide_circles handles override.aes properly", {
-  p <- guide_circles(override.aes = list(color = "blue", pch = 19))
-  expect_equal(p$params$override.aes, list(colour = "blue", shape = 19))
+  p <- guide_circles(override.aes = list(color = "blue", pch = 19L))
+  expect_identical(p$params$override.aes, list(colour = "blue", shape = 19L))
 
   expect_snapshot_warning(
     p <- guide_circles(override.aes = list(colour = "black", color = "red"))
   )
-  expect_equal(p$params$override.aes, list(colour = "black", colour = "red"))
+  expect_identical(p$params$override.aes, list(colour = "black", colour = "red"))
 })

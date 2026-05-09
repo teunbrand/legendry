@@ -15,14 +15,14 @@ test_that("compose_ontop works as axis line", {
   top <- compose_stack(
     primitive_spacer(unit(0.25, "cm")),
     guide_axis_base(
-      key_manual(c(2.5, 3.5, 4.5, 5.5, 6.5, 15, 25, 35)),
+      key_manual(c(2.5, 3.5, 4.5, 5.5, 6.5, 15.0, 25.0, 35.0)),
       theme = theme(
         axis.ticks = element_line(colour = "tomato"),
         axis.ticks.length = unit(0.5, "cm"),
         axis.line = element_line(colour = "tomato")
       )
     ),
-    theme = theme(legendry.guide.spacing = unit(0, "cm"))
+    theme = theme(legendry.guide.spacing = unit(0.0, "cm"))
   )
 
   ontop <- compose_ontop(

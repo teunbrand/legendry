@@ -134,7 +134,7 @@ GuideLegendManual <- ggproto(
     # This is a simplified version of GuideLegend$get_layer_key that doesn't
     # demand matching aesthetics
 
-    if (nrow(params$key) < 1) {
+    if (nrow(params$key) < 1L) {
       return(params)
     }
     decor <- lapply(layers, function(layer) {

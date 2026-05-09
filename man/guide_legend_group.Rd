@@ -13,7 +13,7 @@ guide_legend_group(
   theme = NULL,
   position = NULL,
   direction = NULL,
-  order = 0
+  order = 0L
 )
 }
 \arguments{

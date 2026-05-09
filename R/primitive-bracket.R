@@ -84,14 +84,17 @@ primitive_bracket <- function(
   oob <- arg_match0(oob, c("squish", "censor", "none"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
+  line_class <- c("element_line", "ggplot2::element_line")
+  text_class <- c("element_text", "ggplot2::element_text")
+  blank_class <- c("element_blank", "ggplot2::element_blank")
   check_list_of(
     levels_brackets,
-    c("element_line", "element_blank", "NULL", "ggplot2::element_line", "ggplot2::element_blank"),
+    c(line_class, blank_class, "NULL"),
     allow_null = TRUE
   )
   check_list_of(
     levels_text,
-    c("element_text", "element_blank", "NULL", "ggplot2::element_text", "ggplot2::element_blank"),
+    c(text_class, blank_class, "NULL"),
     allow_null = TRUE
   )
   bracket <- resolve_bracket(bracket)
@@ -123,7 +126,7 @@ PrimitiveBracket <- ggproto(
 
   params = new_params(
     key = NULL, oob = "squish", drop_zero = TRUE,
-    pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0, 1), 0.5),
+    pad_discrete = 0.4, angle = waiver(), bracket = cbind(c(0.0, 1.0), 0.5),
     levels_text = NULL, levels_brackets = NULL
   ),
 
@@ -153,11 +156,11 @@ PrimitiveBracket <- ggproto(
     brackets <- vec_rep(bracket, n_keys)
     keys <- vec_rep_each(key, nrow(bracket))
 
-    value <- brackets[, 1] * (keys$end - keys$start) + keys$start
+    value <- brackets[, 1L] * (keys$end - keys$start) + keys$start
 
     data_frame0(
       !!aesthetic := value,
-      offset = brackets[, 2],
+      offset = brackets[, 2L],
       group = rep(seq_len(n_keys), each = nrow(bracket)),
       .level = keys$.level
     )
@@ -166,7 +169,8 @@ PrimitiveBracket <- ggproto(
   transform = function(self, params, coord, panel_params) {
     params$key <-
       transform_key(params$key, params$position, coord, panel_params)
-    params$bbox  <- panel_params$bbox %||% list(x = c(0, 1), y = c(0, 1))
+    params$bbox  <- panel_params$bbox %||%
+      list(x = c(0.0, 1.0), y = c(0.0, 1.0))
     params$decor <-
       transform_bracket(params$decor, params$position, coord, panel_params)
     params
@@ -194,18 +198,18 @@ PrimitiveBracket <- ggproto(
     key <- justify_ranges(key, levels, elements$text, text_levels)
 
     if (is_theta(position)) {
-      add <- if (position == "theta.sec") pi else 0
+      add <- if (position == "theta.sec") pi else 0.0
       key <- polar_xy(key, key$r, key$theta + add, params$bbox)
     }
 
     if (is_blank(elements$line) || is_empty(decor)) {
-      decor <- vec_slice(decor, 0)
+      decor <- vec_slice(decor, 0L)
     } else if (position %in% .trbl) {
       offset  <- decor$offset
-      offset  <- if (position %in% .trbl[1:2]) 1 - offset else offset
+      offset  <- if (position %in% .trbl[1L:2L]) 1.0 - offset else offset
       decor$x <- switch(position, left = , right = offset, decor$x)
       decor$y <- switch(position, top = , bottom = offset, decor$y)
-      decor$offset <- 0
+      decor$offset <- 0.0
     }
 
     offset <- elements$offset
@@ -285,14 +289,14 @@ PrimitiveBracket <- ggproto(
 # Helpers -----------------------------------------------------------------
 
 draw_bracket <- function(decor, element, size, offset, position) {
-  if (nrow(decor) < 2) {
+  if (nrow(decor) < 2L) {
     return(zeroGrob())
   }
   x <- unit(decor$x, "npc")
   y <- unit(decor$y, "npc")
 
   if (is_theta(position)) {
-    offset <- (1 - decor$offset) * size + offset
+    offset <- (1.0 - decor$offset) * size + offset
     x <- x + unit(sin(decor$theta) * offset, "cm")
     y <- y + unit(cos(decor$theta) * offset, "cm")
   }

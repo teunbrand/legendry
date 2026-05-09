@@ -12,7 +12,7 @@ guide_colbar(
   shape = "triangle",
   size = NULL,
   show = NA,
-  nbin = 15,
+  nbin = 15L,
   alpha = NA,
   reverse = FALSE,
   suppress_labels = "second",

@@ -124,7 +124,7 @@ vanilla_coloursteps_theme <- function(...) {
   theme(
     legend.axis.line = element_blank(),
     legend.ticks = element_blank(),
-    legend.ticks.length = rel(-1),
+    legend.ticks.length = rel(-1.0),
     legend.frame = element_blank(),
     ...
   )

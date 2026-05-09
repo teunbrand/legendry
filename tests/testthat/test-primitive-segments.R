@@ -12,16 +12,16 @@ test_that("primitive_segments works as axis", {
     )
 
   hkey <- key_segment_manual(
-    value     = c(2, 4, 6, 1.6, 1.6),
-    value_end = c(2, 4, 6, 7.0, 7.0),
-    oppo      = c(0, 0, 0, 1, 2),
-    oppo_end  = c(3, 3, 3, 1, 2)
+    value     = c(2.0, 4.0, 6.0, 1.6, 1.6),
+    value_end = c(2.0, 4.0, 6.0, 7.0, 7.0),
+    oppo      = c(0.0, 0.0, 0.0, 1.0, 2.0),
+    oppo_end  = c(3.0, 3.0, 3.0, 1.0, 2.0)
   )
 
   vkey <- key_segment_manual(
-    value     = c(20, 30, 30, 40),
-    value_end = c(30, 40, 20, 30),
-    oppo      = 0, oppo_end  = 1
+    value     = c(20.0, 30.0, 30.0, 40.0),
+    value_end = c(30.0, 40.0, 20.0, 30.0),
+    oppo      = 0.0, oppo_end = 1.0
   )
 
   p <- base +
@@ -50,9 +50,9 @@ test_that("primitive_segments works as axis", {
 test_that("primitive_segments works as a legend", {
 
   key <- key_segment_manual(
-    value     = c(100, 200, 200, 300),
-    value_end = c(200, 300, 100, 200),
-    oppo = 0, oppo_end = 1
+    value     = c(100.0, 200.0, 200.0, 300.0),
+    value_end = c(200.0, 300.0, 100.0, 200.0),
+    oppo = 0.0, oppo_end = 1.0
   )
 
   p <- ggplot(mtcars) +

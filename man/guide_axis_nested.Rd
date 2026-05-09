@@ -19,7 +19,7 @@ guide_axis_nested(
   pad_discrete = NULL,
   levels_text = NULL,
   ...,
-  order = 0,
+  order = 0L,
   position = waiver()
 )
 }
@@ -168,7 +168,11 @@ p + guides(x = guide_axis_nested(type = "fence", rail = "inner")) +
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
   guides(x = guide_axis_nested(
-    key = key_range_manual(start = 2:3, end = 5:6, name = c("First", "Second")),
+    key = key_range_manual(
+      start = 2:3,
+      end = 5:6,
+      name = c("First", "Second")
+    ),
     regular_key = key_manual(c(2, 2.5, 3, 5, 7))
   ))
 }

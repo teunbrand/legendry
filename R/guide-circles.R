@@ -75,16 +75,16 @@ guide_circles <- function(
   title = waiver(),
   theme = NULL,
   hjust = 0.5,
-  vjust = 0,
+  vjust = 0.0,
   text_position = NULL,
   clip_text = FALSE,
-  override.aes = list(shape = 1),
+  override.aes = list(shape = 1L),
   position = waiver(),
   direction = NULL
 ) {
 
-  check_number_decimal(hjust, min = 0, max = 1, allow_infinite = FALSE)
-  check_number_decimal(vjust, min = 0, max = 1, allow_infinite = FALSE)
+  check_number_decimal(hjust, min = 0.0, max = 1.0, allow_infinite = FALSE)
+  check_number_decimal(vjust, min = 0.0, max = 1.0, allow_infinite = FALSE)
   check_bool(clip_text)
   check_argmatch(text_position, c(.trbl, "ontop"), allow_null = TRUE)
 
@@ -112,7 +112,7 @@ guide_circles <- function(
 GuideCircles <- ggproto(
   "GuideCircles", Guide,
 
-  params = new_params(key = "auto", hjust = 0.5, vjust = 0, clip_text = TRUE,
+  params = new_params(key = "auto", hjust = 0.5, vjust = 0.0, clip_text = TRUE,
                       text_position = "ontop", override.aes = list()),
 
   elements = list(
@@ -147,15 +147,15 @@ GuideCircles <- ggproto(
       vjust = params$vjust
     )
 
-    x <- glyphs[[1]]$xpos
-    y <- glyphs[[1]]$ypos
+    x <- glyphs[[1L]]$xpos
+    y <- glyphs[[1L]]$ypos
 
     key_bg <- element_grob(elements$key)
     padding <- cm(elements$padding)
-    width <- width_cm(glyphs[[1]]$width)
-    height <- height_cm(glyphs[[1]]$height)
-    width  <- unit(c(padding[4], width,  padding[2]), "cm")
-    height <- unit(c(padding[1], height, padding[3]), "cm")
+    width <- width_cm(glyphs[[1L]]$width)
+    height <- height_cm(glyphs[[1L]]$height)
+    width  <- unit(c(padding[4L], width,  padding[2L]), "cm")
+    height <- unit(c(padding[1L], height, padding[3L]), "cm")
 
     position <- params$text_position %||% elements$text_position
     if (position == "ontop") {
@@ -184,39 +184,47 @@ GuideCircles <- ggproto(
       grob <- gTree(children = inject(gList(ticks, !!!glyphs)))
     }
 
-    gt <- gtable(widths = width, heights = height)
-    gt <- gtable_add_grob(
-      gt, key_bg, clip = "off", name = "key-bg",
-      t = 1, l = 1, b = 3, r = 3
-    )
-    gt <- gtable_add_grob(gt, grob, t = 2, l = 2, clip = "off", name = "circles")
+    gt <- gtable(widths = width, heights = height) |>
+      gtable_add_grob(
+        key_bg, t = 1L, l = 1L, b = 3L, r = 3L,
+        clip = "off", name = "key-bg"
+      ) |>
+      gtable_add_grob(
+        grob, t = 2L, l = 2L,
+        clip = "off", name = "circles"
+      )
     if (position == "ontop") {
       return(gt)
     }
 
     gt <- switch(
       position,
-      left   = gtable_add_cols(gt, unit(width_cm(text),  "cm"),  0),
-      right  = gtable_add_cols(gt, unit(width_cm(text),  "cm"), -1),
-      bottom = gtable_add_rows(gt, unit(height_cm(text), "cm"), -1),
-      top    = gtable_add_rows(gt, unit(height_cm(text), "cm"),  0)
+      left   = gtable_add_cols(gt, unit(width_cm(text),  "cm"),  0L),
+      right  = gtable_add_cols(gt, unit(width_cm(text),  "cm"), -1L),
+      bottom = gtable_add_rows(gt, unit(height_cm(text), "cm"), -1L),
+      top    = gtable_add_rows(gt, unit(height_cm(text), "cm"),  0L)
     )
     gt <- gtable_add_grob(
       gt, text, clip = "off", name = "labels",
-      t = switch(position, top = 1, bottom = 4, 2),
-      l = switch(position, left = 1, right = 4, 2)
+      t = switch(position, top  = 1L, bottom = 4L, 2L),
+      l = switch(position, left = 1L, right  = 4L, 2L)
     )
     gt
   },
 
   setup_elements = function(params, elements, theme) {
     theme <- theme + params$theme
-    theme$legend.axis.line <- theme$legend.axis.line %||% calc_element("panel.grid", theme)
+    theme$legend.axis.line <-
+      theme$legend.axis.line %||% calc_element("panel.grid", theme)
 
     # Setup title
     title_position <- calc_element("legend.title.position", theme) %||%
       switch(params$direction, horizontal = "left", vertical = "top")
-    elements$title <- setup_legend_title(theme, title_position, params$direction)
+    elements$title <- setup_legend_title(
+      theme,
+      title_position,
+      params$direction
+    )
 
     text_position <- params$text_position %||%
       calc_element("legend.text.position", theme) %||% "right"
@@ -255,9 +263,9 @@ GuideCircles <- ggproto(
     )
 
     # Add padding
-    padding <- rep(0, 4)
-    padding[c(1, 3)] <- height_cm(elements$margin[c(1, 3)])
-    padding[c(2, 4)] <-  width_cm(elements$margin[c(2, 4)])
+    padding <- rep(0.0, 4L)
+    padding[c(1L, 3L)] <- height_cm(elements$margin[c(1L, 3L)])
+    padding[c(2L, 4L)] <-  width_cm(elements$margin[c(2L, 4L)])
     gt <- gtable_add_padding(gt, unit(padding, "cm"))
 
     # Add background
@@ -265,7 +273,7 @@ GuideCircles <- ggproto(
     if (!is_zero(background)) {
       gt <- gtable_add_grob(
         gt, background, name = "background", clip = "off",
-        t = 1, r = -1, b = -1, l = 1, z = -Inf
+        t = 1L, r = -1L, b = -1L, l = 1L, z = -Inf
       )
     }
     gt
@@ -286,7 +294,7 @@ censor_text_background <- function(x, y, text, background,
     x = x, y = y - unit((vjust - 0.5) * height, "cm"),
     width  = unit(width, "cm"),
     height = unit(height, "cm"),
-    gp = gpar(fill = colour, col = NA, lty = 0),
+    gp = gpar(fill = colour, col = NA, lty = 0.0),
     vp = viewport(clip = "on")
   )
 
@@ -296,19 +304,18 @@ censor_text_background <- function(x, y, text, background,
 draw_circle_ticks <- function(element, x, y, padding, position) {
 
   n <- length(x)
-  f <- function(x, i) unit(rep(x, n), "npc")
 
   xend <- switch(
     position,
-    left  = unit(rep(0, n), "npc") - unit(padding[4], "cm"),
-    right = unit(rep(1, n), "npc") + unit(padding[2], "cm"),
+    left  = unit(rep(0.0, n), "npc") - unit(padding[4L], "cm"),
+    right = unit(rep(1.0, n), "npc") + unit(padding[2L], "cm"),
     x
   )
 
   yend <- switch(
     position,
-    top    = unit(rep(1, n), "npc") + unit(padding[1], "cm"),
-    bottom = unit(rep(0, n), "npc") - unit(padding[3], "cm"),
+    top    = unit(rep(1.0, n), "npc") + unit(padding[1L], "cm"),
+    bottom = unit(rep(0.0, n), "npc") - unit(padding[3L], "cm"),
     y
   )
 
@@ -316,31 +323,32 @@ draw_circle_ticks <- function(element, x, y, padding, position) {
   x <- unit.c(x, xend)[interleave]
   y <- unit.c(y, yend)[interleave]
 
-  element_grob(element, x = x, y = y, id.lengths = rep(2, n))
+  element_grob(element, x = x, y = y, id.lengths = rep(2L, n))
 }
 
-draw_circles <- function(decor, vjust = 0, hjust = 0.5) {
+draw_circles <- function(decor, vjust = 0.0, hjust = 0.5) {
 
   data <- vec_slice(decor$data, decor$data$.draw %||% TRUE)
   order <- order(-data$size)
   glyph <- lapply(seq_len(nrow(data))[order], function(i) {
-    decor$draw_key(vec_slice(data, i), decor$params, 0)
+    decor$draw_key(vec_slice(data, i), decor$params, 0.0)
   })
-  size  <- map_dbl(glyph, function(x) max(x$gp$fontsize %||% 0))
-  shape <- map_dbl(glyph, function(x) if (is.numeric(x$pch)) x$pch[1] else 1L)
+  size  <- map_dbl(glyph, function(x) max(x$gp$fontsize %||% 0.0))
+  shape <- map_dbl(glyph, function(x) if (is.numeric(x$pch)) x$pch[1L] else 1L)
 
   # These are some arcane incantations I've long forgotten why they work
   size <- size * magic_num * pch_mult[shape]
-  ydiv <-  pch_div0[shape] * (1 - vjust) + pch_div1[shape] * vjust
-  xdiv <- (pch_div0[shape] * (1 - hjust) + pch_div1[shape] * hjust) * asp[shape]
+  ydiv <-  pch_div0[shape] * (1.0 - vjust) + pch_div1[shape] * vjust
+  xdiv <- (pch_div0[shape] * (1.0 - hjust) + pch_div1[shape] * hjust) *
+    asp[shape]
 
   yoffset <- (max(size) - size) / ydiv
   xoffset <- (max(size) - size) / xdiv
 
-  ypos <- (vjust - 0.5) * 2
+  ypos <- (vjust - 0.5) * 2.0
   ypos <- unit(ynpc[shape], "npc") + unit(ypos * yoffset, "pt")
 
-  xpos <- (hjust - 0.5) * 2
+  xpos <- (hjust - 0.5) * 2.0
   xpos <- unit(0.5, "npc") + unit(xpos * xoffset, "pt")
 
   glyph <- Map(function(grob, x, y) {
@@ -348,11 +356,11 @@ draw_circles <- function(decor, vjust = 0, hjust = 0.5) {
     editGrob(grob, vp = vp)
   }, grob = glyph, x = xpos, y = ypos)
 
-  if (all(shape %in% c(0, 7, 12, 14, 15, 22))) {
+  if (all(shape %in% c(0L, 7L, 12L, 14L, 15L, 22L))) {
     xpos <- xpos + unit((hjust - 0.5) * -size, "pt")
     ypos <- ypos + unit((vjust - 0.5) * -size, "pt")
   } else {
-    angle <- 1.5 * pi - atan2(vjust * 2 - 1, hjust * 2 - 1)
+    angle <- 1.5 * pi - atan2(vjust * 2.0 - 1.0, hjust * 2.0 - 1.0)
     xpos <- xpos + unit(sin(angle) * 0.5 * size, "pt")
     ypos <- ypos + unit(cos(angle) * 0.5 * size * asp[shape], "pt")
   }
@@ -373,24 +381,24 @@ draw_circles <- function(decor, vjust = 0, hjust = 0.5) {
 magic_num <- .pt / .stroke
 
 pch_div <- rep(
-  c(2, 3, 2, 1.5, 2, 3, 2, 3, 1.5),
+  c(2.0, 3.0, 2.0, 1.5, 2.0, 3.0, 2.0, 3.0, 1.5),
   c(1L, 1L, 3L, 1L, 10L, 1L, 6L, 1L, 1L)
 )
 
 pch_div0 <- pch_div
 pch_div1 <- pch_div
-pch_div1[c(2, 17, 24)] <- 1.5
-pch_div1[c(6, 25)] <- 3
+pch_div1[c(2L, 17L, 24L)] <- 1.5
+pch_div1[c(6L, 25L)] <- 3.0
 
-ynpc <- rep(0.5, 25)
-ynpc[c(2, 17, 24)] <- 0.35
-ynpc[c(6, 25)] <- 0.65
+ynpc <- rep(0.5, 25L)
+ynpc[c(2L, 17L, 24L)] <- 0.35
+ynpc[c(6L, 25L)] <- 0.65
 
-asp <- rep(1, 25)
-asp[c(2, 6, 17, 24, 25)] <- 2 / sqrt(3)
+asp <- rep(1.0, 25L)
+asp[c(2L, 6L, 17L, 24L, 25L)] <- 2.0 / sqrt(3.0)
 
 pch_mult <- c(
-  1, 1.166, 1.41466666666667, 1, 1.41466666666667, 1.166, 1,
-  1, 1.41466666666667, 1, 1.55466666666667, 1, 1, 1, 1, 1, 1.166,
-  1, 1, 0.666666666666667, 1, 0.886, 1.25333333333333, 1.166, 1.166
+  1.0, 1.166, 1.41466666666667, 1.0, 1.41466666666667, 1.166, 1.0,
+  1.0, 1.41466666666667, 1.0, 1.55466666666667, 1.0, 1.0, 1.0, 1.0, 1.0, 1.166,
+  1.0, 1.0, 0.666666666666667, 1.0, 0.886, 1.25333333333333, 1.166, 1.166
 )

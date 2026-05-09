@@ -38,8 +38,8 @@
 #'   to omit labels for empty levels.
 #' @param aesthetic A vector of values for the guide to represent equivalent to
 #'   the `breaks` argument in scales. These will be mapped by the scale to
-#'   positions. Alternatively, a `<numeric[n]>` vector to set positions directly.
-#'   Positions are used to place symbols.
+#'   positions. Alternatively, a `<numeric[n]>` vector to set positions
+#'   directly. Positions are used to place symbols.
 #' @param level A `<factor[n]>` or `<character[n]>` parallel to the `aesthetic`
 #'   argument setting the label level of the symbol.
 #' @param symbol (Optional) An `<integer[n]>` indexing the guide's
@@ -77,7 +77,8 @@
 #' # Aesthetic can also be numeric
 #' key_symbols(1:3, 3:1)(template)
 #' # Setting level order via factors
-#' key_symbols(1:3, level = factor(c("X", "Y", "Z"), c("Y", "X", "Z")))(template)
+#' ordered <- factor(c("X", "Y", "Z"), c("Y", "X", "Z"))
+#' key_symbols(1:3, level = ordered)(template)
 #' # Setting groups for symbols, for `guide_axis_symbols(override.aes)`
 #' key_symbols(1:3, 1:3, symbol = c(1, 1, 2))(template)
 #' # Passing individual graphical parameters
@@ -86,11 +87,11 @@ NULL
 
 #' @export
 #' @rdname key_specialty
-key_sequence <- function(n = 15) {
+key_sequence <- function(n = 15L) {
   force(n)
-  check_number_whole(n, min = 2)
+  check_number_whole(n, min = 2.0)
   function(scale, aesthetic = NULL) {
-    aesthetic <- aesthetic %||% scale$aesthetics[1]
+    aesthetic <- aesthetic %||% scale$aesthetics[1L]
     df <- map_sequence(scale = scale, aesthetic = aesthetic, nbin = n)
     class(df) <- c("key_sequence", "key_guide", class(df))
     df
@@ -103,7 +104,7 @@ key_bins <- function(even.steps = FALSE, show.limits = NULL) {
   force(even.steps)
   force(show.limits)
   function(scale, aesthetic = NULL) {
-    aesthetic <- aesthetic %||% scale$aesthetics[1]
+    aesthetic <- aesthetic %||% scale$aesthetics[1L]
     df <- binned_key(
       scale = scale, aesthetic = aesthetic,
       even_steps = even.steps, show_limits = show.limits
@@ -115,16 +116,16 @@ key_bins <- function(even.steps = FALSE, show.limits = NULL) {
 
 #' @export
 #' @rdname key_specialty
-key_upset <- function(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other") {
+key_upset <- function(
+  sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other"
+) {
   check_string(sep)
   force(string)
   force(order)
-  call <- current_call()
   function(scale, aesthetic = NULL) {
     upset_from_split_label(
       scale = scale, aesthetic = aesthetic,
-      sep = sep, order = order, empty_label = empty_label,
-      call = call
+      sep = sep, order = order, empty_label = empty_label
     )
   }
 }
@@ -132,10 +133,10 @@ key_upset <- function(sep = "[^[:alnum:]]+", order = NULL, empty_label = "Other"
 #' @export
 #' @rdname key_specialty
 key_symbols <- function(aesthetic, level, symbol = NULL, ...) {
-  if (!is_integerish(level)) {
-    level_universe <- levels(level) %||% unique(level)
-  } else {
+  if (is_integerish(level)) {
     level_universe <- sort(unique(level))
+  } else {
+    level_universe <- levels(level) %||% unique(level)
   }
   index <- match(level, level_universe)
   valid <- c("colour", "color", "shape", "size", "fill", "stroke")
@@ -153,14 +154,14 @@ key_symbols <- function(aesthetic, level, symbol = NULL, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-map_sequence <- function(scale, aesthetic, nbin = 15, ...) {
+map_sequence <- function(scale, aesthetic, nbin = 15L, ...) {
   if (scale$is_discrete()) {
     cli::cli_abort("Cannot use {.fn key_sequence} for discrete scales.")
   }
 
   limits <- scale$get_limits()
-  key <- seq(limits[1], limits[2], length.out = nbin)
-  if (length(key) == 0) {
+  key <- seq(limits[1L], limits[2L], length.out = nbin)
+  if (length(key) == 0L) {
     key <- vec_unique(limits)
   }
   key <- data_frame0(
@@ -180,13 +181,13 @@ binned_key <- function(scale, aesthetic, even_steps, show_limits = NULL) {
     breaks <- parse_binned_breaks(scale, breaks, even.steps = even_steps)
 
     n <- length(breaks$bin_at)
-    seq <- seq(0, n)
-    seq <- rescale(seq, to = limits, from = c(0, n))
+    seq <- seq(0.0, n)
+    seq <- rescale(seq, to = limits, from = c(0.0, n))
 
     key <- data_frame0(
       !!aesthetic := scale$map(breaks$bin_at),
       min = seq[-length(seq)],
-      max = seq[-1]
+      max = seq[-1L]
     )
     key <- vec_c(key, NA)
     key$.label <- key$.value <- NA
@@ -196,11 +197,11 @@ binned_key <- function(scale, aesthetic, even_steps, show_limits = NULL) {
   } else {
     all <- unique(sort(c(limits, breaks)))
     n <- length(all)
-    bin_at <- (all[-1] + all[-n]) / 2
+    bin_at <- (all[-1L] + all[-n]) / 2.0
     key <- data_frame0(
       !!aesthetic := scale$map(bin_at),
       min = all[-n],
-      max = all[-1],
+      max = all[-1L]
     )
     key <- vec_c(key, NA)
     key$.label <- NA
@@ -224,7 +225,7 @@ binned_key <- function(scale, aesthetic, even_steps, show_limits = NULL) {
 
   n <- nrow(key)
   if (show_limits) {
-    key$.label[c(1, n)] <- scale$get_labels(limits)
+    key$.label[c(1L, n)] <- scale$get_labels(limits)
   }
   key$.value[is.na(key$.label)] <- NA
   key
@@ -233,7 +234,7 @@ binned_key <- function(scale, aesthetic, even_steps, show_limits = NULL) {
 parse_binned_breaks <- function(scale, breaks = scale$get_breaks(),
                                 even.steps = TRUE) {
   breaks <- breaks[!is.na(breaks)]
-  if (length(breaks) == 0) {
+  if (length(breaks) == 0L) {
     return(NULL)
   }
   breaks <- sort(breaks)
@@ -242,8 +243,8 @@ parse_binned_breaks <- function(scale, breaks = scale$get_breaks(),
     if (!is.numeric(scale$breaks)) {
       breaks <- breaks[!breaks %in% limits]
     }
-    all_breaks <- unique0(c(limits[1], breaks, limits[2]))
-    bin_at <- all_breaks[-1] - diff(all_breaks) / 2
+    all_breaks <- unique0(c(limits[1L], breaks, limits[2L]))
+    bin_at <- all_breaks[-1L] - diff(all_breaks) / 2.0
   } else {
     if (isFALSE(even.steps)) {
       cli::cli_warn(paste0(
@@ -262,9 +263,9 @@ parse_binned_breaks <- function(scale, breaks = scale$get_breaks(),
         i = "Use {.code (<lower>, <upper>]} format to indicate bins."
       ))
     }
-    all_breaks <- nums[c(1, seq_along(breaks) * 2)]
-    limits <- all_breaks[ c(1, length(all_breaks))]
-    breaks <- all_breaks[-c(1, length(all_breaks))]
+    all_breaks <- nums[c(1L, seq_along(breaks) * 2L)]
+    limits <- all_breaks[ c(1L, length(all_breaks))]
+    breaks <- all_breaks[-c(1L, length(all_breaks))]
   }
   list(
     breaks = breaks,
@@ -274,9 +275,11 @@ parse_binned_breaks <- function(scale, breaks = scale$get_breaks(),
   )
 }
 
-upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = NULL, call) {
+upset_from_split_label <- function(
+  scale, aesthetic, sep, order, empty_label = NULL
+) {
 
-  aesthetic <- aesthetic %||% scale$aesthetics[1]
+  aesthetic <- aesthetic %||% scale$aesthetics[1L]
   key <- Guide$extract_key(scale, aesthetic)
 
   label <- strsplit(key$.label, split = sep)
@@ -292,7 +295,7 @@ upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = N
   mtx <- t(vapply(label, function(x) levels %in% x, logical(length(levels))))
   colnames(mtx) <- levels
 
-  empty <- rowSums(mtx) == 0
+  empty <- rowSums(mtx) == 0.0
   if (any(empty) && !is.null(empty_label)) {
     empty[!empty] <- NA
     mtx <- cbind(mtx, empty)
@@ -315,8 +318,8 @@ upset_from_split_label <- function(scale, aesthetic, sep, order, empty_label = N
   df
 }
 
-merge_symbol_key = function(scale, aesthetic, key) {
-  aesthetic <- aesthetic %||% scale$aesthetics[1]
+merge_symbol_key <- function(scale, aesthetic, key) {
+  aesthetic <- aesthetic %||% scale$aesthetics[1L]
   if (!is.numeric(key$aesthetic)) {
     scale_key <- Guide$extract_key(scale, aesthetic)
     i <- match(key$aesthetic, scale_key$.value)
