@@ -313,11 +313,7 @@ extra_args <- function(..., .valid_args = .label_params, call = caller_env()) {
   if (length(args) == 0L) {
     return(NULL)
   }
-
-  if (!is.null(args$color)) {
-    args$colour <- args$color
-    args$color <- NULL
-  }
+  args <- rename_aes(args, call = call)
   extra <- setdiff(names(args), .valid_args)
   if (length(extra) > 0L) {
     cli::cli_warn("Ignoring unknown parameters: {.and {extra}}.", call = call)
