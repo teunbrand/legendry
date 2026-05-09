@@ -12,3 +12,5 @@
 ^CODE_OF_CONDUCT\.md$
 ^CRAN-SUBMISSION$
 ^revdep$
+^\.positai$
+^\.claude$
