@@ -18,7 +18,7 @@ guide_circles(
   vjust = 0,
   text_position = NULL,
   clip_text = FALSE,
-  override.aes = list(shape = 1),
+  override.aes = list(shape = 1L),
   position = waiver(),
   direction = NULL
 )

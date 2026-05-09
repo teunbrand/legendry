@@ -20,6 +20,9 @@
   for a more manual version of placing symbols. Also comes with
   [`key_symbols()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
   to match ([\#38](https://github.com/teunbrand/legendry/issues/38)).
+- New key
+  [`key_range_rle()`](https://teunbrand.github.io/legendry/reference/key_range.md)
+  to create a range annotation based on run-length encoding.
 - New arguments `guide_axis_base(subtitle)` and
   `guide_axis_nested(subtitle)` make it easier to title custom axes
   ([\#102](https://github.com/teunbrand/legendry/issues/102))
@@ -37,6 +40,13 @@
 - [`key_group_split()`](https://teunbrand.github.io/legendry/reference/key_group.md)
   tries to preserve order of labels better, rather than re-sorting them
   ([\#100](https://github.com/teunbrand/legendry/issues/100))
+- Fixed a bug where empty titles in legends contributed to spacing.
+  Visual tests depending on legendry may see subtle positioning shifts
+  ([\#113](https://github.com/teunbrand/legendry/issues/113)).
+- Fixed a bug where
+  [`guide_legend_group()`](https://teunbrand.github.io/legendry/reference/guide_legend_group.md)
+  struggled to merge different scales
+  ([\#112](https://github.com/teunbrand/legendry/issues/112)).
 
 ## legendry 0.2.4
 

@@ -16,7 +16,7 @@ guide_colring(
   end = NULL,
   outer_guide = "axis_base",
   inner_guide = "axis_base",
-  nbin = 300,
+  nbin = 300L,
   reverse = FALSE,
   show_labels = "outer",
   theme = NULL,

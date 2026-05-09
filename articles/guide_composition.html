@@ -115,7 +115,7 @@ there.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">staxis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis_base"</span>, <span class="st">"axis_base"</span>, <span class="st">"axis_base"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">standard</span> <span class="op">+</span> </span>
+<span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">staxis</span>,</span>
@@ -166,7 +166,7 @@ key</a> and power the display of <a href="https://teunbrand.github.io/legendry/a
 axes</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">range_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/key_range.html">key_range_manual</a></span><span class="op">(</span></span>
-<span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, </span>
+<span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>,</span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First"</span>, <span class="st">"Second"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -192,9 +192,9 @@ slightly easier to prevent unwanted double titles.</li>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/primitive_title.html">primitive_title</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Sneaky little displacementses"</span>, </span>
-<span>    <span class="st">"We needs it. Must have the displament"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
+<span>    <span class="st">"Sneaky little displacementses"</span>,</span>
+<span>    <span class="st">"We needs it. Must have the displament"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/primitive_title.html">primitive_title</a></span><span class="op">(</span><span class="st">"Gollum explains engine displacement to you"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"A normal person explains engine displacement"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="guide_composition_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
@@ -216,7 +216,7 @@ impossible to use them by name inside function that don’t expect them.
 This acts as a little bit of discouragement from using primitives as
 complete guides.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="st">"ticks"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `validate_guide()`:</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Unknown guide: ticks</span></span></code></pre></div>
@@ -228,7 +228,7 @@ function.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"ticks"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Looks identical to the above</span></span>
-<span><span class="va">standard</span> <span class="op">+</span> </span>
+<span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="fu"><a href="../reference/primitive_ticks.html">primitive_ticks</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="guide_composition_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
 </div>
@@ -255,7 +255,7 @@ called ‘opposite’.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span></span>
-<span>      text     <span class="op">=</span> <span class="fu"><a href="../reference/primitive_labels.html">primitive_labels</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>      text     <span class="op">=</span> <span class="fu"><a href="../reference/primitive_labels.html">primitive_labels</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      opposite <span class="op">=</span> <span class="fu"><a href="../reference/primitive_ticks.html">primitive_ticks</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
@@ -278,7 +278,7 @@ for example <code>facet_grid(axis.labels = "margins")</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span></span>
-<span>      text     <span class="op">=</span> <span class="st">"axis_base"</span>, </span>
+<span>      text     <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
 <span>      opposite <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -340,7 +340,7 @@ have been necessary but: don’t make your plot like this!</p>
 <span><span class="op">)</span></span>
 <span><span class="va">my_gizmo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gizmo_grob.html">gizmo_grob</a></span><span class="op">(</span><span class="va">my_grob</span>, width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"cm"</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">standard</span> <span class="op">+</span> </span>
+<span><span class="va">standard</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">my_gizmo</span><span class="op">)</span>,</span>
@@ -377,7 +377,7 @@ this.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    option <span class="op">=</span> <span class="st">"C"</span>,</span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_sandwich.html">compose_sandwich</a></span><span class="op">(</span></span>
-<span>      middle <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_density.html">gizmo_density</a></span><span class="op">(</span>just <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>      middle <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_density.html">gizmo_density</a></span><span class="op">(</span>just <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>      text <span class="op">=</span> <span class="st">"axis_base"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -404,7 +404,7 @@ not when stacking.</p>
 <span>  key <span class="op">=</span> <span class="fu"><a href="../reference/key_standard.html">key_manual</a></span><span class="op">(</span><span class="fl">32</span>, label <span class="op">=</span> <span class="st">"Here is 32"</span><span class="op">)</span>,</span>
 <span>  theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
 <span>    ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
-<span>    ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -425,7 +425,7 @@ bottom. It isn’t currently in use by any complete guide though.</p>
 <span>  r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"cm"</span><span class="op">)</span>, gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"tomato"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">block</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gizmo_grob.html">gizmo_grob</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.rect.html" class="external-link">rectGrob</a></span><span class="op">(</span></span>
-<span>  width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span>, </span>
+<span>  width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
 <span>  gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -433,7 +433,7 @@ bottom. It isn’t currently in use by any complete guide though.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">cty</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span></span>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="../reference/compose_crux.html">compose_crux</a></span><span class="op">(</span></span>
-<span>      centre <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_barcap.html">gizmo_barcap</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>      centre <span class="op">=</span> <span class="fu"><a href="../reference/gizmo_barcap.html">gizmo_barcap</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      left <span class="op">=</span> <span class="st">"axis_base"</span>, right <span class="op">=</span> <span class="st">"axis_base"</span>,</span>
 <span>      top <span class="op">=</span> <span class="va">ball</span>, bottom <span class="op">=</span> <span class="va">block</span></span>
 <span>    <span class="op">)</span></span>

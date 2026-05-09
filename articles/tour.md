@@ -52,7 +52,7 @@ display bidirectional tick marks.
 
 ``` r
 
-p <- standard + 
+p <- standard +
   scale_x_continuous(guide = guide_axis_base(bidi = TRUE)) +
   scale_y_continuous(guide = guide_axis_base(bidi = TRUE))
 p
@@ -148,7 +148,7 @@ function to constructs the brackets as we see fit.
 my_key <- key_range_manual(
   start = c("Coffee", "Apple"),
   end   = c("Tea", "Pear"),
-  name  = c("Drinks", "Fruits"), 
+  name  = c("Drinks", "Fruits"),
   level = 1
 )
 
@@ -192,13 +192,13 @@ Below follows an overview of all the build-in bracket shapes.
 ``` r
 
 brackets <- list(
-  "atan"    = bracket_atan(),
-  "chevron" = bracket_chevron(),
-  "curvy"   = bracket_curvy(),
-  "line"    = bracket_line(), 
-  "round"   = bracket_round(),
-  "sigmoid" = bracket_sigmoid(),
-  "square"  = bracket_square()
+  atan    = bracket_atan(),
+  chevron = bracket_chevron(),
+  curvy   = bracket_curvy(),
+  line    = bracket_line(),
+  round   = bracket_round(),
+  sigmoid = bracket_sigmoid(),
+  square  = bracket_square()
 )
 
 brackets <- cbind(
@@ -230,7 +230,7 @@ bracket can just be provided to the `bracket` argument.
 
 zigzag <- cbind(
   x = seq(0, 1, length.out = 20),
-  y = rep(c(0, 1), length.out = 20)
+  y = rep_len(c(0, 1), length.out = 20)
 )
 
 plain + guides(x = guide_axis_nested(bracket = zigzag))
@@ -266,7 +266,7 @@ presidents <- key_range_map(presidential, start = start, end = end, name = name)
 eco <- ggplot(economics, aes(date, unemploy)) +
   geom_line() +
   labs(y = "Unemployment")
-  
+
 eco + guides(x = guide_axis_nested(key = presidents))
 ```
 
@@ -277,7 +277,7 @@ list of text elements to the `levels_text` argument.
 
 ``` r
 
-presidents$.level <- rep(1:3, length.out = nrow(presidents))
+presidents$.level <- rep_len(1:3, length.out = nrow(presidents))
 
 eco + guides(x = guide_axis_nested(
   key = presidents,
@@ -297,9 +297,9 @@ by encoding these in the key.
 ``` r
 
 presidents <- key_range_map(
-  presidential, 
+  presidential,
   start = start, end = end, name = name,
-  level = rep(1:4, length.out = nrow(presidential)),
+  level = rep_len(1:4, length.out = nrow(presidential)),
   colour = ifelse(party == "Republican", "tomato", "dodgerblue")
 )
 
@@ -473,7 +473,7 @@ symbol_key <- key_symbols(
 connector <- data.frame(
   value_start = 1, value_end = 4,
   level_start = 4, level_end = 1,
-  colour = 'red'
+  colour = "red"
 )
 
 ggplot(mpg, aes(fl, displ)) +
@@ -508,7 +508,7 @@ counterparts.
 
 ``` r
 
-standard <- standard + 
+standard <- standard +
   aes(colour = cty) +
   labs(colour = "City Miles\nper Gallon")
 
@@ -575,7 +575,7 @@ scale.
 standard +
   scale_colour_viridis_c(
     guide = guide_colbar(
-      show = c(FALSE, TRUE), 
+      show = c(FALSE, TRUE),
       oob = "squish"
     )
   )
@@ -618,6 +618,7 @@ caps <- cbind(
   as.data.frame(do.call(rbind, caps)),
   shape = factor(rep(names(caps), lengths(caps) / 2), names(caps))
 )
+colnames(caps)[1:2] <- c("x", "y")
 
 ggplot(caps, aes(x, y)) +
   geom_path(arrow = arrow()) +
@@ -683,10 +684,10 @@ annotation-primitive like
 
 ``` r
 
-brackets <- 
+brackets <-
   key_range_manual(
     start = c(9, 25),
-    end   = c(19, 30), 
+    end   = c(19, 30),
     name  = c("A", "B")
   ) |>
   primitive_bracket(bracket = "square")
@@ -715,9 +716,9 @@ periodic data, like housing sales below.
 
 ``` r
 
-housing <- 
+housing <-
   ggplot(
-    subset(txhousing, city == "Houston"), 
+    subset(txhousing, city == "Houston"),
     aes(date, volume, colour = month)
   ) +
   geom_line() +
@@ -744,11 +745,11 @@ offers some suitable cyclical palettes, like ‘romaO’, ‘vikO’, ‘bamO’
 ``` r
 
 # Colours from scico::scico(12, palette = "romaO")
-periodic_pal <- 
-  c("#723957", "#843D3A", "#97552B", "#B08033", "#CBB45D", "#D5DA99", 
+periodic_pal <-
+  c("#723957", "#843D3A", "#97552B", "#B08033", "#CBB45D", "#D5DA99",
     "#B8DEC3", "#85C7CF", "#599FC4", "#4E73AB", "#5F4C81", "#723959")
 
-housing + 
+housing +
   scale_colour_gradientn(colours = periodic_pal, limits = c(0, 12))
 ```
 
@@ -761,7 +762,7 @@ in the guide, you can use
 
 ``` r
 
-housing + 
+housing +
   scale_colour_gradientn(
     colours = periodic_pal, limits = c(1, 13),
     breaks = 1:12,
@@ -781,7 +782,7 @@ they aren’t first or second.
 
 ``` r
 
-housing + 
+housing +
   scale_colour_gradientn(
     colours = periodic_pal, limits = c(1, 13),
     breaks = 1:12, minor_breaks = breaks_width(0.25),
@@ -815,7 +816,7 @@ of a rectangular layout.
 design <- matrix(NA, 3, 3)
 diag(design) <- 1:3
 
-standard + 
+standard +
   aes(colour = drv) +
   guides(colour = guide_legend_base(design = design))
 ```

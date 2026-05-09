@@ -22,7 +22,7 @@ arguments of a speciality key, but swapping types is ill-advised.
 ## Usage
 
 ``` r
-key_sequence(n = 15)
+key_sequence(n = 15L)
 
 key_bins(even.steps = FALSE, show.limits = NULL)
 
@@ -193,7 +193,8 @@ key_symbols(1:3, 3:1)(template)
 #> 2         2      2    2
 #> 3         3      1    1
 # Setting level order via factors
-key_symbols(1:3, level = factor(c("X", "Y", "Z"), c("Y", "X", "Z")))(template)
+ordered <- factor(c("X", "Y", "Z"), c("Y", "X", "Z"))
+key_symbols(1:3, level = ordered)(template)
 #>   aesthetic .value .col
 #> 1         1      X    2
 #> 2         2      Y    1

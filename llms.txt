@@ -220,6 +220,7 @@ Fantastic labels and where to display them.
 - [`key_range_auto()`](https://teunbrand.github.io/legendry/reference/key_range.md)
   [`key_range_manual()`](https://teunbrand.github.io/legendry/reference/key_range.md)
   [`key_range_map()`](https://teunbrand.github.io/legendry/reference/key_range.md)
+  [`key_range_rle()`](https://teunbrand.github.io/legendry/reference/key_range.md)
   : Range keys
 - [`key_segment_manual()`](https://teunbrand.github.io/legendry/reference/key_segments.md)
   [`key_segment_map()`](https://teunbrand.github.io/legendry/reference/key_segments.md)

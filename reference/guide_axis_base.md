@@ -16,12 +16,12 @@ guide_axis_base(
   title = waiver(),
   subtitle = NULL,
   theme = NULL,
-  n.dodge = 1,
+  n.dodge = 1L,
   check.overlap = FALSE,
   angle = waiver(),
   cap = "none",
   bidi = FALSE,
-  order = 0,
+  order = 0L,
   position = waiver()
 )
 ```

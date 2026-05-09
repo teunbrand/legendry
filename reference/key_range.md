@@ -11,6 +11,9 @@ have different methods:
 
 - `key_range_map()` makes mappings from a `<data.frame>` to set ranges.
 
+- `key_range_rle()` uses run-length encoding to determine the start and
+  end of runs (blocks of repeated data values).
+
 ## Usage
 
 ``` r
@@ -19,6 +22,8 @@ key_range_auto(sep = "[^[:alnum:]]+", reverse = FALSE, ...)
 key_range_manual(start, end, name = NULL, level = NULL, ...)
 
 key_range_map(data, ..., .call = caller_env())
+
+key_range_rle(x, ...)
 ```
 
 ## Arguments
@@ -73,6 +78,10 @@ key_range_map(data, ..., .call = caller_env())
 
   A [call](https://rlang.r-lib.org/reference/topic-error-call.html) to
   display in messages.
+
+- x:
+
+  A `<vector[n]>` for which to determine run-starts and run-ends.
 
 ## Value
 
@@ -168,4 +177,11 @@ key_range_map(presidential, start = start, end = end, name = name)
 #> 10 2001-01-20 2009-01-20       Bush
 #> 11 2009-01-20 2017-01-20      Obama
 #> 12 2017-01-20 2021-01-20      Trump
+
+# Values from run length encoding
+key_range_rle(c("AB", "AB", "C", "DEF", "DEF", "DEF"))
+#>   start end .label .level
+#> 1     1   2     AB      1
+#> 2     3   3      C      1
+#> 3     4   6    DEF      1
 ```

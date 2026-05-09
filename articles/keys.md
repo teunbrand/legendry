@@ -134,14 +134,14 @@ key <- key_auto()
 print(key)
 #> function (scale, aesthetic = NULL) 
 #> {
-#>     aesthetic <- aesthetic %||% scale$aesthetics[1]
+#>     aesthetic <- aesthetic %||% scale$aesthetics[1L]
 #>     df <- Guide$extract_key(scale, aesthetic)
 #>     df <- data_frame0(df, !!!extra_args(...))
 #>     class(df) <- c("key_standard", "key_guide", class(df))
 #>     df
 #> }
-#> <bytecode: 0x55c1183d3620>
-#> <environment: 0x55c117ecf2b0>
+#> <bytecode: 0x561d163c6c60>
+#> <environment: 0x561d163c7cc8>
 ```
 
 We can preview what values they’d label by letting the key absorb a
@@ -171,8 +171,8 @@ example, we can annotate the airtimes of TV shows in timeseries data.
 
 ranges <- key_range_manual(
   start = as.Date(c("1985-09-14", "1993-09-16")),
-  end   = as.Date(c("1992-05-09", "2004-05-13")), 
-  name  = c("Golden Girls", "Frasier"), 
+  end   = as.Date(c("1992-05-09", "2004-05-13")),
+  name  = c("Golden Girls", "Frasier"),
   level = 1:2
 )
 ranges
@@ -257,12 +257,12 @@ By the following, more pipe-friendly version:
 
 ``` r
 
-key <- presidential |>
-  key_range_map(
-    start = start,
-    end   = end,
-    name  = name
-  )
+key <- key_range_map(
+  presidential,
+  start = start,
+  end   = end,
+  name  = name
+)
 ```
 
 Both of these keys would display as something like this:

@@ -20,7 +20,7 @@ guide_legend_cross(
   theme = NULL,
   position = NULL,
   direction = NULL,
-  order = 0
+  order = 0L
 )
 ```
 

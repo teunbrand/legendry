@@ -53,7 +53,7 @@ However, if the guides it stacks supports other aesthetics, like
 
 staxis <- compose_stack("axis_base", "axis_base", "axis_base")
 
-standard + 
+standard +
   aes(colour = cty) +
   guides(
     x = staxis,
@@ -120,7 +120,7 @@ axes](https://teunbrand.github.io/legendry/articles/tour.html#nested-axes).
 ``` r
 
 range_key <- key_range_manual(
-  start = c(2, 4), end = c(5, 6), 
+  start = c(2, 4), end = c(5, 6),
   name = c("First", "Second")
 )
 
@@ -151,9 +151,9 @@ Aside from just displaying text, it does three things:
 
 standard + scale_x_continuous(guide = compose_stack(
   primitive_title(c(
-    "Sneaky little displacementses", 
-    "We needs it. Must have the displament")
-  ),
+    "Sneaky little displacementses",
+    "We needs it. Must have the displament"
+  )),
   primitive_title("Gollum explains engine displacement to you")
 )) + labs(x = "A normal person explains engine displacement")
 ```
@@ -180,7 +180,7 @@ little bit of discouragement from using primitives as complete guides.
 
 ``` r
 
-standard + 
+standard +
   guides(x.sec = "ticks")
 #> Error in `validate_guide()`:
 #> ! Unknown guide: ticks
@@ -195,7 +195,7 @@ standard +
   guides(x.sec = compose_stack("ticks"))
 
 # Looks identical to the above
-standard + 
+standard +
   guides(x.sec = primitive_ticks())
 ```
 
@@ -231,7 +231,7 @@ standard +
   aes(colour = cty) +
   scale_colour_viridis_c(
     guide = compose_sandwich(
-      text     = primitive_labels(), 
+      text     = primitive_labels(),
       opposite = primitive_ticks()
     )
   )
@@ -263,7 +263,7 @@ standard +
   aes(colour = cty) +
   scale_colour_viridis_c(
     guide = compose_sandwich(
-      text     = "axis_base", 
+      text     = "axis_base",
       opposite = "axis_base"
     )
   )
@@ -345,7 +345,7 @@ my_grob <- grid::grobTree(
 )
 my_gizmo <- gizmo_grob(my_grob, width = unit(2, "cm"), height = unit(2, "cm"))
 
-standard + 
+standard +
   aes(colour = cty) +
   guides(
     x = compose_stack("axis", my_gizmo),
@@ -395,7 +395,7 @@ standard +
   scale_colour_viridis_c(
     option = "C",
     guide = compose_sandwich(
-      middle = gizmo_density(just = 1), 
+      middle = gizmo_density(just = 1),
       text = "axis_base"
     )
   ) +
@@ -425,7 +425,7 @@ top <- guide_axis_base(
   key = key_manual(32, label = "Here is 32"),
   theme = theme_guide(
     ticks.length = unit(1.5, "cm"),
-    ticks = element_line(arrow = arrow()), 
+    ticks = element_line(arrow = arrow()),
     line = element_blank()
   )
 )
@@ -457,7 +457,7 @@ ball <- gizmo_grob(grid::circleGrob(
   r = unit(0.5, "cm"), gp = grid::gpar(fill = "tomato")
 ))
 block <- gizmo_grob(grid::rectGrob(
-  width = unit(1, "cm"), height = unit(1, "cm"), 
+  width = unit(1, "cm"), height = unit(1, "cm"),
   gp = grid::gpar(fill = "dodgerblue")
 ))
 
@@ -465,7 +465,7 @@ standard +
   aes(colour = cty) +
   scale_colour_viridis_c(
     guide = compose_crux(
-      centre = gizmo_barcap(), 
+      centre = gizmo_barcap(),
       left = "axis_base", right = "axis_base",
       top = ball, bottom = block
     )

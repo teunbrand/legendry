@@ -21,7 +21,7 @@ guide_legend_base(
   override.aes = list(),
   position = NULL,
   direction = NULL,
-  order = 0
+  order = 0L
 )
 ```
 

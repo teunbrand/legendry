@@ -9,11 +9,11 @@ that can be supplied as the `shape` argument in
 ``` r
 cap_triangle()
 
-cap_round(n = 100)
+cap_round(n = 100L)
 
-cap_arch(n = 100)
+cap_arch(n = 100L)
 
-cap_ogee(n = 100)
+cap_ogee(n = 100L)
 
 cap_none()
 ```

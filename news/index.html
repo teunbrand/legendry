@@ -51,6 +51,7 @@
 <li>New guide <code><a href="../reference/guide_axis_plot.html">guide_axis_plot()</a></code> to place side-plots (<a href="https://github.com/teunbrand/legendry/issues/43" class="external-link">#43</a>)</li>
 <li>New guide <code><a href="../reference/guide_axis_symbols.html">guide_axis_upset()</a></code> to place symbols in upset matrices next to axes. Also comes with <code><a href="../reference/key_specialty.html">key_upset()</a></code> to match (<a href="https://github.com/teunbrand/legendry/issues/38" class="external-link">#38</a>).</li>
 <li>New guide <code><a href="../reference/guide_axis_symbols.html">guide_axis_symbols()</a></code> for a more manual version of placing symbols. Also comes with <code><a href="../reference/key_specialty.html">key_symbols()</a></code> to match (<a href="https://github.com/teunbrand/legendry/issues/38" class="external-link">#38</a>).</li>
+<li>New key <code><a href="../reference/key_range.html">key_range_rle()</a></code> to create a range annotation based on run-length encoding.</li>
 <li>New arguments <code>guide_axis_base(subtitle)</code> and <code>guide_axis_nested(subtitle)</code> make it easier to title custom axes (<a href="https://github.com/teunbrand/legendry/issues/102" class="external-link">#102</a>)</li>
 <li>New arguments <code>guide_legend_cross(row_title, col_title, subtitle_position)</code> to display subtitles over dimensions (<a href="https://github.com/teunbrand/legendry/issues/79" class="external-link">#79</a>).</li>
 <li>
@@ -59,6 +60,8 @@
 <li>Updated title mechanism to comply with ggplot2#6200 (<a href="https://github.com/teunbrand/legendry/issues/104" class="external-link">#104</a>)</li>
 <li>
 <code><a href="../reference/key_group.html">key_group_split()</a></code> tries to preserve order of labels better, rather than re-sorting them (<a href="https://github.com/teunbrand/legendry/issues/100" class="external-link">#100</a>)</li>
+<li>Fixed a bug where empty titles in legends contributed to spacing. Visual tests depending on legendry may see subtle positioning shifts (<a href="https://github.com/teunbrand/legendry/issues/113" class="external-link">#113</a>).</li>
+<li>Fixed a bug where <code><a href="../reference/guide_legend_group.html">guide_legend_group()</a></code> struggled to merge different scales (<a href="https://github.com/teunbrand/legendry/issues/112" class="external-link">#112</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.4" id="legendry-024">legendry 0.2.4<a class="anchor" aria-label="anchor" href="#legendry-024"></a></h2><p class="text-muted">CRAN release: 2025-09-14</p>

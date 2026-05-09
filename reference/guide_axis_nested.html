@@ -70,7 +70,7 @@ be used to infer nesting structure from labels or annotate ranges.</p>
 <span>  pad_discrete <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  levels_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  order <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  order <span class="op">=</span> <span class="fl">0L</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -266,7 +266,11 @@ separate key for display in between the ticks and ranges.</p>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">guide_axis_nested</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    key <span class="op">=</span> <span class="fu"><a href="key_range.html">key_range_manual</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, end <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First"</span>, <span class="st">"Second"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    key <span class="op">=</span> <span class="fu"><a href="key_range.html">key_range_manual</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      start <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>      end <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>,</span></span>
+<span class="r-in"><span>      name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First"</span>, <span class="st">"Second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    regular_key <span class="op">=</span> <span class="fu"><a href="key_standard.html">key_manual</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2.5</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="guide_axis_nested-8.png" alt="" width="700" height="433"></span>

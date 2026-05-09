@@ -9,7 +9,7 @@ primitive](https://teunbrand.github.io/legendry/reference/guide-primitives.md).
 primitive_labels(
   key = NULL,
   angle = waiver(),
-  n.dodge = 1,
+  n.dodge = 1L,
   check.overlap = FALSE,
   theme = NULL,
   position = waiver()

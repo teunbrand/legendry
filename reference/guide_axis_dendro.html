@@ -68,12 +68,12 @@ misleading results when this step is skipped!</p>
 <span>  labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  space <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">rel</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>,</span>
 <span>  vanish <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  n.dodge <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  n.dodge <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  angle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  check.overlap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ticks <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  axis_line <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  order <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  order <span class="op">=</span> <span class="fl">0L</span>,</span>
 <span>  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -197,7 +197,8 @@ determined by a hashing indicative settings of a guide.</p></dd>
 <span class="r-plt img"><img src="guide_axis_dendro-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Adding ticks and axis line</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu">guide_axis_dendro</span><span class="op">(</span><span class="va">clust</span>, ticks <span class="op">=</span> <span class="st">"ticks"</span>, axis_line <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu">guide_axis_dendro</span><span class="op">(</span><span class="va">clust</span>, ticks <span class="op">=</span> <span class="st">"ticks"</span>, axis_line <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="guide_axis_dendro-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
