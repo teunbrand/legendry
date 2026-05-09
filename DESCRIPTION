@@ -20,7 +20,7 @@ Imports:
     grid (>= 4.1.0),
     gtable,
     lifecycle,
-    rlang (>= 1.1.0),
+    rlang (>= 1.2.0),
     scales (>= 1.1.1),
     vctrs (>= 0.6.0)
 Suggests: 
