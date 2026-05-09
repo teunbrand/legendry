@@ -18,6 +18,8 @@
 * Updated title mechanism to comply with ggplot2#6200 (#104)
 * `key_group_split()` tries to preserve order of labels better, rather than 
   re-sorting them (#100)
+* Fixed a bug where empty titles in legends contributed to spacing. Visual
+  tests depending on legendry may see subtle positioning shifts (#113).
 
 # legendry 0.2.4
 

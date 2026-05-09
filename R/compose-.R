@@ -102,6 +102,7 @@ Compose <- ggproto(
         params = guide_params[[i]], scale = scale, aesthetic = aesthetic,
         title = guide_title, ...
       )
+      guide_params[[i]]$title <- guide_params[[i]]$title %|W|% NULL
     }
     if (any_title) {
       params$title <- NULL
