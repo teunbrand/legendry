@@ -38,7 +38,7 @@ gizmo_grob <- function(
   position = waiver()
 ) {
 
-  check_object(grob, is.grob, "a {.cls grob} object")
+  check_grob(grob)
   check_unit(width)
   check_unit(height)
   check_length(width, exact = 1)
