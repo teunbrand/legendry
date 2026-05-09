@@ -20,6 +20,8 @@
   re-sorting them (#100)
 * Fixed a bug where empty titles in legends contributed to spacing. Visual
   tests depending on legendry may see subtle positioning shifts (#113).
+* Fixed a bug where `guide_legend_group()` struggled to merge different 
+  scales (#112).
 
 # legendry 0.2.4
 

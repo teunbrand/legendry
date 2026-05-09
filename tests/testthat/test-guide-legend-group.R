@@ -1,3 +1,21 @@
+test_that("guide_legend_group can merge two legends", {
+
+  df <- data.frame(x = 1L:3L, f = c("A,a", "A,b", "Z,x"))
+  p <- ggplot(df, aes(x, x, color = f, shape = f)) +
+    geom_point() +
+    guides(
+      color = "legend_group",
+      shape = "legend_group"
+    )
+  gd <- get_guide_data(p, "color")
+  expect_in(
+    c("colour", "shape", ".group"),
+    names(gd)
+  )
+  expect_identical(nrow(gd), 3L)
+  expect_identical(gd$.group, factor(c("A", "A", "Z"), levels = c("A", "Z")))
+})
+
 test_that("guide_legend_group works in both direction with all subtitles", {
 
   df <- msleep[c(9L, 28L, 11L, 5L, 34L, 54L, 24L, 53L), ]

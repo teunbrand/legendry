@@ -105,6 +105,15 @@ GuideLegendGroup <- ggproto(
     subtitle_position = "legendry.legend.subtitle.position"
   ),
 
+  # Typical legend + group column
+  hashables = exprs(title, key$.label, name, key$.group),
+
+  merge = function(self, params, new_guide, new_params) {
+    # The merge hashables guarantee group equality
+    new_params$key$.group <- NULL
+    ggproto_parent(GuideLegendBase, self)$merge(params, new_guide, new_params)
+  },
+
   setup_params = function(params) {
     params$direction <- direction <- arg_match0(
       params$direction,
