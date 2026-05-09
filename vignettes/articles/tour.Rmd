@@ -460,6 +460,7 @@ caps <- cbind(
   as.data.frame(do.call(rbind, caps)),
   shape = factor(rep(names(caps), lengths(caps) / 2), names(caps))
 )
+colnames(caps)[1:2] <- c("x", "y")
 
 ggplot(caps, aes(x, y)) +
   geom_path(arrow = arrow()) +
