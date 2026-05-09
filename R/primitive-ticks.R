@@ -142,6 +142,10 @@ PrimitiveTicks <- ggproto(
     elements <- zap_tick(elements, "minor", n_minor)
     elements <- zap_tick(elements, "mini",  n_mini)
 
+    if (is.unit(params$force_stretch)) {
+      elements$ticks_length <- elements$ticks_length + cm(params$force_stretch)
+    }
+
     lengths <- c("ticks_length", "minor_length", "mini_length")
     elements$size <- inject(range(!!!elements[lengths], 0.0))
     elements
