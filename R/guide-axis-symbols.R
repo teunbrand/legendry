@@ -140,7 +140,7 @@ guide_axis_symbols <- function(
     direction = direction,
     available_aes = c("x", "y", "any"),
     call = call,
-    super = GuideSymbols
+    super = GuideAxisSymbols
   )
 }
 
@@ -191,8 +191,8 @@ guide_axis_upset <- function(
 #' @rdname legendry_extensions
 #' @format NULL
 #' @usage NULL
-GuideSymbols <- ggproto(
-  "GuideSymbols", Guide,
+GuideAxisSymbols <- ggproto(
+  "GuideAxisSymbols", Guide,
 
   params = new_params(
     key = "upset", connect = NULL, override.aes = list(), call = NULL
