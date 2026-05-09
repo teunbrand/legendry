@@ -93,12 +93,12 @@ guide_legend_cross <- function(
   check_bool(swap)
   check_list_of(
     subtitle_position,
-    c("ggplot2::element_text", "ggplot2::element_blank", "NULL"),
+    element_classes("text", "blank"),
     allow_null = TRUE
   )
   check_length(subtitle_position, exact = 4L, allow_null = TRUE)
   check_inherits(
-    col_text, c("ggplot2::element_text", "element_blank"),
+    col_text, element_classes("text", "blank"),
     allow_null = TRUE
   )
 

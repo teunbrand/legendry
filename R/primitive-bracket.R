@@ -84,17 +84,12 @@ primitive_bracket <- function(
   oob <- arg_match0(oob, c("squish", "censor", "none"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
-  line_class <- c("element_line", "ggplot2::element_line")
-  text_class <- c("element_text", "ggplot2::element_text")
-  blank_class <- c("element_blank", "ggplot2::element_blank")
   check_list_of(
-    levels_brackets,
-    c(line_class, blank_class, "NULL"),
+    levels_brackets, element_classes("line", "blank"),
     allow_null = TRUE
   )
   check_list_of(
-    levels_text,
-    c(text_class, blank_class, "NULL"),
+    levels_text, element_classes("text", "blank"),
     allow_null = TRUE
   )
   bracket <- resolve_bracket(bracket)

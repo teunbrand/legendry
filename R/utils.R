@@ -361,3 +361,30 @@ as_mapped_discrete <- function(x) {
   class(x) <- c("mapped_discrete", class(x))
   x
 }
+
+element_classes <- function(..., allow_null = TRUE) {
+  type <- do.call(c, list(...))
+  classes <- character()
+  if (allow_null) {
+    classes <- c(classes, "NULL")
+  }
+  if ("rect" %in% type) {
+    classes <- c(classes, "ggplot2::element_rect", "element_rect")
+  }
+  if ("line" %in% type) {
+    classes <- c(classes, "ggplot2::element_line", "element_line")
+  }
+  if ("text" %in% type) {
+    classes <- c(classes, "ggplot2::element_text", "element_text")
+  }
+  if ("blank" %in% type) {
+    classes <- c(classes, "ggplot2::element_blank", "element_blank")
+  }
+  if ("point" %in% type) {
+    classes <- c(classes, "ggplot2::element_point")
+  }
+  if ("polygon" %in% type) {
+    classes <- c(classes, "ggplot2::element_polygon")
+  }
+  classes
+}
