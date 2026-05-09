@@ -11,6 +11,8 @@
 #'   to infer ranges from the scale's labels.
 #' * `key_range_manual()` uses user-provided vectors to set ranges.
 #' * `key_range_map()` makes mappings from a `<data.frame>` to set ranges.
+#' * `key_range_rle()` uses run-length encoding to determine the start and
+#'   end of runs (blocks of repeated data values).
 #'
 #' @param sep A `<character[1]>` giving a [regular expression][base::regex] to
 #'   use for splitting labels provided by the scale using
@@ -35,6 +37,7 @@
 #'   For `key_range_map()`, these *must* contain `start` and `end` mappings.
 #'   Can contain additional parameters for text styling, namely `colour`,
 #'   `family`, `face`, `size`, `hjust`, `vjust`, `angle` and `lineheight`.
+#' @param x A `<vector[n]>` for which to determine run-starts and run-ends.
 #' @param .call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @details
@@ -75,6 +78,9 @@
 #'
 #' # Values from a <data.frame>
 #' key_range_map(presidential, start = start, end = end, name = name)
+#'
+#' # Values from run length encoding
+#' key_range_rle(c("AB", "AB", "C", "DEF", "DEF", "DEF"))
 NULL
 
 #' @rdname key_range
@@ -129,10 +135,12 @@ key_range_map <- function(data, ..., .call = caller_env()) {
   df
 }
 
+#' @rdname key_range
+#' @export
 key_range_rle <- function(x, ...) {
   rle <- vec_unrep(x)
-  end <- cumsum(rle$times) + 0.5
-  start <- end - rle$times
+  end <- as_mapped_discrete(cumsum(rle$times))
+  start <- as_mapped_discrete(end - rle$times + 1)
   key_range_manual(start, end, name = rle$key, level = 1L, ...)
 }
 
@@ -151,8 +159,8 @@ range_extract_key <- function(
   }
 
   # Mark discrete variables separately for start and end
-  disc_start <- -1 * is_discrete(key$start)
-  disc_end   <- +1 * is_discrete(key$end)
+  pad_start <- -1 * is_discrete(key$start) * pad_discrete
+  pad_end   <- +1 * is_discrete(key$end)   * pad_discrete
 
   map <- aesthetic %in% c("x", "y")
   key$start <- scale_transform(key$start, scale, map = map, "start")
@@ -179,8 +187,8 @@ range_extract_key <- function(
   # Apply padding for discrete variables
   extend <- pad_discrete
   if (scale$is_discrete() && !is.null(extend)) {
-    key$start <- key$start + extend * disc_start
-    key$end   <- key$end   + extend * disc_end
+    key$start <- key$start + pad_start
+    key$end   <- key$end   + pad_end
   }
 
   # Apply out-of-bounds rules

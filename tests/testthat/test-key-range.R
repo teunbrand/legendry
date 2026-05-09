@@ -68,8 +68,8 @@ test_that("key_range_rle works as intended", {
   test <- key_range_rle(rep(LETTERS[1:5], 5:1), colour = "orange")
   expect_s3_class(test, "key_range")
 
-  expect_equal(test$start, c(0, 5, 9, 12, 14) + 0.5)
-  expect_equal(test$end, c(5, 9, 12, 14, 15) + 0.5)
+  expect_equal(test$start, c(1, 6, 10, 13, 15))
+  expect_equal(test$end, c(5, 9, 12, 14, 15))
   expect_equal(test$.label, LETTERS[1:5])
   expect_equal(test$.colour, rep("orange", nrow(test)))
 })

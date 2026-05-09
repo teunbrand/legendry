@@ -350,3 +350,9 @@ before <- function(x, i) {
 
 idx_after  <- function(n, i) after(seq(n), i)
 idx_before <- function(n, i) before(seq(n), i)
+
+as_mapped_discrete <- function(x) {
+  x <- as.numeric(x)
+  class(x) <- c("mapped_discrete", x)
+  x
+}

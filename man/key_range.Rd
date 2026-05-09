@@ -5,6 +5,7 @@
 \alias{key_range_auto}
 \alias{key_range_manual}
 \alias{key_range_map}
+\alias{key_range_rle}
 \title{Range keys}
 \usage{
 key_range_auto(sep = "[^[:alnum:]]+", reverse = FALSE, ...)
@@ -12,6 +13,8 @@ key_range_auto(sep = "[^[:alnum:]]+", reverse = FALSE, ...)
 key_range_manual(start, end, name = NULL, level = NULL, ...)
 
 key_range_map(data, ..., .call = caller_env())
+
+key_range_rle(x, ...)
 }
 \arguments{
 \item{sep}{A \verb{<character[1]>} giving a \link[base:regex]{regular expression} to
@@ -45,6 +48,8 @@ drawn.}
 argument is evaluated.}
 
 \item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
+
+\item{x}{A \verb{<vector[n]>} for which to determine run-starts and run-ends.}
 }
 \value{
 For \code{key_range_auto()} a function. For \code{key_range_manual()} and
@@ -59,6 +64,8 @@ different methods:
 to infer ranges from the scale's labels.
 \item \code{key_range_manual()} uses user-provided vectors to set ranges.
 \item \code{key_range_map()} makes mappings from a \verb{<data.frame>} to set ranges.
+\item \code{key_range_rle()} uses run-length encoding to determine the start and
+end of runs (blocks of repeated data values).
 }
 }
 \details{
@@ -93,6 +100,9 @@ key_range_manual(
 
 # Values from a <data.frame>
 key_range_map(presidential, start = start, end = end, name = name)
+
+# Values from run length encoding
+key_range_rle(c("AB", "AB", "C", "DEF", "DEF", "DEF"))
 }
 \seealso{
 Other keys:
