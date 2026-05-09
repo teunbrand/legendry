@@ -138,10 +138,14 @@ key_range_map <- function(data, ..., .call = caller_env()) {
 #' @rdname key_range
 #' @export
 key_range_rle <- function(x, ...) {
-  rle <- vec_unrep(x)
-  end <- as_mapped_discrete(cumsum(rle$times))
-  start <- as_mapped_discrete(end - rle$times + 1.0)
-  key_range_manual(start, end, name = rle$key, level = 1L, ...)
+  rle <- new_rle(x)
+  key_range_manual(
+    start = as_mapped_discrete(rle$start),
+    end   = as_mapped_discrete(rle$end),
+    name  = rle$key,
+    level = 1L,
+    ...
+  )
 }
 
 # Extractor ---------------------------------------------------------------
