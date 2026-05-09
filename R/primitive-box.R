@@ -66,8 +66,14 @@ primitive_box <- function(
   oob <- arg_match0(oob, c("squish", "censor", "none"))
   check_bool(drop_zero)
   check_number_decimal(pad_discrete, allow_infinite = FALSE)
-  check_list_of(levels_box, element_classes("rect", "blank"), allow_null = TRUE)
-  check_list_of(levels_text, element_classes("text", "blank"), allow_null = TRUE)
+  check_list_of(
+    levels_box, element_classes("rect", "blank"),
+    allow_null = TRUE
+  )
+  check_list_of(
+    levels_text, element_classes("text", "blank"),
+    allow_null = TRUE
+  )
 
   new_guide(
     key = key,
