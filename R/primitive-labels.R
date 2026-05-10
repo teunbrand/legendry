@@ -296,33 +296,6 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
   max(x * sin(angle) + y * cos(angle), na.rm = TRUE) + max(cm(margin))
 }
 
-angle_labels <- function(element, angle, position) {
-  if (!is_theme_element(element, "text") ||
-      is_waive(angle) ||
-      is_null(angle)  ||
-      !position %in% .trbl) {
-    return(element)
-  }
-
-  position <- arg_match0(as.character(position), .trbl)
-  radians <- deg2rad(angle)
-  digits <- 3
-
-  cosine <- sign(round(cos(radians), digits)) / 2 + 0.5
-  sine   <- sign(round(sin(radians), digits)) / 2 + 0.5
-
-  hjust <-
-    switch(position, left = cosine, right = 1 - cosine, top = 1 - sine, sine)
-  vjust <-
-    switch(position, left = 1 - sine, right = sine, top = 1 - cosine, cosine)
-
-  element$angle <- angle %||% element$angle
-  element$hjust <- hjust %||% element$hjust
-  element$vjust <- vjust %||% element$vjust
-
-  element
-}
-
 validate_labels <- function(labels) {
   if (!is.list(labels)) {
     return(labels)
