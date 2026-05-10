@@ -143,22 +143,21 @@ PrimitiveBracket <- ggproto(
   extract_params = extract_range_params,
 
   extract_decor = function(scale, aesthetic, position, key, bracket, ...) {
-    bracket <- resolve_bracket(bracket)
-
     key <- vec_slice(key, key$.draw)
     n_keys <- nrow(key)
-
+    if (n_keys < 1) {
+      return(NULL)
+    }
+    bracket  <- resolve_bracket(bracket)
+    n_vertex <- nrow(bracket)
+    decor <- vec_rep_each(key, n_vertex)
     brackets <- vec_rep(bracket, n_keys)
-    keys <- vec_rep_each(key, nrow(bracket))
 
-    value <- brackets[, 1L] * (keys$end - keys$start) + keys$start
-
-    data_frame0(
-      !!aesthetic := value,
-      offset = brackets[, 2L],
-      group = rep(seq_len(n_keys), each = nrow(bracket)),
-      .level = keys$.level
-    )
+    decor[[aesthetic]] <-
+      brackets[, 1L] * (decor$end - decor$start) + decor$start
+    decor[["offset"]] <- brackets[, 2L]
+    decor[["group"]] <- rep(seq_len(n_keys), each = n_vertex)
+    decor[setdiff(names(decor), c("start", "end"))]
   },
 
   transform = function(self, params, coord, panel_params) {
@@ -296,9 +295,14 @@ draw_bracket <- function(decor, element, size, offset, position) {
     y <- y + unit(cos(decor$theta) * offset, "cm")
   }
 
-  id <- vec_unrep(decor$group)$times
+  id <- new_rle(decor$group)
+  props <- element_key_properties(vec_slice(decor, id$start), "line")
 
-  grob <- element_grob(element, x = x, y = y, id.lengths = id)
+  grob <- inject(element_grob(
+    element, x = x, y = y,
+    id.lengths = id$times,
+    !!!props
+  ))
   if (!is_blank(element)) {
     attr(grob, "size") <- size
   }

@@ -33,7 +33,8 @@ test_that("primitive_bracket works as axis", {
           start = c(2.0, 4.0, 3.0),
           end   = c(5.0, 7.0, 6.0),
           name  = c("1", "2", "3"),
-          level = c(1L, 2L, 3L)
+          level = c(1L, 2L, 3L),
+          line_color = c("tomato", "dodgerblue", 'limegreen')
         )
       )
     )
@@ -64,7 +65,8 @@ test_that("primitive_bracket works as axis", {
           start = c(2.0, 4.0, 3.0),
           end = c(5.0, 7.0, 6.0),
           name = c("1", "2", "3"),
-          level = c(1L, 2L, 3L)
+          level = c(1L, 2L, 3L),
+          line_color = c("tomato", "dodgerblue", 'limegreen')
         )
       )
     )
