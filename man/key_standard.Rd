@@ -35,9 +35,20 @@ key_log(
 key_none()
 }
 \arguments{
-\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
-similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
-evaluated in the \code{data} argument. These must contain \code{aesthetic} mapping.}
+\item{...}{The \code{...} parameter has two purposes.
+\enumerate{
+\item In \code{key_map()} it is \code{\link[rlang:topic-data-mask]{<data-masking>}}. A set of
+mappings similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will
+be evaluated in the \code{data} argument. These must contain \code{aesthetic}
+mapping.
+\item In other keys, \code{...} can be used to transfer graphical properties to the
+individual breaks of a guide. For example, using \code{colour = "blue"} will
+draw parts of the guides associated with breaks in blue. There is a shallow
+hierarchy in that \code{text_colour}, \code{line_colour}, \code{rect_colour} and
+\code{point_colour} are the specific properties for elements, but all inherit
+from the main \code{colour} setting. Likewise, \code{size}, \code{linewidth}, \code{linetype}
+and \code{fill} have specific variants for elements.
+}}
 
 \item{aesthetic, value}{A vector of values for the guide to represent
 equivalent to the \code{breaks} argument in scales. The \code{aesthetic} will be

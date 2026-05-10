@@ -31,12 +31,18 @@
 #' @param data A `<data.frame>` or similar object coerced by
 #'   [`fortify()`][ggplot2::fortify] to a `<data.frame>`, in which the `mapping`
 #'   argument is evaluated.
-#' @param ... [`<data-masking>`][rlang::topic-data-mask] A set of mappings
-#'   similar to those provided to [`aes()`][ggplot2::aes], which will be
-#'   evaluated in the `data` argument.
-#'   For `key_range_map()`, these *must* contain `start` and `end` mappings.
-#'   Can contain additional parameters for text styling, namely `colour`,
-#'   `family`, `face`, `size`, `hjust`, `vjust`, `angle` and `lineheight`.
+#' The `...` parameter has two purposes.
+#' 1. In `key_range_map()` it is [`<data-masking>`][rlang::topic-data-mask].
+#'   A set of mappings similar to those provided to [`aes()`][ggplot2::aes],
+#'   which will be evaluated in the `data` argument. These *must* contain
+#'   `start` and `end` mappings.
+#' 2. In other keys, `...` can be used to transfer graphical properties to the
+#'   individual ranges of a guide. For example, using `colour = "blue"` will
+#'   draw parts of the guides associated with ranges in blue. There is a shallow
+#'   hierarchy in that `text_colour`, `line_colour`, `rect_colour` and
+#'   `point_colour` are the specific properties for elements, but all inherit
+#'   from the main `colour` setting. Likewise, `size`, `linewidth`, `linetype`
+#'   and `fill` have specific variants for elements.
 #' @param x A `<vector[n]>` for which to determine run-starts and run-ends.
 #' @param .call A [call][rlang::topic-error-call] to display in messages.
 #'
@@ -123,13 +129,13 @@ key_range_map <- function(data, ..., .call = caller_env()) {
   df <- eval_aes(
     data, mapping,
     required = c("start", "end"),
-    optional = c("name", "level", .label_params),
+    optional = c("name", "level", .element_params),
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
 
   df <- rename(
-    df, c("name", "level", .label_params),
-    c(".label", ".level", paste0(".", .label_params))
+    df, c("name", "level", .element_params),
+    c(".label", ".level", paste0(".", .element_params))
   )
   class(df) <- c("key_range", "key_guide", class(df))
   df

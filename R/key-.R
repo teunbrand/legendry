@@ -28,9 +28,19 @@
 #' @param data A `<data.frame>` or similar object coerced by
 #'   [`fortify()`][ggplot2::fortify] to a `<data.frame>`, in which the `mapping`
 #'   argument is evaluated.
-#' @param ... [`<data-masking>`][rlang::topic-data-mask] A set of mappings
-#'   similar to those provided to [`aes()`][ggplot2::aes], which will be
-#'   evaluated in the `data` argument. These must contain `aesthetic` mapping.
+#' @param ...
+#' The `...` parameter has two purposes.
+#' 1. In `key_map()` it is [`<data-masking>`][rlang::topic-data-mask]. A set of
+#'   mappings similar to those provided to [`aes()`][ggplot2::aes], which will
+#'   be evaluated in the `data` argument. These must contain `aesthetic`
+#'   mapping.
+#' 2. In other keys, `...` can be used to transfer graphical properties to the
+#'   individual breaks of a guide. For example, using `colour = "blue"` will
+#'   draw parts of the guides associated with breaks in blue. There is a shallow
+#'   hierarchy in that `text_colour`, `line_colour`, `rect_colour` and
+#'   `point_colour` are the specific properties for elements, but all inherit
+#'   from the main `colour` setting. Likewise, `size`, `linewidth`, `linetype`
+#'   and `fill` have specific variants for elements.
 #' @param labeller A `<function>` that receives major breaks and returns
 #'   formatted labels. For `key_log()`, `NULL` will default to
 #'   [`scales::label_log()`] for strictly positive numbers and a custom labeller
@@ -99,8 +109,10 @@ key_auto <- function(...) {
 key_manual <- function(aesthetic, value = aesthetic,
                        label = as.character(value), type = NULL,
                        ...) {
-  df <- data_frame0(aesthetic = aesthetic, value = value,
-                    label = label, type = type, !!!extra_args(...))
+  df <- data_frame0(
+    aesthetic = aesthetic, value = value,
+    label = label, type = type, !!!extra_args(...)
+  )
   check_columns(df, c("aesthetic", "value", "label"))
   df <- rename(df, c("value", "label", "type"), c(".value", ".label", ".type"))
   class(df) <- c("key_standard", "key_guide", class(df))
@@ -115,7 +127,7 @@ key_map <- function(data, ..., .call = caller_env()) {
   df <- eval_aes(
     data, mapping,
     required = "aesthetic",
-    optional = c("value", "label", .label_params),
+    optional = c("value", "label", .element_params),
     call = .call, arg_mapping = "mapping", arg_data = "data"
   )
   df$value <- df$value %||% df$aesthetic
