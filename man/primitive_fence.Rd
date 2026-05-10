@@ -72,33 +72,46 @@ customisation options are easier to understand if we view fence 'post' as the
 vertical pieces of a real world fence, and the 'rail' as the horizontal
 pieces.
 }
-\section{Styling options}{
+\details{
+\subsection{Styling options}{
+
 Below are the \link[ggplot2:theme]{theme} options that determine the styling of
-this guide, which may differ depending on whether the guide is used in an
-axis or legend context.
+this guide, which may differ depending on whether the guide is used in
+an axis or in a legend context.
 
-Common to both types is the following:
-\itemize{
-\item \code{legendry.fence.post} an \code{\link[ggplot2:element_line]{<element_line>}} for the
-line used to draw the pieces orthogonal to the direction of the scale.
-\item \code{legendry.fence.rail} an \code{\link[ggplot2:element_line]{<element_line>}} for the
-line used to draw the pieces parallel to the direction of the scale.
-}
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
-for the text displayed.
-}
+The possible \code{{position}} suffixes mentioned below are \code{x}, \code{x.top},
+\code{x.bottom}, \code{y}, \code{y.left}, \code{y.right}. The \code{theta} and \code{r} position suffixes
+in \pkg{ggplot2} are \emph{not} obeyed in \pkg{legendry}.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.fence} \tab Both \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Line segments for both 'post' and 'rail' segments \cr
+   \code{legendry.fence.post} \tab Both \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Line segments orthogonal to the scale \cr
+   \code{legendry.fence.rail} \tab Both \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Line segments parallel to the scale \cr
+   \verb{axis.text.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text labels at the fence. \cr
+   \code{legend.text} \tab Legend \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text labels at the fence. \cr
 }
 
-\subsection{As a legend guide}{
-\itemize{
-\item \code{legend.text} an \code{\link[ggplot2:element_text]{<element_text>}} for the text
-displayed.
-}
-}
-}
 
+Styling options \emph{per level} can be set in the \code{levels_post}, \code{levels_rail}
+and \code{levels_text} arguments. These override theme settings.
+
+Styling options \emph{per range} can be set in the \link[=key_range]{range key}.
+The \code{line} and \code{text} prefixed properties are prioritised for the fence
+and text respectively. The 'post' and 'rail' distinction does not apply
+at the 'per range' settings. These override theme settings and the
+'per level' settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_fence(theme = theme_guide(
+  fence = element_line(),
+  fence.post = element_line(),
+  fence.rail = element_line(),
+  text = element_text()
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(interaction(drv, year), displ)) +

@@ -32,28 +32,40 @@
 #' @export
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
-#' this guide, which may differ depending on whether the guide is used in an
-#' axis or a legend context.
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
 #'
-#' Common to both types is the following:
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `legendry.bracket` an [`<element_line>`][ggplot2::element_line] for the
-#'   line used to draw the brackets.
-#' * `legendry.backet.size` a [`<unit>`][grid::unit] setting the space afforded
-#'   to a bracket.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `legendry.bracket` | Both | [`element_line()`] | The bracket lines themselves. |
+#' | `legendry.bracket.size` | Both | [`unit()`] | The space (in the orthogonal direction) afforded to a bracket. |
+#' | `axis.text.{position}` | Axis | [`element_text()`] | The text over brackets. |
+#' | `legend.text` | Legend | [`element_text()`] | The text over brackets. |
 #'
-#' ## As an axis guide
+#' Styling options *per level* can be set in the `levels_brackets` and
+#' `levels_text` arguments. These override theme settings.
 #'
-#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the text displayed over the brackets.
+#' Styling options *per range* can be set in the [range key][key_range].
+#' The `line` and `text` prefixed properties are prioritised for the brackets
+#' and text respectively. These override theme settings and 'per level'
+#' settings.
 #'
-#' ## As a legend guide
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
 #'
-#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
-#'   displayed over the brackets.
+#' ```r
+#' primitive_bracket(theme = theme_guide(
+#'   bracket = element_line(),
+#'   bracket.size = unit(5, "mm")
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot

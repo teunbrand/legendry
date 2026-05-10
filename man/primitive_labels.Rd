@@ -49,25 +49,35 @@ guides.
 \description{
 This function constructs a labels \link[=guide-primitives]{guide primitive}.
 }
-\section{Styling options}{
+\details{
+\subsection{Styling options}{
+
 Below are the \link[ggplot2:theme]{theme} options that determine the styling of
 this guide, which may differ depending on whether the guide is used in
 an axis or in a legend context.
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
-for the display of the labels.
-}
+
+The possible \code{{position}} suffixes mentioned below are \code{x}, \code{x.top},
+\code{x.bottom}, \code{y}, \code{y.left}, \code{y.right}. The \code{theta} and \code{r} position suffixes
+in \pkg{ggplot2} are \emph{not} obeyed in \pkg{legendry}.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \verb{axis.text.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text labels. \cr
+   \code{legend.text} \tab Legend \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text labels. \cr
 }
 
-\subsection{As a legend guide.}{
-\itemize{
-\item \code{legend.text} an \code{\link[ggplot2:element_text]{<element_text>}} for the display
-of the labels.
-}
-}
-}
 
+Styling options \emph{per break} can be set in the \link[=key_standard]{standard key}.
+The \code{text} prefixed properties are prioritised. These override theme
+settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_labels(theme = theme_guide(
+  text = element_line()
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(displ, hwy)) +

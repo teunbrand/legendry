@@ -35,17 +35,29 @@ other guides.
 }
 \description{
 This function constructs a spacer \link[=guide-primitives]{guide primitive}.
+The spacer is intended for use in \link[=guide-composition]{guide composition}.
 }
-\section{Styling options}{
-#' Below are the \link[ggplot2:theme]{theme} options that determine the styling
-of this guide. This guide does not have option dependent on its role as axis
-or legend.
-\itemize{
-\item \code{legendry.guide.spacing} A \code{\link[grid:unit]{<unit>}} setting the amount of
-spacing when the \code{space} argument is \code{NULL}.
-}
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide. In context to many primitive guides, whether it is used in an
+axis or legend has no bearing on the style.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.guide.spacing} \tab Any \tab \code{\link[=unit]{unit()}} \tab Fallback amount of spacing when the \code{space} argument is \code{NULL} \cr
 }
 
+
+There are no other styling options.
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_spacer(theme = theme_guide(
+  spacing = unit(5, "mm"),
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +

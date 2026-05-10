@@ -33,6 +33,33 @@
 #'   such as `"keep"`.
 #' @inheritParams common_parameters
 #'
+#' @details
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide. Note that the width or height (depending on the `direction`
+#' argument) *includes* the cap.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.frame` | [`element_rect()`] | Frame drawn around the bar and caps. The `fill` setting is ignored. |
+#' | `legend.key.width` | [`unit()`] | Width of the bar |
+#' | `legend.key.height` | [`unit()`] | Height of the bar |
+#'
+#' Please note that depending on the `direction` argument, the
+#' `legend.key.width`/`legend.key.height` setting are expanded 5-fold if
+#' originating from the global theme. To set these directly, you can use the
+#' local `theme` argument in the guide.
+#' These settings have shorthands in [`theme_guide()`]:
+#'
+#' ```r
+#' gizmo_barcap(theme = theme_guide(
+#'   frame = element_rect(),
+#'   key.width = unit(5, "mm")
+#'   key.height = unit(5, "cm")
+#' ))
+#' ```
+#'
 #' @return A `<GizmoBarcap>` object.
 #' @family gizmos
 #' @export

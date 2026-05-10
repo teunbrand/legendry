@@ -89,6 +89,48 @@ A \verb{<GuideLegend>} object.
 This is a legend type similar to \code{\link[ggplot2:guide_legend]{guide_legend()}}
 that displays crosses, or: interactions, between two variables.
 }
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide. Note that these are almost the same for
+\code{\link[ggplot2:guide_legend]{ggplot2::guide_legend()}}.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.background} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the legend. \cr
+   \code{legend.margin} \tab \code{\link[ggplot2:margin]{margin()}} \tab Padding around the legend. \cr
+   \code{legend.text} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Labels displayed next to keys. \cr
+   \code{legend.text.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legend.title} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Title of the legend. \cr
+   \code{legend.title.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legend.key} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the key areas. \cr
+   \code{legend.key.height} \tab \code{\link[=unit]{unit()}} \tab Height of keys. \cr
+   \code{legend.key.width} \tab \code{\link[=unit]{unit()}} \tab Width of keys. \cr
+   \code{legend.key.justification} \tab \verb{<numeric[2]>} \tab Justification for placing legend keys in excess space. \cr
+   \code{legend.key.spacing.x} \tab \code{\link[=unit]{unit()}} \tab Horizontal spacing between keys. \cr
+   \code{legend.key.spacing.y} \tab \code{\link[=unit]{unit()}} \tab Vertical spacing between keys. Taken literally. \cr
+}
+
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_legend_cross(theme = theme_guide(
+  text = element_text(),
+  text.position = "right",
+  title = element_text(),
+  title.position = "top",
+  key = element_rect(),
+  key.height = unit(5, "mm"),
+  key.width = unit(5, "mm"),
+  key.justification = c(0.5, 0.5),
+  key.spacing.x = unit(5, "mm"),
+  key.spacing.y = unit(5, "mm"),
+  margin = margin(5),
+  background = element_rect(),
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # Standard use for single aesthetic. The default is to split labels to
 # disentangle aesthetics that are already crossed (by e.g. `paste()`)

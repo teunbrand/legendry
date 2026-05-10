@@ -72,6 +72,11 @@ the vertical direction for y-axes. You may need to manually tweak the
 \code{theme(plot.margin)} setting of the main plot to accommodate these
 components.
 }
+\subsection{Styling options}{
+
+This guide has no style options in \code{theme()} on itself. However, the
+\code{plot} herein is subject to styling as described under the \code{theme} argument.
+}
 }
 \examples{
 # A standard plot

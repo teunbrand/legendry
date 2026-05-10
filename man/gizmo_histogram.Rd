@@ -82,6 +82,32 @@ This guide displays a histogram of the aesthetic. If the aesthetic is
 \details{
 Non-finite values such as \code{NA} and \code{NaN} are ignored while infinite values
 such as \code{-Inf} and \code{Inf} are \link[scales:oob_squish]{squished} to the limits.
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.frame} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Outline drawn around the histogram itself. The \code{fill} setting is ignored. \cr
+   \code{legend.key} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background underneath the histogram area. \cr
+   \code{legend.key.width} \tab \code{\link[=unit]{unit()}} \tab Width of the histogram area. \cr
+   \code{legend.key.height} \tab \code{\link[=unit]{unit()}} \tab Height of the histogram area. \cr
+}
+
+
+Please note that depending on the \code{direction} argument, the
+\code{legend.key.width}/\code{legend.key.height} setting are expanded 5-fold if
+originating from the global theme. To set these directly, you can use the
+local \code{theme} argument in the guide.
+These settings have shorthands in \code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{gizmo_histogram(theme = theme_guide(
+  frame = element_rect(),
+  key = element_rect(),
+  key.width = unit(5, "mm")
+  key.height = unit(5, "cm")
+))
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 # A standard plot

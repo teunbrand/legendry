@@ -54,24 +54,41 @@
 #' Several styling options are provided in the theme, while individualised
 #' styling is discussed below the table.
 #'
-#' | Theme setting | Description |
-#' | ------------- | ----------- |
-#' | `legendry.axis.subtitle` | [`element_text()`] for titles on the side |
-#' | `legendry.axis.subtitle.position` | `"top"`, `"right"`, `"bottom"` or `"left"` |
-#' | `legendry.zebra.light` | [`element_rect()`] for row shading |
-#' | `legendry.zebra.dark` | [`element_rect()`] for alternate row shading |
-#' | `legendry.table.spacing` | [`rel()`]/[`unit()`] for padding between levels |
-#' | `legendry.point` | [`element_point()`] for symbol style |
-#' | `legendry.connector` | [`element_line()`] for drawing `connect` lines. |
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legendry.axis.subtitle` | [`element_text()`] | Titles on the side labelling levels. |
+#' | `legendry.axis.subtitle.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legendry.zebra.light` | [`element_rect()`] | Row shading. |
+#' | `legendry.zebra.dark` | [`element_rect()`] | Alternate row shading. |
+#' | `legendry.table.spacing` | [`rel()`]/[`unit()`] | Padding between levels. |
+#' | `legendry.point` | [`element_point()`] | Styling of the symbols |
+#' | `legendry.connector` | [`element_line()`] Drawing the `connect` lines. |
 #'
 #' Moreover, styling options *per group* of symbols can be set via the
-#' `override.aes` argument.
+#' `override.aes` argument. These override theme settings.
 #'
 #' Styling options *per symbol* can be set in [`key_symbols()`] via the `...`
-#' argument.
+#' argument. These override theme settings and 'per group' settings.
 #'
 #' Styling options *per line* in line connectors can be set by including
 #' graphical parameters as columns in the `connect = <data.frame>` argument.
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_axis_symbols(theme = theme_guide(
+#'   subtitle = element_line(),
+#'   subtitle.position = "left",
+#'   zebra.light = element_rect(),
+#'   zebra.dark = element_rect(),
+#'   table.spacing = unit(5, "mm"),
+#'   point = element_point(),
+#'   connector = element_line()
+#' ))
+#' ```
+#'
 #'
 #' @returns A `<Guide>` object.
 #' @export

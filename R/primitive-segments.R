@@ -23,25 +23,36 @@
 #' @export
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
-#' Below are the [theme][ggplot2::theme] options that determine the style of
-#' this guide, which may differ depending on whether the guide is used in an
-#' axis or in a legend context.
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
 #'
-#' ## As an axis guide
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `axis.ticks.{x/y}.{position}` an [`<element_line>`][ggplot2::element_line]
-#'   for display of the segments.
-#' * `axis.ticks.length.{x/y}.{position}` a [`<unit>`][grid::unit] for the
-#'   base size of the segments in the orthogonal direction.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `axis.ticks.{position}` | Axis | [`element_line()`] | The line segments. |
+#' | `axis.ticks.length.{position}` | Axis | [`unit()`] | Basis for the `space` argument |
+#' | `legend.ticks` | Legend | [`element_line()`] | The line segments |
+#' | `legend.ticks.length` | Legend | [`unit()`] | Basis for the `space` argument |
 #'
-#' ## As a legend guide
+#' Styling options *per segment* can be set in the [segment key][key_segments].
+#' The `line` prefixed properties are prioritised for segments. These override
+#' theme settings.
 #'
-#' * `legend.ticks` an [`<element_line>`][ggplot2::element_line] for display
-#'   of the segments.
-#' * `legend.ticks.length` a [`<unit>`][grid::unit] for the
-#'   base size of the segments in the orthogonal direction.
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' primitive_segments(theme = theme_guide(
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm")
+#' ))
+#' ```
 #'
 #' @examples
 #' # Building a key

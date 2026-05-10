@@ -22,29 +22,44 @@
 #' @export
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
-#' this guide, which may differ depending on whether the guide is used in an
-#' axis or legend context.
+#' this guide, which may differ depending on whether the guide is used in
+#' an axis or in a legend context.
 #'
-#' Common to both types is the following:
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `legendry.fence.post` an [`<element_line>`][ggplot2::element_line] for the
-#'   line used to draw the pieces orthogonal to the direction of the scale.
-#' * `legendry.fence.rail` an [`<element_line>`][ggplot2::element_line] for the
-#'   line used to draw the pieces parallel to the direction of the scale.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `legendry.fence`  | Both | [`element_line()`] | Line segments for both 'post' and 'rail' segments |
+#' | `legendry.fence.post` | Both | [`element_line()`] | Line segments orthogonal to the scale |
+#' | `legendry.fence.rail` | Both | [`element_line()`] | Line segments parallel to the scale |
+#' | `axis.text.{position}` | Axis | [`element_text()`] | The text labels at the fence. |
+#' | `legend.text` | Legend | [`element_text()`] | The text labels at the fence. |
 #'
-#' ## As an axis guide
+#' Styling options *per level* can be set in the `levels_post`, `levels_rail`
+#' and `levels_text` arguments. These override theme settings.
 #'
-#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the text displayed.
+#' Styling options *per range* can be set in the [range key][key_range].
+#' The `line` and `text` prefixed properties are prioritised for the fence
+#' and text respectively. The 'post' and 'rail' distinction does not apply
+#' at the 'per range' settings. These override theme settings and the
+#' 'per level' settings.
 #'
-#' ## As a legend guide
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
 #'
-#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
-#'   displayed.
-#'
+#' ```r
+#' primitive_fence(theme = theme_guide(
+#'   fence = element_line(),
+#'   fence.post = element_line(),
+#'   fence.rail = element_line(),
+#'   text = element_text()
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot

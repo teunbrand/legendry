@@ -16,26 +16,38 @@
 #' @export
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
 #' this guide, which may differ depending on whether the guide is used in
 #' an axis or in a legend context.
 #'
-#' Common to both types is the following:
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `legendry.box` an [`<element_rect>`][ggplot2::element_rect] for the boxes
-#'   to draw.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `legendry.box` | Both | [`element_rect()`] | The boxes themselves |
+#' | `axis.text.{position}`\* | Axis | [`element_text()`] | The text in the boxes. |
+#' | `legend.text` | Legend | [`element_text()`] | The text in the boxes. |
 #'
-#' ## As an axis guide
+#' Styling options *per level* can be set in the `levels_box` and `levels_text`
+#' arguments. These override theme settings.
 #'
-#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the text inside the boxes.
+#' Styling options *per range* can be set in the [range key][key_range].
+#' The `rect` and `text` prefixed properties are prioritised for the boxes and
+#' text respectively. These override theme settings and 'per level' settings.
 #'
-#' ## As a legend guide
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
 #'
-#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
-#'   inside the boxes.
+#' ```r
+#' primitive_box(theme = theme_guide(
+#'   box = element_rect(),
+#'   text = element_text()
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot

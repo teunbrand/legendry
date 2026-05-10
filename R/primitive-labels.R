@@ -19,21 +19,33 @@
 #' @family primitives
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
 #' this guide, which may differ depending on whether the guide is used in
 #' an axis or in a legend context.
 #'
-#' ## As an axis guide
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the display of the labels.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `axis.text.{position}` | Axis | [`element_text()`] | The text labels. |
+#' | `legend.text` | Legend | [`element_text()`] | The text labels. |
 #'
-#' ## As a legend guide.
+#' Styling options *per break* can be set in the [standard key][key_standard].
+#' The `text` prefixed properties are prioritised. These override theme
+#' settings.
 #'
-#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the display
-#'   of the labels.
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' primitive_labels(theme = theme_guide(
+#'   text = element_line()
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot

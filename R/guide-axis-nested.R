@@ -13,8 +13,11 @@
 #'     specification.
 #' @param regular_key A [standard key][key_standard] specification for the
 #'   appearance of regular tick marks.
-#' @param type Appearance of ranges, either `"box"` to put text in boxes or
-#'   `"bracket"` (default) to text brackets.
+#' @param type
+#' Appearance of ranges. One of the following:
+#' * `"box"` to put text in boxes.
+#' * `"bracket"` (default) to text over brackets.
+#' * `"fence"` to put text near fences.
 #' @param subtitle Passed on to [`primitive_title(title)`][primitive_title].
 #'   Follow the linked topic for more details.
 #' @inheritParams common_parameters
@@ -26,18 +29,61 @@
 #'   argument).
 #'
 #' @details
-#' Under the hood, this guide is a [stack composition][compose_stack] of a
-#' [line][primitive_line], [ticks][primitive_ticks], optionally
-#' [labels][primitive_labels] and either [bracket][primitive_bracket],
-#' [box][primitive_box] or [fence][primitive_fence] primitives.
+#' To offer other keys the opportunity to display ranges alongside
+#' regular-looking labels, the `regular_key` argument can be used to setup a
+#' separate key for display in between the ticks and ranges.
 #'
 #' By default, the [`key = "range_auto"`][key_range] will incorporate the 0th
 #' level labels inferred from the scale's labels. These labels will look like
 #' regular labels.
 #'
-#' To offer other keys the opportunity to display ranges alongside
-#' regular-looking labels, the `regular_key` argument can be used to setup a
-#' separate key for display in between the ticks and ranges.
+#' ## Styling options
+#'
+#' Because this guide is pure composite guide, the [theme][ggplot2::theme]
+#' options that govern the styling are determined by its constituents. They are
+#' linked below so you can find their 'Styling options' sections.
+#'
+#' | **Primitive** | **Context** | **Description** |
+#' | ------------- | ----------- | --------------- |
+#' | [`compose_stack`] | Always | Stacks the other primitives. |
+#' | [`primitive_line()`] | Always | Makes up the axis line. |
+#' | [`primitive_ticks()`] | Always | Makes up the tick marks. |
+#' | [`primitive_bracket()`] | `type = "bracket"` | Range display as brackets. |
+#' | [`primitive_box()`] | `type = "box"` | Range display as boxes. |
+#' | [`primitive_fence()`] | `type = "fence"` | Range display as fences. |
+#' | [`primitive_title()`] | `subtitle = <...>` | Used for displaying subtitles. |
+#' | [`primitive_labels()`] | `key != "range_auto"` | Used for displaying range-less, 0th level labels |
+#'
+#' Styling options *per range* can be set in the [range key][key_range].
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_axis_nested(theme = theme_guide(
+#'   # Common options
+#'   line = element_line(),
+#'   text = element_text(),
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm"),
+#'
+#'   # For brackets
+#'   bracket = element_line(),
+#'   bracket.size = unit(5, "mm"),
+#'
+#'   # For boxes
+#'   box = element_rect(),
+#'
+#'   # For fences
+#'   fence = element_line(),
+#'   fence.post = element_line(),
+#'   fence.rail = element_line(),
+#'
+#'   # For subtitle (not main title)
+#'   title = element_text()
+#' ))
+#' ```
 #'
 #' @return A `<Guide>` object.
 #' @export

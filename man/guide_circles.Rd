@@ -72,6 +72,40 @@ This graph was designed with standard round \link[ggplot2:scale_shape]{shapes}
 in mind, i.e. shapes 1, 16, 19 and 21. For that reason, \code{shape = 1} is the
 default \code{override.aes} argument. Other shapes will probably be drawn but the
 quality of their alignment and label placement may be unsatisfactory.
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.background} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the legend. \cr
+   \code{legend.margin} \tab \code{\link[ggplot2:margin]{margin()}} \tab Padding around the legend. \cr
+   \code{legend.key} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the key area underneath circles. \cr
+   \code{legend.text} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Labels displayed next to tick marks or on top of circles. \cr
+   \code{legendry.legend.key.margin} \tab \code{\link[ggplot2:margin]{margin()}} \tab Padding between circles and edge of key area. \cr
+   \code{legend.ticks} \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Tick marks connecting circle to label. \cr
+   \code{legend.title} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Title of the legend. \cr
+   \code{legend.title.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+}
+
+
+Styling options \emph{per break} can be set in the \link[=key_standard]{standard key}.
+These override theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_circles(theme = theme_guide(
+  text = element_text(),
+  title = element_text(),
+  title.position = "top",
+  margin = margin(5),
+  key = element_rect(),
+  key.margin = margin(5),
+  background = element_rect(),
+  ticks = element_line(),
+))
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 # A standard plot

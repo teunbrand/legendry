@@ -32,6 +32,41 @@
 #' default `override.aes` argument. Other shapes will probably be drawn but the
 #' quality of their alignment and label placement may be unsatisfactory.
 #'
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.background`| [`element_rect()`] | Background of the legend. |
+#' | `legend.margin` | [`margin()`] | Padding around the legend. |
+#' | `legend.key` | [`element_rect()`] | Background of the key area underneath circles. |
+#' | `legend.text` | [`element_text()`] | Labels displayed next to tick marks or on top of circles. |
+#' | `legendry.legend.key.margin` | [`margin()`] | Padding between circles and edge of key area. |
+#' | `legend.ticks` | [`element_line()`] | Tick marks connecting circle to label. |
+#' | `legend.title` | [`element_text()`] | Title of the legend. |
+#' | `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`.
+#'
+#' Styling options *per break* can be set in the [standard key][key_standard].
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_circles(theme = theme_guide(
+#'   text = element_text(),
+#'   title = element_text(),
+#'   title.position = "top",
+#'   margin = margin(5),
+#'   key = element_rect(),
+#'   key.margin = margin(5),
+#'   background = element_rect(),
+#'   ticks = element_line(),
+#' ))
+#' ```
+#'
 #' @examples
 #' # A standard plot
 #' p <- ggplot(mtcars, aes(disp, mpg)) +
