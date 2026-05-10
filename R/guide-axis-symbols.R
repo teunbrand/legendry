@@ -397,19 +397,17 @@ GuideAxisSymbols <- ggproto(
           next
         }
         key_members <- vec_slice(key, member)
-        i <- key_members$.index
-        size <- key_members$.size %||% override$size[i]
-        size_tracker <- max(size_tracker, size)
-        grob <- element_grob(
+        props <- element_key_properties(
+          key_members, "point",
+          !!!lapply(override, vec_slice, i = key_members$.index)
+        )
+        size_tracker <- max(size_tracker, props$size)
+        grob <- inject(element_grob(
           point,
           x = unit(x[member], "native"),
           y = unit(y[member], "native"),
-          colour = key_members$.colour %||% override$colour[i],
-          fill   = key_members$.fill   %||% override$fill[i],
-          shape  = key_members$.shape  %||% override$shape[i],
-          stroke = key_members$.stroke %||% override$stroke[i],
-          size   = size
-        )
+          !!!props
+        ))
         grobs <- c(grobs, list(grob))
       }
       gTree(children = inject(gList(!!!grobs)), size = size_tracker)
@@ -425,7 +423,7 @@ GuideAxisSymbols <- ggproto(
     if (params$position %in% c("top", "bottom")) {
       gt <- gtable(widths = unit(1.0, "npc"), heights = size) |>
         gtable_add_grob(
-          points, l = 1L, t = along, z = 2L,
+          points, l = 1L, t = along, z = 3L,
           name = paste0("symbols-", along)
         ) |>
         gtable_add_grob(
@@ -435,7 +433,7 @@ GuideAxisSymbols <- ggproto(
     } else {
       gt <- gtable(widths = size, heights = unit(1.0, "npc")) |>
         gtable_add_grob(
-          points, l = along, t = 1L, z = 2L,
+          points, l = along, t = 1L, z = 3L,
           name = paste0("symbols-", along)
         ) |>
         gtable_add_grob(
@@ -469,11 +467,10 @@ GuideAxisSymbols <- ggproto(
       width <- unit(max(width_cm(labels)), "cm")
       table$heights <- unit(sizes, "cm")
       if (!is_zero(connectors)) {
-        table <-
-          gtable_add_grob(
-            table, connectors, l = 1L, t = 1L, b = -1L,
-            name = "connectors", clip = "off"
-          )
+        table <- gtable_add_grob(
+          table, connectors, l = 1L, t = 1L, b = -1L,
+          name = "connectors", clip = "off", z = 2L
+        )
       }
       if (elems$text_position == "left") {
         table <- table |>
@@ -494,11 +491,10 @@ GuideAxisSymbols <- ggproto(
       height <- unit(max(height_cm(labels)), "cm")
       table$widths <- unit(sizes, "cm")
       if (!is_zero(connectors)) {
-        table <-
-          gtable_add_grob(
-            table, connectors, l = 1L, r = -1L, t = 1L,
-            name = "connectors", clip = "off"
-          )
+        table <- gtable_add_grob(
+          table, connectors, l = 1L, r = -1L, t = 1L,
+          name = "connectors", clip = "off", z = 2L
+        )
       }
       if (elems$text_position == "bottom") {
         table <- table |>
