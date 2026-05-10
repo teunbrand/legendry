@@ -25,9 +25,9 @@
   c(.label_params, .line_params, .rect_params, .point_params)
 )
 
-#' Collects elemental properties from key into list, taking into account
-#' some simple inheritance from a global pool of properties, i.e.
-#' for text elements, the `text_colour` takes precedence over `colour`.
+# Collects elemental properties from key into list, taking into account
+# some simple inheritance from a global pool of properties, i.e.
+# for text elements, the `text_colour` takes precedence over `colour`.
 element_key_properties <- function(key, type, ...) {
   props <- switch(
     type,

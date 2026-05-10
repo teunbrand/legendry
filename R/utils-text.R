@@ -84,6 +84,17 @@ get_just <- function(element) {
   )
 }
 
+validate_labels <- function(labels) {
+  if (!is.list(labels)) {
+    return(labels)
+  }
+  if (any(map_lgl(labels, is.language))) {
+    do.call(expression, labels)
+  } else {
+    unlist(labels)
+  }
+}
+
 angle_labels <- function(element, angle, position) {
   if (!is_theme_element(element, "text") ||
       is_waive(angle) ||

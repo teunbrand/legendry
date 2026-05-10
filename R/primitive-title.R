@@ -207,12 +207,13 @@ draw_theta_title <- function(label, elements, params) {
     angle = angle
   )
 
-  if (inherits(grob, "textpath")) {
-    height <-
-      measure_textpath_labels(grob)
+  height <- if (inherits(grob, "textpath")) {
+    measure_textpath_labels(grob)
   } else {
-    height <-
-      measure_theta_labels(title, label, margin, theta + rad, hjust, vjust)
+    measure_theta_labels(
+      title, label, margin, theta + rad,
+      list(hjust = hjust, vjust = vjust)
+    )
   }
   attr(grob, "offset") <- height
   grob
