@@ -206,10 +206,14 @@ PrimitiveSegments <- ggproto(
       }
     }
 
-    element_grob(
+    group <- new_rle(key$group)
+    props <- element_key_properties(vec_slice(key, group$start), "line")
+
+    inject(element_grob(
       elements$line, x = x, y = y,
-      id.lengths = vec_run_sizes(key$group)
-    )
+      id.lengths = group$times,
+      !!!props
+    ))
   },
 
   draw = function(self, theme, position = NULL, direction = NULL,
