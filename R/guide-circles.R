@@ -126,6 +126,8 @@ GuideCircles <- ggproto(
     title_position = "legend.title.position"
   ),
 
+  extract_key = standard_extract_key,
+
   extract_params = function(scale, params, title = waiver(), ...) {
     params$title    <- scale$make_title(params$title, scale$name, title)
     params$position <- params$position %|W|% NULL
@@ -133,13 +135,18 @@ GuideCircles <- ggproto(
     params
   },
 
-  process_layers = function(...) {
-    GuideLegend$process_layers(...)
+  process_layers = function(self, params, ...) {
+    # We transfer key properties to the `override.aes` to transfer them to
+    # the glyphs drawn for the legend.
+    props <- element_key_properties(params$key, "point")
+    props <- props[setdiff(names(props), names(params$key))]
+    params$override.aes <- list2(!!!params$override.aes, !!!props)
+    GuideLegend$process_layers(params, ...)
   },
 
   build_decor = function(decor, grobs, elements, params) {
-
     key <- params$key
+    key <- vec_slice(key, order(-key$size))
 
     glyphs <- lapply(
       decor, draw_circles,
@@ -160,7 +167,7 @@ GuideCircles <- ggproto(
     position <- params$text_position %||% elements$text_position
     if (position == "ontop") {
       text <- Map(
-        element_grob, label = key$.label[order(-key$size)], x = x, y = y,
+        element_grob, label = key$.label, x = x, y = y,
         MoreArgs = list(element = elements$text)
       )
       if (isTRUE(params$clip_text)) {
@@ -171,16 +178,20 @@ GuideCircles <- ggproto(
       }
       grob <- gTree(children = inject(gList(!!!glyphs, !!!text)))
     } else {
-      ticks <- draw_circle_ticks(elements$ticks, x, y, padding, position)
+      ticks <- draw_circle_ticks(
+        elements$ticks, x, y, padding, position,
+        element_key_properties(key, "line")
+      )
 
       x <- switch(position, left = , right = NULL, x)
       y <- switch(position, top = , bottom = NULL, y)
 
-      text <- element_grob(
-        elements$text, x = x, y = y, label = key$.label[order(-key$size)],
+      text <- inject(element_grob(
+        elements$text, x = x, y = y, label = key$.label,
         margin_x = position %in% c("left", "right"),
-        margin_y = position %in% c("top", "bottom")
-      )
+        margin_y = position %in% c("top", "bottom"),
+        !!!element_key_properties(key, "text")
+      ))
       grob <- gTree(children = inject(gList(ticks, !!!glyphs)))
     }
 
@@ -301,7 +312,7 @@ censor_text_background <- function(x, y, text, background,
   c(background, list(mask))
 }
 
-draw_circle_ticks <- function(element, x, y, padding, position) {
+draw_circle_ticks <- function(element, x, y, padding, position, props) {
 
   n <- length(x)
 
@@ -323,7 +334,11 @@ draw_circle_ticks <- function(element, x, y, padding, position) {
   x <- unit.c(x, xend)[interleave]
   y <- unit.c(y, yend)[interleave]
 
-  element_grob(element, x = x, y = y, id.lengths = rep(2L, n))
+  inject(element_grob(
+    element, x = x, y = y,
+    id.lengths = rep(2L, n),
+    !!!props
+  ))
 }
 
 draw_circles <- function(decor, vjust = 0.0, hjust = 0.5) {
