@@ -342,6 +342,10 @@ transform_key <- function(key, position, coord, panel_params) {
   if (is_theta(position)) {
     add <- if (position == "theta.sec") pi else 0.0
     transformed$theta <- transformed$theta + add
+  } else if ("theta" %in% setdiff(names(transformed), names(key))) {
+    # For radius axes, we want to keep any `theta` value it had before,
+    # but discard these when the coord forces this.
+    transformed[c("theta", "r")] <- NULL
   }
 
   ends <- c("xend", "yend") %in% names(key)

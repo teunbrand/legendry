@@ -316,7 +316,7 @@ get_theta <- function(key, position) {
       bottom = 1.0,
       left   = 1.5,
       right  = 0.5
-    ),
+    ) * pi,
     nrow(key)
   )
 }

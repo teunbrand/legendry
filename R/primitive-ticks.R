@@ -202,43 +202,35 @@ draw_ticks <- function(key, element, params, position, length, offset = 0.0) {
   if (n_breaks < 1L || is_blank(element) || all(length == 0L)) {
     return(zeroGrob())
   }
+  props  <- element_key_properties(key, "line")
   length <- rep_len(length, n_breaks)
-  bidi <- c(1.0, -as.numeric(params$bidi %||% FALSE))
-  if (is_theta(position)) {
-    angle  <- rep(key$theta, each = 2L)
-    x      <- rep(key$x,     each = 2L)
-    y      <- rep(key$y,     each = 2L)
+  bidi   <- c(1.0, -as.numeric(params$bidi %||% FALSE))
 
-    length <- rep_len(length, n_breaks * 2L)
-    length <- rep(bidi, times = n_breaks) * length
-    length <- unit(length + offset, "cm")
+  # Every tick has two vertices
+  length <- rep(length, each = 2L)
+  key <- vec_rep_each(key, 2L)
+  id <- rep(2L, n_breaks)
 
-    ticks <- element_grob(
-      element,
-      x = unit(x, "npc") + sin(angle) * length,
-      y = unit(y, "npc") + cos(angle) * length,
-      id.lengths = rep(2L, n_breaks)
-    )
-    return(ticks)
-  }
-  aes <- params$aesthetic
-  aes <- switch(
-    aes, x = "x", y = "y",
-    switch(params$direction, horizontal = "x", "y")
+  # Set anchor positions
+  switch(
+    position,
+    top    = {key$y <- 0.0},
+    right  = {key$x <- 0.0},
+    bottom = {key$y <- 1.0},
+    left   = {key$x <- 1.0}
+    # theta(.sec) already has appropriate x/y values
   )
 
-  mark <- unit(rep(key[[aes]], each = 2L), "npc")
+  length <- rep(bidi, times = n_breaks) * length
+  length <- unit(length + offset, "cm")
+  theta  <- get_theta(key, position)
 
-  pos <- switch(position, top = , right = 0.0, left = , bottom = 1.0)
-  dir <- (-2.0 * pos + 1.0) * bidi
-  pos <- unit(rep(pos, 2L * n_breaks), "npc")
-  tick <- unit(rep(dir, n_breaks) * rep(length, each = 2L), "cm") + pos
+  args <- list(
+    x = unit(key$x, "npc") + sin(theta) * length,
+    y = unit(key$y, "npc") + cos(theta) * length
+  )
 
-  args <- list(x = tick, y = mark, id.lengths = rep(2L, n_breaks))
-  if (position %in% c("top", "bottom")) {
-    args <- flip_names(args)
-  }
-  inject(element_grob(element, !!!args))
+  inject(element_grob(element, id.lengths = id, !!!args, !!!props))
 }
 
 zap_tick <- function(elements, name, n) {
