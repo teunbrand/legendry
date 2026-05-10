@@ -58,7 +58,7 @@
 #' @param expanded A `<logical[1]>` determining whether the ticks should cover
 #'   the entire range after scale expansion (`TRUE`, default), or be restricted
 #'   to the scale limits (`FALSE`).
-#' @param .call A [call][rlang::topic-error-call] to display in messages.
+#' @param call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @name key_standard
 #' @family keys
@@ -94,11 +94,12 @@ NULL
 
 #' @rdname key_standard
 #' @export
-key_auto <- function(...) {
+key_auto <- function(..., call = NULL) {
+  call <- call %||% current_call()
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1L]
     df <- Guide$extract_key(scale, aesthetic)
-    df <- data_frame0(df, !!!extra_args(...))
+    df <- data_frame0(df, !!!extra_args(...), .error_call = call)
     class(df) <- c("key_standard", "key_guide", class(df))
     df
   }
@@ -108,10 +109,11 @@ key_auto <- function(...) {
 #' @export
 key_manual <- function(aesthetic, value = aesthetic,
                        label = as.character(value), type = NULL,
-                       ...) {
+                       ..., call = NULL) {
   df <- data_frame0(
     aesthetic = aesthetic, value = value,
-    label = label, type = type, !!!extra_args(...)
+    label = label, type = type, !!!extra_args(...),
+    .error_call = call %||% current_call()
   )
   check_columns(df, c("aesthetic", "value", "label"))
   df <- rename(df, c("value", "label", "type"), c(".value", ".label", ".type"))
@@ -121,14 +123,15 @@ key_manual <- function(aesthetic, value = aesthetic,
 
 #' @rdname key_standard
 #' @export
-key_map <- function(data, ..., .call = caller_env()) {
+key_map <- function(data, ..., call = NULL) {
   mapping <- aes(!!!enquos(...))
 
   df <- eval_aes(
     data, mapping,
     required = "aesthetic",
     optional = c("value", "label", .element_params),
-    call = .call, arg_mapping = "mapping", arg_data = "data"
+    call = call %||% current_call(),
+    arg_mapping = "mapping", arg_data = "data"
   )
   df$value <- df$value %||% df$aesthetic
   df$label <- df$label %||% as.character(df$aesthetic)
@@ -146,12 +149,13 @@ key_map <- function(data, ..., .call = caller_env()) {
 
 #' @rdname key_standard
 #' @export
-key_minor <- function(...) {
+key_minor <- function(..., call = NULL) {
+  call <- call %||% current_call()
   dots <- extra_args(...)
   function(scale, aesthetic = NULL) {
     aesthetic <- aesthetic %||% scale$aesthetics[1L]
     df <- GuideAxis$extract_key(scale, aesthetic, minor.ticks = TRUE)
-    df <- data_frame0(df, !!!dots)
+    df <- data_frame0(df, !!!dots, .error_call = call)
     class(df) <- c("key_standard", "key_guide", class(df))
     df
   }
@@ -161,7 +165,7 @@ key_minor <- function(...) {
 #' @export
 key_log <- function(
   prescale_base = NULL, negative_small = 0.1, expanded = TRUE,
-  labeller = NULL, ...
+  labeller = NULL, ..., call = NULL
 ) {
   check_number_decimal(
     negative_small, min = 1e-100,
@@ -175,7 +179,7 @@ key_log <- function(
   force(negative_small)
   force(expanded)
   dots <- extra_args(...)
-  call <- expr(key_log())
+  call <- call %||% current_call()
   function(scale, aesthetic = NULL) {
     log10_keys(
       scale = scale, aesthetic = aesthetic,

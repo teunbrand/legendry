@@ -31,6 +31,7 @@
 #' @param data A `<data.frame>` or similar object coerced by
 #'   [`fortify()`][ggplot2::fortify] to a `<data.frame>`, in which the `mapping`
 #'   argument is evaluated.
+#' @param ...
 #' The `...` parameter has two purposes.
 #' 1. In `key_range_map()` it is [`<data-masking>`][rlang::topic-data-mask].
 #'   A set of mappings similar to those provided to [`aes()`][ggplot2::aes],
@@ -44,7 +45,7 @@
 #'   from the main `colour` setting. Likewise, `size`, `linewidth`, `linetype`
 #'   and `fill` have specific variants for elements.
 #' @param x A `<vector[n]>` for which to determine run-starts and run-ends.
-#' @param .call A [call][rlang::topic-error-call] to display in messages.
+#' @param call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @details
 #' The `level` variable is optional and when missing, the guides use an
@@ -111,10 +112,11 @@ key_range_auto <- function(sep = "[^[:alnum:]]+", reverse = FALSE, ...) {
 
 #' @rdname key_range
 #' @export
-key_range_manual <- function(start, end, name = NULL, level = NULL, ...) {
+key_range_manual <- function(start, end, name = NULL, level = NULL, ..., call = NULL) {
   df <- data_frame0(
     start = start, end = end, .label = name, .level = level,
-    !!!extra_args(...)
+    !!!extra_args(...),
+    .error_call = call %||% current_call()
   )
   check_columns(df, c("start", "end"))
   class(df) <- c("key_range", "key_guide", class(df))
@@ -123,14 +125,15 @@ key_range_manual <- function(start, end, name = NULL, level = NULL, ...) {
 
 #' @rdname key_range
 #' @export
-key_range_map <- function(data, ..., .call = caller_env()) {
+key_range_map <- function(data, ..., call = NULL) {
   mapping <- aes(!!!enquos(...))
 
   df <- eval_aes(
     data, mapping,
     required = c("start", "end"),
     optional = c("name", "level", .element_params),
-    call = .call, arg_mapping = "mapping", arg_data = "data"
+    call = call %||% current_call(),
+    arg_mapping = "mapping", arg_data = "data"
   )
 
   df <- rename(
@@ -143,14 +146,15 @@ key_range_map <- function(data, ..., .call = caller_env()) {
 
 #' @rdname key_range
 #' @export
-key_range_rle <- function(x, ...) {
+key_range_rle <- function(x, ..., call = NULL) {
   rle <- new_rle(x)
   key_range_manual(
     start = as_mapped_discrete(rle$start),
     end   = as_mapped_discrete(rle$end),
     name  = rle$key,
     level = 1L,
-    ...
+    ...,
+    call = call %||% current_call()
   )
 }
 

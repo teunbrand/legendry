@@ -10,26 +10,28 @@
 \alias{key_none}
 \title{Standard keys}
 \usage{
-key_auto(...)
+key_auto(..., call = NULL)
 
 key_manual(
   aesthetic,
   value = aesthetic,
   label = as.character(value),
   type = NULL,
-  ...
+  ...,
+  call = NULL
 )
 
-key_map(data, ..., .call = caller_env())
+key_map(data, ..., call = NULL)
 
-key_minor(...)
+key_minor(..., call = NULL)
 
 key_log(
   prescale_base = NULL,
   negative_small = 0.1,
   expanded = TRUE,
   labeller = NULL,
-  ...
+  ...,
+  call = NULL
 )
 
 key_none()
@@ -50,6 +52,8 @@ from the main \code{colour} setting. Likewise, \code{size}, \code{linewidth}, \c
 and \code{fill} have specific variants for elements.
 }}
 
+\item{call}{A \link[rlang:topic-error-call]{call} to display in messages.}
+
 \item{aesthetic, value}{A vector of values for the guide to represent
 equivalent to the \code{breaks} argument in scales. The \code{aesthetic} will be
 mapped, whereas \code{value} will not. For most intents and purposes,
@@ -64,8 +68,6 @@ treated as major breaks.}
 \item{data}{A \verb{<data.frame>} or similar object coerced by
 \code{\link[ggplot2:fortify]{fortify()}} to a \verb{<data.frame>}, in which the \code{mapping}
 argument is evaluated.}
-
-\item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 
 \item{prescale_base}{A \verb{<numeric[1]>} giving the base of logarithm to
 transform data manually. The default, \code{NULL}, will use the scale
