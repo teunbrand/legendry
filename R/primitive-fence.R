@@ -151,14 +151,19 @@ PrimitiveFence <- ggproto(
     }
 
     # Take unique positions by level
-    split <- vec_split(c(key$start, key$end), c(key$.level, key$.level))
-    split$val <- lapply(split$val, unique)
+    split <- vec_split(key, key$.level)
 
-    decor <- data_frame0(
-      !!aesthetic := unlist(split$val),
-      .level     = min(levels),
-      .level_end = rep(split$key, lengths(split$val))
-    )
+    decor <- lapply(split$val, function(df) {
+      aes <- vec_interleave(df$start, df$end)
+      df <- vec_rep_each(df[setdiff(names(df), c("start", "end"))], 2)
+      df[[aesthetic]] <- aes
+      df
+    })
+
+    level_end <- rep(split$key, list_sizes(decor))
+    decor <- vec_c(!!!decor)
+    decor$.level <- min(levels)
+    decor$.level_end <- level_end
     decor <- vec_slice(decor, order(decor$.level_end, decor[[aesthetic]]))
 
     # We don't want fencepost of outer pieces poke through the railing of
@@ -329,39 +334,43 @@ draw_fencerail <- function(rail, element, sizes, offset, position, side, bbox) {
       r <- r * -1.0
     }
 
-    rails <- element_grob(
-      element,
+    args <- list(
       x = unit(xy$x, "npc") + sin(xy$theta) * r,
       y = unit(xy$y, "npc") + cos(xy$theta) * r,
       id.lengths = vec_unrep(xy$i)$times
     )
-    return(rails)
-  }
-
-  aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
-  aesend <- paste0(aes, "end")
-
-  mark <- vec_interleave(rail[[aes]], rail[[aesend]])
-  if (side == "inner") {
-    tick <- rep(0.0, length(mark))
-  } else if (side == "outer") {
-    tick <- rep(1.0, length(mark))
   } else {
-    tick <- rep(c(0.0, 1.0), each = length(mark))
-    mark <- c(mark, mark)
-  }
-  mark <- unit(mark, "npc")
-  tick <- switch(
-    position,
-    top = , right = unit(0.0 + tick, "npc"),
-    unit(1.0 - tick, "npc")
-  )
 
-  args <- list(x = tick, y = mark, id.lengths = rep(2L, length(tick) / 2L))
-  if (position %in% c("top", "bottom")) {
-    args <- flip_names(args)
+    aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
+    aesend <- paste0(aes, "end")
+
+    mark <- vec_interleave(rail[[aes]], rail[[aesend]])
+    if (side == "inner") {
+      tick <- rep(0.0, length(mark))
+    } else if (side == "outer") {
+      tick <- rep(1.0, length(mark))
+    } else {
+      tick <- rep(c(0.0, 1.0), each = length(mark))
+      mark <- c(mark, mark)
+    }
+    mark <- unit(mark, "npc")
+
+    tick <- switch(
+      position,
+      top = , right = unit(0.0 + tick, "npc"),
+      unit(1.0 - tick, "npc")
+    )
+
+    args <- list(x = tick, y = mark, id.lengths = rep(2L, length(tick) / 2L))
+    if (position %in% c("top", "bottom")) {
+      args <- flip_names(args)
+    }
+
   }
-  inject(element_grob(element, !!!args))
+
+  props <- element_key_properties(rail, "line")
+
+  inject(element_grob(element, !!!args, !!!props))
 }
 
 draw_fencepost <- function(decor, element, sizes, offset, position) {
@@ -383,28 +392,29 @@ draw_fencepost <- function(decor, element, sizes, offset, position) {
     }
     length <- unit(length, "cm")
 
-    ticks <- element_grob(
-      element,
+    args <- list(
       x = unit(x, "npc") + sin(angle) * length,
-      y = unit(y, "npc") + cos(angle) * length,
-      id.lengths = rep(2L, nrow(decor))
+      y = unit(y, "npc") + cos(angle) * length
     )
-    return(ticks)
+  } else {
+    aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
+    mark <- unit(rep(decor[[aes]], each = 2L), "npc")
+
+    tick <- unit(offset - cumsum(sizes)[levels], "cm")
+    tick <- switch(
+      position,
+      top = , right = unit(1.0, "npc") - tick,
+      unit(0.0, "npc") + tick
+    )
+
+    args <- list(x = tick, y = mark)
+    if (position %in% c("top", "bottom")) {
+      args <- flip_names(args)
+    }
   }
+  id <- rep(2L, nrow(decor))
 
-  aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
-  mark <- unit(rep(decor[[aes]], each = 2L), "npc")
+  props <- element_key_properties(decor, "line")
 
-  tick <- unit(offset - cumsum(sizes)[levels], "cm")
-  tick <- switch(
-    position,
-    top = , right = unit(1.0, "npc") - tick,
-    unit(0.0, "npc") + tick
-  )
-
-  args <- list(x = tick, y = mark, id.lengths = rep(2L, nrow(decor)))
-  if (position %in% c("top", "bottom")) {
-    args <- flip_names(args)
-  }
-  inject(element_grob(element, !!!args))
+  inject(element_grob(element, id.lengths = id, !!!args, !!!props))
 }
