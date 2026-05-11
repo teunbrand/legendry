@@ -58,6 +58,10 @@
 #'   `theme(plot.margin)` setting of the main plot to accommodate these
 #'   components.
 #'
+#' ## Styling options
+#' This guide has no style options in `theme()` on itself. However, the
+#' `plot` herein is subject to styling as described under the `theme` argument.
+#'
 #' @returns A `<Guide>` object.
 #' @export
 #' @family standalone guides

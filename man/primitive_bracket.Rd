@@ -72,33 +72,42 @@ guides.
 \description{
 This function constructs a brackets \link[=guide-primitives]{guide primitive}.
 }
-\section{Styling options}{
+\details{
+\subsection{Styling options}{
+
 Below are the \link[ggplot2:theme]{theme} options that determine the styling of
-this guide, which may differ depending on whether the guide is used in an
-axis or a legend context.
+this guide, which may differ depending on whether the guide is used in
+an axis or in a legend context.
 
-Common to both types is the following:
-\itemize{
-\item \code{legendry.bracket} an \code{\link[ggplot2:element_line]{<element_line>}} for the
-line used to draw the brackets.
-\item \code{legendry.backet.size} a \code{\link[grid:unit]{<unit>}} setting the space afforded
-to a bracket.
-}
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
-for the text displayed over the brackets.
-}
+The possible \code{{position}} suffixes mentioned below are \code{x}, \code{x.top},
+\code{x.bottom}, \code{y}, \code{y.left}, \code{y.right}. The \code{theta} and \code{r} position suffixes
+in \pkg{ggplot2} are \emph{not} obeyed in \pkg{legendry}.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.bracket} \tab Both \tab \code{\link[ggplot2:element_line]{element_line()}} \tab The bracket lines themselves. \cr
+   \code{legendry.bracket.size} \tab Both \tab \code{\link[=unit]{unit()}} \tab The space (in the orthogonal direction) afforded to a bracket. \cr
+   \verb{axis.text.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text over brackets. \cr
+   \code{legend.text} \tab Legend \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text over brackets. \cr
 }
 
-\subsection{As a legend guide}{
-\itemize{
-\item \code{legend.text} an \code{\link[ggplot2:element_text]{<element_text>}} for the text
-displayed over the brackets.
-}
-}
-}
 
+Styling options \emph{per level} can be set in the \code{levels_brackets} and
+\code{levels_text} arguments. These override theme settings.
+
+Styling options \emph{per range} can be set in the \link[=key_range]{range key}.
+The \code{line} and \code{text} prefixed properties are prioritised for the brackets
+and text respectively. These override theme settings and 'per level'
+settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_bracket(theme = theme_guide(
+  bracket = element_line(),
+  bracket.size = unit(5, "mm")
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(interaction(drv, year), displ)) +

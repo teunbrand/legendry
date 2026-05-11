@@ -100,19 +100,19 @@ rep0 <- function(x, ...) {
   rep(x, ...)
 }
 
+recode <- function(x, old, new) {
+  i <- match(x, old)
+  skip <- is.na(i)
+  x[!skip] <- new[i][!skip]
+  x
+}
+
 rename <- function(df, old, new) {
   if (is.function(new)) {
     new <- new(old)
   }
   names(df) <- recode(names(df), old, new)
   df
-}
-
-recode <- function(x, old, new) {
-  i <- match(x, old)
-  skip <- is.na(i)
-  x[!skip] <- new[i][!skip]
-  x
 }
 
 .flip_names <-
@@ -294,30 +294,12 @@ insert_after <- function(x, i, value) {
   new
 }
 
-get_just <- function(element) {
-  rotate_just(
-    element$angle %||% 0.0,
-    element$hjust %||% 0.5,
-    element$vjust %||% 0.5
-  )
-}
-
-.label_params <- setdiff(
-  fn_fmls_names(element_text),
-  c("margin", "debug", "inherit.blank")
-)
-.line_params <- c("colour", "color", "linewidth", "linetype")
-
-extra_args <- function(..., .valid_args = .label_params, call = caller_env()) {
+extra_args <- function(..., .valid_args = .element_params, call = caller_env()) {
   args <- list2(...)
   if (length(args) == 0L) {
     return(NULL)
   }
-
-  if (!is.null(args$color)) {
-    args$colour <- args$color
-    args$color <- NULL
-  }
+  args <- rename_aes(args, call = call)
   extra <- setdiff(names(args), .valid_args)
   if (length(extra) > 0L) {
     cli::cli_warn("Ignoring unknown parameters: {.and {extra}}.", call = call)
@@ -360,31 +342,4 @@ as_mapped_discrete <- function(x) {
   x <- as.numeric(x)
   class(x) <- c("mapped_discrete", class(x))
   x
-}
-
-element_classes <- function(..., allow_null = TRUE) {
-  type <- do.call(c, list(...))
-  classes <- character()
-  if (allow_null) {
-    classes <- c(classes, "NULL")
-  }
-  if ("rect" %in% type) {
-    classes <- c(classes, "ggplot2::element_rect", "element_rect")
-  }
-  if ("line" %in% type) {
-    classes <- c(classes, "ggplot2::element_line", "element_line")
-  }
-  if ("text" %in% type) {
-    classes <- c(classes, "ggplot2::element_text", "element_text")
-  }
-  if ("blank" %in% type) {
-    classes <- c(classes, "ggplot2::element_blank", "element_blank")
-  }
-  if ("point" %in% type) {
-    classes <- c(classes, "ggplot2::element_point")
-  }
-  if ("polygon" %in% type) {
-    classes <- c(classes, "ggplot2::element_polygon")
-  }
-  classes
 }

@@ -24,6 +24,18 @@
 #' @param super A `<Compose>` class object giving a meta-guide for composition.
 #' @param call A [call][rlang::topic-error-call] to display in messages.
 #'
+#' @details
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legendry.guide.spacing` | [`unit()`] | Spacing between guides. |
+#'
+#' There are no further styling options.
+#'
 #' @name guide-composition
 #' @return A `<Compose>` (sub-)class guide that composes other guides.
 #' @export

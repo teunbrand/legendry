@@ -83,6 +83,57 @@ displays continuous \code{colour} or \code{fill} aesthetics. Instead of a bar, t
 gradient in shown in a ring or arc, which can be convenient for cyclical
 palettes such as some provided in the \pkg{scico} package.
 }
+\details{
+\subsection{Styling options}{
+
+This guide is a hybrid composition guide, where the \link[ggplot2:theme]{theme}
+settings apply both this guide itself and the constituents it manages.
+The constituents are linked below so you can find their 'Styling options'
+sections. Note that \code{guide_axis_base()} is just a default that can be
+swapped out.\tabular{ll}{
+   \strong{Constituent} \tab \strong{Description} \cr
+   \code{\link[=guide_axis_base]{guide_axis_base()}} \tab Makes up the tick marks and labels at inner and outer rings. \cr
+}
+
+
+In addition to the constituent's theme setting, it also has the following
+settings:\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.background} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the legend. \cr
+   \code{legend.margin} \tab \code{\link[ggplot2:margin]{margin()}} \tab Padding around the legend. \cr
+   \code{legend.key.width} \tab \code{\link[=unit]{unit()}} \tab Radial thickness of the donut ring. \cr
+   \code{legend.key.size} \tab \code{\link[=unit]{unit()}} \tab Size of the legend. Multiplied by 5 to roughly match dimensions of colour bar guides. \cr
+   \code{legend.frame} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Outline of the donut. The \code{fill} setting is ignored. \cr
+   \code{legend.title} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Title of the legend. \cr
+   \code{legend.title.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+}
+
+
+Styling options \emph{per break} can be set in the \link[=key_standard]{standard key}.
+These override theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_colring(theme = theme_guide(
+  # Ring settings
+  title = element_text(),
+  title.position = "top",
+  margin = margin(5),
+  background = element_rect(),
+  frame = element_rect(),
+  key.size = unit(1, "cm"),
+  key.width = unit(5, "mm"),
+
+  # Common options for `guide_axis_base()`
+  line = element_line(),
+  text = element_text(),
+  ticks = element_line(),
+  ticks.length = unit(5, "mm"),
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # Rings works best with a cyclical palette
 my_pal <- c("black", "tomato", "white", "dodgerblue", "black")

@@ -100,26 +100,41 @@ this task.
 \subsection{Styling options}{
 
 Several styling options are provided in the theme, while individualised
-styling is discussed below the table.\tabular{ll}{
-   Theme setting \tab Description \cr
-   \code{legendry.axis.subtitle} \tab \code{\link[ggplot2:element_text]{element_text()}} for titles on the side \cr
-   \code{legendry.axis.subtitle.position} \tab \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"} \cr
-   \code{legendry.zebra.light} \tab \code{\link[ggplot2:element_rect]{element_rect()}} for row shading \cr
-   \code{legendry.zebra.dark} \tab \code{\link[ggplot2:element_rect]{element_rect()}} for alternate row shading \cr
-   \code{legendry.table.spacing} \tab \code{\link[ggplot2:rel]{rel()}}/\code{\link[=unit]{unit()}} for padding between levels \cr
-   \code{legendry.point} \tab \code{\link[ggplot2:element_point]{element_point()}} for symbol style \cr
-   \code{legendry.connector} \tab \code{\link[ggplot2:element_line]{element_line()}} for drawing \code{connect} lines. \cr
+styling is discussed below the table.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.axis.subtitle} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Titles on the side labelling levels. \cr
+   \code{legendry.axis.subtitle.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legendry.zebra.light} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Row shading. \cr
+   \code{legendry.zebra.dark} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Alternate row shading. \cr
+   \code{legendry.table.spacing} \tab \code{\link[ggplot2:rel]{rel()}}/\code{\link[=unit]{unit()}} \tab Padding between levels. \cr
+   \code{legendry.point} \tab \code{\link[ggplot2:element_point]{element_point()}} \tab Styling of the symbols \cr
+   \code{legendry.connector} \tab \code{\link[ggplot2:element_line]{element_line()}} Drawing the \code{connect} lines. \tab  \cr
 }
 
 
 Moreover, styling options \emph{per group} of symbols can be set via the
-\code{override.aes} argument.
+\code{override.aes} argument. These override theme settings.
 
 Styling options \emph{per symbol} can be set in \code{\link[=key_symbols]{key_symbols()}} via the \code{...}
-argument.
+argument. These override theme settings and 'per group' settings.
 
 Styling options \emph{per line} in line connectors can be set by including
 graphical parameters as columns in the \verb{connect = <data.frame>} argument.
+These override theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_axis_symbols(theme = theme_guide(
+  subtitle = element_line(),
+  subtitle.position = "left",
+  zebra.light = element_rect(),
+  zebra.dark = element_rect(),
+  table.spacing = unit(5, "mm"),
+  point = element_point(),
+  connector = element_line()
+))
+}\if{html}{\out{</div>}}
 }
 }
 \examples{

@@ -32,6 +32,33 @@
 #' Non-finite values such as `NA` and `NaN` are ignored while infinite values
 #' such as `-Inf` and `Inf` are [squished][scales::oob_squish] to the limits.
 #'
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.frame` | [`element_rect()`] | Outline drawn around the histogram itself. The `fill` setting is ignored. |
+#' | `legend.key` | [`element_rect()`] | Background underneath the histogram area. |
+#' | `legend.key.width` | [`unit()`] | Width of the histogram area. |
+#' | `legend.key.height` | [`unit()`] | Height of the histogram area. |
+#'
+#' Please note that depending on the `direction` argument, the
+#' `legend.key.width`/`legend.key.height` setting are expanded 5-fold if
+#' originating from the global theme. To set these directly, you can use the
+#' local `theme` argument in the guide.
+#' These settings have shorthands in [`theme_guide()`]:
+#'
+#' ```r
+#' gizmo_histogram(theme = theme_guide(
+#'   frame = element_rect(),
+#'   key = element_rect(),
+#'   key.width = unit(5, "mm")
+#'   key.height = unit(5, "cm")
+#' ))
+#' ```
+#'
 #' @return A `<GizmoHistogram>` object.
 #' @family gizmos
 #' @export

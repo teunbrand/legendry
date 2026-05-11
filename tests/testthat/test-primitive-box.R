@@ -30,7 +30,8 @@ test_that("primitive_box works as axis", {
         key = key_range_manual(
           start = c(2.0, 4.0, 3.0),
           end = c(5.0, 7.0, 6.0),
-          level = c(1L, 2L, 3L)
+          level = c(1L, 2L, 3L),
+          rect_fill = c("tomato", "dodgerblue", "limegreen")
         )
       )
     )
@@ -48,13 +49,14 @@ test_that("primitive_box works as axis", {
         key = key_range_manual(
           start = c(2.0, 4.0),
           end = c(5.0, 7.0),
-          name = c("A\nA", "B\nB")
+          name = c("A\nA", "B\nB"),
         )
       ),
       theta.sec = primitive_box(
         key = key_range_manual(
           start = c(2.0, 4.0, 3.0), end = c(5.0, 7.0, 6.0),
-          level = c(1L, 2L, 3L)
+          level = c(1L, 2L, 3L),
+          rect_fill = c("tomato", "dodgerblue", "limegreen")
         )
       )
     )

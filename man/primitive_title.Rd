@@ -45,25 +45,29 @@ guides.
 \description{
 This function constructs a title \link[=guide-primitives]{guide primitive}.
 }
-\section{Styling options}{
+\details{
+\subsection{Styling options}{
+
 Below are the \link[ggplot2:theme]{theme} options that determine the styling of
 this guide, which may differ depending on whether the guide is used in
-an axis or in a legend context.
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.title.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
-for the title display.
-}
+an axis or in a legend context.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \verb{axis.title.\{x/y\}.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The title itself. \cr
+   \code{legend.title} \tab Legend \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The title itself. \cr
 }
 
-\subsection{As a legend guide}{
-\itemize{
-\item \code{legend.title} an \code{\link[ggplot2:element_text]{<element_text>}}
-for the title display.
-}
-}
-}
 
+There are no further styling options.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_title(theme = theme_guide(
+  title = element_text(),
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(displ, hwy)) +

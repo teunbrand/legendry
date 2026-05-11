@@ -5,13 +5,19 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' This guide can place place other guides on top of one another.
+#' This guide can place other guides on top of one another.
 #'
 #' @inheritParams compose_stack
 #'
 #' @return A `<ComposeOntop>` composite guide object.
 #' @export
 #' @family composition
+#'
+#' @details
+#' ## Styling options
+#'
+#' There are no styling options in `theme()` for this composition.
+#'
 #'
 #' @examples
 #' # Using the ontop composition to get two types of ticks with different

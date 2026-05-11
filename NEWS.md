@@ -15,6 +15,10 @@
 * `compose_stack(side.titles)` also work in non-position guides (#101)
 * Changed the margins and inferred justification of the `legendry.axis.subtitle`
   and `legendry.legend.subtitle` theme elements.
+* Changed `...` argument in many `key_*()` functions to transfer graphical 
+  properties like `colour` or `linewidth` to guides. Different parts of guides 
+  can be targeted by specifying 
+  `text_colour`/`line_colour`/`rect_colour`/`point_colour`.
 * Updated title mechanism to comply with ggplot2#6200 (#104)
 * `key_group_split()` tries to preserve order of labels better, rather than 
   re-sorting them (#100)

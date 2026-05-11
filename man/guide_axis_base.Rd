@@ -104,6 +104,40 @@ To set minor ticks, use \code{key = "minor"}, or use the \code{type} argument in
 \code{key_manual()} or \code{key_map()}.
 
 To use this as a logarithmic axis, set \code{key = "log"}.
+\subsection{Styling options}{
+
+Because this guide is pure composite guide, the \link[ggplot2:theme]{theme}
+options that govern the styling are determined by its constituents. They are
+linked below so you can find their 'Styling options' sections.\tabular{ll}{
+   \strong{Primitive} \tab \strong{Description} \cr
+   \code{\link{compose_stack}} \tab Stacks the lines, tick marks and labels. \cr
+   \code{\link[=primitive_line]{primitive_line()}} \tab Makes up the axis line. \cr
+   \code{\link[=primitive_ticks]{primitive_ticks()}} \tab Makes up the tick marks. \cr
+   \code{\link[=primitive_labels]{primitive_labels()}} \tab Makes up the labels. \cr
+}
+
+
+Styling options \emph{per break} can be set in the \link[=key_standard]{standard key}.
+These override theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_axis_base(theme = theme_guide(
+  # Common options
+  line = element_line(),
+  text = element_text(),
+  ticks = element_line(),
+  ticks.length = unit(5, "mm"),
+
+  # Niche options below
+  minor.ticks = element_line(),
+  minor.ticks.length = unit(5, "mm"),
+  mini.ticks = element_line(),
+  mini.ticks.length = unit(5, "mm"),
+))
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 # A standard plot with custom keys

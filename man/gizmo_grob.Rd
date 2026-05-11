@@ -32,6 +32,12 @@ A \verb{<GizmoGrob>} object.
 \description{
 This guide displays a user-provided grob.
 }
+\details{
+\subsection{Styling options}{
+
+There are no \code{theme()} styling options for \code{gizmo_grob()}.
+}
+}
 \examples{
 circle <- grid::circleGrob()
 

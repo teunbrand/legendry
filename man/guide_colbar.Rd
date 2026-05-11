@@ -118,6 +118,46 @@ to display caps at the end of the bar, depending on out-of-bounds values.
 As colours are always rendered as gradients, it is important to use a
 graphics device that can render these. This can be checked by using
 \code{\link[ggplot2:check_device]{check_device("gradients")}}.
+\subsection{Styling options}{
+
+Because this guide is pure composite guide, the \link[ggplot2:theme]{theme}
+options that govern the styling are determined by its constituents. They are
+linked below so you can find their 'Styling options' sections. Note that
+\code{guide_axis_base()} is just a default that can be swapped out.\tabular{ll}{
+   \strong{Constituent} \tab \strong{Description} \cr
+   \code{\link{compose_sandwich}} \tab Combines the bar with two side-guides. \cr
+   \code{\link[=gizmo_barcap]{gizmo_barcap()}} \tab Makes up the colour bar. \cr
+   \code{\link[=guide_axis_base]{guide_axis_base()}} \tab Makes up the tick marks and labels. \cr
+}
+
+
+Styling options \emph{per break} can be set in the \link[=key_standard]{standard key}.
+These override theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_colbar(theme = theme_guide(
+  # Composition settings
+  title = element_text(),
+  title.position = "top",
+  text.position = "right",
+  margin = margin(5),
+  background = element_rect(),
+
+  # Bar settings
+  frame = element_rect(),
+  key.width = unit(5, "mm")
+  key.height = unit(5, "cm")
+
+  # Common options for `guide_axis_base()`
+  line = element_line(),
+  text = element_text(),
+  ticks = element_line(),
+  ticks.length = unit(5, "mm"),
+))
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 # A standard plot

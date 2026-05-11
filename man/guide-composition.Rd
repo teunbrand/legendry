@@ -47,6 +47,19 @@ Guide composition is a meta-guide orchestrating an ensemble of other guides.
 On their own, a 'composing' guide is not very useful as a visual reflection
 of a scale.
 }
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.guide.spacing} \tab \code{\link[=unit]{unit()}} \tab Spacing between guides. \cr
+}
+
+
+There are no further styling options.
+}
+}
 \examples{
 # The `new_compose()` function is not intended to be used directly
 my_composition <- new_compose(list("axis", "axis"), super = ComposeStack)

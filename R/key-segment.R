@@ -23,10 +23,18 @@
 #'   (default) an attempt is made to search for such data in the scale.
 #' @param type A string, either `"rectangle"` or `"triangle"`, indicating the
 #'   shape of edges between nodes of the dendrogram.
-#' @param ... [`<data-masking>`][rlang::topic-data-mask] A set of mappings
-#'   similar to those provided to [`aes()`][ggplot2::aes], which will be
-#'   evaluated in the `data` argument.
-#'   For `key_segments_map()`, these *must* contain `value` and `oppo` mappings.
+#' @param ...
+#' The `...` parameter has two purposes.
+#' 1. In `key_segments_map()` it is [`<data-masking>`][rlang::topic-data-mask].
+#'   A set of mappings similar to those provided to [`aes()`][ggplot2::aes],
+#'   which will be evaluated in the `data` argument. These *must* contain
+#'   `value` and `oppo` mappings.
+#' 2. In other keys, `...` can be used to transfer graphical properties to the
+#'   individual breaks of a guide. For example, using `colour = "blue"` will
+#'   draw parts of the guides associated with breaks in blue. There is a shallow
+#'   hierarchy in that `line_colour` is the specific property for segment
+#'   elements, but others inherit from the main `colour` setting. Likewise,
+#'   `linewidth` and `linetype` have specific variants for line elements.
 #' @param .call A [call][rlang::topic-error-call] to display in messages.
 #'
 #' @export
@@ -55,7 +63,8 @@ key_segment_manual <- function(value, oppo, value_end = value,
   df <- data_frame0(
     value = value, oppo = oppo,
     value_end = value_end, oppo_end = oppo_end,
-    !!!extra_args(..., .valid_args = .line_params)
+    !!!extra_args(..., .valid_args = .line_params),
+    .error_call = current_env()
   )
   check_columns(df, c("value", "oppo"))
   class(df) <- c("key_segment", "key_guide", class(df))
@@ -83,10 +92,13 @@ key_segment_map <- function(data, ..., .call = caller_env()) {
 
 #' @rdname key_segments
 #' @export
-key_dendro <- function(dendro = NULL, type = "rectangle") {
+key_dendro <- function(dendro = NULL, type = "rectangle", ..., .call = NULL) {
+  call <- .call %||% current_call()
+  dots <- extra_args(..., .valid_args = .line_params)
   force(dendro)
   function(scale, aesthetic = NULL, ...) {
-    extract_dendro(scale$scale$clust %||% dendro, type = type)
+    key <- extract_dendro(scale$scale$clust %||% dendro, type = type)
+    data_frame0(key, !!!dots, .error_call = call)
   }
 }
 

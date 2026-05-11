@@ -25,21 +25,26 @@
 #' @family primitives
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
 #' this guide, which may differ depending on whether the guide is used in
 #' an axis or in a legend context.
 #'
-#' ## As an axis guide
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `axis.line.{x/y}.{position}` | Axis | [`element_line()`] | The axis line. |
+#' | `legend.axis.line` | Legend | [`element_line()`] | The axis line. |
 #'
-#' * `axis.line.{x/y}.{position}` an [`<element_line>`][ggplot2::element_line]
-#'   for the line style.
+#' There are no other styling options.
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
 #'
-#' ## As a legend guide
-#'
-#' * `legend.axis.line` an [`<element_line>`][ggplot2::element_line] for the
-#'   line style.
+#' ```r
+#' primitive_line(theme = theme_guide(
+#'   line = element_line()
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot

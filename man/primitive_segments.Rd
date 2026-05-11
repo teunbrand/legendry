@@ -41,29 +41,38 @@ guides.
 \description{
 This function constructs a \link[=guide-primitives]{guide primitive}.
 }
-\section{Styling options}{
-Below are the \link[ggplot2:theme]{theme} options that determine the style of
-this guide, which may differ depending on whether the guide is used in an
-axis or in a legend context.
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.ticks.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_line]{<element_line>}}
-for display of the segments.
-\item \verb{axis.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the
-base size of the segments in the orthogonal direction.
-}
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide, which may differ depending on whether the guide is used in
+an axis or in a legend context.
+
+The possible \code{{position}} suffixes mentioned below are \code{x}, \code{x.top},
+\code{x.bottom}, \code{y}, \code{y.left}, \code{y.right}. The \code{theta} and \code{r} position suffixes
+in \pkg{ggplot2} are \emph{not} obeyed in \pkg{legendry}.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \verb{axis.ticks.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_line]{element_line()}} \tab The line segments. \cr
+   \verb{axis.ticks.length.\{position\}} \tab Axis \tab \code{\link[=unit]{unit()}} \tab Basis for the \code{space} argument \cr
+   \code{legend.ticks} \tab Legend \tab \code{\link[ggplot2:element_line]{element_line()}} \tab The line segments \cr
+   \code{legend.ticks.length} \tab Legend \tab \code{\link[=unit]{unit()}} \tab Basis for the \code{space} argument \cr
 }
 
-\subsection{As a legend guide}{
-\itemize{
-\item \code{legend.ticks} an \code{\link[ggplot2:element_line]{<element_line>}} for display
-of the segments.
-\item \code{legend.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
-base size of the segments in the orthogonal direction.
-}
-}
-}
 
+Styling options \emph{per segment} can be set in the \link[=key_segments]{segment key}.
+The \code{line} prefixed properties are prioritised for segments. These override
+theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_segments(theme = theme_guide(
+  ticks = element_line(),
+  ticks.length = unit(5, "mm")
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # Building a key
 key <- key_segment_manual(

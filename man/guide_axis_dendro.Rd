@@ -93,6 +93,33 @@ hierarchically clustered. Please be aware that the guide cannot affect the
 scale limits, which should be set appropriately. This guide will give
 misleading results when this step is skipped!
 }
+\details{
+\subsection{Styling options}{
+
+Because this guide is pure composite guide, the \link[ggplot2:theme]{theme}
+options that govern the styling are determined by its constituents. They are
+linked below so you can find their 'Styling options' sections.\tabular{ll}{
+   \strong{Primitive} \tab \strong{Description} \cr
+   \code{\link{compose_stack}} \tab Stacks the lines, tick marks and labels and dendrogram. \cr
+   \code{\link[=primitive_segments]{primitive_segments()}} \tab The dendrogram. \cr
+   \code{\link[=primitive_line]{primitive_line()}} \tab Makes up the axis line. \cr
+   \code{\link[=primitive_ticks]{primitive_ticks()}} \tab Makes up the tick marks. \cr
+   \code{\link[=primitive_labels]{primitive_labels()}} \tab Makes up the labels. \cr
+}
+
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_axis_dendro(theme = theme_guide(
+  line = element_line(),
+  text = element_text(),
+  ticks = element_line(),
+  ticks.length = unit(5, "mm"),
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # Hierarchically cluster data
 clust <- hclust(dist(scale(mtcars)), "ave")

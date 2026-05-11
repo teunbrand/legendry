@@ -13,6 +13,12 @@
 #' @param position Where this guide should be drawn: one of `"top"`, `"bottom"`,
 #'   `"left"`, or `"right"`.
 #'
+#' @details
+#' ## Styling options
+#'
+#' There are no `theme()` styling options for `gizmo_grob()`.
+#'
+#'
 #' @return A `<GizmoGrob>` object.
 #' @export
 #' @family gizmos

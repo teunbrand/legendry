@@ -83,6 +83,35 @@ A \verb{<ComposeCrux>} guide object.
 This guide composition has a central guide optionally surrounded by other
 guides on all four sides.
 }
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.title} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The title of the legend. \cr
+   \code{legend.title.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legend.text.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legend.margin} \tab \code{\link[ggplot2:margin]{margin()}} \tab Padding around the legend. \cr
+   \code{legend.background} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the legend. \cr
+}
+
+
+There are no further styling options.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{compose_crux(theme = theme_guide(
+  title = element_text(),
+  title.position = "top",
+  text.position = "right",
+  margin = margin(5),
+  background = element_rect()
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # Roughly recreating a colour bar with extra text on top and bottom
 crux <- compose_crux(
