@@ -30,6 +30,34 @@
 #' The sandwich composition is effectively the same as a
 #' [crux composition][compose_crux] lacking two opposing arms.
 #'
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.title` | [`element_text()`] | The title of the legend. |
+#' | `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legend.text.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legend.margin` | [`margin()`] | Padding around the legend. |
+#' | `legend.background` | [`element_rect()`] | Background of the legend. |
+#'
+#' There are no further styling options.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' compose_sandwich(theme = theme_guide(
+#'   title = element_text(),
+#'   title.position = "top",
+#'   text.position = "right",
+#'   margin = margin(5),
+#'   background = element_rect()
+#' ))
+#' ```
+#'
 #' @examples
 #' # A standard plot with a sandwich guide
 #' ggplot(mpg, aes(displ, hwy)) +

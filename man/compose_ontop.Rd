@@ -73,7 +73,13 @@ A \verb{<ComposeOntop>} composite guide object.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-This guide can place place other guides on top of one another.
+This guide can place other guides on top of one another.
+}
+\details{
+\subsection{Styling options}{
+
+There are no styling options in \code{theme()} for this composition.
+}
 }
 \examples{
 # Using the ontop composition to get two types of ticks with different
