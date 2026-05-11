@@ -82,8 +82,6 @@ the guides.}
 A \verb{<ComposeStack>} guide object.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 This guide can stack other guides.
 }
 \details{

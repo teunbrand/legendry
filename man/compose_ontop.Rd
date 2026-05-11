@@ -71,8 +71,6 @@ the guides.}
 A \verb{<ComposeOntop>} composite guide object.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 This guide can place other guides on top of one another.
 }
 \details{

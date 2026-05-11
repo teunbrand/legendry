@@ -3,8 +3,6 @@
 #' Compose guides on top of one another
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' This guide can place other guides on top of one another.
 #'
 #' @inheritParams compose_stack

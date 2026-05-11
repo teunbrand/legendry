@@ -3,8 +3,6 @@
 #' Compose guides as stack
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' This guide can stack other guides.
 #'
 #' @param ... Guides to stack in [composition][guide-composition]. Each guide
