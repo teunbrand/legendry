@@ -14,7 +14,14 @@ guide_legend_manual(
   ...,
   layers = list(geom_point()),
   title = NULL,
-  legend_args = list()
+  theme = NULL,
+  design = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  reverse = FALSE,
+  position = NULL,
+  direction = NULL,
+  order = 0L
 )
 ```
 
@@ -50,10 +57,58 @@ guide_legend_manual(
 
   - `NULL` to not display any title.
 
-- legend_args:
+  - [`waiver()`](https://ggplot2.tidyverse.org/reference/waiver.html)
+    (default) to take the name of the scale object or the name specified
+    in [`labs()`](https://ggplot2.tidyverse.org/reference/labs.html) as
+    the title.
 
-  A `<list>` of arguments passed on to
-  [`guide_legend_base()`](https://teunbrand.github.io/legendry/reference/guide_legend_base.md).
+- theme:
+
+  A [`<theme>`](https://ggplot2.tidyverse.org/reference/theme.html)
+  object to style the guide individually or differently from the plot's
+  theme settings. The `theme` argument in the guide overrides and is
+  combined with the plot's theme.
+
+- design:
+
+  Specification of the legend layout. One of the following:
+
+  - `NULL` (default) to use the layout algorithm of
+    [`guide_legend()`](https://ggplot2.tidyverse.org/reference/guide_legend.html).
+
+  - A `<character[1]>` string representing a cell layout wherein `#`
+    defines an empty cell. See examples.
+
+  - A `<matrix[n, m]>` representing a cell layout wherein `NA` defines
+    an empty cell. See examples. Non-string atomic vectors will be
+    treated with [`as.matrix()`](https://rdrr.io/r/base/matrix.html).
+
+- nrow, ncol:
+
+  A positive `<integer[1]>` setting the desired dimensions of the legend
+  layout. When `NULL` (default), the dimensions will be derived from the
+  `design` argument or fit to match the number of keys.
+
+- reverse:
+
+  A `<logical[1]>` whether the order of keys should be inverted.
+
+- position:
+
+  A `<character[1]>` giving the location of the guide. Can be one of
+  `"top"`, `"bottom"`, `"left"` or `"right"`.
+
+- direction:
+
+  A `<character[1]>` indicating the direction of the guide. Can be on of
+  `"horizontal"` or `"vertical"`.
+
+- order:
+
+  A positive `<integer[1]>` that specifies the order of this guide among
+  multiple guides. This controls in which order guides are merged if
+  there are multiple guides for the same position. If `0` (default), the
+  order is determined by a hashing indicative settings of a guide.
 
 ## Value
 
