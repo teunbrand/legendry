@@ -200,6 +200,7 @@ p + scale_colour_viridis_b(
 }
 \seealso{
 Other standalone guides:
+\code{\link[=guide_axis_annotation]{guide_axis_annotation()}},
 \code{\link[=guide_axis_base]{guide_axis_base()}},
 \code{\link[=guide_axis_dendro]{guide_axis_dendro()}},
 \code{\link[=guide_axis_nested]{guide_axis_nested()}},

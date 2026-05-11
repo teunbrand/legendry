@@ -146,6 +146,7 @@ p + guides(y = guide_axis_dendro(clust, labels = FALSE), y.sec = "axis")
 }
 \seealso{
 Other standalone guides:
+\code{\link[=guide_axis_annotation]{guide_axis_annotation()}},
 \code{\link[=guide_axis_base]{guide_axis_base()}},
 \code{\link[=guide_axis_nested]{guide_axis_nested()}},
 \code{\link[=guide_axis_plot]{guide_axis_plot()}},

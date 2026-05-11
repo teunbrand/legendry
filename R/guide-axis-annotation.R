@@ -1,5 +1,99 @@
 # Constructor -------------------------------------------------------------
 
+#' Annotation axis guide
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' @description
+#' This axis guide acts as annotation: it draws labels at specified places.
+#' It also wraps an inner guide, making the behaviour look like one is 'adding'
+#' the annotation on top of the regular guide.
+#'
+#' @param aesthetic
+#' A vector of values for the guide to represent.
+#' @param label
+#' A `<character[n]>` or list of expressions to use as labels.
+#' @param ...
+#' Additional graphical properties parallel to `aesthetic`. Can be
+#' `text_colour`, `size`, `face`, `hjust`, `vjust`, `angle` or `lineheight` for
+#' the labels. Can be `line_colour`, `linewidth` and `linetype` for ticks.
+#' Setting `colour` will also set `text_colour` and `line_colour`.
+#' For `annotate_top()`, `annotate_right()`, `annotate_bottom()` and
+#' `annotate_left()`, arguments are passed on to `guide_axis_annotation()`.
+#' @param arrow
+#' A [`grid::arrow()`] specification. Can be `NULL` (default) to draw no arrow.
+#' @param inner
+#' A guide that supports the aesthetic to draw the annotation across.
+#' When `waiver()` (default), populates a `guide_axis_base()` except in the
+#' `"top"`, `"right"` and `"theta.sec"` positions.
+#' @param key
+#' A [standard key][key_standard] overriding the `aesthetic`, `label` and `...`
+#' arguments.
+#' @param theme
+#' A [`<theme>`][ggplot2::theme] object to style the *annotation* part of this
+#' guide differently from the plot's theme settings. The `theme` argument
+#' in this guide overrides and is combined with the plot's theme.
+#' @inheritParams common_parameters
+#'
+#' @details
+#' Under the hood, this guide is a hybrid composition guide. The `theme()`
+#' options that govern the styling are partially determined by its consituents.
+#' They are linked below so you can find their 'Styling options' sections.
+#'
+#' | **Constituent** | **Description** |
+#' | `compose_ontop()` | Composes the annotation on top of the `inner` guide |
+#' | `guide_axis_base()` | The default `inner` guide |
+#' | `primitive_ticks()` | Display of the annotation ticks |
+#' | `primitive_labels()` | Display of the annotation labels |
+#'
+#' Styling options *per annotation* can be set via `...` as described above.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' # Note that `theme` is used *only* for the annotation
+#' guide_axis_annotation(theme = theme_guide(
+#'   text = element_text(),
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm")
+#' ))
+#' ```
+#'
+#' @returns A `<Guide>` object
+#' @export
+#' @family standalone guides
+#'
+#' @examples
+#' # Basic plot
+#' p <- ggplot(mpg, aes(displ, hwy)) +
+#'   geom_point()
+#'
+#' # Typical use
+#' p +
+#'   annotate_top(5, face = "bold") +
+#'   annotate_bottom(c(2.5, 4.5), c("Bottom annotation", "Second label"))
+#'
+#' # If you want to combine them with secondary axes, you must
+#' # set the `inner` argument manually.
+#' p +
+#'   scale_y_continuous(
+#'     sec.axis = dup_axis(breaks = c(15, 25, 35))
+#'   ) +
+#'   annotate_right(30, inner = "axis")
+#'
+#' # Use in theta axis
+#' p + coord_radial() +
+#'   guides(theta = guide_axis_annotation(4.5, "Theta annotation"))
+#'
+#' # Specialised use as part of other guides
+#' # Note that `guide_colbar` imposes white inward ticks
+#' # We can overrule these impositions with a replacement theme
+#' p + aes(colour = cty) +
+#'   guides(colour = guide_colbar(
+#'     second_guide = guide_axis_annotation(22, "This", theme = theme_gray())
+#'   ))
 guide_axis_annotation <- function(
   aesthetic,
   label = as.character(aesthetic),
@@ -47,29 +141,35 @@ guide_axis_annotation <- function(
   )
 }
 
-
-
+#' @rdname guide_axis_annotation
+#' @export
 annotate_top <- function(..., position = "top") {
   guides(x.sec = guide_axis_annotation(
     ..., position = position, call = current_call()
   ))
 }
 
+#' @rdname guide_axis_annotation
+#' @export
 annotate_right <- function(..., position = "right") {
   guides(y.sec = guide_axis_annotation(
     ..., position = position, call = current_call()
   ))
 }
 
+#' @rdname guide_axis_annotation
+#' @export
 annotate_bottom <- function(..., position = "bottom") {
   guides(x = guide_axis_annotation(
     ..., position = position, call = current_call()
   ))
 }
 
+#' @rdname guide_axis_annotation
+#' @export
 annotate_left <- function(..., position = "left") {
   guides(y = guide_axis_annotation(
-    ..., position = left, call = current_call()
+    ..., position = position, call = current_call()
   ))
 }
 
