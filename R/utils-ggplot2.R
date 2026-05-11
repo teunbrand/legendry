@@ -111,9 +111,10 @@ rotate_just <- function(
   angle = NULL, hjust = NULL, vjust = NULL, element = NULL
 ) {
   if (!is.null(element)) {
-    angle <- element$angle
-    hjust <- element$hjust
-    vjust <- element$vjust
+    element <- destructure_element(element)
+    angle <- angle %||% element$angle
+    hjust <- hjust %||% element$hjust
+    vjust <- vjust %||% element$vjust
   }
 
   angle <- (angle %||% 0.0) %% 360.0
@@ -239,14 +240,15 @@ polar_bbox <- function(arc, margin = c(0.05, 0.05, 0.05, 0.05),
   list(x = c(bounds[4L], bounds[2L]), y = c(bounds[3L], bounds[1L]))
 }
 
-rename_aes <- function(x, arg = caller_arg(x)) {
+rename_aes <- function(x, arg = caller_arg(x), call = caller_env()) {
   force(arg)
   names(x) <- standardise_aes_names(names(x))
   dups <- names(x)[duplicated(names(x))]
   if (length(dups) > 0L) {
     cli::cli_warn(
       "Duplicated aesthetics in {.arg {arg}} after name standardisation: \\
-      {.field {unique(dups)}}."
+      {.field {unique(dups)}}.",
+      call = call
     )
   }
   x

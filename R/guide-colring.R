@@ -34,6 +34,57 @@
 #'   provided as functions or strings.
 #' @inheritParams common_parameters
 #'
+#' @details
+#' ## Styling options
+#'
+#' This guide is a hybrid composition guide, where the [theme][ggplot2::theme]
+#' settings apply both this guide itself and the constituents it manages.
+#' The constituents are linked below so you can find their 'Styling options'
+#' sections. Note that `guide_axis_base()` is just a default that can be
+#' swapped out.
+#'
+#' | **Constituent** | **Description** |
+#' | ------------- | --------------- |
+#' | [`guide_axis_base()`] | Makes up the tick marks and labels at inner and outer rings. |
+#'
+#' In addition to the constituent's theme setting, it also has the following
+#' settings:
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.background`| [`element_rect()`] | Background of the legend. |
+#' | `legend.margin` | [`margin()`] | Padding around the legend. |
+#' | `legend.key.width` | [`unit()`] | Radial thickness of the donut ring. |
+#' | `legend.key.size` | [`unit()`] | Size of the legend. Multiplied by 5 to roughly match dimensions of colour bar guides. |
+#' | `legend.frame` | [`element_rect()`] | Outline of the donut. The `fill` setting is ignored. |
+#' | `legend.title` | [`element_text()`] | Title of the legend. |
+#' | `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`.
+#'
+#' Styling options *per break* can be set in the [standard key][key_standard].
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_colring(theme = theme_guide(
+#'   # Ring settings
+#'   title = element_text(),
+#'   title.position = "top",
+#'   margin = margin(5),
+#'   background = element_rect(),
+#'   frame = element_rect(),
+#'   key.size = unit(1, "cm"),
+#'   key.width = unit(5, "mm"),
+#'
+#'   # Common options for `guide_axis_base()`
+#'   line = element_line(),
+#'   text = element_text(),
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm"),
+#' ))
+#' ```
+#'
 #' @return A `<Guide>` object.
 #' @export
 #' @family standalone guides

@@ -46,11 +46,7 @@ object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
 \item{side.titles}{A \verb{<character>} giving labels for titles displayed on the
 side of the stack. Set to \code{NULL} to display no side titles. If \code{waiver()},
 an attempt is made to extract the titles from the guides and use these
-as side titles.
-
-The \code{side.titles} are styled using the \code{legendry.axis.subtitle} theme
-setting. Their placement is controlled via the
-\code{legendry.axis.subtitle.position} setting.}
+as side titles.}
 
 \item{angle}{A specification for the text angle. Compared to setting the \code{angle} argument
 in \code{\link[ggplot2:element_text]{element_text()}}, this argument uses some
@@ -86,9 +82,32 @@ the guides.}
 A \verb{<ComposeStack>} guide object.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 This guide can stack other guides.
+}
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.axis.subtitle} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Display of the \code{side.titles} argument's labels. \cr
+   \code{legendry.axis.subtitle.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legendry.guide.spacing} \tab \code{\link[=unit]{unit()}} \tab Spacing between guides. \cr
+}
+
+
+There are no further styling options.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{compose_stack(theme = theme_guide(
+  subtitle = element_text(),
+  subtitle.position = "left",
+  guide.spacing = unit(5, "mm")
+))
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 ggplot() +

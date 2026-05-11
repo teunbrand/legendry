@@ -31,6 +31,48 @@
 #'   [`position_text()`] for a convenient helper.
 #' @inheritParams common_parameters
 #'
+#' @details
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide. Note that these are almost the same for
+#' [`ggplot2::guide_legend()`].
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.background`| [`element_rect()`] | Background of the legend. |
+#' | `legend.margin` | [`margin()`] | Padding around the legend. |
+#' | `legend.text` | [`element_text()`] | Labels displayed next to keys. |
+#' | `legend.text.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legend.title` | [`element_text()`] | Title of the legend. |
+#' | `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legend.key` | [`element_rect()`] | Background of the key areas. |
+#' | `legend.key.height` | [`unit()`] | Height of keys. |
+#' | `legend.key.width` | [`unit()`] | Width of keys. |
+#' | `legend.key.justification` | `<numeric[2]>` | Justification for placing legend keys in excess space. |
+#' | `legend.key.spacing.x` | [`unit()`] | Horizontal spacing between keys. |
+#' | `legend.key.spacing.y` | [`unit()`] | Vertical spacing between keys. Taken literally. |
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_legend_cross(theme = theme_guide(
+#'   text = element_text(),
+#'   text.position = "right",
+#'   title = element_text(),
+#'   title.position = "top",
+#'   key = element_rect(),
+#'   key.height = unit(5, "mm"),
+#'   key.width = unit(5, "mm"),
+#'   key.justification = c(0.5, 0.5),
+#'   key.spacing.x = unit(5, "mm"),
+#'   key.spacing.y = unit(5, "mm"),
+#'   margin = margin(5),
+#'   background = element_rect(),
+#' ))
+#' ```
+#'
 #' @return A `<GuideLegend>` object.
 #' @export
 #' @family standalone guides
@@ -129,6 +171,8 @@ guide_legend_cross <- function(
     super = GuideLegendCross
   )
 }
+
+
 
 # Class -------------------------------------------------------------------
 

@@ -3,8 +3,6 @@
 #' Compose guides as stack
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
-#'
 #' This guide can stack other guides.
 #'
 #' @param ... Guides to stack in [composition][guide-composition]. Each guide
@@ -21,14 +19,35 @@
 #'   side of the stack. Set to `NULL` to display no side titles. If `waiver()`,
 #'   an attempt is made to extract the titles from the guides and use these
 #'   as side titles.
-#'
-#'   The `side.titles` are styled using the `legendry.axis.subtitle` theme
-#'   setting. Their placement is controlled via the
-#'   `legendry.axis.subtitle.position` setting.
 #' @param drop An `<integer>` giving the indices of guides that should be
 #'   dropped when a facet requests no labels to be drawn at axes in between
 #'   panels. The default, `NULL`, will drop every guide except the first.
 #' @inheritParams common_parameters
+#'
+#' @details
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legendry.axis.subtitle` | [`element_text()`] | Display of the `side.titles` argument's labels. |
+#' | `legendry.axis.subtitle.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legendry.guide.spacing` | [`unit()`] | Spacing between guides. |
+#'
+#' There are no further styling options.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' compose_stack(theme = theme_guide(
+#'   subtitle = element_text(),
+#'   subtitle.position = "left",
+#'   guide.spacing = unit(5, "mm")
+#' ))
+#' ```
 #'
 #' @return A `<ComposeStack>` guide object.
 #' @export

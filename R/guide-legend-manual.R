@@ -23,16 +23,52 @@
 #' [`key_glyph`][ggplot2::draw_key] drawing functions, as well as to populate
 #' default aesthetics. Any fixed aesthetics provided to these layers overrule
 #' aesthetics passed to the `...` argument.
-#' @param title
-#' One of the following to indicate the title of the guide:
-#' * A `<character[1]>` or `<expression[1]>` to set a custom title.
-#' * `NULL` to not display any title.
-#' @param legend_args
-#' A `<list>` of arguments passed on to [`guide_legend_base()`].
+#' @inheritParams guide_legend_base
 #'
 #' @details
 #' Because this guide is not tied to a scale, it can be given an arbitrary name
 #' in `guides()`; as long as it doesn't clash with other aesthetics.
+#'
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.background`| [`element_rect()`] | Background of the legend. |
+#' | `legend.margin` | [`margin()`] | Padding around the legend. |
+#' | `legend.text` | [`element_text()`] | Labels displayed next to keys. |
+#' | `legend.text.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legend.title` | [`element_text()`] | Title of the legend. |
+#' | `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legend.key` | [`element_rect()`] | Background of the key areas. |
+#' | `legend.key.height` | [`unit()`] | Height of keys. |
+#' | `legend.key.width` | [`unit()`] | Width of keys. |
+#' | `legend.key.justification` | `<numeric[2]>` | Justification for placing legend keys in excess space. |
+#' | `legend.key.spacing.x` | [`unit()`] | Horizontal spacing between keys. |
+#' | `legend.key.spacing.y` | [`unit()`] | Vertical spacing between keys. Taken literally. |
+#' | `legend.byrow` | `<logical[1]>` | Row-order key filling (`TRUE`) or column-order (`FALSE`) |
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_legend_manual(legend_args = list(theme = theme_guide(
+#'   text = element_text(),
+#'   text.position = "right",
+#'   title = element_text(),
+#'   title.position = "top",
+#'   key = element_rect(),
+#'   key.height = unit(5, "mm"),
+#'   key.width = unit(5, "mm"),
+#'   key.justification = c(0.5, 0.5),
+#'   key.spacing.x = unit(5, "mm"),
+#'   key.spacing.y = unit(5, "mm"),
+#'   margin = margin(5),
+#'   background = element_rect(),
+#' )))
+#' ```
 #'
 #'
 #' @returns A `<GuideCustom>` object.
@@ -81,7 +117,14 @@ guide_legend_manual <- function(
   ...,
   layers = list(geom_point()),
   title = NULL,
-  legend_args = list()
+  theme = NULL,
+  design = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  reverse = FALSE,
+  position = NULL,
+  direction = NULL,
+  order = 0L
 ) {
   labels <- label_as_vector(labels)
   key <- data_frame0(labels = labels, ..., .error_call = current_call()) |>
@@ -96,10 +139,20 @@ guide_legend_manual <- function(
   }
   check_list_of(layers, "LayerInstance")
 
-  legend <- inject(guide_legend_base(title = title, !!!legend_args))$params
+  legend <- guide_legend_base(
+    title   = title,
+    theme   = theme,
+    design  = design,
+    nrow    = nrow,
+    ncol    = ncol,
+    reverse = reverse,
+    position = position,
+    direction = direction
+  )$params
 
   if (isTRUE(legend$reverse)) {
     key <- vec_slice(key, rev(vec_seq_along(key)))
+    legend$reverse <- FALSE
   }
   legend$key <- key
 

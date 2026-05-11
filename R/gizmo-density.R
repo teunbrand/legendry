@@ -29,6 +29,33 @@
 #' Non-finite values such as `NA` and `NaN` are ignored while infinite values
 #' such as `-Inf` and `Inf` are [squished][scales::oob_squish] to the limits.
 #'
+#' ## Styling options
+#'
+#' Below are the [theme][ggplot2::theme] options that determine the styling of
+#' this guide.
+#'
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legend.frame` | [`element_rect()`] | Outline drawn around the density itself. The `fill` setting is ignored. |
+#' | `legend.key` | [`element_rect()`] | Background underneath the density area. |
+#' | `legend.key.width` | [`unit()`] | Width of the density area. |
+#' | `legend.key.height` | [`unit()`] | Height of the density area. |
+#'
+#' Please note that depending on the `direction` argument, the
+#' `legend.key.width`/`legend.key.height` setting are expanded 5-fold if
+#' originating from the global theme. To set these directly, you can use the
+#' local `theme` argument in the guide.
+#' These settings have shorthands in [`theme_guide()`]:
+#'
+#' ```r
+#' gizmo_density(theme = theme_guide(
+#'   frame = element_rect(),
+#'   key = element_rect(),
+#'   key.width = unit(5, "mm")
+#'   key.height = unit(5, "cm")
+#' ))
+#' ```
+#'
 #' @return A `<GizmoDensity>` object.
 #' @family gizmos
 #' @export

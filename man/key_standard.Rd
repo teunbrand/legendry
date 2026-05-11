@@ -10,34 +10,49 @@
 \alias{key_none}
 \title{Standard keys}
 \usage{
-key_auto(...)
+key_auto(..., call = NULL)
 
 key_manual(
   aesthetic,
   value = aesthetic,
   label = as.character(value),
   type = NULL,
-  ...
+  ...,
+  call = NULL
 )
 
-key_map(data, ..., .call = caller_env())
+key_map(data, ..., call = NULL)
 
-key_minor(...)
+key_minor(..., call = NULL)
 
 key_log(
   prescale_base = NULL,
   negative_small = 0.1,
   expanded = TRUE,
   labeller = NULL,
-  ...
+  ...,
+  call = NULL
 )
 
 key_none()
 }
 \arguments{
-\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
-similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
-evaluated in the \code{data} argument. These must contain \code{aesthetic} mapping.}
+\item{...}{The \code{...} parameter has two purposes.
+\enumerate{
+\item In \code{key_map()} it is \code{\link[rlang:topic-data-mask]{<data-masking>}}. A set of
+mappings similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will
+be evaluated in the \code{data} argument. These must contain \code{aesthetic}
+mapping.
+\item In other keys, \code{...} can be used to transfer graphical properties to the
+individual breaks of a guide. For example, using \code{colour = "blue"} will
+draw parts of the guides associated with breaks in blue. There is a shallow
+hierarchy in that \code{text_colour}, \code{line_colour}, \code{rect_colour} and
+\code{point_colour} are the specific properties for elements, but all inherit
+from the main \code{colour} setting. Likewise, \code{size}, \code{linewidth}, \code{linetype}
+and \code{fill} have specific variants for elements.
+}}
+
+\item{call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 
 \item{aesthetic, value}{A vector of values for the guide to represent
 equivalent to the \code{breaks} argument in scales. The \code{aesthetic} will be
@@ -53,8 +68,6 @@ treated as major breaks.}
 \item{data}{A \verb{<data.frame>} or similar object coerced by
 \code{\link[ggplot2:fortify]{fortify()}} to a \verb{<data.frame>}, in which the \code{mapping}
 argument is evaluated.}
-
-\item{.call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 
 \item{prescale_base}{A \verb{<numeric[1]>} giving the base of logarithm to
 transform data manually. The default, \code{NULL}, will use the scale

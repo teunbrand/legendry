@@ -54,24 +54,41 @@
 #' Several styling options are provided in the theme, while individualised
 #' styling is discussed below the table.
 #'
-#' | Theme setting | Description |
-#' | ------------- | ----------- |
-#' | `legendry.axis.subtitle` | [`element_text()`] for titles on the side |
-#' | `legendry.axis.subtitle.position` | `"top"`, `"right"`, `"bottom"` or `"left"` |
-#' | `legendry.zebra.light` | [`element_rect()`] for row shading |
-#' | `legendry.zebra.dark` | [`element_rect()`] for alternate row shading |
-#' | `legendry.table.spacing` | [`rel()`]/[`unit()`] for padding between levels |
-#' | `legendry.point` | [`element_point()`] for symbol style |
-#' | `legendry.connector` | [`element_line()`] for drawing `connect` lines. |
+#' | **Theme setting** | **Type** | **Description** |
+#' | ----------------- | -------- | --------------- |
+#' | `legendry.axis.subtitle` | [`element_text()`] | Titles on the side labelling levels. |
+#' | `legendry.axis.subtitle.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+#' | `legendry.zebra.light` | [`element_rect()`] | Row shading. |
+#' | `legendry.zebra.dark` | [`element_rect()`] | Alternate row shading. |
+#' | `legendry.table.spacing` | [`rel()`]/[`unit()`] | Padding between levels. |
+#' | `legendry.point` | [`element_point()`] | Styling of the symbols |
+#' | `legendry.connector` | [`element_line()`] Drawing the `connect` lines. |
 #'
 #' Moreover, styling options *per group* of symbols can be set via the
-#' `override.aes` argument.
+#' `override.aes` argument. These override theme settings.
 #'
 #' Styling options *per symbol* can be set in [`key_symbols()`] via the `...`
-#' argument.
+#' argument. These override theme settings and 'per group' settings.
 #'
 #' Styling options *per line* in line connectors can be set by including
 #' graphical parameters as columns in the `connect = <data.frame>` argument.
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_axis_symbols(theme = theme_guide(
+#'   subtitle = element_line(),
+#'   subtitle.position = "left",
+#'   zebra.light = element_rect(),
+#'   zebra.dark = element_rect(),
+#'   table.spacing = unit(5, "mm"),
+#'   point = element_point(),
+#'   connector = element_line()
+#' ))
+#' ```
+#'
 #'
 #' @returns A `<Guide>` object.
 #' @export
@@ -397,19 +414,17 @@ GuideAxisSymbols <- ggproto(
           next
         }
         key_members <- vec_slice(key, member)
-        i <- key_members$.index
-        size <- key_members$.size %||% override$size[i]
-        size_tracker <- max(size_tracker, size)
-        grob <- element_grob(
+        props <- element_key_properties(
+          key_members, "point",
+          !!!lapply(override, vec_slice, i = key_members$.index)
+        )
+        size_tracker <- max(size_tracker, props$size)
+        grob <- inject(element_grob(
           point,
           x = unit(x[member], "native"),
           y = unit(y[member], "native"),
-          colour = key_members$.colour %||% override$colour[i],
-          fill   = key_members$.fill   %||% override$fill[i],
-          shape  = key_members$.shape  %||% override$shape[i],
-          stroke = key_members$.stroke %||% override$stroke[i],
-          size   = size
-        )
+          !!!props
+        ))
         grobs <- c(grobs, list(grob))
       }
       gTree(children = inject(gList(!!!grobs)), size = size_tracker)
@@ -425,7 +440,7 @@ GuideAxisSymbols <- ggproto(
     if (params$position %in% c("top", "bottom")) {
       gt <- gtable(widths = unit(1.0, "npc"), heights = size) |>
         gtable_add_grob(
-          points, l = 1L, t = along, z = 2L,
+          points, l = 1L, t = along, z = 3L,
           name = paste0("symbols-", along)
         ) |>
         gtable_add_grob(
@@ -435,7 +450,7 @@ GuideAxisSymbols <- ggproto(
     } else {
       gt <- gtable(widths = size, heights = unit(1.0, "npc")) |>
         gtable_add_grob(
-          points, l = along, t = 1L, z = 2L,
+          points, l = along, t = 1L, z = 3L,
           name = paste0("symbols-", along)
         ) |>
         gtable_add_grob(
@@ -469,11 +484,10 @@ GuideAxisSymbols <- ggproto(
       width <- unit(max(width_cm(labels)), "cm")
       table$heights <- unit(sizes, "cm")
       if (!is_zero(connectors)) {
-        table <-
-          gtable_add_grob(
-            table, connectors, l = 1L, t = 1L, b = -1L,
-            name = "connectors", clip = "off"
-          )
+        table <- gtable_add_grob(
+          table, connectors, l = 1L, t = 1L, b = -1L,
+          name = "connectors", clip = "off", z = 2L
+        )
       }
       if (elems$text_position == "left") {
         table <- table |>
@@ -494,11 +508,10 @@ GuideAxisSymbols <- ggproto(
       height <- unit(max(height_cm(labels)), "cm")
       table$widths <- unit(sizes, "cm")
       if (!is_zero(connectors)) {
-        table <-
-          gtable_add_grob(
-            table, connectors, l = 1L, r = -1L, t = 1L,
-            name = "connectors", clip = "off"
-          )
+        table <- gtable_add_grob(
+          table, connectors, l = 1L, r = -1L, t = 1L,
+          name = "connectors", clip = "off", z = 2L
+        )
       }
       if (elems$text_position == "bottom") {
         table <- table |>

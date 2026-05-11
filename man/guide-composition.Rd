@@ -41,11 +41,22 @@ the guides.}
 A \verb{<Compose>} (sub-)class guide that composes other guides.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 Guide composition is a meta-guide orchestrating an ensemble of other guides.
 On their own, a 'composing' guide is not very useful as a visual reflection
 of a scale.
+}
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.guide.spacing} \tab \code{\link[=unit]{unit()}} \tab Spacing between guides. \cr
+}
+
+
+There are no further styling options.
+}
 }
 \examples{
 # The `new_compose()` function is not intended to be used directly

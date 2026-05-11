@@ -19,21 +19,33 @@
 #' @family primitives
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
 #' this guide, which may differ depending on whether the guide is used in
 #' an axis or in a legend context.
 #'
-#' ## As an axis guide
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the display of the labels.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `axis.text.{position}` | Axis | [`element_text()`] | The text labels. |
+#' | `legend.text` | Legend | [`element_text()`] | The text labels. |
 #'
-#' ## As a legend guide.
+#' Styling options *per break* can be set in the [standard key][key_standard].
+#' The `text` prefixed properties are prioritised. These override theme
+#' settings.
 #'
-#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the display
-#'   of the labels.
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' primitive_labels(theme = theme_guide(
+#'   text = element_line()
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot
@@ -179,6 +191,7 @@ draw_labels <- function(key, element, angle, offset,
 
   margin_x <- switch(position, left = , right = TRUE, FALSE)
   margin_y <- switch(position, top = , bottom = TRUE, FALSE)
+  hjust <- vjust <-  NULL
 
   check_overlap <- check_overlap %||% FALSE
   if (check_overlap) {
@@ -186,9 +199,10 @@ draw_labels <- function(key, element, angle, offset,
     key <- vec_slice(key, order)
   }
 
-  just <- rotate_just(angle %||% element$angle, element$hjust, element$vjust)
+  just <- rotate_just(angle, element = element)
   x <- switch(position, left = , right = just$hjust, key$x)
   y <- switch(position, top = , bottom = just$vjust, key$y)
+  just <- NULL
 
   # Resolve positions
   x <- rep_len(x, n_breaks)
@@ -198,68 +212,56 @@ draw_labels <- function(key, element, angle, offset,
 
   labels <- validate_labels(key$.label)
 
-  if (position %in% .trbl) {
-    # Classic labels
-    grob <- element_grob(
-      element = element,
-      label = labels,
-      x = x, y = y,
-      family   = key$.family,
-      face     = key$.face,
-      colour   = key$.colour,
-      size     = key$.size,
-      hjust    = key$.hjust,
-      vjust    = key$.vjust,
-      angle    = key$.angle,
-      lineheight = key$.lineheight,
-      margin_x = margin_x,
-      margin_y = margin_y,
-      check.overlap = check_overlap
-    )
-    return(grob)
-  }
-
   # Theta labels
-  if (is_null(angle)) {
-    angle <- element$angle
-  } else {
-    angle <- flip_text_angle(angle - rad2deg(key$theta))
+  if (is_theta(position)) {
+    theta <- get_theta(key, position)
+
+    if (is_null(angle)) {
+      # Single verbatim angle from theme
+      angle <- element$angle
+    } else {
+      # Adaptive angle based on theta
+      angle <- flip_text_angle(angle - rad2deg(theta))
+    }
+    angle_radians <- deg2rad(angle)
+    text_radians <- angle_radians + theta
+
+    margin <- cm(max(element$margin))
+    offset <- offset + margin
+
+    x <- x + unit(offset * sin(theta), "cm")
+    y <- y + unit(offset * cos(theta), "cm")
+
+    hjust <- 0.5 - sin(text_radians) / 2.0
+    vjust <- 0.5 - cos(text_radians) / 2.0
   }
-  rad   <- deg2rad(angle)
-  theta <- key$theta %||% (pi * switch(
-    position, top = 0.0, bottom = 1.0, left = 1.5, right = 0.5
-  ))
 
-  margin <- cm(max(element$margin))
-  offset <- offset + margin
+  props <- element_key_properties(
+    key, "text",
+    hjust = hjust,
+    vjust = vjust,
+    angle = angle
+  )
 
-  x <- x + unit(offset * sin(theta), "cm")
-  y <- y + unit(offset * cos(theta), "cm")
-
-  hjust <- 0.5 - sin(theta + rad) / 2.0
-  vjust <- 0.5 - cos(theta + rad) / 2.0
-
-  grob <- element_grob(
+  grob <- inject(element_grob(
     element = element,
     label = labels,
     x = x, y = y,
-    family = key$.family,
-    face   = key$.face,
-    colour = key$.colour,
-    size   = key$.size,
-    lineheight = key$.lineheight,
-    hjust  = hjust,
-    vjust  = vjust,
-    angle  = angle,
+    !!!props,
+    margin_x = margin_x,
+    margin_y = margin_y,
     check.overlap = check_overlap
-  )
+  ))
 
-  if (inherits(grob, "textpath")) {
-    height <-
-      measure_textpath_labels(grob)
+  if (!is_theta(position)) {
+    return(grob)
+  }
+  # For composition purposes we need to keep track of the text size along
+  # the radial axis, not just simply width/height.
+  height <- if (inherits(grob, "textpath")) {
+    measure_textpath_labels(grob)
   } else {
-    height <-
-      measure_theta_labels(element, labels, margin, theta + rad, hjust, vjust)
+    measure_theta_labels(element, labels, margin, text_radians, props)
   }
   attr(grob, "size") <- height
   grob
@@ -271,15 +273,21 @@ measure_textpath_labels <- function(grob) {
   max(height) * .in2cm
 }
 
-measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
+measure_theta_labels <- function(element, labels, margin, angle, params) {
 
-  singles <- lapply(labels, function(lab) {
+  n_labels <- length(labels)
+  hjust <- params$hjust %||% 0.5
+  vjust <- params$vjust %||% 0.5
+  size  <- params$size
+
+  singles <- lapply(seq_len(n_labels), function(i) {
     element_grob(
-      element, label = lab,
+      element, label = labels[[i]],
       margin = margin(),
-      margin_x = FALSE, margin_y = FALSE
+      size = size[[i]]
     )
   })
+
   widths  <- width_cm(singles)
   heights <- height_cm(singles)
 
@@ -296,45 +304,6 @@ measure_theta_labels <- function(element, labels, margin, angle, hjust, vjust) {
   max(x * sin(angle) + y * cos(angle), na.rm = TRUE) + max(cm(margin))
 }
 
-angle_labels <- function(element, angle, position) {
-  if (!is_theme_element(element, "text") ||
-      is_waive(angle) ||
-      is_null(angle)  ||
-      !position %in% .trbl) {
-    return(element)
-  }
-
-  position <- arg_match0(as.character(position), .trbl)
-  radians <- deg2rad(angle)
-  digits <- 3
-
-  cosine <- sign(round(cos(radians), digits)) / 2 + 0.5
-  sine   <- sign(round(sin(radians), digits)) / 2 + 0.5
-
-  hjust <-
-    switch(position, left = cosine, right = 1 - cosine, top = 1 - sine, sine)
-  vjust <-
-    switch(position, left = 1 - sine, right = sine, top = 1 - cosine, cosine)
-
-  element$angle <- angle %||% element$angle
-  element$hjust <- hjust %||% element$hjust
-  element$vjust <- vjust %||% element$vjust
-
-  element
-}
-
-validate_labels <- function(labels) {
-  if (!is.list(labels)) {
-    return(labels)
-  }
-  if (any(map_lgl(labels, is.language))) {
-    do.call(expression, labels)
-  } else {
-    unlist(labels)
-  }
-}
-
-
 label_priority <- function(n) {
   if (n <= 0L) {
     return(numeric(0L))
@@ -349,4 +318,17 @@ label_priority_between <- function(min, max) {
   }
   mid <- min - 1L + (n + 1L) %/% 2L
   c(mid, label_priority_between(min, mid), label_priority_between(mid, max))
+}
+
+get_theta <- function(key, position) {
+  key$theta %||% rep(
+    switch(
+      position,
+      top    = 0.0,
+      bottom = 1.0,
+      left   = 1.5,
+      right  = 0.5
+    ) * pi,
+    nrow(key)
+  )
 }

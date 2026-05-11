@@ -9,7 +9,14 @@ guide_legend_manual(
   ...,
   layers = list(geom_point()),
   title = NULL,
-  legend_args = list()
+  theme = NULL,
+  design = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  reverse = FALSE,
+  position = NULL,
+  direction = NULL,
+  order = 0L
 )
 }
 \arguments{
@@ -31,9 +38,41 @@ aesthetics passed to the \code{...} argument.}
 \itemize{
 \item A \verb{<character[1]>} or \verb{<expression[1]>} to set a custom title.
 \item \code{NULL} to not display any title.
+\item \code{\link[ggplot2:waiver]{waiver()}} (default) to take the name of the scale
+object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
 }}
 
-\item{legend_args}{A \verb{<list>} of arguments passed on to \code{\link[=guide_legend_base]{guide_legend_base()}}.}
+\item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
+differently from the plot's theme settings. The \code{theme} argument in the
+guide overrides and is combined with the plot's theme.}
+
+\item{design}{Specification of the legend layout. One of the following:
+\itemize{
+\item \code{NULL} (default) to use the layout algorithm of
+\code{\link[ggplot2:guide_legend]{guide_legend()}}.
+\item A \verb{<character[1]>} string representing a cell layout wherein \verb{#} defines
+an empty cell. See examples.
+\item A \verb{<matrix[n, m]>} representing a cell layout wherein \code{NA} defines an
+empty cell. See examples. Non-string atomic vectors will be treated with
+\code{as.matrix()}.
+}}
+
+\item{nrow, ncol}{A positive \verb{<integer[1]>} setting the desired dimensions of
+the legend layout. When \code{NULL} (default), the dimensions will be derived
+from the \code{design} argument or fit to match the number of keys.}
+
+\item{reverse}{A \verb{<logical[1]>} whether the order of keys should be inverted.}
+
+\item{position}{A \verb{<character[1]>} giving the location of the guide. Can be one of \code{"top"},
+\code{"bottom"}, \code{"left"} or \code{"right"}.}
+
+\item{direction}{A \verb{<character[1]>} indicating the direction of the guide. Can be on of
+\code{"horizontal"} or \code{"vertical"}.}
+
+\item{order}{A positive \verb{<integer[1]>} that specifies the order of this guide among
+multiple guides. This controls in which order guides are merged if there
+are multiple guides for the same position. If \code{0} (default), the order is
+determined by a hashing indicative settings of a guide.}
 }
 \value{
 A \verb{<GuideCustom>} object.
@@ -48,6 +87,46 @@ conventional legend.
 \details{
 Because this guide is not tied to a scale, it can be given an arbitrary name
 in \code{guides()}; as long as it doesn't clash with other aesthetics.
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.background} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the legend. \cr
+   \code{legend.margin} \tab \code{\link[ggplot2:margin]{margin()}} \tab Padding around the legend. \cr
+   \code{legend.text} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Labels displayed next to keys. \cr
+   \code{legend.text.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legend.title} \tab \code{\link[ggplot2:element_text]{element_text()}} \tab Title of the legend. \cr
+   \code{legend.title.position} \tab \verb{<character[1]>} \tab One of \code{"top"}, \code{"right"}, \code{"bottom"} or \code{"left"}. \cr
+   \code{legend.key} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Background of the key areas. \cr
+   \code{legend.key.height} \tab \code{\link[=unit]{unit()}} \tab Height of keys. \cr
+   \code{legend.key.width} \tab \code{\link[=unit]{unit()}} \tab Width of keys. \cr
+   \code{legend.key.justification} \tab \verb{<numeric[2]>} \tab Justification for placing legend keys in excess space. \cr
+   \code{legend.key.spacing.x} \tab \code{\link[=unit]{unit()}} \tab Horizontal spacing between keys. \cr
+   \code{legend.key.spacing.y} \tab \code{\link[=unit]{unit()}} \tab Vertical spacing between keys. Taken literally. \cr
+   \code{legend.byrow} \tab \verb{<logical[1]>} \tab Row-order key filling (\code{TRUE}) or column-order (\code{FALSE}) \cr
+}
+
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{guide_legend_manual(legend_args = list(theme = theme_guide(
+  text = element_text(),
+  text.position = "right",
+  title = element_text(),
+  title.position = "top",
+  key = element_rect(),
+  key.height = unit(5, "mm"),
+  key.width = unit(5, "mm"),
+  key.justification = c(0.5, 0.5),
+  key.spacing.x = unit(5, "mm"),
+  key.spacing.y = unit(5, "mm"),
+  margin = margin(5),
+  background = element_rect(),
+)))
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 # A standard plot

@@ -12,21 +12,27 @@
 #' @family primitives
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
 #' this guide, which may differ depending on whether the guide is used in
 #' an axis or in a legend context.
 #'
-#' ## As an axis guide
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `axis.title.{x/y}.{position}` | Axis | [`element_text()`] | The title itself. |
+#' | `legend.title` | Legend| [`element_text()`] | The title itself. |
 #'
-#' * `axis.title.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the title display.
+#' There are no further styling options.
 #'
-#' ## As a legend guide
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
 #'
-#' * `legend.title` an [`<element_text>`][ggplot2::element_text]
-#'   for the title display.
+#' ```r
+#' primitive_title(theme = theme_guide(
+#'   title = element_text(),
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot
@@ -207,12 +213,13 @@ draw_theta_title <- function(label, elements, params) {
     angle = angle
   )
 
-  if (inherits(grob, "textpath")) {
-    height <-
-      measure_textpath_labels(grob)
+  height <- if (inherits(grob, "textpath")) {
+    measure_textpath_labels(grob)
   } else {
-    height <-
-      measure_theta_labels(title, label, margin, theta + rad, hjust, vjust)
+    measure_theta_labels(
+      title, label, margin, theta + rad,
+      list(hjust = hjust, vjust = vjust)
+    )
   }
   attr(grob, "offset") <- height
   grob

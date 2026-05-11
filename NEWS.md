@@ -15,9 +15,15 @@
 * `compose_stack(side.titles)` also work in non-position guides (#101)
 * Changed the margins and inferred justification of the `legendry.axis.subtitle`
   and `legendry.legend.subtitle` theme elements.
+* Changed `...` argument in many `key_*()` functions to transfer graphical 
+  properties like `colour` or `linewidth` to guides. Different parts of guides 
+  can be targeted by specifying 
+  `text_colour`/`line_colour`/`rect_colour`/`point_colour`.
+* Changed `key_group_split()` to preserve order of labels better, rather than 
+  re-sorting them (#100).
 * Updated title mechanism to comply with ggplot2#6200 (#104)
-* `key_group_split()` tries to preserve order of labels better, rather than 
-  re-sorting them (#100)
+* Updated lifecycle of `new_compose()`, `compose_ontop()`, `compose_stack()` 
+  from 'experimental' to 'stable'.
 * Fixed a bug where empty titles in legends contributed to spacing. Visual
   tests depending on legendry may see subtle positioning shifts (#113).
 * Fixed a bug where `guide_legend_group()` struggled to merge different 

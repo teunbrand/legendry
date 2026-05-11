@@ -19,6 +19,34 @@
 #' * A `<function>` that returns a `<Guide>` class object.
 #' * A `<character[1]>` naming such a function, without the `guide_` or
 #'   `primitive_` prefix.
+#'
+#' @details
+#' ## Styling options
+#'
+#' Because this guide is pure composite guide, the [theme][ggplot2::theme]
+#' options that govern the styling are determined by its constituents. They are
+#' linked below so you can find their 'Styling options' sections.
+#'
+#' | **Primitive** | **Description** |
+#' | ------------- | --------------- |
+#' | [`compose_stack`] | Stacks the lines, tick marks and labels and dendrogram. |
+#' | [`primitive_segments()`] | The dendrogram. |
+#' | [`primitive_line()`] | Makes up the axis line. |
+#' | [`primitive_ticks()`] | Makes up the tick marks. |
+#' | [`primitive_labels()`] | Makes up the labels. |
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_axis_dendro(theme = theme_guide(
+#'   line = element_line(),
+#'   text = element_text(),
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm"),
+#' ))
+#' ```
+#'
 #' @return A `<Guide>` object.
 #' @export
 #' @family standalone guides

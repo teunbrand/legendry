@@ -16,26 +16,38 @@
 #' @export
 #'
 #' @details
-#' # Styling options
+#' ## Styling options
 #'
 #' Below are the [theme][ggplot2::theme] options that determine the styling of
 #' this guide, which may differ depending on whether the guide is used in
 #' an axis or in a legend context.
 #'
-#' Common to both types is the following:
+#' The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+#' `x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position suffixes
+#' in \pkg{ggplot2} are *not* obeyed in \pkg{legendry}.
 #'
-#' * `legendry.box` an [`<element_rect>`][ggplot2::element_rect] for the boxes
-#'   to draw.
+#' | **Theme setting** | **Context** | **Type** | **Description** |
+#' | ----------------- | ----------- | -------- | --------------- |
+#' | `legendry.box` | Both | [`element_rect()`] | The boxes themselves |
+#' | `axis.text.{position}`\* | Axis | [`element_text()`] | The text in the boxes. |
+#' | `legend.text` | Legend | [`element_text()`] | The text in the boxes. |
 #'
-#' ## As an axis guide
+#' Styling options *per level* can be set in the `levels_box` and `levels_text`
+#' arguments. These override theme settings.
 #'
-#' * `axis.text.{x/y}.{position}` an [`<element_text>`][ggplot2::element_text]
-#'   for the text inside the boxes.
+#' Styling options *per range* can be set in the [range key][key_range].
+#' The `rect` and `text` prefixed properties are prioritised for the boxes and
+#' text respectively. These override theme settings and 'per level' settings.
 #'
-#' ## As a legend guide
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
 #'
-#' * `legend.text` an [`<element_text>`][ggplot2::element_text] for the text
-#'   inside the boxes.
+#' ```r
+#' primitive_box(theme = theme_guide(
+#'   box = element_rect(),
+#'   text = element_text()
+#' ))
+#' ```
 #'
 #' @examples
 #' # A standard plot
@@ -118,16 +130,12 @@ PrimitiveBox <- ggproto(
   extract_params = extract_range_params,
 
   extract_decor = function(scale, aesthetic, key, ...) {
-
     key <- vec_slice(key, key$.draw)
-    n_keys <- nrow(key)
-    value <- vec_interleave(key$start, key$end)
-
-    data_frame0(
-      !!aesthetic := value,
-      group  = rep(seq_len(n_keys), each = 2L),
-      .level = rep(key$.level, each = 2L)
-    )
+    decor <- key[setdiff(names(key), c("start", "end"))]
+    decor$group <- seq_len(nrow(key))
+    decor <- vec_rep_each(decor, 2)
+    decor[[aesthetic]] <- vec_interleave(key$start, key$end)
+    decor
   },
 
   transform = function(self, params, coord, panel_params) {
@@ -241,8 +249,9 @@ draw_box <- function(decor, element, size, offset, position) {
     return(zeroGrob())
   }
   aes <- switch(position, top = , bottom = "x", left = , right = "y", "theta")
-
   rle <- new_rle(decor$group)
+  props <- element_key_properties(vec_slice(decor, rle$start), "rect")
+
   if (is_theta(position)) {
     rev <- vec_slice(decor, rev(vec_seq_along(decor)))
     x <- unit(c(decor$x, rev$x), "npc")
@@ -252,17 +261,18 @@ draw_box <- function(decor, element, size, offset, position) {
     x <- x + unit(sin(theta) * offset, "cm")
     y <- y + unit(cos(theta) * offset, "cm")
     id <- c(decor$group, rev$group)
-    gp <- gpar(
-      col = element$colour,
-      fill = element$fill,
-      lwd = (element$linewidth * .pt) %0% NULL,
-      lty = (element$linetype)
+    element <- destructure_element(element)
+    gp <- gg_par(
+      col  = props$colour    %||% element$colour,
+      fill = props$fill      %||% element$fill,
+      lwd  = props$linewidth %||% element$linewidth,
+      lty  = props$linetype  %||% element$linetype,
+      linejoin = element$linejoin
     )
     grob <- polygonGrob(x = x, y = y, id = id, gp = gp)
     return(grob)
   }
 
-  rle <- new_rle(decor$group)
   start <- decor[[aes]][rle$start]
   end   <- decor[[aes]][rle$end]
   min <- pmin(start, end)
@@ -275,5 +285,5 @@ draw_box <- function(decor, element, size, offset, position) {
   if (position %in% c("left", "right")) {
     args <- flip_names(args)
   }
-  inject(element_grob(element, !!!args))
+  inject(element_grob(element, !!!args, !!!props))
 }

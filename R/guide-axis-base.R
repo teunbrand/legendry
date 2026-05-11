@@ -29,6 +29,41 @@
 #'
 #' To use this as a logarithmic axis, set `key = "log"`.
 #'
+#' ## Styling options
+#'
+#' Because this guide is pure composite guide, the [theme][ggplot2::theme]
+#' options that govern the styling are determined by its constituents. They are
+#' linked below so you can find their 'Styling options' sections.
+#'
+#' | **Primitive** | **Description** |
+#' | ------------- | --------------- |
+#' | [`compose_stack`] | Stacks the lines, tick marks and labels. |
+#' | [`primitive_line()`] | Makes up the axis line. |
+#' | [`primitive_ticks()`] | Makes up the tick marks. |
+#' | [`primitive_labels()`] | Makes up the labels. |
+#'
+#' Styling options *per break* can be set in the [standard key][key_standard].
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_axis_base(theme = theme_guide(
+#'   # Common options
+#'   line = element_line(),
+#'   text = element_text(),
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm"),
+#'
+#'   # Niche options below
+#'   minor.ticks = element_line(),
+#'   minor.ticks.length = unit(5, "mm"),
+#'   mini.ticks = element_line(),
+#'   mini.ticks.length = unit(5, "mm"),
+#' ))
+#' ```
+#'
 #' @return A `<Guide>` object.
 #' @export
 #' @family standalone guides

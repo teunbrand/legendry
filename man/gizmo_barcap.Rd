@@ -69,6 +69,33 @@ A \verb{<GizmoBarcap>} object.
 This guide displays a colour bar with optional caps at either ends of
 the bar.
 }
+\details{
+\subsection{Styling options}{
+
+Below are the \link[ggplot2:theme]{theme} options that determine the styling of
+this guide. Note that the width or height (depending on the \code{direction}
+argument) \emph{includes} the cap.\tabular{lll}{
+   \strong{Theme setting} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legend.frame} \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab Frame drawn around the bar and caps. The \code{fill} setting is ignored. \cr
+   \code{legend.key.width} \tab \code{\link[=unit]{unit()}} \tab Width of the bar \cr
+   \code{legend.key.height} \tab \code{\link[=unit]{unit()}} \tab Height of the bar \cr
+}
+
+
+Please note that depending on the \code{direction} argument, the
+\code{legend.key.width}/\code{legend.key.height} setting are expanded 5-fold if
+originating from the global theme. To set these directly, you can use the
+local \code{theme} argument in the guide.
+These settings have shorthands in \code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{gizmo_barcap(theme = theme_guide(
+  frame = element_rect(),
+  key.width = unit(5, "mm")
+  key.height = unit(5, "cm")
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(displ, hwy, colour = cty)) +

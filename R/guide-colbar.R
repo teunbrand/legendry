@@ -33,6 +33,47 @@
 #' graphics device that can render these. This can be checked by using
 #' [`check_device("gradients")`][ggplot2::check_device].
 #'
+#' ## Styling options
+#'
+#' Because this guide is pure composite guide, the [theme][ggplot2::theme]
+#' options that govern the styling are determined by its constituents. They are
+#' linked below so you can find their 'Styling options' sections. Note that
+#' `guide_axis_base()` is just a default that can be swapped out.
+#'
+#' | **Constituent** | **Description** |
+#' | ------------- | --------------- |
+#' | [`compose_sandwich`] | Combines the bar with two side-guides. |
+#' | [`gizmo_barcap()`] | Makes up the colour bar. |
+#' | [`guide_axis_base()`] | Makes up the tick marks and labels. |
+#'
+#' Styling options *per break* can be set in the [standard key][key_standard].
+#' These override theme settings.
+#'
+#' The context-agnostic alternative to using `theme()` is to use
+#' [`theme_guide()`]:
+#'
+#' ```r
+#' guide_colbar(theme = theme_guide(
+#'   # Composition settings
+#'   title = element_text(),
+#'   title.position = "top",
+#'   text.position = "right",
+#'   margin = margin(5),
+#'   background = element_rect(),
+#'
+#'   # Bar settings
+#'   frame = element_rect(),
+#'   key.width = unit(5, "mm")
+#'   key.height = unit(5, "cm")
+#'
+#'   # Common options for `guide_axis_base()`
+#'   line = element_line(),
+#'   text = element_text(),
+#'   ticks = element_line(),
+#'   ticks.length = unit(5, "mm"),
+#' ))
+#' ```
+#'
 #' @return A `<Guide>` object
 #' @export
 #' @family standalone guides

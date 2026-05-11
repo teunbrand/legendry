@@ -27,48 +27,55 @@ guides.
 \description{
 This function constructs a ticks \link[=guide-primitives]{guide primitive}.
 }
-\section{Styling options}{
+\details{
+\subsection{Styling options}{
+
 Below are the \link[ggplot2:theme]{theme} options that determine the styling of
 this guide, which may differ depending on whether the guide is used in
 an axis or in a legend context.
 
-Common to both types is the following:
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.ticks.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_line]{<element_line>}}
-for major tick lines.
-\item \verb{axis.minor.ticks.\{x/y\}.\{position\}} an
-\code{\link[ggplot2:element_line]{<element_line>}} for minor tick lines.
-\item \code{legendry.axis.mini.ticks} an \code{\link[ggplot2:element_line]{<element_line>}}
-internally inheriting from the minor ticks for the smallest ticks in e.g.
-log axes.
-\item \verb{axis.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the major
-ticks length.
-\item \verb{axis.minor.ticks.length.\{x/y\}.\{position\}} a \code{\link[grid:unit]{<unit>}} for the
-minor ticks length.
-\item \code{legendry.axis.mini.ticks.length} a \code{\link[grid:unit]{<unit>}} internally
-inheriting from the minor tick length for the smallest ticks in e.g.
-log axes.
-}
+The ticks can come in three variants: major, minor and minimal.
+Which variants are drawn depends on the keys: \code{\link[=key_minor]{key_minor()}} draws major
+and minor ticks, whereas \code{\link[=key_log]{key_log()}} also has minimal ticks.
+Each variant has a corresponding length setting.
+
+The possible \code{{position}} suffixes mentioned below are \code{x}, \code{x.top},
+\code{x.bottom}, \code{y}, \code{y.left}, \code{y.right}. The \code{theta} and \code{r} position suffixes
+in \pkg{ggplot2} are \emph{not} obeyed in \pkg{legendry}.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \verb{axis.ticks.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Major tick lines \cr
+   \verb{axis.ticks.length.\{position\}} \tab Axis \tab \code{\link[=unit]{unit()}} \tab Major tick length \cr
+   \verb{axis.minor.ticks.\{position\}} \tab Axis \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Minor tick lines \cr
+   \verb{axis.minor.ticks.length.\{position\}} \tab Axis \tab \code{\link[=unit]{unit()}} \tab Minor tick length \cr
+   \code{legendry.axis.mini.ticks} \tab Axis \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Minimal tick lines \cr
+   \code{legendry.axis.mini.ticks.length} \tab Axis \tab \code{\link[=unit]{unit()}} \tab Minimal tick length \cr
+   \code{legend.ticks} \tab Legend \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Major tick lines \cr
+   \code{legend.ticks.length} \tab Legend \tab \code{\link[=unit]{unit()}} \tab Major ticks length \cr
+   \code{legendry.legend.minor.ticks} \tab Legend \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Minor tick lines \cr
+   \code{legendry.legend.minor.ticks.length} \tab Legend \tab \code{\link[=unit]{unit()}} \tab Minor ticks length \cr
+   \code{legendry.legend.mini.ticks} \tab Legend \tab \code{\link[ggplot2:element_line]{element_line()}} \tab Minimal tick lines \cr
+   \code{legendry.legend.mini.ticks.length} \tab Legend \tab \code{\link[=unit]{unit()}} \tab Minimal tick length \cr
 }
 
-\subsection{As a legend guide}{
-\itemize{
-\item \code{legend.ticks} an \code{\link[ggplot2:element_line]{<element_line>}} for major tick
-lines.
-\item \code{legendry.legend.minor.ticks} an \code{\link[ggplot2:element_line]{<element_line>}}
-for minor tick lines.
-\item \code{legendry.legend.mini.ticks} an \code{\link[ggplot2:element_line]{<element_line>}}
-for the smallest ticks in e.g. log axes.
-\item \code{legend.ticks.length} a \code{\link[grid:unit]{<unit>}} for the major ticks length.
-\item \code{legendry.legend.minor.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
-minor ticks length.
-\item \code{legendry.legend.mini.ticks.length} a \code{\link[grid:unit]{<unit>}} for the
-smallest ticks in e.g. log axes.
-}
-}
-}
 
+Styling options \emph{per break} can be set in the \link[=key_standard]{key}.
+The \code{line} and prefixed properties are prioritised for the tick lines.
+These override theme settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_ticks(theme = theme_guide(
+  ticks = element_line(),
+  ticks.length = unit(5, "mm"),
+  minor.ticks = element_line(),
+  minor.ticks.length = unit(4, "mm"),
+  mini.ticks = element_line(),
+  mini.ticks.length = unit(3, "mm")
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(displ, hwy)) +

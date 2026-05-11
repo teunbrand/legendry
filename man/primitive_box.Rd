@@ -65,31 +65,40 @@ guides.
 \description{
 This function constructs a boxes \link[=guide-primitives]{guide primitive}.
 }
-\section{Styling options}{
+\details{
+\subsection{Styling options}{
+
 Below are the \link[ggplot2:theme]{theme} options that determine the styling of
 this guide, which may differ depending on whether the guide is used in
 an axis or in a legend context.
 
-Common to both types is the following:
-\itemize{
-\item \code{legendry.box} an \code{\link[ggplot2:element_rect]{<element_rect>}} for the boxes
-to draw.
-}
-\subsection{As an axis guide}{
-\itemize{
-\item \verb{axis.text.\{x/y\}.\{position\}} an \code{\link[ggplot2:element_text]{<element_text>}}
-for the text inside the boxes.
-}
+The possible \code{{position}} suffixes mentioned below are \code{x}, \code{x.top},
+\code{x.bottom}, \code{y}, \code{y.left}, \code{y.right}. The \code{theta} and \code{r} position suffixes
+in \pkg{ggplot2} are \emph{not} obeyed in \pkg{legendry}.\tabular{llll}{
+   \strong{Theme setting} \tab \strong{Context} \tab \strong{Type} \tab \strong{Description} \cr
+   \code{legendry.box} \tab Both \tab \code{\link[ggplot2:element_rect]{element_rect()}} \tab The boxes themselves \cr
+   \verb{axis.text.\{position\}}\* \tab Axis \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text in the boxes. \cr
+   \code{legend.text} \tab Legend \tab \code{\link[ggplot2:element_text]{element_text()}} \tab The text in the boxes. \cr
 }
 
-\subsection{As a legend guide}{
-\itemize{
-\item \code{legend.text} an \code{\link[ggplot2:element_text]{<element_text>}} for the text
-inside the boxes.
-}
-}
-}
 
+Styling options \emph{per level} can be set in the \code{levels_box} and \code{levels_text}
+arguments. These override theme settings.
+
+Styling options \emph{per range} can be set in the \link[=key_range]{range key}.
+The \code{rect} and \code{text} prefixed properties are prioritised for the boxes and
+text respectively. These override theme settings and 'per level' settings.
+
+The context-agnostic alternative to using \code{theme()} is to use
+\code{\link[=theme_guide]{theme_guide()}}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{primitive_box(theme = theme_guide(
+  box = element_rect(),
+  text = element_text()
+))
+}\if{html}{\out{</div>}}
+}
+}
 \examples{
 # A standard plot
 p <- ggplot(mpg, aes(interaction(drv, year), displ)) +

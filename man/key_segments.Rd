@@ -11,7 +11,7 @@ key_segment_manual(value, oppo, value_end = value, oppo_end = oppo, ...)
 
 key_segment_map(data, ..., .call = caller_env())
 
-key_dendro(dendro = NULL, type = "rectangle")
+key_dendro(dendro = NULL, type = "rectangle", ..., .call = NULL)
 }
 \arguments{
 \item{value, value_end}{A vector that is interpreted to be along the scale
@@ -20,10 +20,19 @@ that the guide codifies.}
 \item{oppo, oppo_end}{A vector that is interpreted to be orthogonal to the
 \code{value} and \code{value_end} variables.}
 
-\item{...}{\code{\link[rlang:topic-data-mask]{<data-masking>}} A set of mappings
-similar to those provided to \code{\link[ggplot2:aes]{aes()}}, which will be
-evaluated in the \code{data} argument.
-For \code{key_segments_map()}, these \emph{must} contain \code{value} and \code{oppo} mappings.}
+\item{...}{The \code{...} parameter has two purposes.
+\enumerate{
+\item In \code{key_segments_map()} it is \code{\link[rlang:topic-data-mask]{<data-masking>}}.
+A set of mappings similar to those provided to \code{\link[ggplot2:aes]{aes()}},
+which will be evaluated in the \code{data} argument. These \emph{must} contain
+\code{value} and \code{oppo} mappings.
+\item In other keys, \code{...} can be used to transfer graphical properties to the
+individual breaks of a guide. For example, using \code{colour = "blue"} will
+draw parts of the guides associated with breaks in blue. There is a shallow
+hierarchy in that \code{line_colour} is the specific property for segment
+elements, but others inherit from the main \code{colour} setting. Likewise,
+\code{linewidth} and \code{linetype} have specific variants for line elements.
+}}
 
 \item{data}{A \verb{<data.frame>} or similar object coerced by
 \code{\link[ggplot2:fortify]{fortify()}} to a \verb{<data.frame>}, in which the \code{mapping}
