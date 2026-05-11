@@ -175,6 +175,10 @@ annotate_left <- function(..., position = "left") {
 
 # Class -------------------------------------------------------------------
 
+#' @export
+#' @rdname legendry_extensions
+#' @format NULL
+#' @usage NULL
 GuideAxisAnnotation <- ggproto(
   "GuideAxisAnnotation",
   ComposeOntop,
