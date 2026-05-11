@@ -70,6 +70,8 @@ determined by a hashing indicative settings of a guide.}
 
 \item{position}{A \verb{<character[1]>} giving the location of the guide. Can be one of \code{"top"},
 \code{"bottom"}, \code{"left"} or \code{"right"}.}
+
+\item{call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 }
 \value{
 A \verb{<Guide>} object

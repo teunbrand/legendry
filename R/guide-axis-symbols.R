@@ -40,8 +40,6 @@
 #' symbolism. Otherwise the number of unique values to the `key_symbols(symbol)`
 #' argument determines the number of symbols.
 #'
-#' @param call A [call][rlang::topic-error-call] to display in messages.
-#'
 #' @inheritParams common_parameters
 #'
 #' @details

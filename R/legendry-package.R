@@ -79,5 +79,8 @@ NULL
 #'   key glyphs. See details and examples in
 #'   [`guide_legend()`][ggplot2::guide_legend()].
 #'
+#' @param call
+#' A [call][rlang::topic-error-call] to display in messages.
+#'
 #' @keywords internal
 NULL
