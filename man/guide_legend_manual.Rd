@@ -9,7 +9,14 @@ guide_legend_manual(
   ...,
   layers = list(geom_point()),
   title = NULL,
-  legend_args = list()
+  theme = NULL,
+  design = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  reverse = FALSE,
+  position = NULL,
+  direction = NULL,
+  order = 0L
 )
 }
 \arguments{
@@ -31,9 +38,41 @@ aesthetics passed to the \code{...} argument.}
 \itemize{
 \item A \verb{<character[1]>} or \verb{<expression[1]>} to set a custom title.
 \item \code{NULL} to not display any title.
+\item \code{\link[ggplot2:waiver]{waiver()}} (default) to take the name of the scale
+object or the name specified in \code{\link[ggplot2:labs]{labs()}} as the title.
 }}
 
-\item{legend_args}{A \verb{<list>} of arguments passed on to \code{\link[=guide_legend_base]{guide_legend_base()}}.}
+\item{theme}{A \code{\link[ggplot2:theme]{<theme>}} object to style the guide individually or
+differently from the plot's theme settings. The \code{theme} argument in the
+guide overrides and is combined with the plot's theme.}
+
+\item{design}{Specification of the legend layout. One of the following:
+\itemize{
+\item \code{NULL} (default) to use the layout algorithm of
+\code{\link[ggplot2:guide_legend]{guide_legend()}}.
+\item A \verb{<character[1]>} string representing a cell layout wherein \verb{#} defines
+an empty cell. See examples.
+\item A \verb{<matrix[n, m]>} representing a cell layout wherein \code{NA} defines an
+empty cell. See examples. Non-string atomic vectors will be treated with
+\code{as.matrix()}.
+}}
+
+\item{nrow, ncol}{A positive \verb{<integer[1]>} setting the desired dimensions of
+the legend layout. When \code{NULL} (default), the dimensions will be derived
+from the \code{design} argument or fit to match the number of keys.}
+
+\item{reverse}{A \verb{<logical[1]>} whether the order of keys should be inverted.}
+
+\item{position}{A \verb{<character[1]>} giving the location of the guide. Can be one of \code{"top"},
+\code{"bottom"}, \code{"left"} or \code{"right"}.}
+
+\item{direction}{A \verb{<character[1]>} indicating the direction of the guide. Can be on of
+\code{"horizontal"} or \code{"vertical"}.}
+
+\item{order}{A positive \verb{<integer[1]>} that specifies the order of this guide among
+multiple guides. This controls in which order guides are merged if there
+are multiple guides for the same position. If \code{0} (default), the order is
+determined by a hashing indicative settings of a guide.}
 }
 \value{
 A \verb{<GuideCustom>} object.

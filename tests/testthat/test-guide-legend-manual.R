@@ -10,7 +10,7 @@ test_that("guide_legend_manual() constructor works as expected", {
   expect_s3_class(g$params$layers[[1L]], "LayerInstance")
 
   # The reverse legend setting is applied to the key
-  g <- guide_legend_manual(c("foo", "bar"), legend_args = list(reverse = TRUE))
+  g <- guide_legend_manual(c("foo", "bar"), reverse = TRUE)
   expect_identical(
     g$params$legend$key$.label,
     c("bar", "foo")
@@ -41,7 +41,7 @@ test_that("guide_legend_manual() can render a legend", {
         geom_point(shape = c(21L, 19L)),
         geom_col(colour = c("dodgerblue", "tomato"))
       ),
-      legend_args = list(ncol = 2L)
+      ncol = 2L
     ))
 
   vdiffr::expect_doppelganger("manual legend", p)
