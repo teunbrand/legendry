@@ -80,7 +80,7 @@ limits, and will give misleading results when used incorrectly!</p></li>
 <span></span>
 <span><span class="fu">key_segment_map</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, .call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">key_dendro</span><span class="op">(</span>dendro <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"rectangle"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">key_dendro</span><span class="op">(</span>dendro <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"rectangle"</span>, <span class="va">...</span>, .call <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -98,10 +98,17 @@ that the guide codifies.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p><code><a href="https://rlang.r-lib.org/reference/topic-data-mask.html" class="external-link">&lt;data-masking&gt;</a></code> A set of mappings
-similar to those provided to <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>, which will be
-evaluated in the <code>data</code> argument.
-For <code>key_segments_map()</code>, these <em>must</em> contain <code>value</code> and <code>oppo</code> mappings.</p></dd>
+<dd><p>The <code>...</code> parameter has two purposes.</p><ol><li><p>In <code>key_segments_map()</code> it is <code><a href="https://rlang.r-lib.org/reference/topic-data-mask.html" class="external-link">&lt;data-masking&gt;</a></code>.
+A set of mappings similar to those provided to <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>,
+which will be evaluated in the <code>data</code> argument. These <em>must</em> contain
+<code>value</code> and <code>oppo</code> mappings.</p></li>
+<li><p>In other keys, <code>...</code> can be used to transfer graphical properties to the
+individual breaks of a guide. For example, using <code>colour = "blue"</code> will
+draw parts of the guides associated with breaks in blue. There is a shallow
+hierarchy in that <code>line_colour</code> is the specific property for segment
+elements, but others inherit from the main <code>colour</code> setting. Likewise,
+<code>linewidth</code> and <code>linetype</code> have specific variants for line elements.</p></li>
+</ol></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>

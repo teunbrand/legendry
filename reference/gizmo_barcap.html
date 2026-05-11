@@ -136,6 +136,29 @@ guide overrides and is combined with the plot's theme.</p></dd>
     <p>A <code>&lt;GizmoBarcap&gt;</code> object.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+
+<div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
+this guide. Note that the width or height (depending on the <code>direction</code>
+argument) <em>includes</em> the cap.</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>legend.frame</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect()</a></code></td><td>Frame drawn around the bar and caps. The <code>fill</code> setting is ignored.</td></tr><tr><td><code>legend.key.width</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Width of the bar</td></tr><tr><td><code>legend.key.height</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Height of the bar</td></tr></table><p>Please note that depending on the <code>direction</code> argument, the
+<code>legend.key.width</code>/<code>legend.key.height</code> setting are expanded 5-fold if
+originating from the global theme. To set these directly, you can use the
+local <code>theme</code> argument in the guide.
+These settings have shorthands in <code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code>gizmo_barcap(theme = theme_guide(
+  frame = element_rect(),
+  key.width = unit(5, "mm")
+  key.height = unit(5, "cm")
+))
+</code></pre><p></p></div>
+</div>
+
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other gizmos:
 <code><a href="gizmo_density.html">gizmo_density()</a></code>,

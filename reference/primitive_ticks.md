@@ -38,66 +38,60 @@ primitive_ticks(key = NULL, bidi = FALSE, theme = NULL, position = waiver())
 
 A `PrimitiveTicks` primitive guide that can be used inside other guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
 determine the styling of this guide, which may differ depending on
 whether the guide is used in an axis or in a legend context.
 
-Common to both types is the following:
+The ticks can come in three variants: major, minor and minimal. Which
+variants are drawn depends on the keys:
+[`key_minor()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+draws major and minor ticks, whereas
+[`key_log()`](https://teunbrand.github.io/legendry/reference/key_standard.md)
+also has minimal ticks. Each variant has a corresponding length setting.
 
-### As an axis guide
+The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+`x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position
+suffixes in ggplot2 are *not* obeyed in legendry.
 
-- `axis.ticks.{x/y}.{position}` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for major tick lines.
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `axis.ticks.{position}` | Axis | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | Major tick lines |
+| `axis.ticks.length.{position}` | Axis | [`unit()`](https://rdrr.io/r/grid/unit.html) | Major tick length |
+| `axis.minor.ticks.{position}` | Axis | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | Minor tick lines |
+| `axis.minor.ticks.length.{position}` | Axis | [`unit()`](https://rdrr.io/r/grid/unit.html) | Minor tick length |
+| `legendry.axis.mini.ticks` | Axis | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | Minimal tick lines |
+| `legendry.axis.mini.ticks.length` | Axis | [`unit()`](https://rdrr.io/r/grid/unit.html) | Minimal tick length |
+| `legend.ticks` | Legend | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | Major tick lines |
+| `legend.ticks.length` | Legend | [`unit()`](https://rdrr.io/r/grid/unit.html) | Major ticks length |
+| `legendry.legend.minor.ticks` | Legend | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | Minor tick lines |
+| `legendry.legend.minor.ticks.length` | Legend | [`unit()`](https://rdrr.io/r/grid/unit.html) | Minor ticks length |
+| `legendry.legend.mini.ticks` | Legend | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | Minimal tick lines |
+| `legendry.legend.mini.ticks.length` | Legend | [`unit()`](https://rdrr.io/r/grid/unit.html) | Minimal tick length |
 
-- `axis.minor.ticks.{x/y}.{position}` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for minor tick lines.
+Styling options *per break* can be set in the
+[key](https://teunbrand.github.io/legendry/reference/key_standard.md).
+The `line` and prefixed properties are prioritised for the tick lines.
+These override theme settings.
 
-- `legendry.axis.mini.ticks` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  internally inheriting from the minor ticks for the smallest ticks in
-  e.g. log axes.
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
 
-- `axis.ticks.length.{x/y}.{position}` a
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) for the major ticks
-  length.
-
-- `axis.minor.ticks.length.{x/y}.{position}` a
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) for the minor ticks
-  length.
-
-- `legendry.axis.mini.ticks.length` a
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) internally inheriting
-  from the minor tick length for the smallest ticks in e.g. log axes.
-
-### As a legend guide
-
-- `legend.ticks` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for major tick lines.
-
-- `legendry.legend.minor.ticks` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for minor tick lines.
-
-- `legendry.legend.mini.ticks` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the smallest ticks in e.g. log axes.
-
-- `legend.ticks.length` a [`<unit>`](https://rdrr.io/r/grid/unit.html)
-  for the major ticks length.
-
-- `legendry.legend.minor.ticks.length` a
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) for the minor ticks
-  length.
-
-- `legendry.legend.mini.ticks.length` a
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) for the smallest ticks in
-  e.g. log axes.
+    primitive_ticks(theme = theme_guide(
+      ticks = element_line(),
+      ticks.length = unit(5, "mm"),
+      minor.ticks = element_line(),
+      minor.ticks.length = unit(4, "mm"),
+      mini.ticks = element_line(),
+      mini.ticks.length = unit(3, "mm")
+    ))
 
 ## See also
 

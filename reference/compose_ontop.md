@@ -2,7 +2,7 @@
 
 **\[experimental\]**
 
-This guide can place place other guides on top of one another.
+This guide can place other guides on top of one another.
 
 ## Usage
 
@@ -102,6 +102,14 @@ compose_ontop(
 ## Value
 
 A `<ComposeOntop>` composite guide object.
+
+## Details
+
+### Styling options
+
+There are no styling options in
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) for this
+composition.
 
 ## See also
 

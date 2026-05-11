@@ -62,24 +62,31 @@ primitive_title(
 A `<PrimitiveTitle>` primitive guide that can be used inside other
 guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
 determine the styling of this guide, which may differ depending on
 whether the guide is used in an axis or in a legend context.
 
-### As an axis guide
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `axis.title.{x/y}.{position}` | Axis | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The title itself. |
+| `legend.title` | Legend | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The title itself. |
 
-- `axis.title.{x/y}.{position}` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the title display.
+There are no further styling options.
 
-### As a legend guide
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
 
-- `legend.title` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the title display.
+    primitive_title(theme = theme_guide(
+      title = element_text(),
+    ))
 
 ## See also
 

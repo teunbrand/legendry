@@ -22,26 +22,28 @@ different outcomes:
 ## Usage
 
 ``` r
-key_auto(...)
+key_auto(..., call = NULL)
 
 key_manual(
   aesthetic,
   value = aesthetic,
   label = as.character(value),
   type = NULL,
-  ...
+  ...,
+  call = NULL
 )
 
-key_map(data, ..., .call = caller_env())
+key_map(data, ..., call = NULL)
 
-key_minor(...)
+key_minor(..., call = NULL)
 
 key_log(
   prescale_base = NULL,
   negative_small = 0.1,
   expanded = TRUE,
   labeller = NULL,
-  ...
+  ...,
+  call = NULL
 )
 
 key_none()
@@ -51,11 +53,28 @@ key_none()
 
 - ...:
 
-  [`<data-masking>`](https://rlang.r-lib.org/reference/topic-data-mask.html)
-  A set of mappings similar to those provided to
-  [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html), which
-  will be evaluated in the `data` argument. These must contain
-  `aesthetic` mapping.
+  The `...` parameter has two purposes.
+
+  1.  In `key_map()` it is
+      [`<data-masking>`](https://rlang.r-lib.org/reference/topic-data-mask.html).
+      A set of mappings similar to those provided to
+      [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html), which
+      will be evaluated in the `data` argument. These must contain
+      `aesthetic` mapping.
+
+  2.  In other keys, `...` can be used to transfer graphical properties
+      to the individual breaks of a guide. For example, using
+      `colour = "blue"` will draw parts of the guides associated with
+      breaks in blue. There is a shallow hierarchy in that
+      `text_colour`, `line_colour`, `rect_colour` and `point_colour` are
+      the specific properties for elements, but all inherit from the
+      main `colour` setting. Likewise, `size`, `linewidth`, `linetype`
+      and `fill` have specific variants for elements.
+
+- call:
+
+  A [call](https://rlang.r-lib.org/reference/topic-error-call.html) to
+  display in messages.
 
 - aesthetic, value:
 
@@ -79,11 +98,6 @@ key_none()
   A `<data.frame>` or similar object coerced by
   [`fortify()`](https://ggplot2.tidyverse.org/reference/fortify.html) to
   a `<data.frame>`, in which the `mapping` argument is evaluated.
-
-- .call:
-
-  A [call](https://rlang.r-lib.org/reference/topic-error-call.html) to
-  display in messages.
 
 - prescale_base:
 

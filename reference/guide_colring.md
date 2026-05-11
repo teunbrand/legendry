@@ -116,6 +116,63 @@ guide_colring(
 
 A `<Guide>` object.
 
+## Details
+
+### Styling options
+
+This guide is a hybrid composition guide, where the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) settings
+apply both this guide itself and the constituents it manages. The
+constituents are linked below so you can find their 'Styling options'
+sections. Note that
+[`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md)
+is just a default that can be swapped out.
+
+|  |  |
+|----|----|
+| **Constituent** | **Description** |
+| [`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md) | Makes up the tick marks and labels at inner and outer rings. |
+
+In addition to the constituent's theme setting, it also has the
+following settings:
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legend.background` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Background of the legend. |
+| `legend.margin` | [`margin()`](https://ggplot2.tidyverse.org/reference/element.html) | Padding around the legend. |
+| `legend.key.width` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Radial thickness of the donut ring. |
+| `legend.key.size` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Size of the legend. Multiplied by 5 to roughly match dimensions of colour bar guides. |
+| `legend.frame` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Outline of the donut. The `fill` setting is ignored. |
+| `legend.title` | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | Title of the legend. |
+| `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+
+Styling options *per break* can be set in the [standard
+key](https://teunbrand.github.io/legendry/reference/key_standard.md).
+These override theme settings.
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    guide_colring(theme = theme_guide(
+      # Ring settings
+      title = element_text(),
+      title.position = "top",
+      margin = margin(5),
+      background = element_rect(),
+      frame = element_rect(),
+      key.size = unit(1, "cm"),
+      key.width = unit(5, "mm"),
+
+      # Common options for `guide_axis_base()`
+      line = element_line(),
+      text = element_text(),
+      ticks = element_line(),
+      ticks.length = unit(5, "mm"),
+    ))
+
 ## See also
 
 Other standalone guides:

@@ -166,6 +166,51 @@ As colours are always rendered as gradients, it is important to use a
 graphics device that can render these. This can be checked by using
 [`check_device("gradients")`](https://ggplot2.tidyverse.org/reference/check_device.html).
 
+### Styling options
+
+Because this guide is pure composite guide, the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+govern the styling are determined by its constituents. They are linked
+below so you can find their 'Styling options' sections. Note that
+[`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md)
+is just a default that can be swapped out.
+
+|  |  |
+|----|----|
+| **Constituent** | **Description** |
+| [`compose_sandwich`](https://teunbrand.github.io/legendry/reference/compose_sandwich.md) | Combines the bar with two side-guides. |
+| [`gizmo_barcap()`](https://teunbrand.github.io/legendry/reference/gizmo_barcap.md) | Makes up the colour bar. |
+| [`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md) | Makes up the tick marks and labels. |
+
+Styling options *per break* can be set in the [standard
+key](https://teunbrand.github.io/legendry/reference/key_standard.md).
+These override theme settings.
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    guide_colbar(theme = theme_guide(
+      # Composition settings
+      title = element_text(),
+      title.position = "top",
+      text.position = "right",
+      margin = margin(5),
+      background = element_rect(),
+
+      # Bar settings
+      frame = element_rect(),
+      key.width = unit(5, "mm")
+      key.height = unit(5, "cm")
+
+      # Common options for `guide_axis_base()`
+      line = element_line(),
+      text = element_text(),
+      ticks = element_line(),
+      ticks.length = unit(5, "mm"),
+    ))
+
 ## See also
 
 Other standalone guides:

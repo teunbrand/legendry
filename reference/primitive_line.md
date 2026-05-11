@@ -57,24 +57,29 @@ primitive_line(key = NULL, cap = "none", theme = NULL, position = waiver())
 
 A `PrimitiveLine` primitive guide that can be used inside other guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
 determine the styling of this guide, which may differ depending on
 whether the guide is used in an axis or in a legend context.
 
-### As an axis guide
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `axis.line.{x/y}.{position}` | Axis | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | The axis line. |
+| `legend.axis.line` | Legend | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | The axis line. |
 
-- `axis.line.{x/y}.{position}` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the line style.
+There are no other styling options. The context-agnostic alternative to
+using [`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is
+to use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
 
-### As a legend guide
-
-- `legend.axis.line` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the line style.
+    primitive_line(theme = theme_guide(
+      line = element_line()
+    ))
 
 ## See also
 

@@ -147,27 +147,33 @@ guide overrides and is combined with the plot's theme.</p></dd>
 guides.</p>
     </div>
     <div class="section level2">
-    <h2 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h2>
-    <p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
-this guide, which may differ depending on whether the guide is used in an
-axis or legend context.</p>
-<p>Common to both types is the following:</p><ul><li><p><code>legendry.fence.post</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_line&gt;</a></code> for the
-line used to draw the pieces orthogonal to the direction of the scale.</p></li>
-<li><p><code>legendry.fence.rail</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_line&gt;</a></code> for the
-line used to draw the pieces parallel to the direction of the scale.</p></li>
-</ul><div class="section">
-<h3 id="as-an-axis-guide">As an axis guide<a class="anchor" aria-label="anchor" href="#as-an-axis-guide"></a></h3>
-
-<ul><li><p><code>axis.text.{x/y}.{position}</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_text&gt;</a></code>
-for the text displayed.</p></li>
-</ul></div>
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <div class="section">
-<h3 id="as-a-legend-guide">As a legend guide<a class="anchor" aria-label="anchor" href="#as-a-legend-guide"></a></h3>
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
 
-<ul><li><p><code>legend.text</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_text&gt;</a></code> for the text
-displayed.</p></li>
-</ul></div>
+
+<p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
+this guide, which may differ depending on whether the guide is used in
+an axis or in a legend context.</p>
+<p>The possible <code>{position}</code> suffixes mentioned below are <code>x</code>, <code>x.top</code>,
+<code>x.bottom</code>, <code>y</code>, <code>y.left</code>, <code>y.right</code>. The <code>theta</code> and <code>r</code> position suffixes
+in <span class="pkg">ggplot2</span> are <em>not</em> obeyed in <span class="pkg">legendry</span>.</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Context</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>legendry.fence</code></td><td>Both</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line()</a></code></td><td>Line segments for both 'post' and 'rail' segments</td></tr><tr><td><code>legendry.fence.post</code></td><td>Both</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line()</a></code></td><td>Line segments orthogonal to the scale</td></tr><tr><td><code>legendry.fence.rail</code></td><td>Both</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line()</a></code></td><td>Line segments parallel to the scale</td></tr><tr><td><code>axis.text.{position}</code></td><td>Axis</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code></td><td>The text labels at the fence.</td></tr><tr><td><code>legend.text</code></td><td>Legend</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code></td><td>The text labels at the fence.</td></tr></table><p>Styling options <em>per level</em> can be set in the <code>levels_post</code>, <code>levels_rail</code>
+and <code>levels_text</code> arguments. These override theme settings.</p>
+<p>Styling options <em>per range</em> can be set in the <a href="key_range.html">range key</a>.
+The <code>line</code> and <code>text</code> prefixed properties are prioritised for the fence
+and text respectively. The 'post' and 'rail' distinction does not apply
+at the 'per range' settings. These override theme settings and the
+'per level' settings.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/primitive_fence.html">primitive_fence</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  fence <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fence.post <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fence.rail <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
 
     </div>
     <div class="section level2">

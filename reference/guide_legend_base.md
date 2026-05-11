@@ -106,6 +106,53 @@ guide_legend_base(
 
 A `<GuideLegend>` object.
 
+## Details
+
+### Styling options
+
+Below are the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+determine the styling of this guide. Note that these are the same for
+[`ggplot2::guide_legend()`](https://ggplot2.tidyverse.org/reference/guide_legend.html).
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legend.background` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Background of the legend. |
+| `legend.margin` | [`margin()`](https://ggplot2.tidyverse.org/reference/element.html) | Padding around the legend. |
+| `legend.text` | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | Labels displayed next to keys. |
+| `legend.text.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+| `legend.title` | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | Title of the legend. |
+| `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+| `legend.key` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Background of the key areas. |
+| `legend.key.height` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Height of keys. |
+| `legend.key.width` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Width of keys. |
+| `legend.key.justification` | `<numeric[2]>` | Justification for placing legend keys in excess space. |
+| `legend.key.spacing.x` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Horizontal spacing between keys. |
+| `legend.key.spacing.y` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Vertical spacing between keys. Taken literally. |
+| `legend.byrow` | `<logical[1]>` | Row-order key filling (`TRUE`) or column-order (`FALSE`) |
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    guide_legend_base(theme = theme_guide(
+      text = element_text(),
+      text.position = "right",
+      title = element_text(),
+      title.position = "top",
+      key = element_rect(),
+      key.height = unit(5, "mm"),
+      key.width = unit(5, "mm"),
+      key.justification = c(0.5, 0.5),
+      key.spacing.x = unit(5, "mm"),
+      key.spacing.y = unit(5, "mm"),
+      byrow = TRUE,
+      margin = margin(5),
+      background = element_rect(),
+    ))
+
 ## See also
 
 Other standalone guides:

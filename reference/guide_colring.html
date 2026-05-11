@@ -160,6 +160,41 @@ provided as functions or strings.</p></dd>
     <p>A <code>&lt;Guide&gt;</code> object.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+
+<div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>This guide is a hybrid composition guide, where the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a>
+settings apply both this guide itself and the constituents it manages.
+The constituents are linked below so you can find their 'Styling options'
+sections. Note that <code><a href="guide_axis_base.html">guide_axis_base()</a></code> is just a default that can be
+swapped out.</p><table class="table table"><tr><td><strong>Constituent</strong></td><td><strong>Description</strong></td></tr><tr><td><code><a href="guide_axis_base.html">guide_axis_base()</a></code></td><td>Makes up the tick marks and labels at inner and outer rings.</td></tr></table><p>In addition to the constituent's theme setting, it also has the following
+settings:</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>legend.background</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect()</a></code></td><td>Background of the legend.</td></tr><tr><td><code>legend.margin</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin()</a></code></td><td>Padding around the legend.</td></tr><tr><td><code>legend.key.width</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Radial thickness of the donut ring.</td></tr><tr><td><code>legend.key.size</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Size of the legend. Multiplied by 5 to roughly match dimensions of colour bar guides.</td></tr><tr><td><code>legend.frame</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect()</a></code></td><td>Outline of the donut. The <code>fill</code> setting is ignored.</td></tr><tr><td><code>legend.title</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code></td><td>Title of the legend.</td></tr><tr><td><code>legend.title.position</code></td><td><code>&lt;character[1]&gt;</code></td><td>One of <code>"top"</code>, <code>"right"</code>, <code>"bottom"</code> or <code>"left"</code>.</td></tr></table><p>Styling options <em>per break</em> can be set in the <a href="key_standard.html">standard key</a>.
+These override theme settings.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/guide_colring.html">guide_colring</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  <span class="co"># Ring settings</span></span>
+<span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  title.position <span class="op">=</span> <span class="st">"top"</span>,</span>
+<span>  margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>  background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  frame <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>  key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>,</span>
+<span></span>
+<span>  <span class="co"># Common options for `guide_axis_base()`</span></span>
+<span>  line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>,</span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
+
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other standalone guides:
 <code><a href="guide_axis_base.html">guide_axis_base()</a></code>,

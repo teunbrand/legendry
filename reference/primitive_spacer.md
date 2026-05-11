@@ -2,6 +2,8 @@
 
 This function constructs a spacer [guide
 primitive](https://teunbrand.github.io/legendry/reference/guide-primitives.md).
+The spacer is intended for use in [guide
+composition](https://teunbrand.github.io/legendry/reference/guide-composition.md).
 
 ## Usage
 
@@ -50,16 +52,29 @@ primitive_spacer(
 A `<PrimitiveSpacer>` primitive guide that can be used inside other
 guides.
 
-## Styling options
+## Details
 
-\#' Below are the
+### Styling options
+
+Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
-determine the styling of this guide. This guide does not have option
-dependent on its role as axis or legend.
+determine the styling of this guide. In context to many primitive
+guides, whether it is used in an axis or legend has no bearing on the
+style.
 
-- `legendry.guide.spacing` A
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) setting the amount of
-  spacing when the `space` argument is `NULL`.
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `legendry.guide.spacing` | Any | [`unit()`](https://rdrr.io/r/grid/unit.html) | Fallback amount of spacing when the `space` argument is `NULL` |
+
+There are no other styling options. The context-agnostic alternative to
+using [`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is
+to use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    primitive_spacer(theme = theme_guide(
+      spacing = unit(5, "mm"),
+    ))
 
 ## See also
 

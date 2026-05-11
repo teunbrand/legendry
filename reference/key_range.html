@@ -81,11 +81,11 @@ end of runs (blocks of repeated data values).</p></li>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">key_range_auto</span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"[^[:alnum:]]+"</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">key_range_manual</span><span class="op">(</span><span class="va">start</span>, <span class="va">end</span>, name <span class="op">=</span> <span class="cn">NULL</span>, level <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">key_range_manual</span><span class="op">(</span><span class="va">start</span>, <span class="va">end</span>, name <span class="op">=</span> <span class="cn">NULL</span>, level <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, call <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">key_range_map</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, .call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">key_range_map</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, call <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">key_range_rle</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">key_range_rle</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, call <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -107,12 +107,18 @@ labels are treated as the inner labels.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p><code><a href="https://rlang.r-lib.org/reference/topic-data-mask.html" class="external-link">&lt;data-masking&gt;</a></code> A set of mappings
-similar to those provided to <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>, which will be
-evaluated in the <code>data</code> argument.
-For <code>key_range_map()</code>, these <em>must</em> contain <code>start</code> and <code>end</code> mappings.
-Can contain additional parameters for text styling, namely <code>colour</code>,
-<code>family</code>, <code>face</code>, <code>size</code>, <code>hjust</code>, <code>vjust</code>, <code>angle</code> and <code>lineheight</code>.</p></dd>
+<dd><p>The <code>...</code> parameter has two purposes.</p><ol><li><p>In <code>key_range_map()</code> it is <code><a href="https://rlang.r-lib.org/reference/topic-data-mask.html" class="external-link">&lt;data-masking&gt;</a></code>.
+A set of mappings similar to those provided to <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>,
+which will be evaluated in the <code>data</code> argument. These <em>must</em> contain
+<code>start</code> and <code>end</code> mappings.</p></li>
+<li><p>In other keys, <code>...</code> can be used to transfer graphical properties to the
+individual ranges of a guide. For example, using <code>colour = "blue"</code> will
+draw parts of the guides associated with ranges in blue. There is a shallow
+hierarchy in that <code>text_colour</code>, <code>line_colour</code>, <code>rect_colour</code> and
+<code>point_colour</code> are the specific properties for elements, but all inherit
+from the main <code>colour</code> setting. Likewise, <code>size</code>, <code>linewidth</code>, <code>linetype</code>
+and <code>fill</code> have specific variants for elements.</p></li>
+</ol></dd>
 
 
 <dt id="arg-start-end">start, end<a class="anchor" aria-label="anchor" href="#arg-start-end"></a></dt>
@@ -130,14 +136,14 @@ between different ranges. When <code>level</code> is smaller than 1, no brackets
 drawn.</p></dd>
 
 
+<dt id="arg-call">call<a class="anchor" aria-label="anchor" href="#arg-call"></a></dt>
+<dd><p>A <a href="https://rlang.r-lib.org/reference/topic-error-call.html" class="external-link">call</a> to display in messages.</p></dd>
+
+
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A <code>&lt;data.frame&gt;</code> or similar object coerced by
 <code><a href="https://ggplot2.tidyverse.org/reference/fortify.html" class="external-link">fortify()</a></code> to a <code>&lt;data.frame&gt;</code>, in which the <code>mapping</code>
 argument is evaluated.</p></dd>
-
-
-<dt id="arg--call">.call<a class="anchor" aria-label="anchor" href="#arg--call"></a></dt>
-<dd><p>A <a href="https://rlang.r-lib.org/reference/topic-error-call.html" class="external-link">call</a> to display in messages.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>

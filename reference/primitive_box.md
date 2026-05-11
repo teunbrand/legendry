@@ -91,30 +91,44 @@ primitive_box(
 
 A `<PrimitiveBox>` primitive guide that can be used inside other guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
 determine the styling of this guide, which may differ depending on
 whether the guide is used in an axis or in a legend context.
 
-Common to both types is the following:
+The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+`x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position
+suffixes in ggplot2 are *not* obeyed in legendry.
 
-- `legendry.box` an
-  [`<element_rect>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the boxes to draw.
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `legendry.box` | Both | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | The boxes themselves |
+| `axis.text.{position}`\\ | Axis | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The text in the boxes. |
+| `legend.text` | Legend | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The text in the boxes. |
 
-### As an axis guide
+Styling options *per level* can be set in the `levels_box` and
+`levels_text` arguments. These override theme settings.
 
-- `axis.text.{x/y}.{position}` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the text inside the boxes.
+Styling options *per range* can be set in the [range
+key](https://teunbrand.github.io/legendry/reference/key_range.md). The
+`rect` and `text` prefixed properties are prioritised for the boxes and
+text respectively. These override theme settings and 'per level'
+settings.
 
-### As a legend guide
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
 
-- `legend.text` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the text inside the boxes.
+    primitive_box(theme = theme_guide(
+      box = element_rect(),
+      text = element_text()
+    ))
 
 ## See also
 

@@ -41,6 +41,14 @@ gizmo_grob(
 
 A `<GizmoGrob>` object.
 
+## Details
+
+### Styling options
+
+There are no
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) styling
+options for `gizmo_grob()`.
+
 ## See also
 
 Other gizmos:

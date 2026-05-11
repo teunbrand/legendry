@@ -59,31 +59,41 @@ primitive_segments(
 A `<PrimitiveSegments>` primitive guide that can be used inside other
 guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
-determine the style of this guide, which may differ depending on whether
-the guide is used in an axis or in a legend context.
+determine the styling of this guide, which may differ depending on
+whether the guide is used in an axis or in a legend context.
 
-### As an axis guide
+The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+`x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position
+suffixes in ggplot2 are *not* obeyed in legendry.
 
-- `axis.ticks.{x/y}.{position}` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for display of the segments.
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `axis.ticks.{position}` | Axis | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | The line segments. |
+| `axis.ticks.length.{position}` | Axis | [`unit()`](https://rdrr.io/r/grid/unit.html) | Basis for the `space` argument |
+| `legend.ticks` | Legend | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | The line segments |
+| `legend.ticks.length` | Legend | [`unit()`](https://rdrr.io/r/grid/unit.html) | Basis for the `space` argument |
 
-- `axis.ticks.length.{x/y}.{position}` a
-  [`<unit>`](https://rdrr.io/r/grid/unit.html) for the base size of the
-  segments in the orthogonal direction.
+Styling options *per segment* can be set in the [segment
+key](https://teunbrand.github.io/legendry/reference/key_segments.md).
+The `line` prefixed properties are prioritised for segments. These
+override theme settings.
 
-### As a legend guide
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
 
-- `legend.ticks` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for display of the segments.
-
-- `legend.ticks.length` a [`<unit>`](https://rdrr.io/r/grid/unit.html)
-  for the base size of the segments in the orthogonal direction.
+    primitive_segments(theme = theme_guide(
+      ticks = element_line(),
+      ticks.length = unit(5, "mm")
+    ))
 
 ## See also
 

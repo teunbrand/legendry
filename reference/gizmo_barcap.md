@@ -97,6 +97,35 @@ gizmo_barcap(
 
 A `<GizmoBarcap>` object.
 
+## Details
+
+### Styling options
+
+Below are the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+determine the styling of this guide. Note that the width or height
+(depending on the `direction` argument) *includes* the cap.
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legend.frame` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Frame drawn around the bar and caps. The `fill` setting is ignored. |
+| `legend.key.width` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Width of the bar |
+| `legend.key.height` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Height of the bar |
+
+Please note that depending on the `direction` argument, the
+`legend.key.width`/`legend.key.height` setting are expanded 5-fold if
+originating from the global theme. To set these directly, you can use
+the local `theme` argument in the guide. These settings have shorthands
+in
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    gizmo_barcap(theme = theme_guide(
+      frame = element_rect(),
+      key.width = unit(5, "mm")
+      key.height = unit(5, "cm")
+    ))
+
 ## See also
 
 Other gizmos:

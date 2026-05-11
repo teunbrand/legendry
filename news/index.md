@@ -35,6 +35,10 @@
 - Changed the margins and inferred justification of the
   `legendry.axis.subtitle` and `legendry.legend.subtitle` theme
   elements.
+- Changed `...` argument in many `key_*()` functions to transfer
+  graphical properties like `colour` or `linewidth` to guides. Different
+  parts of guides can be targeted by specifying
+  `text_colour`/`line_colour`/`rect_colour`/`point_colour`.
 - Updated title mechanism to comply with ggplot2#6200
   ([\#104](https://github.com/teunbrand/legendry/issues/104))
 - [`key_group_split()`](https://teunbrand.github.io/legendry/reference/key_group.md)

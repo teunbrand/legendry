@@ -187,7 +187,39 @@ be build.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>As steps are rendered as clipped rectangles, it is important to use a
 graphics device that can render clipped paths. This can be checked by using
-<code><a href="https://ggplot2.tidyverse.org/reference/check_device.html" class="external-link">check_device("clippingPaths")</a></code>.</p>
+<code><a href="https://ggplot2.tidyverse.org/reference/check_device.html" class="external-link">check_device("clippingPaths")</a></code>.</p><div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>Because this guide is pure composite guide, the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a>
+options that govern the styling are determined by its constituents. They are
+linked below so you can find their 'Styling options' sections. Note that
+<code><a href="guide_axis_base.html">guide_axis_base()</a></code> is just a default that can be swapped out.</p><table class="table table"><tr><td><strong>Constituent</strong></td><td><strong>Description</strong></td></tr><tr><td><code><a href="compose_sandwich.html">compose_sandwich</a></code></td><td>Combines the bar with two side-guides.</td></tr><tr><td><code><a href="gizmo_stepcap.html">gizmo_stepcap()</a></code></td><td>Makes up the colour bar.</td></tr><tr><td><code><a href="guide_axis_base.html">guide_axis_base()</a></code></td><td>Makes up the tick marks and labels.</td></tr></table><p>Styling options <em>per break</em> can be set in the <a href="key_standard.html">standard key</a>.
+These override theme settings.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code>guide_colsteps(theme = theme_guide(
+  # Composition settings
+  title = element_text(),
+  title.position = "top",
+  text.position = "right",
+  margin = margin(5),
+  background = element_rect(),
+
+  # Steps settings
+  frame = element_rect(),
+  key.width = unit(5, "mm")
+  key.height = unit(5, "cm")
+
+  # Common options for `guide_axis_base()`
+  line = element_line(),
+  text = element_text(),
+  ticks = element_line(),
+  ticks.length = unit(5, "mm"),
+))
+</code></pre><p></p></div>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

@@ -70,10 +70,6 @@ compose_stack(
   attempt is made to extract the titles from the guides and use these as
   side titles.
 
-  The `side.titles` are styled using the `legendry.axis.subtitle` theme
-  setting. Their placement is controlled via the
-  `legendry.axis.subtitle.position` setting.
-
 - angle:
 
   A specification for the text angle. Compared to setting the `angle`
@@ -122,6 +118,34 @@ compose_stack(
 ## Value
 
 A `<ComposeStack>` guide object.
+
+## Details
+
+### Styling options
+
+Below are the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+determine the styling of this guide.
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legendry.axis.subtitle` | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | Display of the `side.titles` argument's labels. |
+| `legendry.axis.subtitle.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+| `legendry.guide.spacing` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Spacing between guides. |
+
+There are no further styling options.
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    compose_stack(theme = theme_guide(
+      subtitle = element_text(),
+      subtitle.position = "left",
+      guide.spacing = unit(5, "mm")
+    ))
 
 ## See also
 

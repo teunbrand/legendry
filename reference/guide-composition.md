@@ -59,6 +59,21 @@ new_compose(
 
 A `<Compose>` (sub-)class guide that composes other guides.
 
+## Details
+
+### Styling options
+
+Below are the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+determine the styling of this guide.
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legendry.guide.spacing` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Spacing between guides. |
+
+There are no further styling options.
+
 ## See also
 
 Other composition:

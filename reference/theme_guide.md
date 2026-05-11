@@ -1,9 +1,7 @@
 # Theme wrapper for guides
 
-This function has shorthand names for theme elements relating to guides.
-It is intended to be used as the `guide_*(theme)` argument. Because of
-this intent, and due to legends and axes having mutually exclusive theme
-elements, this function sets the elements for both simultaneously.
+This function does three things different than
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html).
 
 ## Usage
 
@@ -24,6 +22,7 @@ theme_guide(
   mini.ticks.length = NULL,
   spacing = NULL,
   group.spacing = NULL,
+  table.spacing = NULL,
   key = NULL,
   key.size = NULL,
   key.width = NULL,
@@ -32,6 +31,7 @@ theme_guide(
   key.spacing.x = NULL,
   key.spacing.y = NULL,
   key.margin = NULL,
+  key.justification = NULL,
   frame = NULL,
   byrow = NULL,
   background = NULL,
@@ -41,7 +41,11 @@ theme_guide(
   box = NULL,
   fence = NULL,
   fence.post = NULL,
-  fence.rail = NULL
+  fence.rail = NULL,
+  zebra.light = NULL,
+  zebra.dark = NULL,
+  point = NULL,
+  connector = NULL
 )
 ```
 
@@ -117,10 +121,11 @@ theme_guide(
   - `mini.ticks.length` sets both `legendry.axis.mini.ticks.length` and
     `legendry.legend.mini.ticks.length`.
 
-- spacing, group.spacing:
+- spacing, group.spacing, table.spacing:
 
-  A \[`<unit[1]>`\]\[grid::unit()\] setting both the
-  `legendry.guide.spacing` and `legendry.group.spacing` theme elements.
+  A \[`<unit[1]>`\]\[grid::unit()\] settingthe `legendry.guide.spacing`,
+  `legendry.group.spacing` and `legendry.table.spacing` theme elements
+  respectively.
 
 - key:
 
@@ -144,6 +149,10 @@ theme_guide(
 
   A [`<margin>`](https://ggplot2.tidyverse.org/reference/element.html)
   setting the margin around legend glyphs.
+
+- key.justification:
+
+  A \[`<numeric[2]>`\] passed to the `legend.key.justification` setting.
 
 - frame:
 
@@ -190,9 +199,46 @@ theme_guide(
   setting the `legendry.fence`, `legendry.fence.post` and
   `legendry.fence.rail` respectively.
 
+- zebra.light, zebra.dark:
+
+  An
+  [`<element_rect>`](https://ggplot2.tidyverse.org/reference/element.html)
+  setting the `legendry.zebra.light` and `legendry.zebra.dark` settings
+  respectively.
+
+- point:
+
+  An
+  [`<element_point>`](https://ggplot2.tidyverse.org/reference/element.html)
+  setting the `legendry.point` element.
+
+- connector:
+
+  An
+  [`<elemenet_line>`](https://ggplot2.tidyverse.org/reference/element.html)
+  setting the `legendry.connector` element.
+
 ## Value
 
 A `<theme>` object that can be provided to a guide.
+
+## Details
+
+1.  It has shorthand names for various guide settings, similar to
+    [`theme_sub_legend()`](https://ggplot2.tidyverse.org/reference/subtheme.html)
+    and
+    [`theme_sub_axis()`](https://ggplot2.tidyverse.org/reference/subtheme.html)
+
+2.  It simultaneously sets theme elements for axes and legends. This
+    makes it contextually agnostic. For example, setting
+    `theme_guide(text)` will populate `legend.text` and also
+    `axis.text`.
+
+3.  It includes legendry specific settings.
+
+The first two things make it very good for setting the `guide_*(theme)`
+arguments. The second thing makes it very bad for setting plot-wide or
+global themes.
 
 ## Examples
 

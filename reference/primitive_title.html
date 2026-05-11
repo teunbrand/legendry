@@ -100,22 +100,21 @@ guide overrides and is combined with the plot's theme.</p></dd>
 guides.</p>
     </div>
     <div class="section level2">
-    <h2 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h2>
-    <p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
-this guide, which may differ depending on whether the guide is used in
-an axis or in a legend context.</p><div class="section">
-<h3 id="as-an-axis-guide">As an axis guide<a class="anchor" aria-label="anchor" href="#as-an-axis-guide"></a></h3>
-
-<ul><li><p><code>axis.title.{x/y}.{position}</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_text&gt;</a></code>
-for the title display.</p></li>
-</ul></div>
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <div class="section">
-<h3 id="as-a-legend-guide">As a legend guide<a class="anchor" aria-label="anchor" href="#as-a-legend-guide"></a></h3>
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
 
-<ul><li><p><code>legend.title</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_text&gt;</a></code>
-for the title display.</p></li>
-</ul></div>
+
+<p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
+this guide, which may differ depending on whether the guide is used in
+an axis or in a legend context.</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Context</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>axis.title.{x/y}.{position}</code></td><td>Axis</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code></td><td>The title itself.</td></tr><tr><td><code>legend.title</code></td><td>Legend</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code></td><td>The title itself.</td></tr></table><p>There are no further styling options.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/primitive_title.html">primitive_title</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
 
     </div>
     <div class="section level2">

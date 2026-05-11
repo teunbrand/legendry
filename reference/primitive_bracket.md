@@ -102,33 +102,45 @@ primitive_bracket(
 A `<PrimitiveBracket>` primitive guide that can be used inside other
 guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
 determine the styling of this guide, which may differ depending on
-whether the guide is used in an axis or a legend context.
+whether the guide is used in an axis or in a legend context.
 
-Common to both types is the following:
+The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+`x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position
+suffixes in ggplot2 are *not* obeyed in legendry.
 
-- `legendry.bracket` an
-  [`<element_line>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the line used to draw the brackets.
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `legendry.bracket` | Both | [`element_line()`](https://ggplot2.tidyverse.org/reference/element.html) | The bracket lines themselves. |
+| `legendry.bracket.size` | Both | [`unit()`](https://rdrr.io/r/grid/unit.html) | The space (in the orthogonal direction) afforded to a bracket. |
+| `axis.text.{position}` | Axis | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The text over brackets. |
+| `legend.text` | Legend | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The text over brackets. |
 
-- `legendry.backet.size` a [`<unit>`](https://rdrr.io/r/grid/unit.html)
-  setting the space afforded to a bracket.
+Styling options *per level* can be set in the `levels_brackets` and
+`levels_text` arguments. These override theme settings.
 
-### As an axis guide
+Styling options *per range* can be set in the [range
+key](https://teunbrand.github.io/legendry/reference/key_range.md). The
+`line` and `text` prefixed properties are prioritised for the brackets
+and text respectively. These override theme settings and 'per level'
+settings.
 
-- `axis.text.{x/y}.{position}` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the text displayed over the brackets.
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
 
-### As a legend guide
-
-- `legend.text` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the text displayed over the brackets.
+    primitive_bracket(theme = theme_guide(
+      bracket = element_line(),
+      bracket.size = unit(5, "mm")
+    ))
 
 ## See also
 

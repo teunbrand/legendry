@@ -166,6 +166,26 @@ determined by a hashing indicative settings of a guide.</p></dd>
     <p>A <code>&lt;Guide&gt;</code> object.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+
+<div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>Because this guide is pure composite guide, the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a>
+options that govern the styling are determined by its constituents. They are
+linked below so you can find their 'Styling options' sections.</p><table class="table table"><tr><td><strong>Primitive</strong></td><td><strong>Description</strong></td></tr><tr><td><code><a href="compose_stack.html">compose_stack</a></code></td><td>Stacks the lines, tick marks and labels and dendrogram.</td></tr><tr><td><code><a href="primitive_segments.html">primitive_segments()</a></code></td><td>The dendrogram.</td></tr><tr><td><code><a href="primitive_line.html">primitive_line()</a></code></td><td>Makes up the axis line.</td></tr><tr><td><code><a href="primitive_ticks.html">primitive_ticks()</a></code></td><td>Makes up the tick marks.</td></tr><tr><td><code><a href="primitive_labels.html">primitive_labels()</a></code></td><td>Makes up the labels.</td></tr></table><p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/guide_axis_dendro.html">guide_axis_dendro</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>,</span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
+
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other standalone guides:
 <code><a href="guide_axis_base.html">guide_axis_base()</a></code>,

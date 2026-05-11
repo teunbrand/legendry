@@ -19,11 +19,11 @@ have different methods:
 ``` r
 key_range_auto(sep = "[^[:alnum:]]+", reverse = FALSE, ...)
 
-key_range_manual(start, end, name = NULL, level = NULL, ...)
+key_range_manual(start, end, name = NULL, level = NULL, ..., call = NULL)
 
-key_range_map(data, ..., .call = caller_env())
+key_range_map(data, ..., call = NULL)
 
-key_range_rle(x, ...)
+key_range_rle(x, ..., call = NULL)
 ```
 
 ## Arguments
@@ -45,13 +45,23 @@ key_range_rle(x, ...)
 
 - ...:
 
-  [`<data-masking>`](https://rlang.r-lib.org/reference/topic-data-mask.html)
-  A set of mappings similar to those provided to
-  [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html), which
-  will be evaluated in the `data` argument. For `key_range_map()`, these
-  *must* contain `start` and `end` mappings. Can contain additional
-  parameters for text styling, namely `colour`, `family`, `face`,
-  `size`, `hjust`, `vjust`, `angle` and `lineheight`.
+  The `...` parameter has two purposes.
+
+  1.  In `key_range_map()` it is
+      [`<data-masking>`](https://rlang.r-lib.org/reference/topic-data-mask.html).
+      A set of mappings similar to those provided to
+      [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html), which
+      will be evaluated in the `data` argument. These *must* contain
+      `start` and `end` mappings.
+
+  2.  In other keys, `...` can be used to transfer graphical properties
+      to the individual ranges of a guide. For example, using
+      `colour = "blue"` will draw parts of the guides associated with
+      ranges in blue. There is a shallow hierarchy in that
+      `text_colour`, `line_colour`, `rect_colour` and `point_colour` are
+      the specific properties for elements, but all inherit from the
+      main `colour` setting. Likewise, `size`, `linewidth`, `linetype`
+      and `fill` have specific variants for elements.
 
 - start, end:
 
@@ -68,16 +78,16 @@ key_range_rle(x, ...)
   between different ranges. When `level` is smaller than 1, no brackets
   are drawn.
 
+- call:
+
+  A [call](https://rlang.r-lib.org/reference/topic-error-call.html) to
+  display in messages.
+
 - data:
 
   A `<data.frame>` or similar object coerced by
   [`fortify()`](https://ggplot2.tidyverse.org/reference/fortify.html) to
   a `<data.frame>`, in which the `mapping` argument is evaluated.
-
-- .call:
-
-  A [call](https://rlang.r-lib.org/reference/topic-error-call.html) to
-  display in messages.
 
 - x:
 

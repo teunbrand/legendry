@@ -111,6 +111,38 @@ compose_crux(
 
 A `<ComposeCrux>` guide object.
 
+## Details
+
+### Styling options
+
+Below are the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+determine the styling of this guide.
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legend.title` | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The title of the legend. |
+| `legend.title.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+| `legend.text.position` | `<character[1]>` | One of `"top"`, `"right"`, `"bottom"` or `"left"`. |
+| `legend.margin` | [`margin()`](https://ggplot2.tidyverse.org/reference/element.html) | Padding around the legend. |
+| `legend.background` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Background of the legend. |
+
+There are no further styling options.
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    compose_crux(theme = theme_guide(
+      title = element_text(),
+      title.position = "top",
+      text.position = "right",
+      margin = margin(5),
+      background = element_rect()
+    ))
+
 ## See also
 
 Other composition:

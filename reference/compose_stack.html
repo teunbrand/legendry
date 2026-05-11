@@ -106,10 +106,7 @@ object or the name specified in <code><a href="https://ggplot2.tidyverse.org/ref
 <dd><p>A <code>&lt;character&gt;</code> giving labels for titles displayed on the
 side of the stack. Set to <code>NULL</code> to display no side titles. If <code><a href="https://ggplot2.tidyverse.org/reference/waiver.html" class="external-link">waiver()</a></code>,
 an attempt is made to extract the titles from the guides and use these
-as side titles.</p>
-<p>The <code>side.titles</code> are styled using the <code>legendry.axis.subtitle</code> theme
-setting. Their placement is controlled via the
-<code>legendry.axis.subtitle.position</code> setting.</p></dd>
+as side titles.</p></dd>
 
 
 <dt id="arg-angle">angle<a class="anchor" aria-label="anchor" href="#arg-angle"></a></dt>
@@ -155,6 +152,25 @@ the guides.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code>&lt;ComposeStack&gt;</code> guide object.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+
+<div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
+this guide.</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>legendry.axis.subtitle</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text()</a></code></td><td>Display of the <code>side.titles</code> argument's labels.</td></tr><tr><td><code>legendry.axis.subtitle.position</code></td><td><code>&lt;character[1]&gt;</code></td><td>One of <code>"top"</code>, <code>"right"</code>, <code>"bottom"</code> or <code>"left"</code>.</td></tr><tr><td><code>legendry.guide.spacing</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Spacing between guides.</td></tr></table><p>There are no further styling options.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/compose_stack.html">compose_stack</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  subtitle.position <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>  guide.spacing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

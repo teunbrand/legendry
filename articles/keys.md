@@ -136,12 +136,12 @@ print(key)
 #> {
 #>     aesthetic <- aesthetic %||% scale$aesthetics[1L]
 #>     df <- Guide$extract_key(scale, aesthetic)
-#>     df <- data_frame0(df, !!!extra_args(...))
+#>     df <- data_frame0(df, !!!extra_args(...), .error_call = call)
 #>     class(df) <- c("key_standard", "key_guide", class(df))
 #>     df
 #> }
-#> <bytecode: 0x561d163c6c60>
-#> <environment: 0x561d163c7cc8>
+#> <bytecode: 0x555ef28b2e30>
+#> <environment: 0x555ef28b5b18>
 ```
 
 We can preview what values they’d label by letting the key absorb a

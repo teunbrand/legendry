@@ -94,8 +94,10 @@ appearance of regular tick marks.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Appearance of ranges, either <code>"box"</code> to put text in boxes or
-<code>"bracket"</code> (default) to text brackets.</p></dd>
+<dd><p>Appearance of ranges. One of the following:</p><ul><li><p><code>"box"</code> to put text in boxes.</p></li>
+<li><p><code>"bracket"</code> (default) to text over brackets.</p></li>
+<li><p><code>"fence"</code> to put text near fences.</p></li>
+</ul></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
@@ -194,16 +196,45 @@ determined by a hashing indicative settings of a guide.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Under the hood, this guide is a <a href="compose_stack.html">stack composition</a> of a
-<a href="primitive_line.html">line</a>, <a href="primitive_ticks.html">ticks</a>, optionally
-<a href="primitive_labels.html">labels</a> and either <a href="primitive_bracket.html">bracket</a>,
-<a href="primitive_box.html">box</a> or <a href="primitive_fence.html">fence</a> primitives.</p>
-<p>By default, the <code><a href="key_range.html">key = "range_auto"</a></code> will incorporate the 0th
-level labels inferred from the scale's labels. These labels will look like
-regular labels.</p>
-<p>To offer other keys the opportunity to display ranges alongside
+    <p>To offer other keys the opportunity to display ranges alongside
 regular-looking labels, the <code>regular_key</code> argument can be used to setup a
 separate key for display in between the ticks and ranges.</p>
+<p>By default, the <code><a href="key_range.html">key = "range_auto"</a></code> will incorporate the 0th
+level labels inferred from the scale's labels. These labels will look like
+regular labels.</p><div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>Because this guide is pure composite guide, the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a>
+options that govern the styling are determined by its constituents. They are
+linked below so you can find their 'Styling options' sections.</p><table class="table table"><tr><td><strong>Primitive</strong></td><td><strong>Context</strong></td><td><strong>Description</strong></td></tr><tr><td><code><a href="compose_stack.html">compose_stack</a></code></td><td>Always</td><td>Stacks the other primitives.</td></tr><tr><td><code><a href="primitive_line.html">primitive_line()</a></code></td><td>Always</td><td>Makes up the axis line.</td></tr><tr><td><code><a href="primitive_ticks.html">primitive_ticks()</a></code></td><td>Always</td><td>Makes up the tick marks.</td></tr><tr><td><code><a href="primitive_bracket.html">primitive_bracket()</a></code></td><td><code>type = "bracket"</code></td><td>Range display as brackets.</td></tr><tr><td><code><a href="primitive_box.html">primitive_box()</a></code></td><td><code>type = "box"</code></td><td>Range display as boxes.</td></tr><tr><td><code><a href="primitive_fence.html">primitive_fence()</a></code></td><td><code>type = "fence"</code></td><td>Range display as fences.</td></tr><tr><td><code><a href="primitive_title.html">primitive_title()</a></code></td><td><code>subtitle = &lt;...&gt;</code></td><td>Used for displaying subtitles.</td></tr><tr><td><code><a href="primitive_labels.html">primitive_labels()</a></code></td><td><code>key != "range_auto"</code></td><td>Used for displaying range-less, 0th level labels</td></tr></table><p>Styling options <em>per range</em> can be set in the <a href="key_range.html">range key</a>.
+These override theme settings.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/guide_axis_nested.html">guide_axis_nested</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  <span class="co"># Common options</span></span>
+<span>  line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>,</span>
+<span></span>
+<span>  <span class="co"># For brackets</span></span>
+<span>  bracket <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  bracket.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>,</span>
+<span></span>
+<span>  <span class="co"># For boxes</span></span>
+<span>  box <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span></span>
+<span>  <span class="co"># For fences</span></span>
+<span>  fence <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fence.post <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fence.rail <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span></span>
+<span>  <span class="co"># For subtitle (not main title)</span></span>
+<span>  title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

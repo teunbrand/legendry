@@ -102,26 +102,27 @@ guide overrides and is combined with the plot's theme.</p></dd>
 guides.</p>
     </div>
     <div class="section level2">
-    <h2 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h2>
-    <p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the style of
-this guide, which may differ depending on whether the guide is used in an
-axis or in a legend context.</p><div class="section">
-<h3 id="as-an-axis-guide">As an axis guide<a class="anchor" aria-label="anchor" href="#as-an-axis-guide"></a></h3>
-
-<ul><li><p><code>axis.ticks.{x/y}.{position}</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_line&gt;</a></code>
-for display of the segments.</p></li>
-<li><p><code>axis.ticks.length.{x/y}.{position}</code> a <code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">&lt;unit&gt;</a></code> for the
-base size of the segments in the orthogonal direction.</p></li>
-</ul></div>
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <div class="section">
-<h3 id="as-a-legend-guide">As a legend guide<a class="anchor" aria-label="anchor" href="#as-a-legend-guide"></a></h3>
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
 
-<ul><li><p><code>legend.ticks</code> an <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">&lt;element_line&gt;</a></code> for display
-of the segments.</p></li>
-<li><p><code>legend.ticks.length</code> a <code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">&lt;unit&gt;</a></code> for the
-base size of the segments in the orthogonal direction.</p></li>
-</ul></div>
+
+<p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
+this guide, which may differ depending on whether the guide is used in
+an axis or in a legend context.</p>
+<p>The possible <code>{position}</code> suffixes mentioned below are <code>x</code>, <code>x.top</code>,
+<code>x.bottom</code>, <code>y</code>, <code>y.left</code>, <code>y.right</code>. The <code>theta</code> and <code>r</code> position suffixes
+in <span class="pkg">ggplot2</span> are <em>not</em> obeyed in <span class="pkg">legendry</span>.</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Context</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>axis.ticks.{position}</code></td><td>Axis</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line()</a></code></td><td>The line segments.</td></tr><tr><td><code>axis.ticks.length.{position}</code></td><td>Axis</td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Basis for the <code>space</code> argument</td></tr><tr><td><code>legend.ticks</code></td><td>Legend</td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line()</a></code></td><td>The line segments</td></tr><tr><td><code>legend.ticks.length</code></td><td>Legend</td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Basis for the <code>space</code> argument</td></tr></table><p>Styling options <em>per segment</em> can be set in the <a href="key_segments.html">segment key</a>.
+The <code>line</code> prefixed properties are prioritised for segments. These override
+theme settings.</p>
+<p>The context-agnostic alternative to using <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme()</a></code> is to use
+<code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/primitive_segments.html">primitive_segments</a></span><span class="op">(</span>theme <span class="op">=</span> <span class="fu"><a href="../reference/theme_guide.html">theme_guide</a></span><span class="op">(</span></span>
+<span>  ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ticks.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
+</div>
 
     </div>
     <div class="section level2">

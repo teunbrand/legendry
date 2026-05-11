@@ -131,6 +131,36 @@ guide_axis_dendro(
 
 A `<Guide>` object.
 
+## Details
+
+### Styling options
+
+Because this guide is pure composite guide, the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+govern the styling are determined by its constituents. They are linked
+below so you can find their 'Styling options' sections.
+
+|  |  |
+|----|----|
+| **Primitive** | **Description** |
+| [`compose_stack`](https://teunbrand.github.io/legendry/reference/compose_stack.md) | Stacks the lines, tick marks and labels and dendrogram. |
+| [`primitive_segments()`](https://teunbrand.github.io/legendry/reference/primitive_segments.md) | The dendrogram. |
+| [`primitive_line()`](https://teunbrand.github.io/legendry/reference/primitive_line.md) | Makes up the axis line. |
+| [`primitive_ticks()`](https://teunbrand.github.io/legendry/reference/primitive_ticks.md) | Makes up the tick marks. |
+| [`primitive_labels()`](https://teunbrand.github.io/legendry/reference/primitive_labels.md) | Makes up the labels. |
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    guide_axis_dendro(theme = theme_guide(
+      line = element_line(),
+      text = element_text(),
+      ticks = element_line(),
+      ticks.length = unit(5, "mm"),
+    ))
+
 ## See also
 
 Other standalone guides:

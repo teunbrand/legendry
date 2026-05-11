@@ -50,8 +50,13 @@ guide_axis_nested(
 
 - type:
 
-  Appearance of ranges, either `"box"` to put text in boxes or
-  `"bracket"` (default) to text brackets.
+  Appearance of ranges. One of the following:
+
+  - `"box"` to put text in boxes.
+
+  - `"bracket"` (default) to text over brackets.
+
+  - `"fence"` to put text near fences.
 
 - title:
 
@@ -172,28 +177,65 @@ A `<Guide>` object.
 
 ## Details
 
-Under the hood, this guide is a [stack
-composition](https://teunbrand.github.io/legendry/reference/compose_stack.md)
-of a
-[line](https://teunbrand.github.io/legendry/reference/primitive_line.md),
-[ticks](https://teunbrand.github.io/legendry/reference/primitive_ticks.md),
-optionally
-[labels](https://teunbrand.github.io/legendry/reference/primitive_labels.md)
-and either
-[bracket](https://teunbrand.github.io/legendry/reference/primitive_bracket.md),
-[box](https://teunbrand.github.io/legendry/reference/primitive_box.md)
-or
-[fence](https://teunbrand.github.io/legendry/reference/primitive_fence.md)
-primitives.
+To offer other keys the opportunity to display ranges alongside
+regular-looking labels, the `regular_key` argument can be used to setup
+a separate key for display in between the ticks and ranges.
 
 By default, the
 [`key = "range_auto"`](https://teunbrand.github.io/legendry/reference/key_range.md)
 will incorporate the 0th level labels inferred from the scale's labels.
 These labels will look like regular labels.
 
-To offer other keys the opportunity to display ranges alongside
-regular-looking labels, the `regular_key` argument can be used to setup
-a separate key for display in between the ticks and ranges.
+### Styling options
+
+Because this guide is pure composite guide, the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+govern the styling are determined by its constituents. They are linked
+below so you can find their 'Styling options' sections.
+
+|  |  |  |
+|----|----|----|
+| **Primitive** | **Context** | **Description** |
+| [`compose_stack`](https://teunbrand.github.io/legendry/reference/compose_stack.md) | Always | Stacks the other primitives. |
+| [`primitive_line()`](https://teunbrand.github.io/legendry/reference/primitive_line.md) | Always | Makes up the axis line. |
+| [`primitive_ticks()`](https://teunbrand.github.io/legendry/reference/primitive_ticks.md) | Always | Makes up the tick marks. |
+| [`primitive_bracket()`](https://teunbrand.github.io/legendry/reference/primitive_bracket.md) | `type = "bracket"` | Range display as brackets. |
+| [`primitive_box()`](https://teunbrand.github.io/legendry/reference/primitive_box.md) | `type = "box"` | Range display as boxes. |
+| [`primitive_fence()`](https://teunbrand.github.io/legendry/reference/primitive_fence.md) | `type = "fence"` | Range display as fences. |
+| [`primitive_title()`](https://teunbrand.github.io/legendry/reference/primitive_title.md) | `subtitle = <...>` | Used for displaying subtitles. |
+| [`primitive_labels()`](https://teunbrand.github.io/legendry/reference/primitive_labels.md) | `key != "range_auto"` | Used for displaying range-less, 0th level labels |
+
+Styling options *per range* can be set in the [range
+key](https://teunbrand.github.io/legendry/reference/key_range.md). These
+override theme settings.
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    guide_axis_nested(theme = theme_guide(
+      # Common options
+      line = element_line(),
+      text = element_text(),
+      ticks = element_line(),
+      ticks.length = unit(5, "mm"),
+
+      # For brackets
+      bracket = element_line(),
+      bracket.size = unit(5, "mm"),
+
+      # For boxes
+      box = element_rect(),
+
+      # For fences
+      fence = element_line(),
+      fence.post = element_line(),
+      fence.rail = element_line(),
+
+      # For subtitle (not main title)
+      title = element_text()
+    ))
 
 ## See also
 

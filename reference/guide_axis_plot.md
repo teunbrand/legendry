@@ -95,6 +95,13 @@ This guide is subject to the following limitations:
   manually tweak the `theme(plot.margin)` setting of the main plot to
   accommodate these components.
 
+### Styling options
+
+This guide has no style options in
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) on
+itself. However, the `plot` herein is subject to styling as described
+under the `theme` argument.
+
 ## See also
 
 Other standalone guides:

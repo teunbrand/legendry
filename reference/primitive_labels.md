@@ -68,24 +68,38 @@ primitive_labels(
 A `<PrimitiveLabels>` primitive guide that can be used inside other
 guides.
 
-## Styling options
+## Details
+
+### Styling options
 
 Below are the
 [theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
 determine the styling of this guide, which may differ depending on
 whether the guide is used in an axis or in a legend context.
 
-### As an axis guide
+The possible `{position}` suffixes mentioned below are `x`, `x.top`,
+`x.bottom`, `y`, `y.left`, `y.right`. The `theta` and `r` position
+suffixes in ggplot2 are *not* obeyed in legendry.
 
-- `axis.text.{x/y}.{position}` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the display of the labels.
+|  |  |  |  |
+|----|----|----|----|
+| **Theme setting** | **Context** | **Type** | **Description** |
+| `axis.text.{position}` | Axis | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The text labels. |
+| `legend.text` | Legend | [`element_text()`](https://ggplot2.tidyverse.org/reference/element.html) | The text labels. |
 
-### As a legend guide.
+Styling options *per break* can be set in the [standard
+key](https://teunbrand.github.io/legendry/reference/key_standard.md).
+The `text` prefixed properties are prioritised. These override theme
+settings.
 
-- `legend.text` an
-  [`<element_text>`](https://ggplot2.tidyverse.org/reference/element.html)
-  for the display of the labels.
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    primitive_labels(theme = theme_guide(
+      text = element_line()
+    ))
 
 ## See also
 

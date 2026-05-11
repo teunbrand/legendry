@@ -152,7 +152,25 @@ guide overrides and is combined with the plot's theme.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Non-finite values such as <code>NA</code> and <code>NaN</code> are ignored while infinite values
-such as <code>-Inf</code> and <code>Inf</code> are <a href="https://scales.r-lib.org/reference/oob.html" class="external-link">squished</a> to the limits.</p>
+such as <code>-Inf</code> and <code>Inf</code> are <a href="https://scales.r-lib.org/reference/oob.html" class="external-link">squished</a> to the limits.</p><div class="section">
+<h3 id="styling-options">Styling options<a class="anchor" aria-label="anchor" href="#styling-options"></a></h3>
+
+
+<p>Below are the <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a> options that determine the styling of
+this guide.</p><table class="table table"><tr><td><strong>Theme setting</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr><tr><td><code>legend.frame</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect()</a></code></td><td>Outline drawn around the histogram itself. The <code>fill</code> setting is ignored.</td></tr><tr><td><code>legend.key</code></td><td><code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect()</a></code></td><td>Background underneath the histogram area.</td></tr><tr><td><code>legend.key.width</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Width of the histogram area.</td></tr><tr><td><code>legend.key.height</code></td><td><code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit()</a></code></td><td>Height of the histogram area.</td></tr></table><p>Please note that depending on the <code>direction</code> argument, the
+<code>legend.key.width</code>/<code>legend.key.height</code> setting are expanded 5-fold if
+originating from the global theme. To set these directly, you can use the
+local <code>theme</code> argument in the guide.
+These settings have shorthands in <code><a href="theme_guide.html">theme_guide()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code>gizmo_histogram(theme = theme_guide(
+  frame = element_rect(),
+  key = element_rect(),
+  key.width = unit(5, "mm")
+  key.height = unit(5, "cm")
+))
+</code></pre><p></p></div>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

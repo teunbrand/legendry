@@ -105,6 +105,34 @@ Non-finite values such as `NA` and `NaN` are ignored while infinite
 values such as `-Inf` and `Inf` are
 [squished](https://scales.r-lib.org/reference/oob.html) to the limits.
 
+### Styling options
+
+Below are the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+determine the styling of this guide.
+
+|  |  |  |
+|----|----|----|
+| **Theme setting** | **Type** | **Description** |
+| `legend.frame` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Outline drawn around the density itself. The `fill` setting is ignored. |
+| `legend.key` | [`element_rect()`](https://ggplot2.tidyverse.org/reference/element.html) | Background underneath the density area. |
+| `legend.key.width` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Width of the density area. |
+| `legend.key.height` | [`unit()`](https://rdrr.io/r/grid/unit.html) | Height of the density area. |
+
+Please note that depending on the `direction` argument, the
+`legend.key.width`/`legend.key.height` setting are expanded 5-fold if
+originating from the global theme. To set these directly, you can use
+the local `theme` argument in the guide. These settings have shorthands
+in
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    gizmo_density(theme = theme_guide(
+      frame = element_rect(),
+      key = element_rect(),
+      key.width = unit(5, "mm")
+      key.height = unit(5, "cm")
+    ))
+
 ## See also
 
 Other gizmos:

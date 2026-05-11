@@ -152,6 +152,44 @@ or
 
 To use this as a logarithmic axis, set `key = "log"`.
 
+### Styling options
+
+Because this guide is pure composite guide, the
+[theme](https://ggplot2.tidyverse.org/reference/theme.html) options that
+govern the styling are determined by its constituents. They are linked
+below so you can find their 'Styling options' sections.
+
+|  |  |
+|----|----|
+| **Primitive** | **Description** |
+| [`compose_stack`](https://teunbrand.github.io/legendry/reference/compose_stack.md) | Stacks the lines, tick marks and labels. |
+| [`primitive_line()`](https://teunbrand.github.io/legendry/reference/primitive_line.md) | Makes up the axis line. |
+| [`primitive_ticks()`](https://teunbrand.github.io/legendry/reference/primitive_ticks.md) | Makes up the tick marks. |
+| [`primitive_labels()`](https://teunbrand.github.io/legendry/reference/primitive_labels.md) | Makes up the labels. |
+
+Styling options *per break* can be set in the [standard
+key](https://teunbrand.github.io/legendry/reference/key_standard.md).
+These override theme settings.
+
+The context-agnostic alternative to using
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) is to
+use
+[`theme_guide()`](https://teunbrand.github.io/legendry/reference/theme_guide.md):
+
+    guide_axis_base(theme = theme_guide(
+      # Common options
+      line = element_line(),
+      text = element_text(),
+      ticks = element_line(),
+      ticks.length = unit(5, "mm"),
+
+      # Niche options below
+      minor.ticks = element_line(),
+      minor.ticks.length = unit(5, "mm"),
+      mini.ticks = element_line(),
+      mini.ticks.length = unit(5, "mm"),
+    ))
+
 ## See also
 
 Other standalone guides:
