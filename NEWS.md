@@ -6,6 +6,8 @@
   Also comes with `key_upset()` to match (#38).
 * New guide `guide_axis_symbols()` for a more manual version of placing symbols. 
   Also comes with `key_symbols()` to match (#38).
+* New guide `guide_axis_annotation()` to jot down annotations. Includes the
+  helpers `annotate_top/right/bottom/left()` for convenience (#89).
 * New key `key_range_rle()` to create a range annotation based on run-length 
   encoding.
 * New arguments `guide_axis_base(subtitle)` and `guide_axis_nested(subtitle)` 
