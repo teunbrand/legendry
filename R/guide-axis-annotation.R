@@ -2,17 +2,19 @@
 
 guide_axis_annotation <- function(
   aesthetic,
-  label = as.character(value),
-  value = aesthetic,
+  label = as.character(aesthetic),
   ...,
+  key   = NULL,
   arrow = NULL,
   inner = waiver(),
   title = waiver(),
   theme = NULL,
   order = 0L,
-  position = waiver()
+  position = waiver(),
+  call = NULL
 ) {
-  key <- key_manual(aesthetic, value, label, ...)
+  call <- call %||% current_call()
+  key <- key %||% key_manual(aesthetic, label = label, ..., call = call)
 
   if (!is.null(arrow)) {
     arrow <- theme_guide(ticks = element_line(arrow = arrow))
@@ -35,10 +37,40 @@ guide_axis_annotation <- function(
   new_compose(
     guides,
     key = "auto",
-    title = title, theme = theme, order = order,
+    title = title,
+    theme = theme,
+    order = order,
     available_aes = c("any", "x", "y", "r", "theta"),
-    position = position, super = GuideAxisAnnotation
+    position = position,
+    super = GuideAxisAnnotation,
+    call = call
   )
+}
+
+
+
+annotate_top <- function(..., position = "top") {
+  guides(x.sec = guide_axis_annotation(
+    ..., position = position, call = current_call()
+  ))
+}
+
+annotate_right <- function(..., position = "right") {
+  guides(y.sec = guide_axis_annotation(
+    ..., position = position, call = current_call()
+  ))
+}
+
+annotate_bottom <- function(..., position = "bottom") {
+  guides(x = guide_axis_annotation(
+    ..., position = position, call = current_call()
+  ))
+}
+
+annotate_left <- function(..., position = "left") {
+  guides(y = guide_axis_annotation(
+    ..., position = left, call = current_call()
+  ))
 }
 
 # Class -------------------------------------------------------------------
@@ -79,6 +111,7 @@ build_annotate <- function(params, theme, position, direction) {
     inner_grob <- zeroGrob()
   } else {
     inner_params <- params$guide_params$inner
+    inner_params$draw_label <- params$draw_label
     inner_params$stack_offset <- stack_offset
     inner_grob <- inner_guide$draw(
       theme = theme, position = position, direction = direction,
