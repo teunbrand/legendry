@@ -39,11 +39,17 @@
   graphical properties like `colour` or `linewidth` to guides. Different
   parts of guides can be targeted by specifying
   `text_colour`/`line_colour`/`rect_colour`/`point_colour`.
+- Changed
+  [`key_group_split()`](https://teunbrand.github.io/legendry/reference/key_group.md)
+  to preserve order of labels better, rather than re-sorting them
+  ([\#100](https://github.com/teunbrand/legendry/issues/100)).
 - Updated title mechanism to comply with ggplot2#6200
   ([\#104](https://github.com/teunbrand/legendry/issues/104))
-- [`key_group_split()`](https://teunbrand.github.io/legendry/reference/key_group.md)
-  tries to preserve order of labels better, rather than re-sorting them
-  ([\#100](https://github.com/teunbrand/legendry/issues/100))
+- Updated lifecycle of
+  [`new_compose()`](https://teunbrand.github.io/legendry/reference/guide-composition.md),
+  [`compose_ontop()`](https://teunbrand.github.io/legendry/reference/compose_ontop.md),
+  [`compose_stack()`](https://teunbrand.github.io/legendry/reference/compose_stack.md)
+  from ‘experimental’ to ‘stable’.
 - Fixed a bug where empty titles in legends contributed to spacing.
   Visual tests depending on legendry may see subtle positioning shifts
   ([\#113](https://github.com/teunbrand/legendry/issues/113)).

@@ -1,7 +1,5 @@
 # Compose guides as stack
 
-**\[experimental\]**
-
 This guide can stack other guides.
 
 ## Usage

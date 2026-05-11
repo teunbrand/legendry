@@ -80,15 +80,15 @@ These are not guides, but ways to combine guides, primitives and gizmos
 together to become a more complete guide.
 
 - [`new_compose()`](https://teunbrand.github.io/legendry/reference/guide-composition.md)
-  **\[experimental\]** : Guide composition
+  : Guide composition
 - [`compose_crux()`](https://teunbrand.github.io/legendry/reference/compose_crux.md)
   **\[experimental\]** : Compose guides in a cross
 - [`compose_ontop()`](https://teunbrand.github.io/legendry/reference/compose_ontop.md)
-  **\[experimental\]** : Compose guides on top of one another
+  : Compose guides on top of one another
 - [`compose_sandwich()`](https://teunbrand.github.io/legendry/reference/compose_sandwich.md)
   **\[experimental\]** : Compose guides as a sandwich
 - [`compose_stack()`](https://teunbrand.github.io/legendry/reference/compose_stack.md)
-  **\[experimental\]** : Compose guides as stack
+  : Compose guides as stack
 
 ## Keys
 

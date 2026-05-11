@@ -1,7 +1,5 @@
 # Compose guides on top of one another
 
-**\[experimental\]**
-
 This guide can place other guides on top of one another.
 
 ## Usage
