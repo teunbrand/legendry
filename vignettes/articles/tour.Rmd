@@ -76,6 +76,20 @@ standard + aes(colour = cty) +
 
 In summary, `guide_axis_base()` is a flexible guide that can be used in any and all position aesthetic, and can (but should not) be used for other continuous aesthetics.
 
+### Annotation
+
+The `guide_axis_base()` is also hidden in all sorts of other guides guides.
+One example is in `guide_axis_annotation()`, which uses the base axis as an 'inner' guide and adds the annotation on top.
+At least, when it is in a primary position, and not secondary, that is.
+A quick way to set these for Cartesian coordinates is with the `annotate_*()` family of  functions.
+
+```{r}
+standard +
+  annotate_bottom(2.5, "Beneath `guide_axis_base()`") +
+  annotate_right(25)
+```
+
+
 ### Nested axes
 
 Currently, there is exactly 1 'novelty' axis and that is `guide_axis_nested()`.
