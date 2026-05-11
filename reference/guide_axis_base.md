@@ -193,6 +193,7 @@ use
 ## See also
 
 Other standalone guides:
+[`guide_axis_annotation()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md),
 [`guide_axis_dendro()`](https://teunbrand.github.io/legendry/reference/guide_axis_dendro.md),
 [`guide_axis_nested()`](https://teunbrand.github.io/legendry/reference/guide_axis_nested.md),
 [`guide_axis_plot()`](https://teunbrand.github.io/legendry/reference/guide_axis_plot.md),

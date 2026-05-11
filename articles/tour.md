@@ -96,6 +96,26 @@ In summary,
 is a flexible guide that can be used in any and all position aesthetic,
 and can (but should not) be used for other continuous aesthetics.
 
+### Annotation
+
+The
+[`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md)
+is also hidden in all sorts of other guides guides. One example is in
+[`guide_axis_annotation()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md),
+which uses the base axis as an ‘inner’ guide and adds the annotation on
+top. At least, when it is in a primary position, and not secondary, that
+is. A quick way to set these for Cartesian coordinates is with the
+`annotate_*()` family of functions.
+
+``` r
+
+standard +
+  annotate_bottom(2.5, "Beneath `guide_axis_base()`") +
+  annotate_right(25)
+```
+
+![](tour_files/figure-html/unnamed-chunk-6-1.png)
+
 ### Nested axes
 
 Currently, there is exactly 1 ‘novelty’ axis and that is
@@ -125,7 +145,7 @@ plain <- ggplot(df, aes(interaction(item, type), amount)) +
 plain + guides(x = "axis_nested")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-6-1.png)
+![](tour_files/figure-html/unnamed-chunk-7-1.png)
 
 We can also nest the vertical axis if the x/y aesthetics are swapped.
 
@@ -135,7 +155,7 @@ ggplot(df, aes(amount, interaction(item, type))) +
   geom_col() + guides(y = "axis_nested")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-7-1.png)
+![](tour_files/figure-html/unnamed-chunk-8-1.png)
 
 Instead of just relying on formatting the labels correctly for
 splitting, you can also manually annotate the outer categories. To do
@@ -163,7 +183,7 @@ ggplot(df, aes(item, amount)) +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-8-1.png)
+![](tour_files/figure-html/unnamed-chunk-9-1.png)
 
 #### Brackets
 
@@ -182,7 +202,7 @@ plain + guides(x = guide_axis_nested(bracket = "curvy")) +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-9-1.png)
+![](tour_files/figure-html/unnamed-chunk-10-1.png)
 
 The brackets can be provided as a string naming a bracket function, like
 `"curvy"` that invokes
@@ -212,7 +232,7 @@ ggplot(brackets, aes(x, y)) +
   coord_equal()
 ```
 
-![](tour_files/figure-html/unnamed-chunk-10-1.png)
+![](tour_files/figure-html/unnamed-chunk-11-1.png)
 
 Quite possibly, there might be bracket shapes you want to use, but
 aren’t built into legendry. Luckily, we can build custom brackets, using
@@ -236,7 +256,7 @@ zigzag <- cbind(
 plain + guides(x = guide_axis_nested(bracket = zigzag))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-11-1.png)
+![](tour_files/figure-html/unnamed-chunk-12-1.png)
 
 #### Boxes
 
@@ -248,7 +268,7 @@ boxes instead.
 plain + guides(x = guide_axis_nested(type = "box"))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-12-1.png)
+![](tour_files/figure-html/unnamed-chunk-13-1.png)
 
 #### Customising
 
@@ -270,7 +290,7 @@ eco <- ggplot(economics, aes(date, unemploy)) +
 eco + guides(x = guide_axis_nested(key = presidents))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-13-1.png)
+![](tour_files/figure-html/unnamed-chunk-14-1.png)
 
 To customise the different depths of the bracketed text, you can give a
 list of text elements to the `levels_text` argument.
@@ -289,7 +309,7 @@ eco + guides(x = guide_axis_nested(
 ))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-14-1.png)
+![](tour_files/figure-html/unnamed-chunk-15-1.png)
 
 Alternatively, you can tailor many of the usual text formatting options
 by encoding these in the key.
@@ -306,7 +326,7 @@ presidents <- key_range_map(
 eco + guides(x = guide_axis_nested(key = presidents))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-15-1.png)
+![](tour_files/figure-html/unnamed-chunk-16-1.png)
 
 ### Dendrograms
 
@@ -323,7 +343,7 @@ clust <- hclust(dist(scale(mtcars)), method = "ave")
 plot(clust)
 ```
 
-![](tour_files/figure-html/unnamed-chunk-16-1.png)
+![](tour_files/figure-html/unnamed-chunk-17-1.png)
 
 Other packages have many more options to display dendrograms, notably
 [ggdendro](https://andrie.github.io/ggdendro/) or
@@ -343,7 +363,7 @@ ggplot(mtcars, aes(mpg, rownames(mtcars))) +
   scale_y_dendro(clust)
 ```
 
-![](tour_files/figure-html/unnamed-chunk-17-1.png)
+![](tour_files/figure-html/unnamed-chunk-18-1.png)
 
 The
 [`guide_axis_dendro()`](https://teunbrand.github.io/legendry/reference/guide_axis_dendro.md)
@@ -372,7 +392,7 @@ ggplot(mtcars, aes(mpg, rownames(mtcars))) +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-18-1.png)
+![](tour_files/figure-html/unnamed-chunk-19-1.png)
 
 ### Upset axes
 
@@ -415,7 +435,7 @@ ggplot(df, aes(drug, value)) +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-19-1.png)
+![](tour_files/figure-html/unnamed-chunk-20-1.png)
 
 The ‘magic’ of
 [`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
@@ -448,7 +468,7 @@ ggplot(df, aes(drug, value)) +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-20-1.png)
+![](tour_files/figure-html/unnamed-chunk-21-1.png)
 
 The
 [`guide_axis_upset()`](https://teunbrand.github.io/legendry/reference/guide_axis_symbols.md)
@@ -484,7 +504,7 @@ ggplot(mpg, aes(fl, displ)) +
   ))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-21-1.png)
+![](tour_files/figure-html/unnamed-chunk-22-1.png)
 
 ## Colours
 
@@ -521,7 +541,7 @@ standard +
   labs(title = "Custom colour steps")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-22-1.png)![](tour_files/figure-html/unnamed-chunk-22-2.png)
+![](tour_files/figure-html/unnamed-chunk-23-1.png)![](tour_files/figure-html/unnamed-chunk-23-2.png)
 
 Please note that the following paragraphs apply equally to
 [`guide_colsteps()`](https://teunbrand.github.io/legendry/reference/guide_colsteps.md),
@@ -549,7 +569,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-23-1.png)
+![](tour_files/figure-html/unnamed-chunk-24-1.png)
 
 You can change the out-of-bounds strategy, the `oob` argument of the
 scale, to have the caps reflect the colour that out-of-bounds data has
@@ -564,7 +584,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-24-1.png)
+![](tour_files/figure-html/unnamed-chunk-25-1.png)
 
 You can also force the caps to appear, even when there are no
 out-of-bounds data, or force the cap colour to be consistent with the
@@ -581,7 +601,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-25-1.png)
+![](tour_files/figure-html/unnamed-chunk-26-1.png)
 
 The shape of the cap needn’t be a triangle. You can set the shape to any
 of the built-in cap shapes.
@@ -597,7 +617,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-26-1.png)
+![](tour_files/figure-html/unnamed-chunk-27-1.png)
 
 The caps can be provided as a string naming a cap function, like
 `"arch"` that invokes
@@ -626,7 +646,7 @@ ggplot(caps, aes(x, y)) +
   coord_equal()
 ```
 
-![](tour_files/figure-html/unnamed-chunk-27-1.png)
+![](tour_files/figure-html/unnamed-chunk-28-1.png)
 
 It is most certainly possible to use shapes of your own imagination as
 well. To provide your own shape, use a numeric matrix that:
@@ -657,7 +677,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-28-1.png)
+![](tour_files/figure-html/unnamed-chunk-29-1.png)
 
 #### Side-guides
 
@@ -674,7 +694,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-29-1.png)
+![](tour_files/figure-html/unnamed-chunk-30-1.png)
 
 This trick allows you to tailor the colour bar to your liking on
 separate sides. You can use this to invoke any of the tricks described
@@ -702,7 +722,7 @@ standard +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-30-1.png)
+![](tour_files/figure-html/unnamed-chunk-31-1.png)
 
 ### Rings
 
@@ -735,7 +755,7 @@ housing +
   scale_colour_viridis_c(limits = c(0, 12))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-31-1.png)
+![](tour_files/figure-html/unnamed-chunk-32-1.png)
 
 Every year we get a sharp colour transition in the winter. The remedy
 for this problem is to use a cyclical palette. The {scico} package
@@ -753,7 +773,7 @@ housing +
   scale_colour_gradientn(colours = periodic_pal, limits = c(0, 12))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-32-1.png)
+![](tour_files/figure-html/unnamed-chunk-33-1.png)
 
 This is already much better, but the guide itself does a poor job of
 displaying the cyclical nature of months. To have this better reflected
@@ -770,7 +790,7 @@ housing +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-33-1.png)
+![](tour_files/figure-html/unnamed-chunk-34-1.png)
 
 The ‘thickness’ of the donut can be controlled by the `legend.key.width`
 parameter, which by default is 1/5^(th) of the diameter. The outer
@@ -797,7 +817,7 @@ housing +
   )
 ```
 
-![](tour_files/figure-html/unnamed-chunk-34-1.png)
+![](tour_files/figure-html/unnamed-chunk-35-1.png)
 
 ## Legends
 
@@ -821,7 +841,7 @@ standard +
   guides(colour = guide_legend_base(design = design))
 ```
 
-![](tour_files/figure-html/unnamed-chunk-35-1.png)
+![](tour_files/figure-html/unnamed-chunk-36-1.png)
 
 Secondly,
 [`guide_legend_cross()`](https://teunbrand.github.io/legendry/reference/guide_legend_cross.md)
@@ -839,7 +859,7 @@ standard +
   guides(colour = common, shape = common)
 ```
 
-![](tour_files/figure-html/unnamed-chunk-36-1.png)
+![](tour_files/figure-html/unnamed-chunk-37-1.png)
 
 Alternatively, you can also use the guide for a compound variable that
 already combines two variables. Note that missing combinations are
@@ -852,7 +872,7 @@ standard +
   guides(colour = "legend_cross")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-37-1.png)
+![](tour_files/figure-html/unnamed-chunk-38-1.png)
 
 Lastly, there is also a legend that is suitable for displaying groups.
 The
@@ -873,4 +893,4 @@ ggplot(msleep[i, ], aes(sleep_total, bodywt)) +
   guides(colour = "legend_group")
 ```
 
-![](tour_files/figure-html/unnamed-chunk-38-1.png)
+![](tour_files/figure-html/unnamed-chunk-39-1.png)

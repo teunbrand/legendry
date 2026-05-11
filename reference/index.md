@@ -4,6 +4,12 @@
 
 These guides are complete and ready to use in your plots.
 
+- [`guide_axis_annotation()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md)
+  [`annotate_top()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md)
+  [`annotate_right()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md)
+  [`annotate_bottom()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md)
+  [`annotate_left()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md)
+  **\[experimental\]** : Annotation axis guide
 - [`guide_axis_base()`](https://teunbrand.github.io/legendry/reference/guide_axis_base.md)
   : Custom axis guide
 - [`guide_axis_dendro()`](https://teunbrand.github.io/legendry/reference/guide_axis_dendro.md)

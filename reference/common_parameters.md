@@ -68,3 +68,8 @@ re-documented each time.
   A named `<list>` specifying aesthetic parameters of the key glyphs.
   See details and examples in
   [`guide_legend()`](https://ggplot2.tidyverse.org/reference/guide_legend.html).
+
+- call:
+
+  A [call](https://rlang.r-lib.org/reference/topic-error-call.html) to
+  display in messages.

@@ -20,6 +20,11 @@
   for a more manual version of placing symbols. Also comes with
   [`key_symbols()`](https://teunbrand.github.io/legendry/reference/key_specialty.md)
   to match ([\#38](https://github.com/teunbrand/legendry/issues/38)).
+- New guide
+  [`guide_axis_annotation()`](https://teunbrand.github.io/legendry/reference/guide_axis_annotation.md)
+  to jot down annotations. Includes the helpers
+  `annotate_top/right/bottom/left()` for convenience
+  ([\#89](https://github.com/teunbrand/legendry/issues/89)).
 - New key
   [`key_range_rle()`](https://teunbrand.github.io/legendry/reference/key_range.md)
   to create a range annotation based on run-length encoding.
