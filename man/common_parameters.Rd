@@ -44,6 +44,8 @@ cases.
 \item{override.aes}{A named \verb{<list>} specifying aesthetic parameters of the
 key glyphs. See details and examples in
 \code{\link[ggplot2:guide_legend]{guide_legend()}}.}
+
+\item{call}{A \link[rlang:topic-error-call]{call} to display in messages.}
 }
 \description{
 This is a collection of common parameters so they needn't be re-documented
