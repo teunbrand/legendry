@@ -197,12 +197,14 @@ PrimitiveTicks <- ggproto(
     ticks <- list(ticks, zeroGrob())
     size <- measure_tick_size(params$key, elems, params$position)
 
-    primitive_grob(
+    grob <- primitive_grob(
       grob = ticks,
-      size = size,
+      size = size$size,
       position = params$position,
       name = "ticks"
     )
+    attr(grob, "lengths") <- size$lengths
+    grob
   }
 )
 
@@ -279,5 +281,8 @@ measure_tick_size <- function(key, elements, position) {
     bottom = , left = c(-size[1], max(0, -diff(size))),
     c(size[2],  max(0, -diff(size)))
   )
-  unit(size, "cm")
+  list(
+    size  = unit(size, "cm"),
+    lengths = lengths
+  )
 }
