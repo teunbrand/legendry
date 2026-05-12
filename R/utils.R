@@ -294,7 +294,7 @@ insert_after <- function(x, i, value) {
   new
 }
 
-extra_args <- function(..., .valid_args = .element_params, call = caller_env()) {
+extra_args <- function(..., .valid_args = c(.element_params, "theta"), call = caller_env()) {
   args <- list2(...)
   if (length(args) == 0L) {
     return(NULL)
@@ -305,7 +305,8 @@ extra_args <- function(..., .valid_args = .element_params, call = caller_env()) 
     cli::cli_warn("Ignoring unknown parameters: {.and {extra}}.", call = call)
   }
   args <- args[lengths(args) > 0L]
-  names(args) <- paste0(".", names(args))
+  i <- names(args) != "theta"
+  names(args)[i] <- paste0(".", names(args)[i])
   args
 }
 
