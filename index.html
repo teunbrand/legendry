@@ -112,7 +112,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="reference/guide_axis_base.html">guide_axis_base</a></span><span class="op">(</span>bidi <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-full_guides-1.svg" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-full_guides-1.svg" alt="" width="80%" style="display: block; margin: auto;"></p>
 <p>Besides complete guides, legendry also has incomplete guides that can be composed. The <code><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">ggplot2::guide_axis_stack()</a></code> is an axis composition function that can be used to display multiple guides. Here, we use a ‘primitive’ guide (incomplete building block) to display a range on the axis. By stacking it with a regular axis the primitive guide is completed.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A partial guide to display a bracket</span></span>
@@ -128,7 +128,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">base</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_axis_stack.html" class="external-link">guide_axis_stack</a></span><span class="op">(</span><span class="st">"axis"</span>, <span class="va">efficient_bracket</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-primitives-1.svg" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-primitives-1.svg" alt="" width="80%" style="display: block; margin: auto;"></p>
 <p>The legendry package extends this guide composition concept beyond the axes for other types of guides. In the example below we compose a ‘sandwich’: a central guide flanked by two others. Because our bracket is a primitive, it does not matter what aesthetic it displays and we can re-use it for the sandwich. I’ve yet to write the vignette on composition.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">base</span> <span class="op">+</span> </span>
@@ -139,7 +139,7 @@
 <span>      opposite <span class="op">=</span> <span class="va">efficient_bracket</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-composition-1.svg" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-composition-1.svg" alt="" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>

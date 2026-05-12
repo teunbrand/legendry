@@ -2,6 +2,9 @@
 
 ## legendry (development version)
 
+This minor version is a small feature release, introducing several new
+guides, arguments and changes to keys.
+
 - New guide
   [`guide_legend_manual()`](https://teunbrand.github.io/legendry/reference/guide_legend_manual.md)
   for user defined keys
