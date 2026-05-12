@@ -213,9 +213,8 @@ draw_labels <- function(key, element, angle, offset,
   labels <- validate_labels(key$.label)
 
   # Theta labels
+  theta <- get_theta(key, position)
   if (is_theta(position)) {
-    theta <- get_theta(key, position)
-
     if (is_null(angle)) {
       # Single verbatim angle from theme
       angle <- element$angle
@@ -234,6 +233,18 @@ draw_labels <- function(key, element, angle, offset,
 
     hjust <- 0.5 - sin(text_radians) / 2.0
     vjust <- 0.5 - cos(text_radians) / 2.0
+  } else if (all(c("theta", ".length") %in% names(key))) {
+    shift <- function(theta, range, value) {
+      unit(ifelse(in_arc(theta, range * pi), value, 0), "cm")
+    }
+    length <- key$.length
+    switch(
+      position,
+      top =    {x <- x + shift(theta, c(-0.5, 0.5), sin(theta) * length)},
+      right =  {y <- y + shift(theta, c(0.0,  1.0), cos(theta) * length)},
+      bottom = {x <- x + shift(theta, c(0.5,  1.5), sin(theta) * length)},
+      left =   {y <- y + shift(theta, c(1.0,  2.0), cos(theta) * length)}
+    )
   }
 
   props <- element_key_properties(
