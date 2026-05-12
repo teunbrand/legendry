@@ -155,8 +155,6 @@ PrimitiveTicks <- ggproto(
       elements$ticks_length <- elements$ticks_length + cm(params$force_stretch)
     }
 
-    lengths <- c("ticks_length", "minor_length", "mini_length")
-    elements$size <- inject(range(!!!elements[lengths], 0.0))
     elements
   },
 
@@ -197,7 +195,7 @@ PrimitiveTicks <- ggproto(
     # If ticks have negative length, we want to preserve reasonable spacing
     # to text labels.
     ticks <- list(ticks, zeroGrob())
-    size <- unit(c(elems$size[2L], max(0.0, -1.0 * diff(elems$size))), "cm")
+    size <- measure_tick_size(params$key, elems, params$position)
 
     primitive_grob(
       grob = ticks,
@@ -259,4 +257,27 @@ zap_tick <- function(elements, name, n) {
   # Ensure tick lengths are in centimetres
   elements[[length]] <- cm(elements[[length]])
   elements
+}
+
+measure_tick_size <- function(key, elements, position) {
+  lengths <- unname(unlist(elements[c("ticks_length", "minor_length", "mini_length")]))
+  if (".type" %in% names(key)) {
+    i <- match(key$.type, c("major", "minor", "mini"))
+  } else {
+    i <- rep(1L, nrow(key))
+  }
+  lengths <- lengths[i]
+  theta <- get_theta(key, position)
+  size <- switch(
+    position,
+    bottom = , top = range(cos(theta) * lengths, 0),
+    left = , right = range(sin(theta) * lengths, 0),
+    range(lengths, 0)
+  )
+  size <- switch(
+    position,
+    bottom = , left = c(-size[1], max(0, -diff(size))),
+    c(size[2],  max(0, -diff(size)))
+  )
+  unit(size, "cm")
 }
