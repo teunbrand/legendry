@@ -252,13 +252,18 @@ ComposeStack <- ggproto(
     }
 
     side_titles <- self$build_title(params$side_titles, elems, params)
+    lengths <- NULL
 
     for (i in guide_index) {
       pars <- params$guide_params[[i]]
+      if (vec_size(pars$key) == length(lengths)) {
+        pars$key$.length <- pars$key$.length %||% lengths
+      }
       pars$draw_label <- draw_label
       grobs[[i]] <- params$guides[[i]]$draw(
         theme = theme, position = position, direction = direction, params = pars
       )
+      lengths <- get_attr(grobs[[i]], "lengths")
     }
 
     keep <- keep & !map_lgl(grobs, is_zero)
