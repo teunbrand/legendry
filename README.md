@@ -66,7 +66,7 @@ base +
   )
 ```
 
-<img src="man/figures/README-full_guides-1.svg" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-full_guides-1.svg" alt="" width="80%" style="display: block; margin: auto;" />
 
 Besides complete guides, legendry also has incomplete guides that can be
 composed. The `ggplot2::guide_axis_stack()` is an axis composition
@@ -91,7 +91,7 @@ efficient_bracket <- primitive_bracket(
 base + guides(y = guide_axis_stack("axis", efficient_bracket))
 ```
 
-<img src="man/figures/README-primitives-1.svg" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-primitives-1.svg" alt="" width="80%" style="display: block; margin: auto;" />
 
 The legendry package extends this guide composition concept beyond the
 axes for other types of guides. In the example below we compose a
@@ -111,7 +111,7 @@ base +
   )
 ```
 
-<img src="man/figures/README-composition-1.svg" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-composition-1.svg" alt="" width="80%" style="display: block; margin: auto;" />
 
 ## Code of Conduct
 

@@ -1,5 +1,8 @@
 # legendry (development version)
 
+This minor version is a small feature release, introducing several new guides,
+arguments and changes to keys.
+
 * New guide `guide_legend_manual()` for user defined keys (#88)
 * New guide `guide_axis_plot()` to place side-plots (#43)
 * New guide `guide_axis_upset()` to place symbols in upset matrices next to axes. 
