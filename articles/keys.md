@@ -140,8 +140,8 @@ print(key)
 #>     class(df) <- c("key_standard", "key_guide", class(df))
 #>     df
 #> }
-#> <bytecode: 0x5640f4390c58>
-#> <environment: 0x5640f438fb10>
+#> <bytecode: 0x558d41c8da58>
+#> <environment: 0x558d41c8c910>
 ```
 
 We can preview what values they’d label by letting the key absorb a
