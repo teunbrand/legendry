@@ -8,16 +8,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/teunbrand/legendry/blob/v0.3.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/teunbrand/legendry/blob/main/DESCRIPTION)
 
 van den Brand T (2026). *legendry: Extended Legends and Axes for
-'ggplot2'*. R package version 0.2.4.9000,
+'ggplot2'*. R package version 0.3.0.9000,
 <https://teunbrand.github.io/legendry/>.
 
     @Manual{,
       title = {legendry: Extended Legends and Axes for 'ggplot2'},
       author = {Teun {van den Brand}},
       year = {2026},
-      note = {R package version 0.2.4.9000},
+      note = {R package version 0.3.0.9000},
       url = {https://teunbrand.github.io/legendry/},
     }
