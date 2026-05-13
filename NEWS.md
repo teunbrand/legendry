@@ -1,4 +1,4 @@
-# legendry (development version)
+# legendry 0.3.0
 
 This minor version is a small feature release, introducing several new guides,
 arguments and changes to keys.
